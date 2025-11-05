@@ -15,6 +15,7 @@ import {
   Bot,
   ShieldCheck,
   Calendar,
+  Users,
 } from "lucide-react";
 
 import {
@@ -43,6 +44,11 @@ const links = [
     href: "/dashboard/calendar",
     label: "Agenda",
     icon: Calendar,
+  },
+    {
+    href: "/dashboard/mentorship",
+    label: "Mentoria",
+    icon: Users,
   },
   {
     label: "Learning Hub",
