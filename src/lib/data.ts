@@ -132,7 +132,7 @@ export const exchangeOpportunities: ExchangeOpportunity[] = [
     {
         id: 'tech-innovation',
         title: 'Desenvolvedor de Inovação em IA',
-        company: 'Unidade de Tecnologia',
+        company: 'Empresa A (Tecnologia)',
         department: 'P&D',
         description: 'Junte-se à equipe de inovação para desenvolver e prototipar soluções de IA de ponta que impulsionarão a próxima geração de nossos produtos.',
         skills: ['Python', 'TensorFlow', 'Scikit-learn', 'Prototipagem Rápida'],
@@ -140,9 +140,39 @@ export const exchangeOpportunities: ExchangeOpportunity[] = [
         location: 'Remoto/Híbrido'
     },
     {
+        id: 'purchasing-negotiation',
+        title: 'Comprador Técnico',
+        company: 'Empresa B (Autopeças)',
+        department: 'Compras',
+        description: 'Atue na negociação estratégica com fornecedores de componentes automotivos, buscando otimização de custos e garantia de qualidade para a linha de produção.',
+        skills: ['Negociação', 'Análise de Custos', 'Gestão de Fornecedores'],
+        duration: '3 semanas',
+        location: 'Escritório São Paulo'
+    },
+    {
+        id: 'supplychain-planning',
+        title: 'Analista de Planejamento de Demanda',
+        company: 'Empresa A (Supply Chain)',
+        department: 'Logística',
+        description: 'Participe do planejamento de demanda e da gestão de estoques, utilizando ferramentas de previsão para garantir a disponibilidade de produtos.',
+        skills: ['Planejamento', 'Previsão de Demanda', 'Gestão de Estoques', 'SAP'],
+        duration: '4 semanas',
+        location: 'Escritório Rio de Janeiro'
+    },
+    {
+        id: 'industrial-process',
+        title: 'Engenheiro de Processos Industriais',
+        company: 'Empresa B (Autopeças)',
+        department: 'Engenharia Industrial',
+        description: 'Vivencie a rotina da engenharia de processos em uma planta de autopeças, identificando oportunidades de melhoria e otimização da linha de montagem.',
+        skills: ['Lean Manufacturing', 'Six Sigma', 'AutoCAD', 'Melhoria Contínua'],
+        duration: '4 semanas',
+        location: 'Planta de Campinas'
+    },
+    {
         id: 'marketing-analytics',
         title: 'Analista de Dados de Marketing',
-        company: 'Unidade de Marketing',
+        company: 'Empresa A (Marketing)',
         department: 'Business Intelligence',
         description: 'Mergulhe nos dados de campanhas para descobrir insights, otimizar o funil de marketing e apresentar suas descobertas para a liderança.',
         skills: ['SQL', 'Tableau', 'Google Analytics', 'Análise de Dados'],
@@ -152,7 +182,7 @@ export const exchangeOpportunities: ExchangeOpportunity[] = [
     {
         id: 'hr-experience',
         title: 'Especialista em Experiência do Colaborador',
-        company: 'Unidade de RH',
+        company: 'Empresa A (RH)',
         department: 'Cultura & Engajamento',
         description: 'Participe do projeto de redesenho da jornada do colaborador, conduzindo entrevistas, analisando feedbacks e propondo melhorias de alto impacto.',
         skills: ['Pesquisa de Usuário', 'Comunicação', 'Design de Serviços'],

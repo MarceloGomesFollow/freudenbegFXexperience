@@ -44,9 +44,11 @@ export default function ExchangeCenterPage() {
                                 <div className="flex items-start justify-between">
                                     <div className="space-y-1">
                                         <CardTitle>{opportunity.title}</CardTitle>
-                                        <CardDescription className="flex items-center gap-4">
-                                            <span className="flex items-center gap-1.5"><Building className="h-4 w-4" /> {opportunity.company}</span>
-                                            <span className="flex items-center gap-1.5"><Briefcase className="h-4 w-4" /> {opportunity.department}</span>
+                                        <CardDescription className="flex items-center gap-4 pt-1">
+                                            <span className="flex items-center gap-1.5 text-xs"><Building className="h-3 w-3" /> {opportunity.company}</span>
+                                        </CardDescription>
+                                         <CardDescription className="flex items-center gap-4">
+                                            <span className="flex items-center gap-1.5 text-xs"><Briefcase className="h-3 w-3" /> {opportunity.department}</span>
                                         </CardDescription>
                                     </div>
                                     <Badge variant="secondary">{opportunity.duration}</Badge>
