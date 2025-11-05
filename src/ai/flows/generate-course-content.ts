@@ -19,6 +19,7 @@ const GenerateCourseContentInputSchema = z.object({
     .string()
     .describe('The best practices identified by the participants.'),
   topic: z.string().describe('The topic of the course content.'),
+  language: z.string().describe('The language for the response (e.g., "en" or "pt").'),
 });
 
 export type GenerateCourseContentInput = z.infer<typeof GenerateCourseContentInputSchema>;
@@ -42,6 +43,8 @@ const prompt = ai.definePrompt({
   input: {schema: GenerateCourseContentInputSchema},
   output: {schema: GenerateCourseContentOutputSchema},
   prompt: `You are an expert instructional designer. Your goal is to generate engaging and relevant course content based on the knowledge and best practices shared by participants.
+
+  Respond in the following language: {{{language}}}.
 
   Topic: {{{topic}}}
   Participant Knowledge: {{{participantKnowledge}}}

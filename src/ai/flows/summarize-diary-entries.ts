@@ -13,6 +13,7 @@ import {z} from 'genkit';
 
 const SummarizeDiaryEntriesInputSchema = z.object({
   diaryEntries: z.string().describe('The digital diary entries of the participant.'),
+  language: z.string().describe('The language for the response (e.g., "en" or "pt").'),
 });
 
 export type SummarizeDiaryEntriesInput = z.infer<typeof SummarizeDiaryEntriesInputSchema>;
@@ -38,6 +39,8 @@ const prompt = ai.definePrompt({
   prompt: `You are an AI assistant that helps participants summarize their diary entries and extract key insights with sentiment analysis.
 
   Please summarize the following diary entries, extract key insights, and determine the overall sentiment.
+
+  Respond in the following language: {{{language}}}.
 
   Diary Entries: {{{diaryEntries}}}
   `,

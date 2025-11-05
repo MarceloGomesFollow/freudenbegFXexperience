@@ -1,3 +1,4 @@
+'use server';
 /**
  * @fileOverview A flow to generate a draft A3 report summarizing digital diary entries and feedback.
  *
@@ -12,6 +13,7 @@ import {z} from 'genkit';
 const GenerateA3ReportInputSchema = z.object({
   diaryEntries: z.string().describe('The digital diary entries of the participant.'),
   feedback: z.string().describe('The feedback received by the participant.'),
+  language: z.string().describe('The language for the response (e.g., "en" or "pt").'),
 });
 export type GenerateA3ReportInput = z.infer<typeof GenerateA3ReportInputSchema>;
 
@@ -32,6 +34,8 @@ const prompt = ai.definePrompt({
   prompt: `You are an AI assistant that helps participants generate A3 reports based on their diary entries and feedback.
 
   Please summarize the following diary entries and feedback into a concise A3 report and provide a summary of progress.
+
+  Respond in the following language: {{{language}}}.
 
   Diary Entries: {{{diaryEntries}}}
 

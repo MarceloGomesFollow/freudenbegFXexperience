@@ -12,6 +12,7 @@ import { Bot, Image as ImageIcon, Paperclip, Send, Video } from "lucide-react";
 import { summarizeDiaryEntries } from "@/ai/flows/summarize-diary-entries";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function DiaryPage() {
     const [newEntry, setNewEntry] = useState("");
@@ -19,6 +20,7 @@ export default function DiaryPage() {
     const [summary, setSummary] = useState<{ summary: string; insights: string[]; sentiment: string } | null>(null);
     const [isSummarizing, setIsSummarizing] = useState(false);
     const { toast } = useToast();
+    const { language } = useLanguage();
 
     const currentUser = users.find(u => u.email === 'ana.silva@example.com');
     const userAvatar = PlaceHolderImages.find(p => p.id === currentUser?.avatar);
@@ -42,7 +44,7 @@ export default function DiaryPage() {
         setSummary(null);
         try {
             const allEntriesText = entries.map(e => e.content).join("\n\n");
-            const result = await summarizeDiaryEntries({ diaryEntries: allEntriesText });
+            const result = await summarizeDiaryEntries({ diaryEntries: allEntriesText, language });
             setSummary(result);
         } catch (error) {
             console.error("Error summarizing entries:", error);

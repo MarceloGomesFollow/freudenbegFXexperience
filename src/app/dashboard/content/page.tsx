@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { generateCourseContent } from '@/ai/flows/generate-course-content';
 import { Bot, Loader2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const formSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
@@ -24,6 +25,7 @@ export default function ContentPage() {
     const { toast } = useToast();
     const [generatedContent, setGeneratedContent] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const { language } = useLanguage();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -38,7 +40,7 @@ export default function ContentPage() {
         setIsLoading(true);
         setGeneratedContent(null);
         try {
-            const result = await generateCourseContent(values);
+            const result = await generateCourseContent({...values, language});
             setGeneratedContent(result);
             toast({
                 title: 'Conteúdo Gerado!',

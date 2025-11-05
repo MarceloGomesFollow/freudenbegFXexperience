@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { generateA3Report } from '@/ai/flows/generate-a3-report';
 import { Bot } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const formSchema = z.object({
     diaryEntries: z.string().min(50, 'É necessário pelo menos 50 caracteres de entradas do diário.'),
@@ -22,6 +23,7 @@ export default function A3ReportPage() {
     const { toast } = useToast();
     const [generatedReport, setGeneratedReport] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const { language } = useLanguage();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -35,7 +37,7 @@ export default function A3ReportPage() {
         setIsLoading(true);
         setGeneratedReport(null);
         try {
-            const result = await generateA3Report(values);
+            const result = await generateA3Report({...values, language});
             setGeneratedReport(result.report);
             toast({
                 title: 'Relatório A3 Gerado!',
