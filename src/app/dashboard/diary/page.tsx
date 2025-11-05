@@ -1,19 +1,23 @@
+
 "use client";
 
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { diaryEntries, users } from "@/lib/data";
 import type { DiaryEntry } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Bot, Image as ImageIcon, Paperclip, Send, Video, XCircle } from "lucide-react";
+import { Bot, Image as ImageIcon, Paperclip, Send, Video, XCircle, FileText, Pencil } from "lucide-react";
 import { summarizeDiaryEntries } from "@/ai/flows/summarize-diary-entries";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
 
 export default function DiaryPage() {
     const [newEntry, setNewEntry] = useState("");
@@ -57,6 +61,10 @@ export default function DiaryPage() {
         setEntries([entry, ...entries]);
         setNewEntry("");
         setAttachments([]);
+        toast({
+            title: "Entrada Adicionada!",
+            description: "Seu registro foi salvo no diário."
+        })
     };
 
     const handleSummarize = async () => {
@@ -78,56 +86,99 @@ export default function DiaryPage() {
         }
     };
 
+    const EntryTypeIcon = ({ type }: { type: DiaryEntry['type'] }) => {
+        switch (type) {
+            case 'image': return <ImageIcon className="h-4 w-4" />;
+            case 'video': return <Video className="h-4 w-4" />;
+            case 'text': return <FileText className="h-4 w-4" />;
+            default: return <Pencil className="h-4 w-4" />;
+        }
+    }
+
+
     return (
         <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tight">Diário 4.0</h2>
+             <p className="text-muted-foreground max-w-3xl">
+                Este é o seu espaço para substituir os formulários manuais. Registre suas atividades, reflexões e aprendizados de forma dinâmica com textos, fotos e vídeos que ficam integrados ao seu histórico.
+            </p>
             
             <div className="grid gap-8 lg:grid-cols-3">
                 <div className="lg:col-span-2 space-y-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>Nova Entrada no Diário</CardTitle>
+                            <CardDescription>O que você fez ou aprendeu hoje?</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid w-full gap-4">
-                                <Textarea 
-                                    placeholder="Registre suas atividades, reflexões e aprendizados..." 
-                                    value={newEntry}
-                                    onChange={(e) => setNewEntry(e.target.value)}
-                                    rows={4}
-                                />
-                                {attachments.length > 0 && (
-                                    <div className="space-y-2">
-                                        <p className="text-sm font-medium">Anexos:</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {attachments.map((file, index) => (
-                                                <Badge key={index} variant="secondary" className="pl-2 pr-1">
-                                                    {file}
-                                                    <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => handleRemoveAttachment(file)}>
-                                                        <XCircle className="h-3 w-3"/>
-                                                    </Button>
-                                                </Badge>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="flex items-center justify-between">
-                                    <div className="flex gap-2">
-                                        <Button variant="ghost" size="icon" title="Anexar Imagem"><ImageIcon className="h-4 w-4 text-muted-foreground" /></Button>
-                                        <Button variant="ghost" size="icon" title="Anexar Vídeo"><Video className="h-4 w-4 text-muted-foreground" /></Button>
-                                        <Button variant="ghost" size="icon" title="Anexar Arquivo" onClick={handleAddAttachment} disabled={attachments.length >= 3}>
-                                            <Paperclip className="h-4 w-4 text-muted-foreground" />
-                                        </Button>
-                                    </div>
-                                    <Button onClick={handleAddEntry} disabled={!newEntry.trim()}>
-                                        <Send className="mr-2 h-4 w-4" /> Enviar
+                            <Tabs defaultValue="text" className="w-full">
+                                <TabsList className="grid w-full grid-cols-3">
+                                    <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4"/>Texto</TabsTrigger>
+                                    <TabsTrigger value="image"><ImageIcon className="mr-2 h-4 w-4"/>Imagem</TabsTrigger>
+                                    <TabsTrigger value="video"><Video className="mr-2 h-4 w-4"/>Vídeo</TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="text" className="mt-4">
+                                     <Textarea 
+                                        placeholder="Registre suas atividades, reflexões e aprendizados..." 
+                                        value={newEntry}
+                                        onChange={(e) => setNewEntry(e.target.value)}
+                                        rows={4}
+                                    />
+                                </TabsContent>
+                                <TabsContent value="image" className="mt-4 space-y-2">
+                                    <Input type="file" disabled />
+                                    <p className="text-xs text-muted-foreground">Simulação: Upload de imagem desabilitado.</p>
+                                     <Textarea 
+                                        placeholder="Adicione uma legenda para a sua imagem..." 
+                                        value={newEntry}
+                                        onChange={(e) => setNewEntry(e.target.value)}
+                                        rows={2}
+                                    />
+                                </TabsContent>
+                                <TabsContent value="video" className="mt-4 space-y-2">
+                                    <Input type="file" disabled />
+                                     <p className="text-xs text-muted-foreground">Simulação: Upload de vídeo desabilitado.</p>
+                                      <Textarea 
+                                        placeholder="Adicione uma descrição para o seu vídeo..." 
+                                        value={newEntry}
+                                        onChange={(e) => setNewEntry(e.target.value)}
+                                        rows={2}
+                                    />
+                                </TabsContent>
+                            </Tabs>
+                            
+                            <div className="mt-4 space-y-2">
+                                <Label className="text-sm font-medium">Anexos (Opcional)</Label>
+                                <div className="flex items-center gap-2">
+                                     <Button variant="outline" size="sm" onClick={handleAddAttachment} disabled={attachments.length >= 3}>
+                                        <Paperclip className="mr-2 h-4 w-4" />
+                                        Adicionar Arquivo
                                     </Button>
                                 </div>
+
+                                {attachments.length > 0 && (
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        {attachments.map((file, index) => (
+                                            <Badge key={index} variant="secondary" className="pl-2 pr-1">
+                                                {file}
+                                                <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => handleRemoveAttachment(file)}>
+                                                    <XCircle className="h-3 w-3"/>
+                                                </Button>
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </CardContent>
+                        <CardFooter className="flex justify-end">
+                             <Button onClick={handleAddEntry} disabled={!newEntry.trim()}>
+                                <Send className="mr-2 h-4 w-4" /> Publicar Entrada
+                            </Button>
+                        </CardFooter>
                     </Card>
 
                     <div className="space-y-6">
+                        <h3 className="text-xl font-semibold">Histórico de Entradas</h3>
                         {entries.map(entry => {
                             const entryUserAvatar = PlaceHolderImages.find(p => p.id === entry.user.avatar);
                             return (
@@ -142,16 +193,30 @@ export default function DiaryPage() {
                                             <p className="font-semibold">{entry.user.name}</p>
                                             <p className="text-sm text-muted-foreground">{entry.date}</p>
                                         </div>
+                                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                           <EntryTypeIcon type={entry.type} />
+                                           <span>Entrada de {entry.type}</span>
+                                        </div>
                                     </div>
                                 </CardHeader>
                                 <CardContent>
-                                    {entry.type === 'text' && <p className="text-muted-foreground whitespace-pre-wrap">{entry.content}</p>}
+                                    <p className="text-muted-foreground whitespace-pre-wrap mb-4">{entry.content}</p>
+                                    
                                     {entry.type === 'image' && (
-                                        <div>
-                                            <p className="text-muted-foreground mb-2">{entry.content}</p>
-                                            <img src="https://picsum.photos/seed/whiteboard/600/400" alt="whiteboard" className="rounded-lg" data-ai-hint="whiteboard ideas" />
+                                        <div className="relative aspect-video w-full max-w-lg mx-auto">
+                                            <Image src="https://picsum.photos/seed/whiteboard/600/400" alt="whiteboard" layout="fill" className="rounded-lg object-cover" data-ai-hint="whiteboard ideas" />
                                         </div>
                                     )}
+
+                                    {entry.type === 'video' && (
+                                         <div className="relative aspect-video w-full max-w-lg mx-auto bg-slate-900 rounded-lg flex items-center justify-center">
+                                            <div className="text-center text-white">
+                                                <Video className="h-12 w-12 mx-auto" />
+                                                <p>Simulação de Vídeo</p>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {entry.attachments && entry.attachments.length > 0 && (
                                         <div className="mt-4 space-y-2">
                                             <p className="text-sm font-semibold">Anexos:</p>
@@ -202,7 +267,7 @@ export default function DiaryPage() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-muted-foreground mb-4">
+                            <p className="text-muted-foreground mb-4 text-sm">
                                 Use a IA para extrair insights e analisar o sentimento das suas entradas no diário.
                             </p>
                             <Button onClick={handleSummarize} className="w-full" disabled={isSummarizing}>
@@ -211,9 +276,9 @@ export default function DiaryPage() {
 
                             {isSummarizing && (
                                 <div className="mt-4 space-y-4">
-                                    <Skeleton className="h-4 w-1/4" />
-                                    <Skeleton className="h-16 w-full" />
                                     <Skeleton className="h-4 w-1/3" />
+                                    <Skeleton className="h-16 w-full" />
+                                    <Skeleton className="h-4 w-1/4" />
                                     <Skeleton className="h-12 w-full" />
                                 </div>
                             )}
@@ -242,3 +307,5 @@ export default function DiaryPage() {
         </div>
     )
 }
+
+    
