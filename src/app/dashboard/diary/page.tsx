@@ -52,7 +52,7 @@ export default function DiaryPage() {
         if (newEntry.trim() === "" || !currentUser) return;
         const entry: DiaryEntry = {
             id: `entry${entries.length + 1}`,
-            user: { name: currentUser.name, avatar: currentUser.avatar },
+            user: { name: currentUser.name, avatar: currentUser.avatar, unit: currentUser.unit },
             date: "Agora",
             type: 'text',
             content: newEntry,
@@ -191,10 +191,13 @@ export default function DiaryPage() {
                                     </Avatar>
                                     <div className="flex-1">
                                         <div className="flex items-center justify-between">
-                                            <p className="font-semibold">{entry.user.name}</p>
+                                            <div>
+                                                <p className="font-semibold">{entry.user.name}</p>
+                                                <p className="text-xs text-muted-foreground">{entry.user.unit}</p>
+                                            </div>
                                             <p className="text-sm text-muted-foreground">{entry.date}</p>
                                         </div>
-                                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                         <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                                            <EntryTypeIcon type={entry.type} />
                                            <span>Entrada de {entry.type}</span>
                                         </div>
@@ -244,10 +247,13 @@ export default function DiaryPage() {
                                                     </Avatar>
                                                     <div>
                                                         <div className="flex items-center gap-2">
-                                                            <p className="font-semibold text-sm">{comment.user.name}</p>
-                                                            <p className="text-xs text-muted-foreground">{comment.date}</p>
+                                                            <div>
+                                                                <p className="font-semibold text-sm">{comment.user.name}</p>
+                                                                <p className="text-xs text-muted-foreground">{comment.user.unit}</p>
+                                                            </div>
+                                                            <p className="text-xs text-muted-foreground ml-auto">{comment.date}</p>
                                                         </div>
-                                                        <p className="text-sm text-muted-foreground">{comment.text}</p>
+                                                        <p className="text-sm text-muted-foreground mt-1">{comment.text}</p>
                                                     </div>
                                                 </div>
                                             )

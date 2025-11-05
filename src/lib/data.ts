@@ -1,3 +1,4 @@
+
 export type User = {
   name: string;
   avatar: string; // image id from placeholder-images
@@ -10,13 +11,13 @@ export type User = {
 
 export type DiaryEntry = {
   id: string;
-  user: Pick<User, 'name' | 'avatar'>;
+  user: Pick<User, 'name' | 'avatar' | 'unit'>;
   date: string;
   type: 'text' | 'image' | 'video';
   content: string;
   attachments?: string[];
   comments: {
-    user: Pick<User, 'name' | 'avatar'>;
+    user: Pick<User, 'name' | 'avatar' | 'unit'>;
     text: string;
     date: string;
   }[];
@@ -71,13 +72,13 @@ export const tasks: { [userEmail: string]: Task[] } = {
 export const diaryEntries: DiaryEntry[] = [
   {
     id: 'entry1',
-    user: { name: 'Ana Silva', avatar: 'user-avatar-1' },
+    user: { name: 'Ana Silva', avatar: 'user-avatar-1', unit: 'Tecnologia' },
     date: '3 dias atrás',
     type: 'text',
     content: 'Hoje comecei o módulo de design thinking. Foi muito interessante aprender sobre a importância da empatia no processo de criação. Tive uma ideia para aplicar no nosso próximo projeto de onboarding.',
     comments: [
       {
-        user: { name: 'Fábio Pereira', avatar: 'user-avatar-6' },
+        user: { name: 'Fábio Pereira', avatar: 'user-avatar-6', unit: 'Tecnologia (Mentor)' },
         text: 'Ótima iniciativa, Ana! Vamos conversar sobre essa ideia na nossa próxima mentoria.',
         date: '2 dias atrás',
       },
@@ -85,7 +86,7 @@ export const diaryEntries: DiaryEntry[] = [
   },
   {
     id: 'entry2',
-    user: { name: 'Bruno Costa', avatar: 'user-avatar-2' },
+    user: { name: 'Bruno Costa', avatar: 'user-avatar-2', unit: 'Marketing' },
     date: '5 dias atrás',
     type: 'image',
     content: 'Participei de um workshop sobre growth hacking. O whiteboard ficou cheio de ideias. Segue a foto para registrar o momento de brainstorming intenso!',
