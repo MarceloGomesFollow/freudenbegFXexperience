@@ -9,6 +9,7 @@ import {
   Settings,
   BookText,
   GraduationCap,
+  Beaker,
 } from "lucide-react";
 
 import {
@@ -48,6 +49,11 @@ const links = [
             label: "Criar Conteúdo",
         }
     ]
+  },
+  {
+    href: "/dashboard/innovation-labs",
+    label: "Innovation Labs",
+    icon: Beaker,
   },
   {
     label: "Relatórios",
