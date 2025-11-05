@@ -131,6 +131,35 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <section id="demo" className="w-full py-12 md:py-24 lg:py-32 bg-muted/40">
+            <div className="container px-4 md:px-6">
+                 <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                    <div className="space-y-2">
+                        <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm text-secondary-foreground">Demo</div>
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-foreground">
+                            Veja a Plataforma em Ação
+                        </h2>
+                        <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                            Assista a uma rápida demonstração de como a DPX Digital pode revolucionar seus programas de desenvolvimento.
+                        </p>
+                    </div>
+                </div>
+                <div className="mx-auto max-w-4xl mt-12">
+                    <div className="aspect-video overflow-hidden rounded-xl shadow-2xl">
+                         <iframe
+                            className="w-full h-full"
+                            src="https://www.youtube.com/embed/Jl0c2A7cP4Q"
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-card text-card-foreground">
         <p className="text-xs text-muted-foreground">{t('footer.copy')}</p>
