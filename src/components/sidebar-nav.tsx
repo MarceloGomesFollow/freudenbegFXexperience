@@ -12,6 +12,8 @@ import {
   Contact,
   Presentation,
   Sparkles,
+  Bot,
+  ShieldCheck,
 } from "lucide-react";
 
 import {
@@ -56,9 +58,24 @@ const links = [
     icon: Beaker,
   },
   {
-    href: "/dashboard/special-resources",
     label: "Recursos Especiais",
     icon: Sparkles,
+     subLinks: [
+        {
+            href: "/dashboard/special-resources",
+            label: "Visão Geral",
+        },
+        {
+            href: "/dashboard/ai-mentor",
+            label: "IA Freudy",
+            icon: Bot,
+        },
+        {
+            href: "/dashboard/business-fit",
+            label: "IA Business Fit",
+            icon: ShieldCheck,
+        }
+    ]
   },
   {
     href: "/dashboard/events",
@@ -94,11 +111,15 @@ const links = [
 export function SidebarNav() {
   const pathname = usePathname();
 
+  const isSubLinkActive = (subLinks: any[] | undefined) => {
+    return subLinks?.some(subLink => pathname.startsWith(subLink.href));
+  }
+
   return (
     <SidebarMenu>
       {links.map((link) =>
         link.subLinks ? (
-          <Collapsible key={link.label} className="w-full" defaultOpen={pathname.includes('/dashboard/learning') || pathname.includes('/dashboard/content') || pathname.includes('/dashboard/reports')}>
+          <Collapsible key={link.label} className="w-full" defaultOpen={isSubLinkActive(link.subLinks)}>
             <CollapsibleTrigger asChild>
                 <div className="group/menu-item relative">
                     <SidebarMenuButton className="w-full justify-between pr-3 group-data-[collapsible=icon]:pr-2">
@@ -115,7 +136,10 @@ export function SidebarNav() {
                 {link.subLinks.map((subLink) => (
                   <SidebarMenuSubItem key={subLink.href}>
                     <SidebarMenuSubButton asChild isActive={pathname === subLink.href}>
-                        <Link href={subLink.href}>{subLink.label}</Link>
+                        <Link href={subLink.href} className="flex items-center gap-2">
+                          {subLink.icon && <subLink.icon />}
+                          {subLink.label}
+                        </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                 ))}

@@ -12,14 +12,14 @@ const resources = [
         title: "IA Freudy",
         description: "Converse com uma IA especialista para obter insights, tirar dúvidas e acelerar seu desenvolvimento.",
         icon: <Bot className="h-8 w-8 text-primary" />,
-        href: "#"
+        href: "/dashboard/ai-mentor"
     },
     {
         id: "business-fit",
         title: "Auxiliar de Aderência (IA Business Fit)",
         description: "Avalie o alinhamento estratégico de suas ideias e projetos com os objetivos da empresa usando IA.",
         icon: <ShieldCheck className="h-8 w-8 text-primary" />,
-        href: "#"
+        href: "/dashboard/business-fit"
     },
     {
         id: "collaborative-curation",
