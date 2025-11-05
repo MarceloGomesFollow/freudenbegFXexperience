@@ -24,9 +24,9 @@ const resources = [
     {
         id: "collaborative-curation",
         title: "Curadoria Colaborativa",
-        description: "Explore e contribua com uma base de conhecimento viva, criada pela comunidade de participantes.",
+        description: "Sistema de comentários inteligentes, permitindo que mentores e gestores avaliem experiências relatadas e adicionem sugestões em tempo real.",
         icon: <Users className="h-8 w-8 text-primary" />,
-        href: "#"
+        href: "/dashboard/diary"
     }
 ];
 
