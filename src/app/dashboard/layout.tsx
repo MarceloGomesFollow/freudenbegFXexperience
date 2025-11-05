@@ -7,6 +7,7 @@ import { UserNav } from "@/components/user-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
 import { RoleProvider, RoleSwitcher } from "@/components/role-switcher";
+import { Chatbot } from "@/components/chatbot";
 
 export const metadata: Metadata = {
   title: 'Dashboard | DPX Digital',
@@ -48,6 +49,7 @@ export default function DashboardLayout({
                   <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-muted/40">
                       {children}
                   </main>
+                  <Chatbot />
               </div>
           </div>
       </SidebarProvider>
