@@ -61,12 +61,15 @@ export default function ContentPage() {
     return (
         <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tight">Criação de Conteúdo com IA</h2>
+            <p className="text-muted-foreground">
+                Use o conhecimento coletado dos participantes e as melhores práticas para criar materiais de treinamento relevantes com a ajuda da IA.
+            </p>
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>
                         <CardTitle>Gerador de Conteúdo de Curso</CardTitle>
                         <CardDescription>
-                            Use o conhecimento coletado dos participantes e as melhores práticas para criar materiais de treinamento relevantes com a ajuda da IA.
+                            Preencha os campos abaixo para que a IA possa criar um rascunho.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

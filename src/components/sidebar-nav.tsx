@@ -8,6 +8,7 @@ import {
   BarChart3,
   Settings,
   BookText,
+  GraduationCap,
 } from "lucide-react";
 
 import {
@@ -35,9 +36,18 @@ const links = [
     icon: NotebookText,
   },
   {
-    href: "/dashboard/content",
-    label: "Conteúdo",
-    icon: BookText,
+    label: "Learning Hub",
+    icon: GraduationCap,
+    subLinks: [
+        {
+            href: "/dashboard/learning",
+            label: "Explorar",
+        },
+        {
+            href: "/dashboard/content",
+            label: "Criar Conteúdo",
+        }
+    ]
   },
   {
     label: "Relatórios",
@@ -67,7 +77,7 @@ export function SidebarNav() {
     <SidebarMenu>
       {links.map((link) =>
         link.subLinks ? (
-          <Collapsible key={link.label} className="w-full">
+          <Collapsible key={link.label} className="w-full" defaultOpen={pathname.includes('/dashboard/learning') || pathname.includes('/dashboard/content') || pathname.includes('/dashboard/reports')}>
             <CollapsibleTrigger asChild>
                 <div className="group/menu-item relative">
                     <SidebarMenuButton className="w-full justify-between pr-3 group-data-[collapsible=icon]:pr-2">
