@@ -7,10 +7,10 @@ import {
   NotebookText,
   BarChart3,
   Settings,
-  BookText,
   GraduationCap,
   Beaker,
   Contact,
+  Presentation,
 } from "lucide-react";
 
 import {
@@ -22,9 +22,7 @@ import {
   SidebarMenuSubItem
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
-import React from "react";
 
 const links = [
   {
@@ -55,6 +53,11 @@ const links = [
     href: "/dashboard/innovation-labs",
     label: "Innovation Labs",
     icon: Beaker,
+  },
+  {
+    href: "/dashboard/events",
+    label: "Eventos",
+    icon: Presentation,
   },
   {
     href: "/dashboard/alumni",
