@@ -51,8 +51,11 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center bg-background/80 backdrop-blur-sm border-b">
-        <Link href="/" className="flex items-center justify-center">
+        <Link href="/" className="flex items-center justify-center gap-4">
           <Logo />
+           <div className="text-xl font-bold tracking-wider uppercase shimmer-text">
+            FX Experience
+          </div>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
             <LanguageToggle />
