@@ -7,8 +7,7 @@ import {
   NotebookText,
   BarChart3,
   Settings,
-  Users,
-  FileText,
+  BookText,
 } from "lucide-react";
 
 import {
@@ -34,6 +33,11 @@ const links = [
     href: "/dashboard/diary",
     label: "Diário 4.0",
     icon: NotebookText,
+  },
+  {
+    href: "/dashboard/content",
+    label: "Conteúdo",
+    icon: BookText,
   },
   {
     label: "Relatórios",
@@ -92,7 +96,7 @@ export function SidebarNav() {
         ) : (
           <SidebarMenuItem key={link.href}>
             <Link href={link.href!} passHref legacyBehavior>
-              <SidebarMenuButton asChild isActive={pathname === link.href}>
+              <SidebarMenuButton asChild isActive={pathname.startsWith(link.href!)}>
                 <a>
                   <link.icon />
                   <span>{link.label}</span>

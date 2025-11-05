@@ -4,6 +4,7 @@ import { Logo } from "@/components/logo";
 import { SidebarNav } from "@/components/sidebar-nav";
 import { UserNav } from "@/components/user-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LanguageToggle } from "@/components/language-toggle";
 
 export const metadata: Metadata = {
   title: 'Dashboard | DPX Digital',
@@ -35,6 +36,7 @@ export default function DashboardLayout({
                         <SidebarTrigger className="md:hidden" />
                     </div>
                     <div className="flex items-center gap-4">
+                        <LanguageToggle />
                         <ThemeToggle />
                         <UserNav />
                     </div>
