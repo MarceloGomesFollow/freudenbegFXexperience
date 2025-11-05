@@ -21,6 +21,7 @@ import {
   Briefcase,
   ChevronRight,
   Shield,
+  BookUser,
 } from "lucide-react";
 
 import {
@@ -36,6 +37,11 @@ import { useRole } from "./role-switcher";
 
 
 const links = [
+  {
+    href: "/dashboard/general-guide",
+    label: "Guia Geral",
+    icon: BookUser,
+  },
   {
     href: "/dashboard/exchange-center",
     label: "Central de Intercâmbio",
@@ -198,4 +204,3 @@ export function SidebarNav() {
     </SidebarMenu>
   );
 }
-
