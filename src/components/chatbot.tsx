@@ -6,30 +6,48 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Send, X, Mic, Sparkles, Calendar, Bell, MessageSquarePlus } from "lucide-react";
+import { Send, X, Mic, Sparkles, Calendar, Bell, MessageSquarePlus, Loader2 } from "lucide-react";
 import { FreudIcon } from "./freud-icon";
-import { Badge } from "./ui/badge";
+import { chatWithFreudy } from "@/ai/flows/chatbot-flow";
+
+type Message = {
+    from: "user" | "ai";
+    text: string;
+};
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
+  const [messages, setMessages] = useState<Message[]>([
     { from: "ai", text: "Olá! Sou o Freudy, seu assistente de IA. Como posso ajudar você a navegar na plataforma, agendar um evento ou tirar uma dúvida?" }
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  const handleSendMessage = () => {
-    if (inputValue.trim() === "") return;
+  const handleSendMessage = async () => {
+    if (inputValue.trim() === "" || isLoading) return;
 
-    const newMessages = [...messages, { from: "user", text: inputValue }];
+    const userMessage: Message = { from: "user", text: inputValue };
+    const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInputValue("");
+    setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      setMessages(prev => [...prev, { from: "ai", text: "Esta é uma demonstração. A funcionalidade completa de chat com IA será implementada em breve." }]);
-    }, 1000);
+    try {
+        const response = await chatWithFreudy({
+            question: inputValue,
+            chatHistory: newMessages,
+        });
+        const aiMessage: Message = { from: "ai", text: response.answer };
+        setMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+        console.error("Error with chatbot flow:", error);
+        const errorMessage: Message = { from: "ai", text: "Desculpe, não consegui processar sua pergunta. Tente novamente." };
+        setMessages(prev => [...prev, errorMessage]);
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -83,15 +101,26 @@ export function Chatbot() {
                     </div>
                   </div>
                 ))}
-                <div className="flex flex-wrap gap-2 justify-center pt-4">
-                    {suggestedActions.map((action, index) => (
-                        <Button key={index} variant="outline" size="sm" className="bg-background/70">
-                            <action.icon className="h-3 w-3 mr-2"/>
-                            {action.text}
-                        </Button>
-                    ))}
-                </div>
-
+                 {isLoading && (
+                    <div className="flex items-start gap-3">
+                        <div className="p-2 bg-primary rounded-full text-primary-foreground">
+                            <FreudIcon className="h-5 w-5"/>
+                        </div>
+                        <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted text-foreground flex items-center">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                        </div>
+                    </div>
+                )}
+                {!isLoading && (
+                    <div className="flex flex-wrap gap-2 justify-center pt-4">
+                        {suggestedActions.map((action, index) => (
+                            <Button key={index} variant="outline" size="sm" className="bg-background/70" onClick={() => setInputValue(action.text)}>
+                                <action.icon className="h-3 w-3 mr-2"/>
+                                {action.text}
+                            </Button>
+                        ))}
+                    </div>
+                )}
               </CardContent>
               <CardFooter className="p-4 bg-card/50 border-t">
                 <div className="relative w-full flex items-center">
@@ -101,12 +130,13 @@ export function Chatbot() {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
+                    disabled={isLoading}
                   />
                   <div className="absolute right-2 flex items-center">
                     <Button variant="ghost" size="icon" className="h-8 w-8" disabled>
                         <Mic className="h-4 w-4 text-muted-foreground" />
                     </Button>
-                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSendMessage}>
+                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSendMessage} disabled={isLoading}>
                         <Send className="h-4 w-4" />
                     </Button>
                   </div>
