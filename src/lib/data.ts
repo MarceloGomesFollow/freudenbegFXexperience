@@ -13,6 +13,7 @@ export type DiaryEntry = {
   date: string;
   type: 'text' | 'image' | 'video';
   content: string;
+  attachments?: string[];
   comments: {
     user: Pick<User, 'name' | 'avatar'>;
     text: string;

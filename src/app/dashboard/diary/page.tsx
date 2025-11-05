@@ -8,14 +8,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { diaryEntries, users } from "@/lib/data";
 import type { DiaryEntry } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Bot, Image as ImageIcon, Paperclip, Send, Video } from "lucide-react";
+import { Bot, Image as ImageIcon, Paperclip, Send, Video, XCircle } from "lucide-react";
 import { summarizeDiaryEntries } from "@/ai/flows/summarize-diary-entries";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Badge } from "@/components/ui/badge";
 
 export default function DiaryPage() {
     const [newEntry, setNewEntry] = useState("");
+    const [attachments, setAttachments] = useState<string[]>([]);
     const [entries, setEntries] = useState<DiaryEntry[]>(diaryEntries);
     const [summary, setSummary] = useState<{ summary: string; insights: string[]; sentiment: string } | null>(null);
     const [isSummarizing, setIsSummarizing] = useState(false);
@@ -25,6 +27,22 @@ export default function DiaryPage() {
     const currentUser = users.find(u => u.email === 'ana.silva@example.com');
     const userAvatar = PlaceHolderImages.find(p => p.id === currentUser?.avatar);
 
+    const handleAddAttachment = () => {
+        if (attachments.length < 3) {
+            setAttachments([...attachments, `documento_simulado_${attachments.length + 1}.pdf`]);
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Limite de anexos atingido",
+                description: "Você pode anexar no máximo 3 arquivos.",
+            });
+        }
+    };
+
+    const handleRemoveAttachment = (fileName: string) => {
+        setAttachments(attachments.filter(file => file !== fileName));
+    };
+
     const handleAddEntry = () => {
         if (newEntry.trim() === "" || !currentUser) return;
         const entry: DiaryEntry = {
@@ -33,10 +51,12 @@ export default function DiaryPage() {
             date: "Agora",
             type: 'text',
             content: newEntry,
+            attachments: attachments,
             comments: [],
         };
         setEntries([entry, ...entries]);
         setNewEntry("");
+        setAttachments([]);
     };
 
     const handleSummarize = async () => {
@@ -58,7 +78,6 @@ export default function DiaryPage() {
         }
     };
 
-
     return (
         <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tight">Diário 4.0</h2>
@@ -70,18 +89,35 @@ export default function DiaryPage() {
                             <CardTitle>Nova Entrada no Diário</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid w-full gap-2">
+                            <div className="grid w-full gap-4">
                                 <Textarea 
                                     placeholder="Registre suas atividades, reflexões e aprendizados..." 
                                     value={newEntry}
                                     onChange={(e) => setNewEntry(e.target.value)}
                                     rows={4}
                                 />
+                                {attachments.length > 0 && (
+                                    <div className="space-y-2">
+                                        <p className="text-sm font-medium">Anexos:</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {attachments.map((file, index) => (
+                                                <Badge key={index} variant="secondary" className="pl-2 pr-1">
+                                                    {file}
+                                                    <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => handleRemoveAttachment(file)}>
+                                                        <XCircle className="h-3 w-3"/>
+                                                    </Button>
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                                 <div className="flex items-center justify-between">
                                     <div className="flex gap-2">
-                                        <Button variant="ghost" size="icon"><ImageIcon className="h-4 w-4 text-muted-foreground" /></Button>
-                                        <Button variant="ghost" size="icon"><Video className="h-4 w-4 text-muted-foreground" /></Button>
-                                        <Button variant="ghost" size="icon"><Paperclip className="h-4 w-4 text-muted-foreground" /></Button>
+                                        <Button variant="ghost" size="icon" title="Anexar Imagem"><ImageIcon className="h-4 w-4 text-muted-foreground" /></Button>
+                                        <Button variant="ghost" size="icon" title="Anexar Vídeo"><Video className="h-4 w-4 text-muted-foreground" /></Button>
+                                        <Button variant="ghost" size="icon" title="Anexar Arquivo" onClick={handleAddAttachment} disabled={attachments.length >= 3}>
+                                            <Paperclip className="h-4 w-4 text-muted-foreground" />
+                                        </Button>
                                     </div>
                                     <Button onClick={handleAddEntry} disabled={!newEntry.trim()}>
                                         <Send className="mr-2 h-4 w-4" /> Enviar
@@ -109,11 +145,24 @@ export default function DiaryPage() {
                                     </div>
                                 </CardHeader>
                                 <CardContent>
-                                    {entry.type === 'text' && <p className="text-muted-foreground">{entry.content}</p>}
+                                    {entry.type === 'text' && <p className="text-muted-foreground whitespace-pre-wrap">{entry.content}</p>}
                                     {entry.type === 'image' && (
                                         <div>
                                             <p className="text-muted-foreground mb-2">{entry.content}</p>
                                             <img src="https://picsum.photos/seed/whiteboard/600/400" alt="whiteboard" className="rounded-lg" data-ai-hint="whiteboard ideas" />
+                                        </div>
+                                    )}
+                                    {entry.attachments && entry.attachments.length > 0 && (
+                                        <div className="mt-4 space-y-2">
+                                            <p className="text-sm font-semibold">Anexos:</p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {entry.attachments.map((file, index) => (
+                                                    <Badge key={index} variant="outline">
+                                                        <Paperclip className="mr-2 h-3 w-3" />
+                                                        {file}
+                                                    </Badge>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                 </CardContent>
