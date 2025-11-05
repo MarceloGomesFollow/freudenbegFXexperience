@@ -4,7 +4,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { adminKpis, transfers, transferFlowData } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
@@ -105,16 +105,18 @@ export default function AdminDashboardPage() {
                         <CardDescription>Visualização do volume de intercâmbios entre as empresas A e B.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <RechartsBarChart data={transferFlowData}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false}/>
-                                <XAxis dataKey="from" tickFormatter={(value, index) => `${value} -> ${transferFlowData[index].to}`} angle={-25} textAnchor="end" height={60} interval={0} />
-                                <YAxis />
-                                <Tooltip content={<ChartTooltipContent />} />
-                                <Legend />
-                                <Bar dataKey="count" fill="var(--color-count)" name="Nº de Transferências" radius={[4, 4, 0, 0]} />
-                            </RechartsBarChart>
-                         </ResponsiveContainer>
+                        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+                            <ResponsiveContainer width="100%" height={300}>
+                                <RechartsBarChart data={transferFlowData}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false}/>
+                                    <XAxis dataKey="from" tickFormatter={(value, index) => `${value} -> ${transferFlowData[index].to}`} angle={-25} textAnchor="end" height={60} interval={0} />
+                                    <YAxis />
+                                    <Tooltip content={<ChartTooltipContent />} />
+                                    <Legend />
+                                    <Bar dataKey="count" fill="var(--color-count)" name="Nº de Transferências" radius={[4, 4, 0, 0]} />
+                                </RechartsBarChart>
+                            </ResponsiveContainer>
+                        </ChartContainer>
                     </CardContent>
                 </Card>
 
@@ -204,3 +206,5 @@ const ArrowLeft = (props: React.SVGProps<SVGSVGElement>) => (
         <path d="M19 12H5"/>
     </svg>
 )
+
+    
