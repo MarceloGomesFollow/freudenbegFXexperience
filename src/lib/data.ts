@@ -1,4 +1,5 @@
 
+
 export type User = {
   name: string;
   avatar: string; // image id from placeholder-images
@@ -45,6 +46,19 @@ export type ExchangeOpportunity = {
     skills: string[];
     duration: string;
     location: string;
+};
+
+export type Transfer = {
+    id: string;
+    userName: string;
+    userAvatar: string;
+    fromCompany: string;
+    fromDepartment: string;
+    toCompany: string;
+    toDepartment: string;
+    startDate: string;
+    endDate: string;
+    status: 'Concluído' | 'Em Andamento' | 'Agendado';
 };
 
 
@@ -189,4 +203,26 @@ export const exchangeOpportunities: ExchangeOpportunity[] = [
         duration: '2 semanas',
         location: 'Escritório Rio de Janeiro'
     }
+];
+
+export const transfers: Transfer[] = [
+    { id: 't1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Empresa A', fromDepartment: 'Tecnologia', toCompany: 'Empresa B', toDepartment: 'Compras', startDate: '01/08/2024', endDate: '30/08/2024', status: 'Em Andamento' },
+    { id: 't2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'Empresa A', fromDepartment: 'Marketing', toCompany: 'Empresa A', toDepartment: 'Supply Chain', startDate: '15/07/2024', endDate: '14/08/2024', status: 'Em Andamento' },
+    { id: 't3', userName: 'Carla Dias', userAvatar: 'user-avatar-3', fromCompany: 'Empresa A', fromDepartment: 'RH', toCompany: 'Empresa B', toDepartment: 'Engenharia', startDate: '01/06/2024', endDate: '30/06/2024', status: 'Concluído' },
+    { id: 't4', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'Empresa B', fromDepartment: 'Autopeças', toCompany: 'Empresa A', toDepartment: 'Tecnologia', startDate: '10/08/2024', endDate: '10/09/2024', status: 'Agendado' },
+];
+
+export const adminKpis = {
+  totalTransfers: 12,
+  ongoingTransfers: 4,
+  averageStayDays: 28,
+  mostActiveOrigin: 'Empresa A - Tecnologia',
+  mostActiveDestination: 'Empresa B - Compras',
+};
+
+export const transferFlowData = [
+  { from: 'Empresa A', to: 'Empresa B', count: 8 },
+  { from: 'Empresa B', to: 'Empresa A', count: 4 },
+  { from: 'Empresa A', to: 'Empresa A', count: 5 },
+  { from: 'Empresa B', to: 'Empresa B', count: 2 },
 ];

@@ -1,7 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import * as React from "react";
 import {
   LayoutDashboard,
   NotebookText,
@@ -17,6 +19,8 @@ import {
   Calendar,
   Users,
   Briefcase,
+  ChevronRight,
+  Shield,
 } from "lucide-react";
 
 import {
@@ -28,7 +32,8 @@ import {
   SidebarMenuSubItem
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import { ChevronRight } from "lucide-react";
+import { useRole } from "./role-switcher";
+
 
 const links = [
   {
@@ -40,6 +45,13 @@ const links = [
     href: "/dashboard",
     label: "Dashboard",
     icon: LayoutDashboard,
+    roles: ['manager', 'admin']
+  },
+  {
+    href: "/dashboard/admin",
+    label: "Admin Dashboard",
+    icon: Shield,
+    roles: ['admin']
   },
   {
     href: "/dashboard/diary",
@@ -128,15 +140,23 @@ const links = [
 
 export function SidebarNav() {
   const pathname = usePathname();
+  const { selectedRole } = useRole();
 
   const isSubLinkActive = (subLinks: any[] | undefined) => {
     return subLinks?.some(subLink => pathname.startsWith(subLink.href));
   }
 
+  const userHasRole = (allowedRoles: string[] | undefined) => {
+    if (!allowedRoles) return true; // if no roles are defined, show to all
+    return allowedRoles.includes(selectedRole.id);
+  }
+
   return (
     <SidebarMenu>
-      {links.map((link) =>
-        link.subLinks ? (
+      {links.map((link) => {
+        if (!userHasRole(link.roles)) return null;
+        
+        return link.subLinks ? (
           <Collapsible key={link.label} className="w-full" defaultOpen={isSubLinkActive(link.subLinks)}>
             <CollapsibleTrigger asChild>
                 <div className="group/menu-item relative">
@@ -166,7 +186,7 @@ export function SidebarNav() {
           </Collapsible>
         ) : (
           <SidebarMenuItem key={link.href}>
-            <SidebarMenuButton asChild isActive={pathname.startsWith(link.href!)}>
+            <SidebarMenuButton asChild isActive={pathname === link.href}>
                 <Link href={link.href!}>
                   <link.icon />
                   <span>{link.label}</span>
@@ -174,7 +194,8 @@ export function SidebarNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
         )
-      )}
+      })}
     </SidebarMenu>
   );
 }
+

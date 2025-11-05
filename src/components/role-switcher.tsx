@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -14,15 +15,46 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 
-const roles = [
+type Role = {
+    id: string;
+    name: string;
+    icon: React.ElementType;
+};
+
+const roles: Role[] = [
     { id: 'mentee', name: 'Usuário Mentorado', icon: User },
     { id: 'manager', name: 'Gestor', icon: Users },
     { id: 'mentor', name: 'Mentor', icon: Shield },
     { id: 'admin', name: 'Administrador', icon: Crown },
 ];
 
+type RoleContextType = {
+    selectedRole: Role;
+    setSelectedRole: React.Dispatch<React.SetStateAction<Role>>;
+};
+
+const RoleContext = React.createContext<RoleContextType | undefined>(undefined);
+
+export function useRole() {
+    const context = React.useContext(RoleContext);
+    if (!context) {
+        throw new Error("useRole must be used within a RoleProvider");
+    }
+    return context;
+}
+
+export function RoleProvider({ children }: { children: React.ReactNode }) {
+    const [selectedRole, setSelectedRole] = React.useState(roles[0]);
+    
+    return (
+        <RoleContext.Provider value={{ selectedRole, setSelectedRole }}>
+            {children}
+        </RoleContext.Provider>
+    );
+}
+
 export function RoleSwitcher() {
-  const [selectedRole, setSelectedRole] = React.useState(roles[0]);
+  const { selectedRole, setSelectedRole } = useRole();
   const { toast } = useToast();
 
   const handleRoleChange = (roleId: string) => {
