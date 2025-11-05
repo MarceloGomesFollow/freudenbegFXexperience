@@ -10,6 +10,7 @@ import {
   BookText,
   GraduationCap,
   Beaker,
+  Contact,
 } from "lucide-react";
 
 import {
@@ -54,6 +55,11 @@ const links = [
     href: "/dashboard/innovation-labs",
     label: "Innovation Labs",
     icon: Beaker,
+  },
+  {
+    href: "/dashboard/alumni",
+    label: "Rede Alumni",
+    icon: Contact,
   },
   {
     label: "Relatórios",
