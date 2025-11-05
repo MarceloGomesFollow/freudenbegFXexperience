@@ -5,6 +5,7 @@ import { SidebarNav } from "@/components/sidebar-nav";
 import { UserNav } from "@/components/user-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
+import { RoleSwitcher } from "@/components/role-switcher";
 
 export const metadata: Metadata = {
   title: 'Dashboard | DPX Digital',
@@ -34,6 +35,7 @@ export default function DashboardLayout({
                 <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
                     <div className="flex items-center gap-4">
                         <SidebarTrigger className="md:hidden" />
+                        <RoleSwitcher />
                     </div>
                     <div className="flex items-center gap-4">
                         <LanguageToggle />
