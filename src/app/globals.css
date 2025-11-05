@@ -85,8 +85,15 @@
 
 @layer utilities {
   .animated-gradient {
-    background-size: 200% 200%;
-    animation: gradient-animation 10s ease infinite;
+    background: linear-gradient(
+      -45deg,
+      hsl(var(--primary) / 0.9),
+      hsl(var(--primary) / 0.7),
+      hsl(240, 60%, 30%),
+      hsl(var(--accent) / 0.8)
+    );
+    background-size: 400% 400%;
+    animation: gradient-animation 15s ease infinite;
   }
 
   @keyframes gradient-animation {
