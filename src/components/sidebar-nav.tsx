@@ -11,6 +11,7 @@ import {
   Beaker,
   Contact,
   Presentation,
+  Sparkles,
 } from "lucide-react";
 
 import {
@@ -53,6 +54,11 @@ const links = [
     href: "/dashboard/innovation-labs",
     label: "Innovation Labs",
     icon: Beaker,
+  },
+  {
+    href: "/dashboard/special-resources",
+    label: "Recursos Especiais",
+    icon: Sparkles,
   },
   {
     href: "/dashboard/events",
