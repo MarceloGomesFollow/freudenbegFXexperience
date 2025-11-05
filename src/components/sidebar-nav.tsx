@@ -14,6 +14,7 @@ import {
   Sparkles,
   Bot,
   ShieldCheck,
+  Calendar,
 } from "lucide-react";
 
 import {
@@ -37,6 +38,11 @@ const links = [
     href: "/dashboard/diary",
     label: "Diário 4.0",
     icon: NotebookText,
+  },
+  {
+    href: "/dashboard/calendar",
+    label: "Agenda",
+    icon: Calendar,
   },
   {
     label: "Learning Hub",
