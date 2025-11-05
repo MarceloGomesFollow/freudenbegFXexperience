@@ -1,0 +1,44 @@
+{
+  "login": "Login",
+  "enrollNow": "Enroll Now",
+  "hero": {
+    "title": "DPX Digital: The Future of Professional Experience",
+    "subtitle": "A unified platform to manage, track, and amplify your company's professional development programs with the power of AI."
+  },
+  "getStarted": "Get Started",
+  "learnMore": "Learn More",
+  "keyFeatures": "Key Features",
+  "features": {
+    "title": "Everything You Need to Succeed",
+    "subtitle": "Our platform is packed with powerful features to streamline your programs, enhance learning, and measure impact.",
+    "streamlinedWorkflows": {
+      "title": "Streamlined Workflows",
+      "description": "Digital enrollment and automated approval processes for participants, admins, and HR."
+    },
+    "interactiveDigitalDiary": {
+      "title": "Interactive Digital Diary",
+      "description": "Log activities, reflections, and upload multimedia content (text, photos, videos)."
+    },
+    "aiAssistedReporting": {
+      "title": "AI-Assisted Reporting",
+      "description": "Automatically generate A3 reports by summarizing diary entries and feedback."
+    },
+    "structuredFeedback": {
+      "title": "Structured Feedback",
+      "description": "Collect guided feedback from receiving units with scores and attachments."
+    },
+    "executiveDashboards": {
+      "title": "Executive Dashboards",
+      "description": "Monitor KPIs, ROI, and participant progress in real-time with powerful analytics."
+    },
+    "lgpdCompliant": {
+      "title": "LGPD Compliant",
+      "description": "Ensure data privacy and compliance with digital signatures and consent control."
+    }
+  },
+  "footer": {
+    "copy": "© 2024 DPX Digital. All rights reserved.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy"
+  }
+}

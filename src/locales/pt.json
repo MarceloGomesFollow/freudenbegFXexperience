@@ -1,0 +1,44 @@
+{
+  "login": "Login",
+  "enrollNow": "Inscreva-se Agora",
+  "hero": {
+    "title": "DPX Digital: O Futuro da Experiência Profissional",
+    "subtitle": "Uma plataforma unificada para gerenciar, acompanhar e ampliar os programas de desenvolvimento profissional da sua empresa com o poder da IA."
+  },
+  "getStarted": "Comece Agora",
+  "learnMore": "Saiba Mais",
+  "keyFeatures": "Principais Recursos",
+  "features": {
+    "title": "Tudo o que Você Precisa para o Sucesso",
+    "subtitle": "Nossa plataforma está repleta de recursos poderosos para otimizar seus programas, aprimorar o aprendizado e medir o impacto.",
+    "streamlinedWorkflows": {
+      "title": "Fluxos de Trabalho Otimizados",
+      "description": "Inscrição digital e processos de aprovação automatizados para participantes, administradores e RH."
+    },
+    "interactiveDigitalDiary": {
+      "title": "Diário Digital Interativo",
+      "description": "Registre atividades, reflexões e faça upload de conteúdo multimídia (texto, fotos, vídeos)."
+    },
+    "aiAssistedReporting": {
+      "title": "Relatórios com Assistência de IA",
+      "description": "Gere relatórios A3 automaticamente, resumindo entradas de diário e feedback."
+    },
+    "structuredFeedback": {
+      "title": "Feedback Estruturado",
+      "description": "Colete feedback guiado das unidades receptoras com pontuações e anexos."
+    },
+    "executiveDashboards": {
+      "title": "Painéis Executivos",
+      "description": "Monitore KPIs, ROI e o progresso dos participantes em tempo real com análises poderosas."
+    },
+    "lgpdCompliant": {
+      "title": "Conformidade com a LGPD",
+      "description": "Garanta a privacidade e a conformidade dos dados com assinaturas digitais и controle de consentimento."
+    }
+  },
+  "footer": {
+    "copy": "© 2024 DPX Digital. Todos os direitos reservados.",
+    "terms": "Termos de Serviço",
+    "privacy": "Privacidade"
+  }
+}

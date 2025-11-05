@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, Zap, Bot, BarChart, NotebookText, MessageSquareQuote } from "lucide-react";
@@ -6,42 +8,44 @@ import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Logo } from "@/components/logo";
 import { LanguageToggle } from "@/components/language-toggle";
-
-const features = [
-  {
-    icon: <Zap className="h-8 w-8 text-accent" />,
-    title: "Streamlined Workflows",
-    description: "Digital enrollment and automated approval processes for participants, admins, and HR.",
-  },
-  {
-    icon: <NotebookText className="h-8 w-8 text-accent" />,
-    title: "Interactive Digital Diary",
-    description: "Log activities, reflections, and upload multimedia content (text, photos, videos).",
-  },
-  {
-    icon: <Bot className="h-8 w-8 text-accent" />,
-    title: "AI-Assisted Reporting",
-    description: "Automatically generate A3 reports by summarizing diary entries and feedback.",
-  },
-  {
-    icon: <MessageSquareQuote className="h-8 w-8 text-accent" />,
-    title: "Structured Feedback",
-    description: "Collect guided feedback from receiving units with scores and attachments.",
-  },
-  {
-    icon: <BarChart className="h-8 w-8 text-accent" />,
-    title: "Executive Dashboards",
-    description: "Monitor KPIs, ROI, and participant progress in real-time with powerful analytics.",
-  },
-  {
-    icon: <CheckCircle className="h-8 w-8 text-accent" />,
-    title: "LGPD Compliant",
-    description: "Ensure data privacy and compliance with digital signatures and consent control.",
-  },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: <Zap className="h-8 w-8 text-accent" />,
+      title: t('features.streamlinedWorkflows.title'),
+      description: t('features.streamlinedWorkflows.description'),
+    },
+    {
+      icon: <NotebookText className="h-8 w-8 text-accent" />,
+      title: t('features.interactiveDigitalDiary.title'),
+      description: t('features.interactiveDigitalDiary.description'),
+    },
+    {
+      icon: <Bot className="h-8 w-8 text-accent" />,
+      title: t('features.aiAssistedReporting.title'),
+      description: t('features.aiAssistedReporting.description'),
+    },
+    {
+      icon: <MessageSquareQuote className="h-8 w-8 text-accent" />,
+      title: t('features.structuredFeedback.title'),
+      description: t('features.structuredFeedback.description'),
+    },
+    {
+      icon: <BarChart className="h-8 w-8 text-accent" />,
+      title: t('features.executiveDashboards.title'),
+      description: t('features.executiveDashboards.description'),
+    },
+    {
+      icon: <CheckCircle className="h-8 w-8 text-accent" />,
+      title: t('features.lgpdCompliant.title'),
+      description: t('features.lgpdCompliant.description'),
+    },
+  ];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -55,10 +59,10 @@ export default function Home() {
                 href="/login"
                 className="text-sm font-medium hover:underline underline-offset-4 text-foreground"
             >
-                Login
+                {t('login')}
             </Link>
             <Button asChild>
-                <Link href="/enrollment">Enroll Now</Link>
+                <Link href="/enrollment">{t('enrollNow')}</Link>
             </Button>
         </nav>
       </header>
@@ -78,17 +82,17 @@ export default function Home() {
           <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl">
-                DPX Digital: The Future of Professional Experience
+                {t('hero.title')}
               </h1>
               <p className="mt-4 text-lg md:text-xl text-primary-foreground/80">
-                A unified platform to manage, track, and amplify your company's professional development programs with the power of AI.
+                {t('hero.subtitle')}
               </p>
               <div className="mt-8 flex justify-center gap-4">
                 <Button size="lg" asChild variant="secondary">
-                  <Link href="/enrollment">Get Started</Link>
+                  <Link href="/enrollment">{t('getStarted')}</Link>
                 </Button>
                 <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                  Learn More
+                  {t('learnMore')}
                 </Button>
               </div>
             </div>
@@ -99,12 +103,12 @@ export default function Home() {
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm text-secondary-foreground">Key Features</div>
+                <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm text-secondary-foreground">{t('keyFeatures')}</div>
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-foreground">
-                  Everything You Need to Succeed
+                  {t('features.title')}
                 </h2>
                 <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Our platform is packed with powerful features to streamline your programs, enhance learning, and measure impact.
+                  {t('features.subtitle')}
                 </p>
               </div>
             </div>
@@ -125,13 +129,13 @@ export default function Home() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-card text-card-foreground">
-        <p className="text-xs text-muted-foreground">&copy; 2024 DPX Digital. All rights reserved.</p>
+        <p className="text-xs text-muted-foreground">{t('footer.copy')}</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-            Terms of Service
+            {t('footer.terms')}
           </Link>
           <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-            Privacy
+            {t('footer.privacy')}
           </Link>
         </nav>
       </footer>

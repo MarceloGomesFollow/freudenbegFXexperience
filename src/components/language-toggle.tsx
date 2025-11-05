@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Globe, Check } from "lucide-react";
+import { Globe } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,18 +11,14 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePathname, useRouter } from "next/navigation";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function LanguageToggle() {
-  const [language, setLanguage] = React.useState("pt");
+  const { language, setLanguage } = useLanguage();
   
-  // In a real app, you would use a proper i18n library like next-intl
-  // and manage the locale state globally.
   const handleLanguageChange = (lang: string) => {
     if (lang !== language) {
         setLanguage(lang);
-        console.log(`Language changed to: ${lang}.`);
-        // Here you would typically change the route or refresh the page with the new locale.
     }
   };
 
