@@ -5,7 +5,7 @@ export type User = {
   avatar: string; // image id from placeholder-images
   email: string;
   role: 'Participante' | 'Mentor' | 'RH';
-  status: 'Ativo' | 'Inativo';
+  status: 'Ativo' | 'Inativo' | 'Aguardando Aprovação';
   unit: string;
   progress: number;
 };
@@ -61,15 +61,34 @@ export type Transfer = {
     status: 'Concluído' | 'Em Andamento' | 'Agendado';
 };
 
+export type ApprovalStatus = 'pending' | 'approved' | 'rejected';
+
+export type ChecklistItem = {
+    id: string;
+    item: string;
+    responsible: string;
+    status: ApprovalStatus;
+};
+
+export type CandidateApproval = {
+    userId: string;
+    userName: string;
+    userAvatar: string;
+    unit: string;
+    overallStatus: ApprovalStatus;
+    checklist: ChecklistItem[];
+};
+
 
 export const users: User[] = [
   { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 75 },
   { name: 'Bruno Costa', avatar: 'user-avatar-2', email: 'bruno.costa@example.com', role: 'Participante', status: 'Ativo', unit: 'Marketing (Empresa A)', progress: 50 },
-  { name: 'Carla Dias', avatar: 'user-avatar-3', email: 'carla.dias@example.com', role: 'Participante', status: 'Ativo', unit: 'RH (Empresa A)', progress: 90 },
+  { name: 'Carla Dias', avatar: 'user-avatar-3', email: 'carla.dias@example.com', role: 'Participante', status: 'Aguardando Aprovação', unit: 'RH (Empresa A)', progress: 10 },
   { name: 'Daniel Alves', avatar: 'user-avatar-4', email: 'daniel.alves@example.com', role: 'Participante', status: 'Inativo', unit: 'Vendas (Empresa B)', progress: 20 },
   { name: 'Eduarda Lima', avatar: 'user-avatar-5', email: 'eduarda.lima@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa B)', progress: 60 },
   { name: 'Fábio Pereira', avatar: 'user-avatar-6', email: 'fabio.pereira@example.com', role: 'Mentor', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 100 },
   { name: 'Gabriela Ramos', avatar: 'user-avatar-7', email: 'gabriela.ramos@example.com', role: 'RH', status: 'Ativo', unit: 'RH (Empresa A)', progress: 100 },
+  { name: 'Heitor Oliveira', avatar: 'user-avatar-8', email: 'heitor.oliveira@example.com', role: 'Participante', status: 'Aguardando Aprovação', unit: 'Compras (Empresa B)', progress: 5 },
 ];
 
 export const mentorships: Mentorship[] = [
@@ -194,4 +213,62 @@ export const transfers: Transfer[] = [
     { id: 't1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Empresa A', fromDepartment: 'Tecnologia', toCompany: 'Empresa B', toDepartment: 'Inovação', startDate: '01/08/24', endDate: '30/08/24', status: 'Em Andamento' },
     { id: 't2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'Empresa A', fromDepartment: 'Marketing', toCompany: 'Empresa A', toDepartment: 'Vendas', startDate: '15/07/24', endDate: '15/08/24', status: 'Concluído' },
     { id: 't3', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'Empresa B', fromDepartment: 'Tecnologia', toCompany: 'Empresa A', toDepartment: 'P&D', startDate: '01/09/24', endDate: '30/09/24', status: 'Agendado' },
+];
+
+
+const checklistTemplate: Omit<ChecklistItem, 'status'>[] = [
+    { id: 'approval', item: 'Aprovação formal do gestor e RH', responsible: 'RH/Participante' },
+    { id: 'terms', item: 'Assinatura dos Termos (LGPD & NDA)', responsible: 'Participante' },
+    { id: 'agenda', item: 'Definição de agenda detalhada', responsible: 'Unidade Receptora' },
+    { id: 'mentor', item: 'Definição do(a) mentor(a)', responsible: 'Unidade Receptora' },
+    { id: 'tickets', item: 'Emissão de passagens', responsible: 'RH/Participante' },
+    { id: 'lodging', item: 'Reserva de hospedagem', responsible: 'RH/Participante' },
+    { id: 'docs', item: 'Preparação de documentos pessoais', responsible: 'Participante' },
+    { id: 'review', item: 'Revisão de normas e políticas', responsible: 'RH/Participante' },
+    { id: 'briefing', item: 'Briefing pré-intercâmbio', responsible: 'RH' },
+    { id: 'diary', item: 'Diário de Bordo disponibilizado', responsible: 'RH' },
+    { id: 'emergency', item: 'Comunicação de contatos de emergência', responsible: 'RH' },
+];
+
+export const candidateApprovals: CandidateApproval[] = [
+    {
+        userId: 'u3',
+        userName: 'Carla Dias',
+        userAvatar: 'user-avatar-3',
+        unit: 'RH (Empresa A)',
+        overallStatus: 'pending',
+        checklist: [
+            { ...checklistTemplate[0], status: 'approved' },
+            { ...checklistTemplate[1], status: 'approved' },
+            { ...checklistTemplate[2], status: 'pending' },
+            { ...checklistTemplate[3], status: 'pending' },
+            { ...checklistTemplate[4], status: 'pending' },
+            { ...checklistTemplate[5], status: 'pending' },
+            { ...checklistTemplate[6], status: 'approved' },
+            { ...checklistTemplate[7], status: 'pending' },
+            { ...checklistTemplate[8], status: 'pending' },
+            { ...checklistTemplate[9], status: 'approved' },
+            { ...checklistTemplate[10], status: 'approved' },
+        ],
+    },
+    {
+        userId: 'u8',
+        userName: 'Heitor Oliveira',
+        userAvatar: 'user-avatar-8',
+        unit: 'Compras (Empresa B)',
+        overallStatus: 'pending',
+        checklist: [
+            { ...checklistTemplate[0], status: 'approved' },
+            { ...checklistTemplate[1], status: 'pending' },
+            { ...checklistTemplate[2], status: 'pending' },
+            { ...checklistTemplate[3], status: 'pending' },
+            { ...checklistTemplate[4], status: 'pending' },
+            { ...checklistTemplate[5], status: 'pending' },
+            { ...checklistTemplate[6], status: 'pending' },
+            { ...checklistTemplate[7], status: 'pending' },
+            { ...checklistTemplate[8], status: 'pending' },
+            { ...checklistTemplate[9], status: 'pending' },
+            { ...checklistTemplate[10], status: 'pending' },
+        ],
+    },
 ];

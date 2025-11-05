@@ -22,6 +22,7 @@ import {
   ChevronRight,
   Shield,
   BookUser,
+  CheckSquare,
 } from "lucide-react";
 
 import {
@@ -58,6 +59,12 @@ const links = [
     label: "Admin Dashboard",
     icon: Shield,
     roles: ['admin']
+  },
+   {
+    href: "/dashboard/approvals",
+    label: "Aprovações",
+    icon: CheckSquare,
+    roles: ['manager', 'admin']
   },
   {
     href: "/dashboard/diary",
