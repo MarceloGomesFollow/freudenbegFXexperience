@@ -2,7 +2,7 @@
   "login": "Login",
   "enrollNow": "Inscreva-se Agora",
   "hero": {
-    "title": "DPX Digital: O Futuro da Experiência Profissional",
+    "title": "FX Experience: O Futuro da Experiência Profissional",
     "subtitle": "Uma plataforma unificada para gerenciar, acompanhar e ampliar os programas de desenvolvimento profissional da sua empresa com o poder da IA."
   },
   "getStarted": "Comece Agora",
@@ -33,7 +33,7 @@
     },
     "lgpdCompliant": {
       "title": "Conformidade com a LGPD",
-      "description": "Garanta a privacidade e a conformidade dos dados com assinaturas digitais и controle de consentimento."
+      "description": "Garanta a privacidade e a conformidade dos dados com assinaturas digitais e controle de consentimento."
     }
   },
   "footer": {

@@ -114,6 +114,19 @@
     background-size: 200% 100%;
     animation: shimmer-animation 5s infinite linear;
   }
+  
+  .shimmer-text-hero {
+      background: linear-gradient(
+        90deg,
+        hsl(var(--primary-foreground)),
+        hsl(var(--accent)),
+        hsl(var(--primary-foreground))
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% 100%;
+      animation: shimmer-animation 5s infinite linear;
+    }
 
   @keyframes shimmer-animation {
     0% {
