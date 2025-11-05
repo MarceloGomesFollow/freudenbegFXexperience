@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Calendar,
   Users,
+  Briefcase,
 } from "lucide-react";
 
 import {
@@ -30,6 +31,11 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collap
 import { ChevronRight } from "lucide-react";
 
 const links = [
+  {
+    href: "/dashboard/exchange-center",
+    label: "Central de Intercâmbio",
+    icon: Briefcase,
+  },
   {
     href: "/dashboard",
     label: "Dashboard",

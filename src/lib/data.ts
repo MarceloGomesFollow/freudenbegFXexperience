@@ -36,6 +36,17 @@ export type Mentorship = {
     menteeEmail: string;
 };
 
+export type ExchangeOpportunity = {
+    id: string;
+    title: string;
+    company: string;
+    department: string;
+    description: string;
+    skills: string[];
+    duration: string;
+    location: string;
+};
+
 
 export const users: User[] = [
   { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia', progress: 75 },
@@ -114,4 +125,38 @@ export const recentTasks: Task[] = [
   { id: 'task2', title: 'Revisar feedback da unidade receptora', status: 'Em Andamento', dueDate: 'Em 5 dias', priority: 'Média' },
   { id: 'task3', title: 'Preencher diário da semana 4', status: 'Concluído', dueDate: 'Ontem', priority: 'Baixa' },
   { id: 'task4', title: 'Agendar mentoria com Fábio Pereira', status: 'Concluído', dueDate: 'Há 3 dias', priority: 'Média' },
+];
+
+
+export const exchangeOpportunities: ExchangeOpportunity[] = [
+    {
+        id: 'tech-innovation',
+        title: 'Desenvolvedor de Inovação em IA',
+        company: 'Unidade de Tecnologia',
+        department: 'P&D',
+        description: 'Junte-se à equipe de inovação para desenvolver e prototipar soluções de IA de ponta que impulsionarão a próxima geração de nossos produtos.',
+        skills: ['Python', 'TensorFlow', 'Scikit-learn', 'Prototipagem Rápida'],
+        duration: '4 semanas',
+        location: 'Remoto/Híbrido'
+    },
+    {
+        id: 'marketing-analytics',
+        title: 'Analista de Dados de Marketing',
+        company: 'Unidade de Marketing',
+        department: 'Business Intelligence',
+        description: 'Mergulhe nos dados de campanhas para descobrir insights, otimizar o funil de marketing e apresentar suas descobertas para a liderança.',
+        skills: ['SQL', 'Tableau', 'Google Analytics', 'Análise de Dados'],
+        duration: '3 semanas',
+        location: 'Escritório São Paulo'
+    },
+    {
+        id: 'hr-experience',
+        title: 'Especialista em Experiência do Colaborador',
+        company: 'Unidade de RH',
+        department: 'Cultura & Engajamento',
+        description: 'Participe do projeto de redesenho da jornada do colaborador, conduzindo entrevistas, analisando feedbacks e propondo melhorias de alto impacto.',
+        skills: ['Pesquisa de Usuário', 'Comunicação', 'Design de Serviços'],
+        duration: '2 semanas',
+        location: 'Escritório Rio de Janeiro'
+    }
 ];
