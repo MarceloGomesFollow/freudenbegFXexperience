@@ -63,13 +63,13 @@ export type Transfer = {
 
 
 export const users: User[] = [
-  { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia', progress: 75 },
-  { name: 'Bruno Costa', avatar: 'user-avatar-2', email: 'bruno.costa@example.com', role: 'Participante', status: 'Ativo', unit: 'Marketing', progress: 50 },
-  { name: 'Carla Dias', avatar: 'user-avatar-3', email: 'carla.dias@example.com', role: 'Participante', status: 'Ativo', unit: 'RH', progress: 90 },
-  { name: 'Daniel Alves', avatar: 'user-avatar-4', email: 'daniel.alves@example.com', role: 'Participante', status: 'Inativo', unit: 'Vendas', progress: 20 },
-  { name: 'Eduarda Lima', avatar: 'user-avatar-5', email: 'eduarda.lima@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia', progress: 60 },
-  { name: 'Fábio Pereira', avatar: 'user-avatar-6', email: 'fabio.pereira@example.com', role: 'Mentor', status: 'Ativo', unit: 'Tecnologia', progress: 100 },
-  { name: 'Gabriela Ramos', avatar: 'user-avatar-7', email: 'gabriela.ramos@example.com', role: 'RH', status: 'Ativo', unit: 'RH', progress: 100 },
+  { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 75 },
+  { name: 'Bruno Costa', avatar: 'user-avatar-2', email: 'bruno.costa@example.com', role: 'Participante', status: 'Ativo', unit: 'Marketing (Empresa A)', progress: 50 },
+  { name: 'Carla Dias', avatar: 'user-avatar-3', email: 'carla.dias@example.com', role: 'Participante', status: 'Ativo', unit: 'RH (Empresa A)', progress: 90 },
+  { name: 'Daniel Alves', avatar: 'user-avatar-4', email: 'daniel.alves@example.com', role: 'Participante', status: 'Inativo', unit: 'Vendas (Empresa B)', progress: 20 },
+  { name: 'Eduarda Lima', avatar: 'user-avatar-5', email: 'eduarda.lima@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa B)', progress: 60 },
+  { name: 'Fábio Pereira', avatar: 'user-avatar-6', email: 'fabio.pereira@example.com', role: 'Mentor', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 100 },
+  { name: 'Gabriela Ramos', avatar: 'user-avatar-7', email: 'gabriela.ramos@example.com', role: 'RH', status: 'Ativo', unit: 'RH (Empresa A)', progress: 100 },
 ];
 
 export const mentorships: Mentorship[] = [
@@ -97,7 +97,7 @@ export const tasks: { [userEmail: string]: Task[] } = {
 export const diaryEntries: DiaryEntry[] = [
   {
     id: 'entry1',
-    user: { name: 'Ana Silva', avatar: 'user-avatar-1', unit: 'Tecnologia' },
+    user: { name: 'Ana Silva', avatar: 'user-avatar-1', unit: 'Tecnologia (Empresa A)' },
     date: '3 dias atrás',
     type: 'text',
     content: 'Hoje comecei o módulo de design thinking. Foi muito interessante aprender sobre a importância da empatia no processo de criação. Tive uma ideia para aplicar no nosso próximo projeto de onboarding.',
@@ -111,7 +111,7 @@ export const diaryEntries: DiaryEntry[] = [
   },
   {
     id: 'entry2',
-    user: { name: 'Bruno Costa', avatar: 'user-avatar-2', unit: 'Marketing' },
+    user: { name: 'Bruno Costa', avatar: 'user-avatar-2', unit: 'Marketing (Empresa A)' },
     date: '5 dias atrás',
     type: 'image',
     content: 'Participei de um workshop sobre growth hacking. O whiteboard ficou cheio de ideias. Segue a foto para registrar o momento de brainstorming intenso!',
@@ -171,58 +171,27 @@ export const exchangeOpportunities: ExchangeOpportunity[] = [
         description: 'Participe do planejamento de demanda e da gestão de estoques, utilizando ferramentas de previsão para garantir a disponibilidade de produtos.',
         skills: ['Planejamento', 'Previsão de Demanda', 'Gestão de Estoques', 'SAP'],
         duration: '4 semanas',
-        location: 'Escritório Rio de Janeiro'
+        location: 'Remoto/Híbrido'
     },
-    {
-        id: 'industrial-process',
-        title: 'Engenheiro de Processos Industriais',
-        company: 'Empresa B (Autopeças)',
-        department: 'Engenharia Industrial',
-        description: 'Vivencie a rotina da engenharia de processos em uma planta de autopeças, identificando oportunidades de melhoria e otimização da linha de montagem.',
-        skills: ['Lean Manufacturing', 'Six Sigma', 'AutoCAD', 'Melhoria Contínua'],
-        duration: '4 semanas',
-        location: 'Planta de Campinas'
-    },
-    {
-        id: 'marketing-analytics',
-        title: 'Analista de Dados de Marketing',
-        company: 'Empresa A (Marketing)',
-        department: 'Business Intelligence',
-        description: 'Mergulhe nos dados de campanhas para descobrir insights, otimizar o funil de marketing e apresentar suas descobertas para a liderança.',
-        skills: ['SQL', 'Tableau', 'Google Analytics', 'Análise de Dados'],
-        duration: '3 semanas',
-        location: 'Escritório São Paulo'
-    },
-    {
-        id: 'hr-experience',
-        title: 'Especialista em Experiência do Colaborador',
-        company: 'Empresa A (RH)',
-        department: 'Cultura & Engajamento',
-        description: 'Participe do projeto de redesenho da jornada do colaborador, conduzindo entrevistas, analisando feedbacks e propondo melhorias de alto impacto.',
-        skills: ['Pesquisa de Usuário', 'Comunicação', 'Design de Serviços'],
-        duration: '2 semanas',
-        location: 'Escritório Rio de Janeiro'
-    }
-];
-
-export const transfers: Transfer[] = [
-    { id: 't1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Empresa A', fromDepartment: 'Tecnologia', toCompany: 'Empresa B', toDepartment: 'Compras', startDate: '01/08/2024', endDate: '30/08/2024', status: 'Em Andamento' },
-    { id: 't2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'Empresa A', fromDepartment: 'Marketing', toCompany: 'Empresa A', toDepartment: 'Supply Chain', startDate: '15/07/2024', endDate: '14/08/2024', status: 'Em Andamento' },
-    { id: 't3', userName: 'Carla Dias', userAvatar: 'user-avatar-3', fromCompany: 'Empresa A', fromDepartment: 'RH', toCompany: 'Empresa B', toDepartment: 'Engenharia', startDate: '01/06/2024', endDate: '30/06/2024', status: 'Concluído' },
-    { id: 't4', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'Empresa B', fromDepartment: 'Autopeças', toCompany: 'Empresa A', toDepartment: 'Tecnologia', startDate: '10/08/2024', endDate: '10/09/2024', status: 'Agendado' },
 ];
 
 export const adminKpis = {
-  totalTransfers: 12,
-  ongoingTransfers: 4,
-  averageStayDays: 28,
-  mostActiveOrigin: 'Empresa A - Tecnologia',
-  mostActiveDestination: 'Empresa B - Compras',
+    totalTransfers: 25,
+    ongoingTransfers: 8,
+    averageStayDays: 28,
+    mostActiveOrigin: 'Empresa A - Tecnologia',
+    mostActiveDestination: 'Empresa B - Compras',
 };
 
 export const transferFlowData = [
-  { from: 'Empresa A', to: 'Empresa B', count: 8 },
-  { from: 'Empresa B', to: 'Empresa A', count: 4 },
-  { from: 'Empresa A', to: 'Empresa A', count: 5 },
-  { from: 'Empresa B', to: 'Empresa B', count: 2 },
+    { from: 'Empresa A', to: 'Empresa B', count: 12 },
+    { from: 'Empresa B', to: 'Empresa A', count: 6 },
+    { from: 'Empresa A', to: 'Empresa A', count: 4 },
+    { from: 'Empresa B', to: 'Empresa B', count: 3 },
+];
+
+export const transfers: Transfer[] = [
+    { id: 't1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Empresa A', fromDepartment: 'Tecnologia', toCompany: 'Empresa B', toDepartment: 'Inovação', startDate: '01/08/24', endDate: '30/08/24', status: 'Em Andamento' },
+    { id: 't2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'Empresa A', fromDepartment: 'Marketing', toCompany: 'Empresa A', toDepartment: 'Vendas', startDate: '15/07/24', endDate: '15/08/24', status: 'Concluído' },
+    { id: 't3', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'Empresa B', fromDepartment: 'Tecnologia', toCompany: 'Empresa A', toDepartment: 'P&D', startDate: '01/09/24', endDate: '30/09/24', status: 'Agendado' },
 ];
