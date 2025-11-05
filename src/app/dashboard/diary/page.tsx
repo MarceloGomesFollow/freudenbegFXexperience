@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
+import { Label } from "@/components/ui/label";
 
 export default function DiaryPage() {
     const [newEntry, setNewEntry] = useState("");
@@ -307,5 +308,3 @@ export default function DiaryPage() {
         </div>
     )
 }
-
-    
