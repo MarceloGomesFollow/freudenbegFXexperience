@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Logo } from "@/components/logo";
+import { LanguageToggle } from "@/components/language-toggle";
 
 const features = [
   {
@@ -48,16 +49,17 @@ export default function Home() {
         <Link href="#" className="flex items-center justify-center">
           <Logo />
         </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link
-            href="/login"
-            className="text-sm font-medium hover:underline underline-offset-4 text-foreground"
-          >
-            Login
-          </Link>
-          <Button asChild>
-            <Link href="/enrollment">Enroll Now</Link>
-          </Button>
+        <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
+            <LanguageToggle />
+            <Link
+                href="/login"
+                className="text-sm font-medium hover:underline underline-offset-4 text-foreground"
+            >
+                Login
+            </Link>
+            <Button asChild>
+                <Link href="/enrollment">Enroll Now</Link>
+            </Button>
         </nav>
       </header>
       <main className="flex-1">
