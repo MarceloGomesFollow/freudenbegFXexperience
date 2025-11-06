@@ -379,6 +379,52 @@ export const candidateApprovals: CandidateApproval[] = [
 
 export let coursesDb: Course[] = [
     {
+        id: "tutorial-dpx-platform",
+        courseTitle: "Tutorial da Plataforma DPX",
+        description: "Aprenda a usar todas as funcionalidades da plataforma DPX Digital para maximizar sua experiência de desenvolvimento profissional.",
+        category: "Onboarding",
+        imageHint: "digital platform interface",
+        imageUrl: "https://picsum.photos/seed/platform-tutorial/600/400",
+        modules: [
+            { 
+                title: "Módulo 1: Visão Geral e Navegação", 
+                content: "Bem-vindo à DPX Digital! Neste módulo, você aprenderá sobre:\n- A estrutura do dashboard principal.\n- Como usar a barra de navegação lateral para acessar as diferentes seções.\n- Como alternar entre os perfis de usuário (Participante, Mentor, Gestor) para simular diferentes visões."
+            },
+            { 
+                title: "Módulo 2: Diário 4.0 e Agenda", 
+                content: "O Diário 4.0 é sua ferramenta central para registrar aprendizados.\n- Crie novas entradas de texto, imagem ou vídeo.\n- Adicione anexos e veja comentários de mentores.\n- Use a Agenda para acompanhar seus eventos e prazos importantes." 
+            },
+            { 
+                title: "Módulo 3: Innovation Labs", 
+                content: "Transforme suas ideias em projetos de impacto.\n- Explore os 'Desafios' abertos.\n- Submeta suas próprias 'Ideias' para resolver problemas.\n- Acompanhe o progresso de uma ideia aprovada através de um 'Sprint de Experimentação'."
+            },
+            {
+                title: "Módulo 4: Learning Hub",
+                content: "Seu portal de conhecimento.\n- Explore cursos e trilhas de aprendizado.\n- Crie seu próprio curso usando o assistente de IA.\n- Organize cursos em 'Trilhas de Aprendizado' personalizadas."
+            },
+            {
+                title: "Módulo 5: Intercâmbio e Mentoria",
+                content: "Expanda seus horizontes.\n- Encontre oportunidades na 'Central de Intercâmbio'.\n- Acompanhe o progresso de seus mentorados na 'Central de Mentoria'.\n- Utilize o 'Guia Geral' para entender todas as etapas do programa."
+            }
+        ],
+        quiz: [
+            {
+                question: "Onde você pode registrar suas atividades e aprendizados diários?",
+                options: ["Innovation Labs", "Diário 4.0", "Learning Hub"],
+                correctAnswer: "Diário 4.0",
+                explanation: "O Diário 4.0 é o local designado para registrar todas as suas atividades, reflexões e aprendizados durante o programa."
+            },
+            {
+                question: "Qual ferramenta permite criar um novo curso com a ajuda da inteligência artificial?",
+                options: ["Gerador de Relatório A3", "Criador de Conteúdo no Learning Hub", "Submissão de Ideia nos Labs"],
+                correctAnswer: "Criador de Conteúdo no Learning Hub",
+                explanation: "Dentro do Learning Hub, a funcionalidade 'Criar com IA' permite que você gere cursos completos a partir de tópicos e detalhes."
+            }
+        ],
+        videoIdeas: ["Tour guiado pela interface da plataforma.", "Como submeter sua primeira ideia no Innovation Labs."],
+        conclusion: "Parabéns! Você concluiu o tutorial da plataforma DPX Digital e está pronto para explorar todo o seu potencial. Boa jornada de desenvolvimento!"
+    },
+    {
         id: "vendas-01",
         courseTitle: "Venda Consultiva Avançada",
         description: "Aprenda a construir relacionamentos duradouros e a se tornar um conselheiro de confiança para seus clientes.",
@@ -457,6 +503,24 @@ export let coursesDb: Course[] = [
 
 export let learningPathsDb: LearningPath[] = [
     {
+        id: 'onboarding-participante',
+        title: 'Onboarding para Participantes',
+        description: 'Sua jornada inicial para entender a plataforma e se preparar para o sucesso no programa.',
+        category: 'Onboarding',
+        imageUrl: 'https://picsum.photos/seed/participant-path/600/400',
+        imageHint: 'new employee onboarding',
+        courses: ['tutorial-dpx-platform', 'inovacao-01'],
+    },
+    {
+        id: 'guia-gestores-mentores',
+        title: 'Guia para Gestores e Mentores',
+        description: 'Aprenda como acompanhar, avaliar e orientar os participantes para maximizar o impacto do programa.',
+        category: 'Gestão',
+        imageUrl: 'https://picsum.photos/seed/manager-path/600/400',
+        imageHint: 'manager guiding team',
+        courses: ['tutorial-dpx-platform', 'lideranca-01'],
+    },
+    {
         id: 'tech-fundamentals',
         title: 'Fundamentos de Tecnologia',
         description: 'Uma trilha essencial para quem está começando na área de tecnologia.',
@@ -468,11 +532,17 @@ export let learningPathsDb: LearningPath[] = [
 ];
 
 export const addCourseToDb = (course: Course) => {
-    coursesDb.push(course);
+    // Prevent duplicates
+    if (!coursesDb.find(c => c.id === course.id)) {
+        coursesDb.push(course);
+    }
 }
 
 export const addLearningPathToDb = (path: LearningPath) => {
-    learningPathsDb.push(path);
+     // Prevent duplicates
+    if (!learningPathsDb.find(p => p.id === path.id)) {
+        learningPathsDb.push(path);
+    }
 }
 
 export const getLearningItems = (): LearningItem[] => {
@@ -498,6 +568,7 @@ export const courseEngagement: CourseEngagement[] = [
     { courseId: 'vendas-01', courseTitle: 'Venda Consultiva Avançada', likes: 120, comments: 45 },
     { courseId: 'inovacao-01', courseTitle: 'Design Thinking na Prática', likes: 250, comments: 88 },
     { courseId: 'lideranca-01', courseTitle: 'Liderança Situacional', likes: 180, comments: 62 },
+    { courseId: 'tutorial-dpx-platform', courseTitle: 'Tutorial da Plataforma DPX', likes: 350, comments: 12 },
 ];
 
 // --- Innovation Labs Data ---
