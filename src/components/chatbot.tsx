@@ -84,8 +84,8 @@ export function Chatbot() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed bottom-24 right-6 z-40 w-full max-w-sm"
           >
-            <Card className="bg-card/80 backdrop-blur-lg border-border/20 shadow-2xl rounded-2xl overflow-hidden">
-              <CardHeader className="text-center bg-card/50">
+            <Card className="bg-card/60 backdrop-blur-xl border-border/20 shadow-2xl rounded-2xl overflow-hidden">
+              <CardHeader className="text-center bg-card/30">
                 <div className="flex items-center justify-center gap-2">
                     <Sparkles className="h-6 w-6 text-accent" />
                     <CardTitle>IA Freudy</CardTitle>
@@ -122,7 +122,7 @@ export function Chatbot() {
                     </div>
                 )}
               </CardContent>
-              <CardFooter className="p-4 bg-card/50 border-t">
+              <CardFooter className="p-4 bg-card/30 border-t">
                 <div className="relative w-full flex items-center">
                   <Input
                     placeholder="Pergunte ao Freudy..."
