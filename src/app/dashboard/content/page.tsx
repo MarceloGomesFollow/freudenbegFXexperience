@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, Control } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
@@ -10,14 +10,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { generateCourseContent, type GenerateCourseContentOutput, type CourseQuizQuestion } from '@/ai/flows/generate-course-content';
-import { Bot, Loader2, Upload, FileText, Youtube, BookOpen, HelpCircle, Award, Sparkles, Save } from 'lucide-react';
+import { generateCourseContent, type GenerateCourseContentOutput } from '@/ai/flows/generate-course-content';
+import { Bot, Loader2, Upload, BookOpen, HelpCircle, Award, Sparkles, Save, X } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { X } from 'lucide-react';
 
 const generationFormSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
@@ -37,6 +35,8 @@ const quizQuestionSchema = z.object({
 const courseModuleSchema = z.object({
   title: z.string().min(1, "O título do módulo é obrigatório."),
   content: z.string().min(1, "O conteúdo do módulo é obrigatório."),
+  videoLink: z.string().optional(),
+  pdfLink: z.string().optional(),
 });
 
 const editableContentSchema = z.object({
@@ -47,6 +47,79 @@ const editableContentSchema = z.object({
     conclusion: z.string().min(1, "A conclusão é obrigatória."),
 });
 
+type EditableContentSchema = z.infer<typeof editableContentSchema>;
+
+function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<EditableContentSchema>, index: number, removeQuiz: (index: number) => void }) {
+    const { fields: optionFields, append: appendOption, remove: removeOption } = useFieldArray({
+        control,
+        name: `quiz.${index}.options`
+    });
+
+    return (
+        <Card className="relative">
+            <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 h-6 w-6" onClick={() => removeQuiz(index)}><X className="h-4 w-4" /></Button>
+            <CardHeader>
+                <FormField
+                    control={control}
+                    name={`quiz.${index}.question`}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Pergunta {index + 1}</FormLabel>
+                            <FormControl>
+                                <Textarea {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </CardHeader>
+            <CardContent className="space-y-2">
+                <FormLabel>Opções</FormLabel>
+                {optionFields.map((optionItem, optionIndex) => (
+                    <FormField
+                        key={optionItem.id}
+                        control={control}
+                        name={`quiz.${index}.options.${optionIndex}`}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                ))}
+                <FormField
+                    control={control}
+                    name={`quiz.${index}.correctAnswer`}
+                    render={({ field }) => (
+                        <FormItem className="pt-2">
+                             <FormLabel>Resposta Correta</FormLabel>
+                            <FormControl>
+                                <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={control}
+                    name={`quiz.${index}.explanation`}
+                    render={({ field }) => (
+                        <FormItem className="pt-2">
+                            <FormLabel>Explicação</FormLabel>
+                            <FormControl>
+                                <Textarea {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+            </CardContent>
+        </Card>
+    );
+}
 
 export default function ContentPage() {
     const { toast } = useToast();
@@ -65,7 +138,7 @@ export default function ContentPage() {
         },
     });
 
-    const editableForm = useForm<z.infer<typeof editableContentSchema>>({
+    const editableForm = useForm<EditableContentSchema>({
         resolver: zodResolver(editableContentSchema),
     });
 
@@ -349,75 +422,14 @@ export default function ContentPage() {
                                             </Accordion>
                                         </TabsContent>
                                         <TabsContent value="quiz" className="flex-1 overflow-auto mt-4 space-y-4">
-                                             {quizFields.map((quizItem, index) => {
-                                                const { fields: optionFields, remove: removeOption, append: appendOption } = useFieldArray({
-                                                    control: editableForm.control,
-                                                    name: `quiz.${index}.options`
-                                                });
-                                                return (
-                                                <Card key={quizItem.id} className="relative">
-                                                     <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 h-6 w-6" onClick={() => removeQuiz(index)}><X className="h-4 w-4" /></Button>
-                                                    <CardHeader>
-                                                        <FormField
-                                                            control={editableForm.control}
-                                                            name={`quiz.${index}.question`}
-                                                            render={({ field }) => (
-                                                                <FormItem>
-                                                                    <FormLabel>Pergunta {index + 1}</FormLabel>
-                                                                    <FormControl>
-                                                                        <Textarea {...field} />
-                                                                    </FormControl>
-                                                                    <FormMessage />
-                                                                </FormItem>
-                                                            )}
-                                                        />
-                                                    </CardHeader>
-                                                    <CardContent className="space-y-2">
-                                                        <Label>Opções</Label>
-                                                        {optionFields.map((optionItem, optionIndex) => (
-                                                            <FormField
-                                                                key={optionItem.id}
-                                                                control={editableForm.control}
-                                                                name={`quiz.${index}.options.${optionIndex}`}
-                                                                render={({ field }) => (
-                                                                    <FormItem>
-                                                                        <FormControl>
-                                                                            <Input {...field} />
-                                                                        </FormControl>
-                                                                        <FormMessage />
-                                                                    </FormItem>
-                                                                )}
-                                                            />
-                                                        ))}
-                                                        <FormField
-                                                            control={editableForm.control}
-                                                            name={`quiz.${index}.correctAnswer`}
-                                                            render={({ field }) => (
-                                                                <FormItem className="pt-2">
-                                                                     <FormLabel>Resposta Correta</FormLabel>
-                                                                    <FormControl>
-                                                                        <Input {...field} />
-                                                                    </FormControl>
-                                                                    <FormMessage />
-                                                                </FormItem>
-                                                            )}
-                                                        />
-                                                        <FormField
-                                                            control={editableForm.control}
-                                                            name={`quiz.${index}.explanation`}
-                                                            render={({ field }) => (
-                                                                <FormItem className="pt-2">
-                                                                    <FormLabel>Explicação</FormLabel>
-                                                                    <FormControl>
-                                                                        <Textarea {...field} />
-                                                                    </FormControl>
-                                                                    <FormMessage />
-                                                                </FormItem>
-                                                            )}
-                                                        />
-                                                    </CardContent>
-                                                </Card>
-                                            )})}
+                                             {quizFields.map((quizItem, index) => (
+                                                <QuizQuestionEditor
+                                                    key={quizItem.id}
+                                                    control={editableForm.control}
+                                                    index={index}
+                                                    removeQuiz={removeQuiz}
+                                                />
+                                            ))}
                                         </TabsContent>
                                         <TabsContent value="general" className="flex-1 overflow-auto mt-4 space-y-4">
                                             <FormField
