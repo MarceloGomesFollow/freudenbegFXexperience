@@ -386,25 +386,48 @@ export let coursesDb: Course[] = [
         imageHint: "digital platform interface",
         imageUrl: "https://picsum.photos/seed/platform-tutorial/600/400",
         modules: [
-            { 
-                title: "Módulo 1: Visão Geral e Navegação", 
-                content: "Bem-vindo à DPX Digital! Neste módulo, você aprenderá sobre:\n- A estrutura do dashboard principal.\n- Como usar a barra de navegação lateral para acessar as diferentes seções.\n- Como alternar entre os perfis de usuário (Participante, Mentor, Gestor) para simular diferentes visões."
+            {
+                title: "Módulo 1: Visão Geral e Navegação",
+                content: `Bem-vindo à DPX Digital! Este é o seu guia para explorar todas as funcionalidades da plataforma.
+
+- **Dashboard Principal**: Sua central de comando com KPIs e dados relevantes. A visão muda conforme seu perfil.
+- **Barra de Navegação Lateral**: Acesse todos os módulos principais, como Diário 4.0, Learning Hub e Innovation Labs.
+- **Simulador de Perfil**: No topo da página, você pode alternar entre as visões de 'Usuário Mentorado', 'Gestor', 'Mentor' e 'Administrador' para entender como a plataforma funciona para cada um.`
             },
-            { 
-                title: "Módulo 2: Diário 4.0 e Agenda", 
-                content: "O Diário 4.0 é sua ferramenta central para registrar aprendizados.\n- Crie novas entradas de texto, imagem ou vídeo.\n- Adicione anexos e veja comentários de mentores.\n- Use a Agenda para acompanhar seus eventos e prazos importantes." 
+            {
+                title: "Módulo 2: Diário 4.0 e Agenda",
+                content: `O Diário 4.0 é sua principal ferramenta para registrar aprendizados e experiências.
+
+- **Criar Entradas**: Registre atividades com textos, imagens ou vídeos.
+- **Anexos e Comentários**: Anexe documentos relevantes e receba feedbacks valiosos de seus mentores diretamente nas suas entradas.
+- **Resumo com IA**: Utilize o assistente de IA para gerar um resumo de suas entradas, identificar sentimentos e extrair insights.
+- **Agenda**: Fique por dentro de todos os seus compromissos, prazos e eventos do programa.`
             },
-            { 
-                title: "Módulo 3: Innovation Labs", 
-                content: "Transforme suas ideias em projetos de impacto.\n- Explore os 'Desafios' abertos.\n- Submeta suas próprias 'Ideias' para resolver problemas.\n- Acompanhe o progresso de uma ideia aprovada através de um 'Sprint de Experimentação'."
+            {
+                title: "Módulo 3: Innovation Labs",
+                content: `Transforme suas ideias em projetos de impacto. Este é o coração da inovação na plataforma.
+
+- **Desafios**: Explore os 'Desafios' abertos por gestores e pelo comitê, que são problemas reais buscando soluções.
+- **Submissão de Ideias**: Tem uma solução? Submeta sua 'Ideia', detalhando o problema, a proposta e o impacto esperado. Use a IA para ajudar a refinar sua proposta.
+- **Curadoria e Sprints**: As ideias são avaliadas com um score (ICE), votadas e, se aprovadas, entram em um 'Sprint de Experimentação' para validação rápida.
+- **Catálogo de Boas Práticas**: Ideias validadas viram 'Playbooks' e ficam disponíveis para que outras áreas possam replicar o sucesso.`
             },
             {
                 title: "Módulo 4: Learning Hub",
-                content: "Seu portal de conhecimento.\n- Explore cursos e trilhas de aprendizado.\n- Crie seu próprio curso usando o assistente de IA.\n- Organize cursos em 'Trilhas de Aprendizado' personalizadas."
+                content: `Seu portal de conhecimento para desenvolvimento contínuo.
+
+- **Explorar Conteúdo**: Navegue por cursos e 'Trilhas de Aprendizado' disponíveis.
+- **Criar com IA**: Use o 'Gerador de Conteúdo' para criar um curso completo a partir de um tópico. A IA irá estruturar módulos, conteúdo e até um quiz.
+- **Criar Trilhas**: Agrupe cursos existentes para formar uma jornada de aprendizado lógica e sequencial.`
             },
             {
                 title: "Módulo 5: Intercâmbio e Mentoria",
-                content: "Expanda seus horizontes.\n- Encontre oportunidades na 'Central de Intercâmbio'.\n- Acompanhe o progresso de seus mentorados na 'Central de Mentoria'.\n- Utilize o 'Guia Geral' para entender todas as etapas do programa."
+                content: `Ferramentas para ampliar seus horizontes e gerenciar seu desenvolvimento.
+
+- **Central de Intercâmbio**: Encontre oportunidades de job rotation em outras áreas ou empresas do grupo.
+- **Central de Mentoria**: Se você é um mentor, acompanhe o progresso e as tarefas dos seus mentorados.
+- **Guia Geral**: Consulte as regras, papéis e responsabilidades do programa a qualquer momento.
+- **Rede Alumni**: Conecte-se com ex-participantes do programa.`
             }
         ],
         quiz: [
