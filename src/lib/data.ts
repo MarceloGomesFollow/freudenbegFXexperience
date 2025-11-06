@@ -1,5 +1,7 @@
 
 
+import { type GenerateCourseContentOutput, type CourseQuizQuestion } from "@/ai/flows/generate-course-content";
+
 export type User = {
   name: string;
   avatar: string; // image id from placeholder-images
@@ -77,6 +79,22 @@ export type CandidateApproval = {
     unit: string;
     overallStatus: ApprovalStatus;
     checklist: ChecklistItem[];
+};
+
+export type Course = {
+    id: string;
+    category: string;
+    imageHint: string;
+    imageUrl: string;
+    courseTitle: string;
+    description: string;
+    modules: {
+        title: string;
+        content: string;
+    }[];
+    quiz: CourseQuizQuestion[];
+    videoIdeas: string[];
+    conclusion: string;
 };
 
 
@@ -272,3 +290,85 @@ export const candidateApprovals: CandidateApproval[] = [
         ],
     },
 ];
+
+export let coursesDb: Course[] = [
+    {
+        id: "vendas-01",
+        courseTitle: "Venda Consultiva Avançada",
+        description: "Aprenda a construir relacionamentos duradouros e a se tornar um conselheiro de confiança para seus clientes.",
+        category: "Vendas",
+        imageHint: "sales team meeting",
+        imageUrl: "https://picsum.photos/seed/sales-team/600/400",
+        modules: [
+            { title: "Módulo 1: Fundamentos da Venda Consultiva", content: "Conteúdo do Módulo 1..." },
+            { title: "Módulo 2: Escuta Ativa e Geração de Rapport", content: "Conteúdo do Módulo 2..." },
+            { title: "Módulo 3: Apresentando Soluções de Valor", content: "Conteúdo do Módulo 3..." },
+            { title: "Módulo 4: Lidando com Objeções", content: "Conteúdo do Módulo 4..." },
+            { title: "Módulo 5: Fechamento e Pós-Venda", content: "Conteúdo do Módulo 5..." },
+        ],
+        quiz: [
+            {
+                question: "Qual é o principal foco da venda consultiva?",
+                options: ["Vender o produto a qualquer custo", "Entender a necessidade do cliente e oferecer a melhor solução", "Falar sobre as características do produto"],
+                correctAnswer: "Entender a necessidade do cliente e oferecer a melhor solução",
+                explanation: "Na venda consultiva, o vendedor atua como um consultor, priorizando a resolução do problema do cliente."
+            }
+        ],
+        videoIdeas: ["Simulação de uma reunião de venda consultiva.", "Entrevista com um especialista em negociação."],
+        conclusion: "Parabéns por concluir o curso! Você está pronto para aplicar técnicas avançadas de venda e construir relacionamentos de sucesso com seus clientes."
+    },
+    {
+        id: "inovacao-01",
+        courseTitle: "Design Thinking na Prática",
+        description: "Aplique os princípios do Design Thinking para resolver problemas complexos e inovar em seus projetos.",
+        category: "Inovação",
+        imageHint: "design thinking workshop",
+        imageUrl: "https://picsum.photos/seed/design-workshop/600/400",
+        modules: [
+            { title: "Módulo 1: Imersão e Empatia", content: "Conteúdo do Módulo 1..." },
+            { title: "Módulo 2: Definição do Problema", content: "Conteúdo do Módulo 2..." },
+            { title: "Módulo 3: Ideação e Brainstorming", content: "Conteúdo do Módulo 3..." },
+            { title: "Módulo 4: Prototipagem e Testes", content: "Conteúdo do Módulo 4..." },
+        ],
+        quiz: [
+            {
+                question: "Qual a primeira etapa do Design Thinking?",
+                options: ["Prototipagem", "Empatia", "Ideação"],
+                correctAnswer: "Empatia",
+                explanation: "O processo de Design Thinking começa com a empatia, que é a capacidade de se colocar no lugar do usuário para entender suas dores e necessidades."
+            }
+        ],
+        videoIdeas: ["Case de sucesso de uma empresa que usou Design Thinking.", "Tutorial de ferramentas de prototipagem."],
+        conclusion: "Excelente! Agora você tem as ferramentas para aplicar o Design Thinking e gerar soluções inovadoras e centradas no usuário."
+    },
+    {
+        id: "lideranca-01",
+        courseTitle: "Liderança Situacional",
+        description: "Desenvolva sua capacidade de adaptar seu estilo de liderança a cada situação e a cada membro da equipe.",
+        category: "Liderança",
+        imageHint: "leadership coaching",
+        imageUrl: "https://picsum.photos/seed/leadership-coach/600/400",
+        modules: [
+            { title: "Módulo 1: O que é Liderança Situacional?", content: "Conteúdo do Módulo 1..." },
+            { title: "Módulo 2: Os 4 Estilos de Liderança", content: "Conteúdo do Módulo 2..." },
+            { title: "Módulo 3: Níveis de Maturidade da Equipe", content: "Conteúdo do Módulo 3..." },
+            { title: "Módulo 4: Diagnosticando a Situação", content: "Conteúdo do Módulo 4..." },
+            { title: "Módulo 5: Aplicando o Estilo Correto", content: "Conteúdo do Módulo 5..." },
+            { title: "Módulo 6: Desenvolvendo sua Flexibilidade", content: "Conteúdo do Módulo 6..." },
+        ],
+        quiz: [
+            {
+                question: "Um colaborador novo na função, mas muito motivado, precisa de qual estilo de liderança?",
+                options: ["Direção", "Delegação", "Apoio"],
+                correctAnswer: "Direção",
+                explanation: "Um colaborador com baixa competência e alto empenho precisa de direção clara para desenvolver suas habilidades, mesmo que já esteja motivado."
+            }
+        ],
+        videoIdeas: ["Role-playing de diferentes estilos de liderança.", "Análise de líderes famosos e seus estilos."],
+        conclusion: "Parabéns, líder! Você está mais preparado para adaptar sua liderança, extrair o melhor de sua equipe e alcançar resultados extraordinários."
+    }
+];
+
+export const addCourseToDb = (course: Course) => {
+    coursesDb.push(course);
+}

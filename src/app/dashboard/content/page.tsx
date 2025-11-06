@@ -16,6 +16,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Textarea } from '@/components/ui/textarea';
+import { addCourseToDb, type Course } from '@/lib/data';
+import { useRouter } from 'next/navigation';
 
 const generationFormSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
@@ -123,6 +125,7 @@ function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<E
 
 export default function ContentPage() {
     const { toast } = useToast();
+    const router = useRouter();
     const [generatedContent, setGeneratedContent] = useState<GenerateCourseContentOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [fileName, setFileName] = useState("");
@@ -226,11 +229,20 @@ export default function ContentPage() {
     }
 
     function onSave(values: z.infer<typeof editableContentSchema>) {
-        console.log("Saving course:", values);
+        const newCourse: Course = {
+            ...values,
+            id: values.courseTitle.toLowerCase().replace(/\s+/g, '-'),
+            description: `Um curso sobre ${values.courseTitle}`, // Simple description
+            category: generationForm.getValues("knowledgeSource") || "Geral",
+            imageHint: "course cover",
+            imageUrl: `https://picsum.photos/seed/${Math.random()}/600/400`,
+        };
+        addCourseToDb(newCourse);
         toast({
             title: "Curso Salvo com Sucesso!",
-            description: "Seu curso está pronto para ser publicado."
+            description: `${newCourse.courseTitle} está pronto para ser publicado.`
         });
+        router.push('/dashboard/learning');
     }
 
     return (
@@ -467,5 +479,3 @@ export default function ContentPage() {
         </div>
     );
 }
-
-    
