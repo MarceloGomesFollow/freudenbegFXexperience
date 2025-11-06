@@ -102,7 +102,13 @@ const links = [
             href: "/dashboard/learning/analytics",
             label: "Analytics",
             roles: ['admin', 'manager']
-        }
+        },
+        {
+            href: "https://lab.anam.ai/frame/GW-TY4nauiZXxrCN__h0m",
+            label: "HyperXIA",
+            icon: BrainCircuit,
+            external: true,
+        },
     ]
   },
   {
@@ -164,12 +170,6 @@ const links = [
     label: "Configurações",
     icon: Settings,
   },
-  {
-    href: "https://lab.anam.ai/frame/qIZpOx7b5c8mvyAeEmjvd",
-    label: "HyperXIA",
-    icon: BrainCircuit,
-    external: true,
-  },
 ];
 
 export function SidebarNav() {
@@ -210,7 +210,7 @@ export function SidebarNav() {
                   return (
                   <SidebarMenuSubItem key={subLink.href}>
                     <SidebarMenuSubButton asChild isActive={pathname === subLink.href}>
-                        <Link href={subLink.href} className="flex items-center gap-2">
+                        <Link href={subLink.href} className="flex items-center gap-2" target={subLink.external ? "_blank" : undefined} rel={subLink.external ? "noopener noreferrer" : undefined}>
                           {subLink.icon && <subLink.icon />}
                           {subLink.label}
                         </Link>
