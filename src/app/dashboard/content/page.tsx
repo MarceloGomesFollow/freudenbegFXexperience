@@ -423,7 +423,7 @@ export default function ContentPage() {
                                                 <FormItem>
                                                     <FormLabel>Número de Módulos (Opcional)</FormLabel>
                                                     <FormControl>
-                                                        <Input type="number" placeholder="Ex: 5" {...field} onChange={e => field.onChange(e.target.valueAsNumber)}/>
+                                                        <Input type="number" placeholder="Ex: 5" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber)} value={field.value ?? ''} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -697,3 +697,5 @@ export default function ContentPage() {
         </div>
     );
 }
+
+    
