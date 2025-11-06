@@ -97,6 +97,18 @@ export type Course = {
     conclusion: string;
 };
 
+export type LearningPath = {
+    id: string;
+    title: string;
+    description: string;
+    category: string;
+    imageUrl: string;
+    imageHint: string;
+    courses: string[]; // array of course IDs
+};
+
+export type LearningItem = (Course & { type: 'course' }) | (LearningPath & { type: 'path' });
+
 
 export const users: User[] = [
   { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 75 },
@@ -369,6 +381,28 @@ export let coursesDb: Course[] = [
     }
 ];
 
+export let learningPathsDb: LearningPath[] = [
+    {
+        id: 'tech-fundamentals',
+        title: 'Fundamentos de Tecnologia',
+        description: 'Uma trilha essencial para quem está começando na área de tecnologia.',
+        category: 'Tecnologia',
+        imageUrl: 'https://picsum.photos/seed/tech-path/600/400',
+        imageHint: 'technology abstract',
+        courses: ['inovacao-01'],
+    }
+];
+
 export const addCourseToDb = (course: Course) => {
     coursesDb.push(course);
 }
+
+export const addLearningPathToDb = (path: LearningPath) => {
+    learningPathsDb.push(path);
+}
+
+export const getLearningItems = (): LearningItem[] => {
+    const courses: LearningItem[] = coursesDb.map(c => ({ ...c, type: 'course' }));
+    const paths: LearningItem[] = learningPathsDb.map(p => ({...p, type: 'path'}));
+    return [...paths, ...courses];
+};
