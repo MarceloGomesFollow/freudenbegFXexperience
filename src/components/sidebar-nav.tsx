@@ -103,12 +103,6 @@ const links = [
             label: "Analytics",
             roles: ['admin', 'manager']
         },
-        {
-            href: "https://lab.anam.ai/frame/GW-TY4nauiZXxrCN__h0m",
-            label: "HyperXIA",
-            icon: BrainCircuit,
-            external: true,
-        },
     ]
   },
   {

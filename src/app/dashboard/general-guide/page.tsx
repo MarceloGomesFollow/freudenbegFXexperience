@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { CheckCircle, Users, Lightbulb, Phone, Flag, Shield, Activity, Share, PlaneTakeoff, Plane, PlaneLanding, Handshake, MessageCircle, GitBranch, UserCheck, Star, BookCopy, LayoutDashboard, NotebookText, Beaker, GraduationCap, Briefcase } from "lucide-react";
+import { CheckCircle, Users, Lightbulb, Phone, Flag, Shield, Activity, Share, PlaneTakeoff, Plane, PlaneLanding, Handshake, MessageCircle, GitBranch, UserCheck, Star, BookCopy, LayoutDashboard, NotebookText, Beaker, GraduationCap, Briefcase, BrainCircuit } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function GeneralGuidePage() {
@@ -338,6 +338,24 @@ export default function GeneralGuidePage() {
                                     </ul>
                                 </AccordionContent>
                             </AccordionItem>
+                            <AccordionItem value="item-6">
+                                <AccordionTrigger>
+                                    <h3 className="text-lg font-semibold flex items-center gap-2"><BrainCircuit className="h-5 w-5" /> Experimente o HyperXIA</h3>
+                                </AccordionTrigger>
+                                <AccordionContent className="text-muted-foreground pl-6">
+                                    <p className="mb-4">Interaja diretamente com o HyperXIA, nossa IA generativa, para explorar suas capacidades e obter insights em tempo real. Use a janela abaixo para fazer perguntas, testar cenários e ver o poder da IA em ação.</p>
+                                    <div className="aspect-video w-full rounded-lg overflow-hidden border">
+                                        <iframe
+                                            className="w-full h-full"
+                                            src="https://lab.anam.ai/frame/GW-TY4nauiZXxrCN__h0m"
+                                            title="HyperXIA Player"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        ></iframe>
+                                    </div>
+                                </AccordionContent>
+                            </AccordionItem>
                         </Accordion>
                     </div>
                  </TabsContent>
@@ -345,5 +363,3 @@ export default function GeneralGuidePage() {
         </div>
     );
 }
-
-    
