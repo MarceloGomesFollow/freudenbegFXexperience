@@ -8,11 +8,23 @@ import { coursesDb, learningPathsDb, type Course } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { BookOpen, ChevronLeft, Film, HelpCircle, ChevronsRight } from 'lucide-react';
+import { BookOpen, ChevronLeft, Film, HelpCircle, ChevronsRight, Youtube } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Quiz } from '@/components/quiz';
 
 function CourseContent({ course }: { course: Course }) {
+
+    const getYouTubeEmbedUrl = (url: string) => {
+        if (!url) return null;
+        let videoId;
+        if (url.includes('youtu.be/')) {
+            videoId = url.split('youtu.be/')[1].split('?')[0];
+        } else if (url.includes('watch?v=')) {
+            videoId = url.split('watch?v=')[1].split('&')[0];
+        }
+        return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+    }
+
     return (
         <>
              <div className="relative w-full h-64 rounded-lg overflow-hidden">
@@ -43,18 +55,40 @@ function CourseContent({ course }: { course: Course }) {
                         </TabsList>
                         <TabsContent value="modules" className="p-6">
                             <Accordion type="single" collapsible defaultValue="item-0">
-                                {course.modules.map((module, index) => (
-                                    <AccordionItem value={`item-${index}`} key={index}>
-                                        <AccordionTrigger className="text-lg font-semibold">
-                                            {module.title}
-                                        </AccordionTrigger>
-                                        <AccordionContent>
-                                            <div className="prose prose-sm max-w-none dark:prose-invert whitespace-pre-wrap font-sans">
-                                                {module.content}
-                                            </div>
-                                        </AccordionContent>
-                                    </AccordionItem>
-                                ))}
+                                {course.modules.map((module, index) => {
+                                    const embedUrl = module.videoLink ? getYouTubeEmbedUrl(module.videoLink) : null;
+                                    return (
+                                        <AccordionItem value={`item-${index}`} key={index}>
+                                            <AccordionTrigger className="text-lg font-semibold">
+                                                {module.title}
+                                            </AccordionTrigger>
+                                            <AccordionContent className="space-y-4">
+                                                <div className="prose prose-sm max-w-none dark:prose-invert whitespace-pre-wrap font-sans">
+                                                    {module.content}
+                                                </div>
+                                                {embedUrl && (
+                                                    <div className="aspect-video">
+                                                        <iframe 
+                                                            width="100%" 
+                                                            height="100%" 
+                                                            src={embedUrl} 
+                                                            title="YouTube video player" 
+                                                            frameBorder="0" 
+                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                            allowFullScreen
+                                                            className="rounded-md"
+                                                        ></iframe>
+                                                    </div>
+                                                )}
+                                                {module.videoLink && !embedUrl && (
+                                                    <a href={module.videoLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-primary hover:underline">
+                                                        <Youtube className="h-4 w-4"/> Assistir vídeo
+                                                    </a>
+                                                )}
+                                            </AccordionContent>
+                                        </AccordionItem>
+                                    )
+                                })}
                             </Accordion>
                         </TabsContent>
                         <TabsContent value="quiz" className="p-6">

@@ -12,7 +12,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { generateCourseContent, type GenerateCourseContentOutput, type CourseQuizQuestion } from '@/ai/flows/generate-course-content';
-import { Bot, Loader2, Upload, BookOpen, HelpCircle, Award, Sparkles, Save, X, Network, Library } from 'lucide-react';
+import { Bot, Loader2, Upload, BookOpen, HelpCircle, Award, Sparkles, Save, X, Network, Library, Youtube } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -499,14 +499,28 @@ export default function ContentPage() {
                                                                         )}
                                                                     />
                                                                 </AccordionTrigger>
-                                                                <AccordionContent>
+                                                                <AccordionContent className="space-y-4">
                                                                     <FormField
                                                                         control={editableForm.control}
                                                                         name={`modules.${index}.content`}
                                                                         render={({ field }) => (
                                                                             <FormItem>
+                                                                                <FormLabel>Conteúdo do Módulo</FormLabel>
                                                                                 <FormControl>
                                                                                     <Textarea {...field} className="min-h-[150px]" />
+                                                                                </FormControl>
+                                                                                <FormMessage />
+                                                                            </FormItem>
+                                                                        )}
+                                                                    />
+                                                                    <FormField
+                                                                        control={editableForm.control}
+                                                                        name={`modules.${index}.videoLink`}
+                                                                        render={({ field }) => (
+                                                                            <FormItem>
+                                                                                <FormLabel className="flex items-center gap-2"><Youtube className="h-4 w-4 text-red-500" /> Link do Vídeo (YouTube)</FormLabel>
+                                                                                <FormControl>
+                                                                                    <Input placeholder="https://www.youtube.com/watch?v=..." {...field} />
                                                                                 </FormControl>
                                                                                 <FormMessage />
                                                                             </FormItem>
