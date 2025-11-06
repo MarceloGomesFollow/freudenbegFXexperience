@@ -347,7 +347,7 @@ export default function GeneralGuidePage() {
                                     <div className="aspect-video w-full rounded-lg overflow-hidden border">
                                         <iframe
                                             className="w-full h-full"
-                                            src="https://lab.anam.ai/frame/GW-TY4nauiZXxrCN__h0m"
+                                            src="https://lab.anam.ai/frame/id8RD2drjB1keqJc6LKOP"
                                             title="HyperXIA Player"
                                             frameBorder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
