@@ -45,32 +45,44 @@
     {
       "id": "user-avatar-7",
       "description": "User avatar",
-      "imageUrl": "https://images.unsplash.com/photo-1535643302794-19c3804b874b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGVyc29uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYyMjgwNTQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjI0MjY1ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
       "id": "user-avatar-8",
       "description": "User avatar",
-      "imageUrl": "https://images.unsplash.com/photo-1522529599102-4b829c3a4e98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNDE5ODJ8MHwxfHNlYXJjaHwxNXx8cGVyc29uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYyMjgxMjU3&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1557862921-37829c790f19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjIyODA1NDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person portrait"
     },
     {
-      "id": "enrollment-banner",
-      "description": "People collaborating in an office",
-      "imageUrl": "https://images.unsplash.com/photo-1630659509482-ea8350aaf4b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb2xsYWJvcmF0aW9uJTIwb2ZmaWNlfGVufDB8fHx8MTc2MjMxNjA3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "collaboration office"
+      "id": "login-art",
+      "description": "Modern office building",
+      "imageUrl": "https://images.unsplash.com/photo-1564069114553-7215e16a1228?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb2Rlcm4lMjBvZmZpY2UlMjBidWlsZGluZ3xlbnwwfHx8fDE3NjIyODMyOTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "modern office"
     },
     {
       "id": "enrollment-art",
-      "description": "Office workers planning a project on a whiteboard",
-      "imageUrl": "https://images.unsplash.com/photo-1758630737361-ca7532fb5e7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxvZmZpY2UlMjBwbGFubmluZ3xlbnwwfHx8fDE3NjIzNzY0MzN8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "office planning"
+      "description": "Team collaboration",
+      "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0ZWFtJTIwY29sbGFib3JhdGlvbnxlbnwwfHx8fDE3NjIyODMzNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "team collaboration"
     },
     {
-      "id": "login-art",
-      "description": "Abstract shapes and colors",
-      "imageUrl": "https://images.unsplash.com/photo-1532456745301-b2c645d8b80d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMGdlb21ldHJpY3xlbnwwfHx8fDE3NjIyOTQ5MjB8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract geometric"
+      "id": "sales-course",
+      "description": "Sales team in a meeting",
+      "imageUrl": "https://images.unsplash.com/photo-1522881451255-f5926c5f03ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzYWxlcyUyMHRlYW0lMjBtZWV0aW5nfGVufDB8fHx8MTc2MjI4NTA4N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sales team meeting"
+    },
+    {
+      "id": "design-thinking-course",
+      "description": "People in a design thinking workshop",
+      "imageUrl": "https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkZXNpZ24lMjB0aGlua2luZyUyMHdvcmtzaG9wfGVufDB8fHx8MTc2MjI4NTEyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "design thinking workshop"
+    },
+    {
+      "id": "leadership-course",
+      "description": "A person coaching another on leadership skills",
+      "imageUrl": "https://images.unsplash.com/photo-1573496130489-03541424b6f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsZWFkZXJzaGlwJTIwY29hY2hpbmd8ZW58MHx8fHwxNzYyMjg1MTU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "leadership coaching"
     }
   ]
 }
