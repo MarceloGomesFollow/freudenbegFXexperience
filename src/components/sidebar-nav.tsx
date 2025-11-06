@@ -23,6 +23,7 @@ import {
   Shield,
   BookUser,
   CheckSquare,
+  BrainCircuit,
 } from "lucide-react";
 
 import {
@@ -148,6 +149,11 @@ const links = [
     href: "/dashboard/settings",
     label: "Configurações",
     icon: Settings,
+  },
+  {
+    href: "#",
+    label: "HyperXIA",
+    icon: BrainCircuit,
   },
 ];
 
