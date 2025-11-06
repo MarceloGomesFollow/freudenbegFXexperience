@@ -136,4 +136,17 @@
       background-position: -200% 0;
     }
   }
+
+  .shimmer-text-blue {
+    background: linear-gradient(
+      90deg,
+      #00c9ff,
+      #92fe9d,
+      #00c9ff
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    animation: shimmer-animation 5s infinite linear;
+  }
 }
