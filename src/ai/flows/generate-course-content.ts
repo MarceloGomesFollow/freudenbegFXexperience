@@ -5,32 +5,58 @@
  *
  * - generateCourseContent - A function that handles the course content generation process.
  * - GenerateCourseContentInput - The input type for the generateCourseContent function.
- * - GenerateCourseContentOutput - The return type for the generateCourseContent function.
+ * - GenerateCourseContentOutput - The return type for the generateCoursecontent function.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateCourseContentInputSchema = z.object({
-  participantKnowledge: z
-    .string()
-    .describe('The knowledge and insights shared by the participants.'),
-  bestPractices: z
-    .string()
-    .describe('The best practices identified by the participants.'),
   topic: z.string().describe('The topic of the course content.'),
-  language: z.string().describe('The language for the response (e.g., "en" or "pt").'),
+  documentContent: z
+    .string()
+    .describe('The content of the document provided by the user.'),
+  language: z
+    .string()
+    .describe('The language for the response (e.g., "en" or "pt").'),
 });
 
-export type GenerateCourseContentInput = z.infer<typeof GenerateCourseContentInputSchema>;
+export type GenerateCourseContentInput = z.infer<
+  typeof GenerateCourseContentInputSchema
+>;
+
+const QuizQuestionSchema = z.object({
+  question: z.string().describe('The quiz question.'),
+  options: z.array(z.string()).describe('A list of possible answers.'),
+  correctAnswer: z.string().describe('The correct answer from the options.'),
+  explanation: z
+    .string()
+    .describe('A brief explanation for the correct answer.'),
+});
+
+const CourseModuleSchema = z.object({
+  title: z.string().describe('The title of the module.'),
+  content: z.string().describe('The detailed content of the module.'),
+  videoLink: z.string().optional().describe('An optional link for a video.'),
+  pdfLink: z.string().optional().describe('An optional link for a PDF file.'),
+});
 
 const GenerateCourseContentOutputSchema = z.object({
-  courseContent: z.string().describe('The generated course content.'),
-  microLessons: z.array(z.string()).describe('The generated micro-lessons.'),
-  videoIdeas: z.array(z.string()).describe('Ideas for videos to include in the course.'),
+  courseTitle: z.string().describe('The main title of the course.'),
+  modules: z
+    .array(CourseModuleSchema)
+    .describe('An array of course modules.'),
+  quiz: z.array(QuizQuestionSchema).describe('An array of quiz questions.'),
+  videoIdeas: z
+    .array(z.string())
+    .describe('Ideas for videos to include in the course.'),
+  conclusion: z.string().describe('A concluding message for the course.'),
 });
 
-export type GenerateCourseContentOutput = z.infer<typeof GenerateCourseContentOutputSchema>;
+export type GenerateCourseContentOutput = z.infer<
+  typeof GenerateCourseContentOutputSchema
+>;
+export type CourseQuizQuestion = z.infer<typeof QuizQuestionSchema>;
 
 export async function generateCourseContent(
   input: GenerateCourseContentInput
@@ -42,22 +68,25 @@ const prompt = ai.definePrompt({
   name: 'generateCourseContentPrompt',
   input: {schema: GenerateCourseContentInputSchema},
   output: {schema: GenerateCourseContentOutputSchema},
-  prompt: `You are an expert instructional designer. Your goal is to generate engaging and relevant course content based on the knowledge and best practices shared by participants.
+  prompt: `You are an expert instructional designer. Your goal is to transform the provided document content into a well-structured and engaging online course.
 
   Respond in the following language: {{{language}}}.
 
-  Topic: {{{topic}}}
-  Participant Knowledge: {{{participantKnowledge}}}
-  Best Practices: {{{bestPractices}}}
+  The main topic of the course is: {{{topic}}}
+  The source content from the document is:
+  ---
+  {{{documentContent}}}
+  ---
 
-  Generate course content, micro-lessons and video ideas based on the provided information. Focus on actionable insights and practical application.
+  Based on the content, please generate the following:
+  1.  A main 'courseTitle' for the entire course.
+  2.  A series of 'modules'. Each module should have a 'title' and detailed 'content'. If relevant, suggest placeholders for a 'videoLink' or 'pdfLink'.
+  3.  A friendly 'quiz' with a few multiple-choice questions to test understanding. Each question must have 'options', a 'correctAnswer', and a brief 'explanation'.
+  4.  A list of creative 'videoIdeas' that could complement the course material.
+  5.  A warm and encouraging 'conclusion' message to finalize the course.
 
-  Output the result as JSON in the following format:
-  {
-    "courseContent": "...",
-    "microLessons": ["...", "..."],
-    "videoIdeas": ["...", "..."]
-  }`,
+  Structure your entire output as a single JSON object matching the defined schema.
+  `,
 });
 
 const generateCourseContentFlow = ai.defineFlow(

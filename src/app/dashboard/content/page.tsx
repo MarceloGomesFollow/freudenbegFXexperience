@@ -8,68 +8,95 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { generateCourseContent } from '@/ai/flows/generate-course-content';
-import { Bot, Loader2 } from 'lucide-react';
+import { generateCourseContent, type GenerateCourseContentOutput } from '@/ai/flows/generate-course-content';
+import { Bot, Loader2, Upload, FileText, Youtube, BookOpen, HelpCircle, Award, Sparkles } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Quiz } from '@/components/quiz';
 
 const formSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
-    participantKnowledge: z.string().min(20, 'O conhecimento dos participantes deve ter pelo menos 20 caracteres.'),
-    bestPractices: z.string().min(20, 'As melhores práticas devem ter pelo menos 20 caracteres.'),
+    file: z.instanceof(File).refine(file => file.size > 0, "É necessário anexar um arquivo."),
 });
 
 export default function ContentPage() {
     const { toast } = useToast();
-    const [generatedContent, setGeneratedContent] = useState<any>(null);
+    const [generatedContent, setGeneratedContent] = useState<GenerateCourseContentOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [fileName, setFileName] = useState("");
     const { language } = useLanguage();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             topic: "Técnicas de Venda Consultiva",
-            participantKnowledge: "Os participantes são vendedores experientes, mas novos no modelo de venda consultiva. Conhecem bem os produtos, mas precisam melhorar a escuta ativa e a identificação de necessidades do cliente.",
-            bestPractices: "Abordagem focada em resolver o problema do cliente, não em empurrar produtos. Construção de relacionamento a longo prazo. Uso de perguntas abertas para entender o cenário do cliente.",
         },
     });
 
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            form.setValue('file', file);
+            setFileName(file.name);
+        }
+    };
+    
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
         setGeneratedContent(null);
-        try {
-            const result = await generateCourseContent({...values, language});
-            setGeneratedContent(result);
-            toast({
-                title: 'Conteúdo Gerado!',
-                description: 'O conteúdo do curso foi gerado com sucesso pela IA.',
-            });
-        } catch (error) {
-            console.error('Error generating course content:', error);
+    
+        const reader = new FileReader();
+        reader.readAsText(values.file, "UTF-8");
+    
+        reader.onload = async (evt) => {
+            const documentContent = evt.target?.result as string;
+            try {
+                const result = await generateCourseContent({
+                    topic: values.topic,
+                    documentContent,
+                    language
+                });
+                setGeneratedContent(result);
+                toast({
+                    title: 'Conteúdo Gerado!',
+                    description: 'O conteúdo do curso foi gerado com sucesso pela IA.',
+                });
+            } catch (error) {
+                console.error('Error generating course content:', error);
+                toast({
+                    variant: 'destructive',
+                    title: 'Erro ao Gerar Conteúdo',
+                    description: 'Não foi possível se comunicar com a IA. Tente novamente mais tarde.',
+                });
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    
+        reader.onerror = () => {
             toast({
                 variant: 'destructive',
-                title: 'Erro ao Gerar Conteúdo',
-                description: 'Não foi possível se comunicar com a IA. Tente novamente mais tarde.',
+                title: 'Erro ao Ler Arquivo',
+                description: 'Não foi possível ler o conteúdo do arquivo selecionado.',
             });
-        } finally {
             setIsLoading(false);
-        }
+        };
     }
 
     return (
         <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tight">Criação de Conteúdo com IA</h2>
             <p className="text-muted-foreground">
-                Use o conhecimento coletado dos participantes e as melhores práticas para criar materiais de treinamento relevantes com a ajuda da IA.
+                Faça o upload de um documento e deixe a IA Freudy transformá-lo em um curso interativo, com módulos, quiz e muito mais.
             </p>
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Gerador de Conteúdo de Curso</CardTitle>
+                        <CardTitle>Gerador de Curso a partir de Documento</CardTitle>
                         <CardDescription>
-                            Preencha os campos abaixo para que a IA possa criar um rascunho.
+                            Preencha o tópico e anexe um arquivo de texto (.txt) para começar.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -80,7 +107,7 @@ export default function ContentPage() {
                                     name="topic"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Tópico do Curso</FormLabel>
+                                            <FormLabel>Tópico Principal do Curso</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Ex: Liderança Situacional" {...field} />
                                             </FormControl>
@@ -88,47 +115,37 @@ export default function ContentPage() {
                                         </FormItem>
                                     )}
                                 />
+
                                 <FormField
-                                    control={form.control}
-                                    name="participantKnowledge"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Conhecimento dos Participantes (Resumo)</FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    placeholder="Descreva o que os participantes já sabem e o que precisam aprender..."
-                                                    className="min-h-[120px]"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                                  control={form.control}
+                                  name="file"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Anexar Documento</FormLabel>
+                                      <FormControl>
+                                        <div className="relative">
+                                          <Button type="button" variant="outline" asChild>
+                                            <label htmlFor="file-upload" className="cursor-pointer flex items-center">
+                                              <Upload className="mr-2 h-4 w-4" />
+                                              Escolher Arquivo
+                                            </label>
+                                          </Button>
+                                          <Input id="file-upload" type="file" className="sr-only" onChange={handleFileChange} accept=".txt" />
+                                        </div>
+                                      </FormControl>
+                                      {fileName && <p className="text-sm text-muted-foreground pt-2">Arquivo selecionado: {fileName}</p>}
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="bestPractices"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Melhores Práticas Identificadas</FormLabel>
-                                            <FormControl>
-                                                <Textarea
-                                                    placeholder="Liste as melhores práticas que devem ser incluídas no conteúdo..."
-                                                    className="min-h-[120px]"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+
                                 <Button type="submit" className="w-full" disabled={isLoading}>
                                     {isLoading ? (
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     ) : (
-                                        <Bot className="mr-2 h-4 w-4" />
+                                        <Sparkles className="mr-2 h-4 w-4" />
                                     )}
-                                    {isLoading ? 'Gerando Conteúdo...' : 'Gerar Conteúdo com IA'}
+                                    {isLoading ? 'Gerando Curso...' : 'Gerar Curso com IA'}
                                 </Button>
                             </form>
                         </Form>
@@ -137,35 +154,47 @@ export default function ContentPage() {
 
                 <Card className="flex flex-col">
                     <CardHeader>
-                        <CardTitle>Conteúdo Gerado</CardTitle>
+                        <CardTitle>Curso Gerado por IA</CardTitle>
                         <CardDescription>
-                            Revise o material criado pela IA. Você pode usar isso como base para seus treinamentos.
+                            Revise o material criado pela IA. Use isto como base para seus treinamentos.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex-1">
+                    <CardContent className="flex-1 overflow-auto">
                         {isLoading && (
                             <div className="flex items-center justify-center h-full">
                                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                             </div>
                         )}
                         {generatedContent && (
-                             <Tabs defaultValue="courseContent" className="h-full flex flex-col">
+                             <Tabs defaultValue="modules" className="h-full flex flex-col">
                                 <TabsList className="grid w-full grid-cols-3">
-                                    <TabsTrigger value="courseContent">Roteiro</TabsTrigger>
-                                    <TabsTrigger value="microLessons">Micro-Lessons</TabsTrigger>
-                                    <TabsTrigger value="videoIdeas">Ideias de Vídeo</TabsTrigger>
+                                    <TabsTrigger value="modules"><BookOpen className="mr-2 h-4 w-4"/>Módulos</TabsTrigger>
+                                    <TabsTrigger value="quiz"><HelpCircle className="mr-2 h-4 w-4"/>Quiz</TabsTrigger>
+                                    <TabsTrigger value="videoIdeas"><Youtube className="mr-2 h-4 w-4"/>Vídeos</TabsTrigger>
                                 </TabsList>
-                                <TabsContent value="courseContent" className="flex-1 overflow-auto mt-4">
-                                     <div className="prose prose-sm max-w-none dark:prose-invert whitespace-pre-wrap font-sans">
-                                        {generatedContent.courseContent}
-                                    </div>
-                                </TabsContent>
-                                <TabsContent value="microLessons" className="flex-1 overflow-auto mt-4">
-                                    <ul className="list-disc pl-5 space-y-2 text-sm">
-                                        {generatedContent.microLessons.map((lesson: string, index: number) => (
-                                            <li key={index} className="text-muted-foreground">{lesson}</li>
+                                <div className='mt-4'>
+                                    <h3 className="text-xl font-bold tracking-tight">{generatedContent.courseTitle}</h3>
+                                </div>
+                                <TabsContent value="modules" className="flex-1 overflow-auto mt-4">
+                                     <Accordion type="single" collapsible defaultValue="item-0">
+                                        {generatedContent.modules.map((module, index) => (
+                                            <AccordionItem value={`item-${index}`} key={index}>
+                                                <AccordionTrigger>{module.title}</AccordionTrigger>
+                                                <AccordionContent>
+                                                    <div className="prose prose-sm max-w-none dark:prose-invert whitespace-pre-wrap font-sans mb-4">
+                                                        {module.content}
+                                                    </div>
+                                                    <div className="flex gap-4">
+                                                        {module.videoLink && <Button variant="outline" size="sm" asChild><a href={module.videoLink} target="_blank" rel="noopener noreferrer"><Youtube className="mr-2 h-4 w-4" />Ver Vídeo</a></Button>}
+                                                        {module.pdfLink && <Button variant="outline" size="sm" asChild><a href={module.pdfLink} target="_blank" rel="noopener noreferrer"><FileText className="mr-2 h-4 w-4" />Ver PDF</a></Button>}
+                                                    </div>
+                                                </AccordionContent>
+                                            </AccordionItem>
                                         ))}
-                                    </ul>
+                                    </Accordion>
+                                </TabsContent>
+                                <TabsContent value="quiz" className="flex-1 overflow-auto mt-4">
+                                    <Quiz questions={generatedContent.quiz} />
                                 </TabsContent>
                                 <TabsContent value="videoIdeas" className="flex-1 overflow-auto mt-4">
                                      <ul className="list-disc pl-5 space-y-2 text-sm">
@@ -174,11 +203,15 @@ export default function ContentPage() {
                                         ))}
                                     </ul>
                                 </TabsContent>
+                                 <div className="mt-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                                    <h4 className="font-semibold flex items-center gap-2"><Award className="h-5 w-5 text-primary"/>Conclusão</h4>
+                                    <p className="text-sm text-muted-foreground mt-2">{generatedContent.conclusion}</p>
+                                </div>
                             </Tabs>
                         )}
                         {!isLoading && !generatedContent && (
                             <div className="flex h-full items-center justify-center rounded-md border border-dashed">
-                                <p className="text-sm text-muted-foreground">O conteúdo gerado aparecerá aqui.</p>
+                                <p className="text-sm text-muted-foreground">O curso gerado aparecerá aqui.</p>
                             </div>
                         )}
                     </CardContent>
