@@ -16,9 +16,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Quiz } from '@/components/quiz';
+import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
+    details: z.string().optional(),
     file: z.instanceof(File).optional(),
     numberOfModules: z.coerce.number().min(1, "Deve haver pelo menos 1 módulo.").max(10, "O máximo é 10 módulos.").optional(),
 });
@@ -34,6 +36,7 @@ export default function ContentPage() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             topic: "Técnicas de Venda Consultiva",
+            details: "Focar em rapport, escuta ativa e fechamento de vendas B2B para o setor de tecnologia.",
             numberOfModules: 5,
         },
     });
@@ -54,6 +57,7 @@ export default function ContentPage() {
              try {
                 const result = await generateCourseContent({
                     topic: values.topic,
+                    details: values.details,
                     documentContent: documentContent,
                     numberOfModules: values.numberOfModules,
                     language
@@ -129,6 +133,25 @@ export default function ContentPage() {
                                 />
 
                                 <FormField
+                                    control={form.control}
+                                    name="details"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Detalhes do Conteúdo (Opcional)</FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    placeholder="Descreva pontos chave, público-alvo ou objetivos do curso..."
+                                                    className="min-h-[100px]"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+
+                                <FormField
                                   control={form.control}
                                   name="file"
                                   render={({ field }) => (
@@ -156,7 +179,7 @@ export default function ContentPage() {
                                     name="numberOfModules"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Número de Módulos</FormLabel>
+                                            <FormLabel>Número de Módulos (Opcional)</FormLabel>
                                             <FormControl>
                                                 <Input type="number" placeholder="Ex: 5" {...field} onChange={e => field.onChange(e.target.valueAsNumber)}/>
                                             </FormControl>
@@ -247,5 +270,3 @@ export default function ContentPage() {
         </div>
     );
 }
-
-    

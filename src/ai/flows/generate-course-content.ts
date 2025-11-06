@@ -14,6 +14,10 @@ import {z} from 'genkit';
 
 const GenerateCourseContentInputSchema = z.object({
   topic: z.string().describe('The topic of the course content.'),
+  details: z
+    .string()
+    .optional()
+    .describe('Additional details about the course content to be generated.'),
   documentContent: z
     .string()
     .optional()
@@ -80,6 +84,13 @@ const prompt = ai.definePrompt({
 
   The main topic of the course is: {{{topic}}}
 
+  {{#if details}}
+  Here are more details about the desired content:
+  ---
+  {{{details}}}
+  ---
+  {{/if}}
+
   {{#if documentContent}}
   The source content from the document is:
   ---
@@ -115,5 +126,3 @@ const generateCourseContentFlow = ai.defineFlow(
     return output!;
   }
 );
-
-    
