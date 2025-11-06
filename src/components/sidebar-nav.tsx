@@ -25,6 +25,9 @@ import {
   CheckSquare,
   BrainCircuit,
   LineChart,
+  Lightbulb,
+  FileText,
+  Trophy,
 } from "lucide-react";
 
 import {
@@ -98,13 +101,19 @@ const links = [
         {
             href: "/dashboard/learning/analytics",
             label: "Analytics",
+            roles: ['admin', 'manager']
         }
     ]
   },
   {
-    href: "/dashboard/innovation-labs",
     label: "Innovation Labs",
     icon: Beaker,
+    subLinks: [
+        { href: "/dashboard/innovation-labs", label: "Desafios" },
+        { href: "/dashboard/innovation-labs/submit-idea", label: "Submeter Ideia" },
+        { href: "/dashboard/innovation-labs/catalog", label: "Boas Práticas" },
+        { href: "/dashboard/innovation-labs/analytics", label: "Dashboard Labs", roles: ['admin', 'manager'] },
+    ]
   },
   {
     label: "Recursos Especiais",
@@ -196,7 +205,9 @@ export function SidebarNav() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarMenuSub>
-                {link.subLinks.map((subLink) => (
+                {link.subLinks.map((subLink) => {
+                  if (!userHasRole(subLink.roles)) return null;
+                  return (
                   <SidebarMenuSubItem key={subLink.href}>
                     <SidebarMenuSubButton asChild isActive={pathname === subLink.href}>
                         <Link href={subLink.href} className="flex items-center gap-2">
@@ -205,7 +216,7 @@ export function SidebarNav() {
                         </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
-                ))}
+                )})}
               </SidebarMenuSub>
             </CollapsibleContent>
           </Collapsible>

@@ -133,6 +133,57 @@ export type CourseEngagement = {
     comments: number;
 };
 
+export type ChallengeStatus = 'Aberto' | 'Em avaliação' | 'Em experimento' | 'Encerrado';
+export type IdeaStatus = 'Submetida' | 'Em Análise' | 'Aprovada' | 'Rejeitada' | 'Em Sprint' | 'Validada' | 'Escalada';
+export type SprintStatus = 'Planejamento' | 'Execução' | 'Análise' | 'Encerrado';
+export type IdeaTag = 'processo' | 'segurança' | 'custo' | 'ESG' | 'produto' | 'rh';
+
+
+export type Challenge = {
+  id: string;
+  title: string;
+  description: string;
+  targetMetrics: string;
+  deadline: string;
+  responsible: string;
+  status: ChallengeStatus;
+  imageUrl: string;
+  imageHint: string;
+  ideaCount: number;
+};
+
+export type Idea = {
+  id: string;
+  challengeId: string;
+  title: string;
+  author: Pick<User, 'name' | 'avatar' | 'unit'>;
+  problem: string;
+  proposal: string;
+  impact: number;
+  confidence: number;
+  effort: number;
+  strategicAlignment: number;
+  tags: IdeaTag[];
+  status: IdeaStatus;
+  votes: number;
+  submittedDate: string;
+};
+
+export type Sprint = {
+  ideaId: string;
+  hypothesis: string;
+  plan: string;
+  resources: string;
+  risks: string;
+  successCriteria: string;
+  status: SprintStatus;
+  startDate: string;
+  endDate: string;
+  checkIns: { date: string; update: string }[];
+  result: 'Validado' | 'Parcial' | 'Não Validado' | null;
+};
+
+
 export const users: User[] = [
   { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 75 },
   { name: 'Bruno Costa', avatar: 'user-avatar-2', email: 'bruno.costa@example.com', role: 'Participante', status: 'Ativo', unit: 'Marketing (Empresa A)', progress: 50 },
@@ -448,3 +499,135 @@ export const courseEngagement: CourseEngagement[] = [
     { courseId: 'inovacao-01', courseTitle: 'Design Thinking na Prática', likes: 250, comments: 88 },
     { courseId: 'lideranca-01', courseTitle: 'Liderança Situacional', likes: 180, comments: 62 },
 ];
+
+// --- Innovation Labs Data ---
+
+export const challenges: Challenge[] = [
+    {
+        id: 'challenge-01',
+        title: 'Reduzir Tempo de Onboarding de Novos Colaboradores',
+        description: 'Estamos buscando soluções inovadoras para diminuir o tempo de ramp-up de novos funcionários em 20%, melhorando a experiência e a produtividade inicial.',
+        targetMetrics: 'Redução de 20% no tempo de onboarding; Aumento de 15% no NPS interno.',
+        deadline: '30/09/2024',
+        responsible: 'RH',
+        status: 'Aberto',
+        imageUrl: 'https://picsum.photos/seed/onboarding/600/400',
+        imageHint: 'employee onboarding meeting',
+        ideaCount: 3,
+    },
+    {
+        id: 'challenge-02',
+        title: 'Otimizar Rota de Produção na Linha 5',
+        description: 'A Linha de Produção 5 tem apresentado gargalos que resultam em paradas não programadas. Como podemos otimizar o fluxo e reduzir o tempo de inatividade em 10%?',
+        targetMetrics: 'Redução de 10% no tempo de inatividade; Aumento de 5% na produção diária.',
+        deadline: '15/10/2024',
+        responsible: 'Engenharia',
+        status: 'Em avaliação',
+        imageUrl: 'https://picsum.photos/seed/factory-line/600/400',
+        imageHint: 'factory production line',
+        ideaCount: 5,
+    }
+];
+
+const calculateIceScore = (i: number, c: number, e: number, sa: number) => {
+    if (e === 0) return 0;
+    return Math.round(((i * c * sa) / e) * 10);
+};
+
+
+export const ideas: Idea[] = [
+    {
+        id: 'idea-01',
+        challengeId: 'challenge-01',
+        title: 'Plataforma de Onboarding Gamificada',
+        author: { name: 'Ana Silva', avatar: 'user-avatar-1', unit: 'Tecnologia' },
+        problem: 'O processo de onboarding atual é muito manual, baseado em PDFs e apresentações, o que gera baixo engajamento e dificuldade em reter informações.',
+        proposal: 'Criar um aplicativo móvel com trilhas de aprendizado, quizzes interativos, missões e um sistema de pontos e recompensas para gamificar todo o processo.',
+        impact: 9,
+        confidence: 8,
+        effort: 7,
+        strategicAlignment: 9,
+        tags: ['rh', 'processo', 'produto'],
+        status: 'Em Sprint',
+        votes: 15,
+        submittedDate: '10/08/2024'
+    },
+    {
+        id: 'idea-02',
+        challengeId: 'challenge-01',
+        title: 'Buddy System com Mentores Internos',
+        author: { name: 'Carla Dias', avatar: 'user-avatar-3', unit: 'RH' },
+        problem: 'Novos colaboradores se sentem perdidos e têm dificuldade em encontrar as pessoas certas para tirar dúvidas sobre a cultura e processos internos.',
+        proposal: 'Implementar um "Buddy System" formal, onde cada novo colaborador é pareado com um funcionário mais experiente que atuará como um mentor informal nos primeiros 90 dias.',
+        impact: 7,
+        confidence: 9,
+        effort: 3,
+        strategicAlignment: 8,
+        tags: ['rh', 'processo'],
+        status: 'Aprovada',
+        votes: 22,
+        submittedDate: '12/08/2024'
+    },
+    {
+        id: 'idea-03',
+        challengeId: 'challenge-01',
+        title: 'Checklist Automatizado no Service Desk',
+        author: { name: 'Eduarda Lima', avatar: 'user-avatar-5', unit: 'Tecnologia' },
+        problem: 'A criação de acessos e configuração de equipamentos para novos colaboradores é demorada e suscetível a erros manuais, atrasando o primeiro dia produtivo.',
+        proposal: 'Desenvolver um workflow automatizado no nosso sistema de Service Desk que, a partir da admissão no RH, cria todas as contas, libera acessos padrão e agenda a configuração do notebook.',
+        impact: 8,
+        confidence: 9,
+        effort: 5,
+        strategicAlignment: 7,
+        tags: ['processo', 'custo'],
+        status: 'Submetida',
+        votes: 8,
+        submittedDate: '15/08/2024'
+    }
+].map(idea => ({
+    ...idea,
+    iceScore: calculateIceScore(idea.impact, idea.confidence, idea.effort, idea.strategicAlignment)
+}));
+
+
+export const sprints: { [ideaId: string]: Sprint } = {
+    'idea-01': {
+        ideaId: 'idea-01',
+        hypothesis: 'Se gamificarmos o onboarding, então o engajamento aumentará em 30% e a retenção de conhecimento melhorará em 25%, medido por quizzes.',
+        plan: '1ª semana: Desenvolver protótipo de baixa fidelidade e validar com 5 novos colaboradores. 2ª semana: Desenvolver MVP do app com as funcionalidades de quiz e trilha. 3ª e 4ª semana: Pilotar com um grupo de 10 novos contratados e coletar feedback.',
+        resources: '1 Desenvolvedor, 1 Designer UX (part-time)',
+        risks: 'Adoção baixa pelos usuários; dificuldade técnica na integração com sistemas de RH.',
+        successCriteria: '80% dos participantes do piloto completam a trilha; Média de acertos nos quizzes acima de 85%.',
+        status: 'Execução',
+        startDate: '20/08/2024',
+        endDate: '20/09/2024',
+        checkIns: [{ date: '27/08/2024', update: 'Protótipo de baixa fidelidade validado. Feedback positivo sobre a dinâmica de quizzes. Próximo passo é iniciar o desenvolvimento do MVP.' }],
+        result: null
+    }
+};
+
+export const labsAnalytics = {
+    kpis: {
+        ideasPerChallenge: 2.5,
+        approvalRate: 40,
+        validationRate: 60,
+        avgTimeToEvaluate: 12, // days
+        estimatedSavings: 150000,
+        realizedSavings: 25000,
+    },
+    funnelData: [
+        { stage: 'Ideias', value: 120 },
+        { stage: 'Aprovadas', value: 48 },
+        { stage: 'Em Sprint', value: 20 },
+        { stage: 'Validadas', value: 12 },
+        { stage: 'Escaladas', value: 5 },
+    ],
+    themesHeatmap: [
+        { theme: 'Processos', unit: 'Tecnologia', value: 25 },
+        { theme: 'Processos', unit: 'RH', value: 18 },
+        { theme: 'Custo', unit: 'Compras', value: 30 },
+        { theme: 'Custo', unit: 'Financeiro', value: 22 },
+        { theme: 'ESG', unit: 'Marketing', value: 15 },
+        { theme: 'Produto', unit: 'Tecnologia', value: 28 },
+    ]
+};

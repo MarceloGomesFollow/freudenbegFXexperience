@@ -1,97 +1,101 @@
+
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Beaker, Lightbulb, MapPin } from "lucide-react";
+import { ArrowRight, Lightbulb, Target, Calendar } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-
-const labs = [
-    {
-        id: "digital-prototyping",
-        title: "Laboratório de Prototipagem Digital",
-        description: "Utilize ferramentas de UI/UX e low-code para transformar suas ideias em protótipos navegáveis.",
-        type: "Digital",
-        imageUrl: "https://picsum.photos/seed/prototype/600/400",
-        imageHint: "digital prototype wireframe"
-    },
-    {
-        id: "process-improvement",
-        title: "Oficina de Melhoria Contínua",
-        description: "Espaço para mapear processos, identificar gargalos e desenhar soluções otimizadas com mentoria especializada.",
-        type: "Físico",
-        location: "Sala de Inovação B3",
-        imageUrl: "https://picsum.photos/seed/whiteboard-session/600/400",
-        imageHint: "process improvement whiteboard"
-    },
-    {
-        id: "data-squad",
-        title: "Squad de Análise de Dados",
-        description: "Um time multifuncional disponível para ajudar a validar hipóteses com dados e criar dashboards de impacto.",
-        type: "Digital",
-        imageUrl: "https://picsum.photos/seed/data-dashboard/600/400",
-        imageHint: "data analytics dashboard"
-    }
-];
+import { challenges } from "@/lib/data";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { useRole } from "@/components/role-switcher";
 
 export default function InnovationLabsPage() {
+    const { selectedRole } = useRole();
+    const canCreateChallenge = ['admin', 'manager'].includes(selectedRole.id);
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-start">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Innovation Labs</h2>
-          <p className="text-muted-foreground mt-2">
-            Transforme ideias em realidade. Acesse nossos laboratórios para prototipar e inovar.
+          <p className="text-muted-foreground mt-2 max-w-2xl">
+            Um espaço para lançar desafios, capturar ideias, experimentar rápido e medir impacto. Conecte-se com mentores e áreas para gerar melhorias, savings e novos padrões.
           </p>
         </div>
-        <Button asChild>
-            <Link href="#">
-                <Lightbulb className="mr-2 h-4 w-4" />
-                Sugerir Novo Lab
-            </Link>
-        </Button>
+        <div className="flex gap-2">
+             <Button asChild>
+                <Link href="/dashboard/innovation-labs/submit-idea">
+                    <Lightbulb className="mr-2 h-4 w-4" />
+                    Submeter Ideia
+                </Link>
+            </Button>
+            {canCreateChallenge && (
+                 <Button asChild variant="secondary">
+                    <Link href="#">
+                        <Target className="mr-2 h-4 w-4" />
+                        Abrir Desafio
+                    </Link>
+                </Button>
+            )}
+        </div>
       </div>
 
        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {labs.map((lab) => (
-                <Card key={lab.id} className="flex flex-col overflow-hidden hover:shadow-lg transition-all">
+            {challenges.map((challenge) => {
+                const ideasCount = challenge.ideaCount || 0;
+                const progress = (ideasCount / 5) * 100; // Simulating a target of 5 ideas
+
+                return (
+                <Card key={challenge.id} className="flex flex-col overflow-hidden hover:shadow-lg transition-all">
                     <div className="relative h-48 w-full">
                         <Image
-                            src={lab.imageUrl}
-                            alt={lab.title}
+                            src={challenge.imageUrl}
+                            alt={challenge.title}
                             fill
                             className="object-cover"
-                            data-ai-hint={lab.imageHint}
+                            data-ai-hint={challenge.imageHint}
                         />
-                        <div className={`absolute top-2 right-2 text-xs font-bold py-1 px-2 rounded ${lab.type === 'Digital' ? 'bg-blue-500 text-white' : 'bg-amber-500 text-white'}`}>
-                            {lab.type}
-                        </div>
+                         <Badge 
+                            variant={challenge.status === 'Aberto' ? 'default' : 'secondary'} 
+                            className="absolute top-2 right-2"
+                        >
+                            {challenge.status}
+                        </Badge>
                     </div>
                     <CardHeader>
-                        <CardTitle>{lab.title}</CardTitle>
-                        <CardDescription className="line-clamp-3 h-[60px]">{lab.description}</CardDescription>
+                        <CardTitle>{challenge.title}</CardTitle>
+                        <CardDescription className="line-clamp-2 h-[40px]">{challenge.description}</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex-grow flex flex-col justify-end">
-                        {lab.location && (
-                            <div className="flex items-center text-sm text-muted-foreground mb-4">
-                                <MapPin className="h-4 w-4 mr-2" />
-                                <span>{lab.location}</span>
+                    <CardContent className="flex-grow space-y-4">
+                        <div>
+                            <div className="flex justify-between text-xs text-muted-foreground mb-1">
+                                <span>Progresso de Ideias ({ideasCount}/5)</span>
+                                <span>{progress}%</span>
                             </div>
-                        )}
+                            <Progress value={progress} />
+                        </div>
+                        <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="h-4 w-4 mr-2" />
+                            <span>Prazo: {challenge.deadline}</span>
+                        </div>
+                    </CardContent>
+                     <CardFooter>
                        <Button className="w-full" asChild>
-                            <Link href="#">
-                                Acessar Lab <ArrowRight className="ml-2 h-4 w-4" />
+                            <Link href={`/dashboard/innovation-labs/${challenge.id}`}>
+                                Ver Desafio <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
                        </Button>
-                    </CardContent>
+                    </CardFooter>
                 </Card>
-            ))}
+            )})}
             <Card className="border-dashed flex items-center justify-center">
                  <CardHeader className="text-center">
-                    <Beaker className="mx-auto h-10 w-10 text-muted-foreground mb-4"/>
-                    <CardTitle className="text-muted-foreground">Novos Labs em Breve</CardTitle>
+                    <Target className="mx-auto h-10 w-10 text-muted-foreground mb-4"/>
+                    <CardTitle className="text-muted-foreground">Novos Desafios em Breve</CardTitle>
                     <CardDescription>
-                        Estamos preparando mais ambientes para acelerar suas inovações.
+                        Fique atento para novas oportunidades de inovação.
                     </CardDescription>
                 </CardHeader>
             </Card>
