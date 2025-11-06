@@ -24,6 +24,7 @@ import {
   BookUser,
   CheckSquare,
   BrainCircuit,
+  LineChart,
 } from "lucide-react";
 
 import {
@@ -93,6 +94,10 @@ const links = [
         {
             href: "/dashboard/content",
             label: "Criar Conteúdo",
+        },
+        {
+            href: "/dashboard/learning/analytics",
+            label: "Analytics",
         }
     ]
   },

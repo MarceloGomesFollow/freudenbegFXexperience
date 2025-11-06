@@ -91,6 +91,7 @@ export type Course = {
     modules: {
         title: string;
         content: string;
+        videoLink?: string;
     }[];
     quiz: CourseQuizQuestion[];
     videoIdeas: string[];
@@ -109,6 +110,28 @@ export type LearningPath = {
 
 export type LearningItem = (Course & { type: 'course' }) | (LearningPath & { type: 'path' });
 
+export type LearningAnalyticsKpis = {
+    totalEnrollments: number;
+    completionRate: number;
+    averageScore: number;
+    hoursLearned: number;
+};
+
+export type UserLearningProgress = {
+    userId: string;
+    userName: string;
+    userAvatar: string;
+    completedCourses: number;
+    inProgressCourses: number;
+    averageScore: number;
+};
+
+export type CourseEngagement = {
+    courseId: string;
+    courseTitle: string;
+    likes: number;
+    comments: number;
+};
 
 export const users: User[] = [
   { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 75 },
@@ -406,3 +429,22 @@ export const getLearningItems = (): LearningItem[] => {
     const paths: LearningItem[] = learningPathsDb.map(p => ({...p, type: 'path'}));
     return [...paths, ...courses];
 };
+
+export const learningAnalyticsKpis: LearningAnalyticsKpis = {
+    totalEnrollments: 152,
+    completionRate: 68,
+    averageScore: 88,
+    hoursLearned: 430
+};
+
+export const userLearningProgress: UserLearningProgress[] = [
+    { userId: 'u1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', completedCourses: 3, inProgressCourses: 1, averageScore: 92 },
+    { userId: 'u2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', completedCourses: 1, inProgressCourses: 2, averageScore: 85 },
+    { userId: 'u5', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', completedCourses: 2, inProgressCourses: 1, averageScore: 89 },
+];
+
+export const courseEngagement: CourseEngagement[] = [
+    { courseId: 'vendas-01', courseTitle: 'Venda Consultiva Avançada', likes: 120, comments: 45 },
+    { courseId: 'inovacao-01', courseTitle: 'Design Thinking na Prática', likes: 250, comments: 88 },
+    { courseId: 'lideranca-01', courseTitle: 'Liderança Situacional', likes: 180, comments: 62 },
+];
