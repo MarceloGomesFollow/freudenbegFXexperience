@@ -20,6 +20,14 @@ export function Quiz({ questions }: QuizProps) {
     const [answerStates, setAnswerStates] = useState<AnswerState[]>(Array(questions.length).fill("unanswered"));
     const [showResults, setShowResults] = useState(false);
 
+    if (!questions || questions.length === 0) {
+        return (
+             <div className="flex h-full items-center justify-center rounded-md border border-dashed">
+                <p className="text-sm text-muted-foreground">Nenhum quiz disponível.</p>
+            </div>
+        )
+    }
+
     const currentQuestion = questions[currentQuestionIndex];
     const score = answerStates.filter(state => state === 'correct').length;
 
@@ -136,3 +144,5 @@ export function Quiz({ questions }: QuizProps) {
         </Card>
     );
 }
+
+    

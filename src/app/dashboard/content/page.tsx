@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
@@ -10,20 +10,42 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { generateCourseContent, type GenerateCourseContentOutput } from '@/ai/flows/generate-course-content';
-import { Bot, Loader2, Upload, FileText, Youtube, BookOpen, HelpCircle, Award, Sparkles } from 'lucide-react';
+import { generateCourseContent, type GenerateCourseContentOutput, type CourseQuizQuestion } from '@/ai/flows/generate-course-content';
+import { Bot, Loader2, Upload, FileText, Youtube, BookOpen, HelpCircle, Award, Sparkles, Save } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Quiz } from '@/components/quiz';
 import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { X } from 'lucide-react';
 
-const formSchema = z.object({
+const generationFormSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
     details: z.string().optional(),
     file: z.instanceof(File).optional(),
     numberOfModules: z.coerce.number().min(1, "Deve haver pelo menos 1 módulo.").max(10, "O máximo é 10 módulos.").optional(),
 });
+
+const quizQuestionSchema = z.object({
+  question: z.string().min(1, "A pergunta é obrigatória."),
+  options: z.array(z.string().min(1, "A opção não pode estar em branco.")).min(2, "Deve haver pelo menos 2 opções."),
+  correctAnswer: z.string().min(1, "A resposta correta é obrigatória."),
+  explanation: z.string().min(1, "A explicação é obrigatória."),
+});
+
+const courseModuleSchema = z.object({
+  title: z.string().min(1, "O título do módulo é obrigatório."),
+  content: z.string().min(1, "O conteúdo do módulo é obrigatório."),
+});
+
+const editableContentSchema = z.object({
+    courseTitle: z.string().min(1, "O título do curso é obrigatório."),
+    modules: z.array(courseModuleSchema),
+    quiz: z.array(quizQuestionSchema),
+    videoIdeas: z.array(z.string()),
+    conclusion: z.string().min(1, "A conclusão é obrigatória."),
+});
+
 
 export default function ContentPage() {
     const { toast } = useToast();
@@ -32,8 +54,8 @@ export default function ContentPage() {
     const [fileName, setFileName] = useState("");
     const { language } = useLanguage();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const generationForm = useForm<z.infer<typeof generationFormSchema>>({
+        resolver: zodResolver(generationFormSchema),
         defaultValues: {
             topic: "Técnicas de Venda Consultiva",
             details: "Focar em rapport, escuta ativa e fechamento de vendas B2B para o setor de tecnologia.",
@@ -41,15 +63,41 @@ export default function ContentPage() {
         },
     });
 
+    const editableForm = useForm<z.infer<typeof editableContentSchema>>({
+        resolver: zodResolver(editableContentSchema),
+    });
+
+    const { fields: moduleFields, append: appendModule, remove: removeModule } = useFieldArray({
+        control: editableForm.control,
+        name: "modules"
+    });
+     const { fields: quizFields, append: appendQuiz, remove: removeQuiz } = useFieldArray({
+        control: editableForm.control,
+        name: "quiz"
+    });
+
+
+    useEffect(() => {
+        if (generatedContent) {
+            editableForm.reset({
+                courseTitle: generatedContent.courseTitle,
+                modules: generatedContent.modules,
+                quiz: generatedContent.quiz.map(q => ({...q, options: q.options || []})),
+                videoIdeas: generatedContent.videoIdeas,
+                conclusion: generatedContent.conclusion,
+            });
+        }
+    }, [generatedContent, editableForm]);
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            form.setValue('file', file);
+            generationForm.setValue('file', file);
             setFileName(file.name);
         }
     };
     
-    async function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onGenerate(values: z.infer<typeof generationFormSchema>) {
         setIsLoading(true);
         setGeneratedContent(null);
 
@@ -65,7 +113,7 @@ export default function ContentPage() {
                 setGeneratedContent(result);
                 toast({
                     title: 'Conteúdo Gerado!',
-                    description: 'O conteúdo do curso foi gerado com sucesso pela IA.',
+                    description: 'O rascunho do curso foi criado. Revise, edite e salve.',
                 });
             } catch (error) {
                 console.error('Error generating course content:', error);
@@ -101,6 +149,14 @@ export default function ContentPage() {
         }
     }
 
+    function onSave(values: z.infer<typeof editableContentSchema>) {
+        console.log("Saving course:", values);
+        toast({
+            title: "Curso Salvo com Sucesso!",
+            description: "Seu curso está pronto para ser publicado."
+        });
+    }
+
     return (
         <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tight">Criação de Conteúdo com IA</h2>
@@ -116,10 +172,10 @@ export default function ContentPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        <Form {...generationForm}>
+                            <form onSubmit={generationForm.handleSubmit(onGenerate)} className="space-y-6">
                                 <FormField
-                                    control={form.control}
+                                    control={generationForm.control}
                                     name="topic"
                                     render={({ field }) => (
                                         <FormItem>
@@ -133,7 +189,7 @@ export default function ContentPage() {
                                 />
 
                                 <FormField
-                                    control={form.control}
+                                    control={generationForm.control}
                                     name="details"
                                     render={({ field }) => (
                                         <FormItem>
@@ -152,7 +208,7 @@ export default function ContentPage() {
 
 
                                 <FormField
-                                  control={form.control}
+                                  control={generationForm.control}
                                   name="file"
                                   render={({ field }) => (
                                     <FormItem>
@@ -175,7 +231,7 @@ export default function ContentPage() {
                                 />
 
                                 <FormField
-                                    control={form.control}
+                                    control={generationForm.control}
                                     name="numberOfModules"
                                     render={({ field }) => (
                                         <FormItem>
@@ -195,7 +251,7 @@ export default function ContentPage() {
                                     ) : (
                                         <Sparkles className="mr-2 h-4 w-4" />
                                     )}
-                                    {isLoading ? 'Gerando Curso...' : 'Gerar Curso com IA'}
+                                    {isLoading ? 'Gerando Rascunho...' : 'Gerar Rascunho com IA'}
                                 </Button>
                             </form>
                         </Form>
@@ -204,9 +260,9 @@ export default function ContentPage() {
 
                 <Card className="flex flex-col">
                     <CardHeader>
-                        <CardTitle>Curso Gerado por IA</CardTitle>
+                        <CardTitle>Editor do Curso</CardTitle>
                         <CardDescription>
-                            Revise o material criado pela IA. Use isto como base para seus treinamentos.
+                           Revise, edite e salve o material criado pela IA antes de publicar.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-1 overflow-auto">
@@ -216,52 +272,164 @@ export default function ContentPage() {
                             </div>
                         )}
                         {generatedContent && (
-                             <Tabs defaultValue="modules" className="h-full flex flex-col">
-                                <TabsList className="grid w-full grid-cols-3">
-                                    <TabsTrigger value="modules"><BookOpen className="mr-2 h-4 w-4"/>Módulos</TabsTrigger>
-                                    <TabsTrigger value="quiz"><HelpCircle className="mr-2 h-4 w-4"/>Quiz</TabsTrigger>
-                                    <TabsTrigger value="videoIdeas"><Youtube className="mr-2 h-4 w-4"/>Vídeos</TabsTrigger>
-                                </TabsList>
-                                <div className='mt-4'>
-                                    <h3 className="text-xl font-bold tracking-tight">{generatedContent.courseTitle}</h3>
-                                </div>
-                                <TabsContent value="modules" className="flex-1 overflow-auto mt-4">
-                                     <Accordion type="single" collapsible defaultValue="item-0">
-                                        {generatedContent.modules.map((module, index) => (
-                                            <AccordionItem value={`item-${index}`} key={index}>
-                                                <AccordionTrigger>{module.title}</AccordionTrigger>
-                                                <AccordionContent>
-                                                    <div className="prose prose-sm max-w-none dark:prose-invert whitespace-pre-wrap font-sans mb-4">
-                                                        {module.content}
-                                                    </div>
-                                                    <div className="flex gap-4">
-                                                        {module.videoLink && <Button variant="outline" size="sm" asChild><a href={module.videoLink} target="_blank" rel="noopener noreferrer"><Youtube className="mr-2 h-4 w-4" />Ver Vídeo</a></Button>}
-                                                        {module.pdfLink && <Button variant="outline" size="sm" asChild><a href={module.pdfLink} target="_blank" rel="noopener noreferrer"><FileText className="mr-2 h-4 w-4" />Ver PDF</a></Button>}
-                                                    </div>
-                                                </AccordionContent>
-                                            </AccordionItem>
-                                        ))}
-                                    </Accordion>
-                                </TabsContent>
-                                <TabsContent value="quiz" className="flex-1 overflow-auto mt-4">
-                                    <Quiz questions={generatedContent.quiz} />
-                                </TabsContent>
-                                <TabsContent value="videoIdeas" className="flex-1 overflow-auto mt-4">
-                                     <ul className="list-disc pl-5 space-y-2 text-sm">
-                                        {generatedContent.videoIdeas.map((idea: string, index: number) => (
-                                            <li key={index} className="text-muted-foreground">{idea}</li>
-                                        ))}
-                                    </ul>
-                                </TabsContent>
-                                 <div className="mt-6 p-4 bg-primary/5 border border-primary/20 rounded-lg">
-                                    <h4 className="font-semibold flex items-center gap-2"><Award className="h-5 w-5 text-primary"/>Conclusão</h4>
-                                    <p className="text-sm text-muted-foreground mt-2">{generatedContent.conclusion}</p>
-                                </div>
-                            </Tabs>
+                             <Form {...editableForm}>
+                                <form onSubmit={editableForm.handleSubmit(onSave)} className="h-full flex flex-col">
+                                    <Tabs defaultValue="modules" className="h-full flex flex-col flex-1">
+                                        <TabsList className="grid w-full grid-cols-3">
+                                            <TabsTrigger value="modules"><BookOpen className="mr-2 h-4 w-4"/>Módulos</TabsTrigger>
+                                            <TabsTrigger value="quiz"><HelpCircle className="mr-2 h-4 w-4"/>Quiz</TabsTrigger>
+                                            <TabsTrigger value="general"><Award className="mr-2 h-4 w-4"/>Geral</TabsTrigger>
+                                        </TabsList>
+                                        <div className='mt-4'>
+                                             <FormField
+                                                control={editableForm.control}
+                                                name="courseTitle"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel className='sr-only'>Título do Curso</FormLabel>
+                                                        <FormControl>
+                                                            <Input {...field} className="text-xl font-bold tracking-tight border-0 shadow-none focus-visible:ring-0 pl-0" />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+                                        <TabsContent value="modules" className="flex-1 overflow-auto mt-4">
+                                            <Accordion type="single" collapsible defaultValue="item-0">
+                                                {moduleFields.map((module, index) => (
+                                                    <AccordionItem value={`item-${index}`} key={module.id}>
+                                                        <AccordionTrigger>
+                                                           <FormField
+                                                                control={editableForm.control}
+                                                                name={`modules.${index}.title`}
+                                                                render={({ field }) => (
+                                                                    <FormItem className='flex-1 pr-4'>
+                                                                        <FormControl>
+                                                                            <Input {...field} className="font-semibold border-0 shadow-none focus-visible:ring-1 p-1 h-auto" onClick={(e) => e.stopPropagation()} />
+                                                                        </FormControl>
+                                                                        <FormMessage />
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                        </AccordionTrigger>
+                                                        <AccordionContent>
+                                                            <FormField
+                                                                control={editableForm.control}
+                                                                name={`modules.${index}.content`}
+                                                                render={({ field }) => (
+                                                                    <FormItem>
+                                                                        <FormControl>
+                                                                            <Textarea {...field} className="min-h-[150px]" />
+                                                                        </FormControl>
+                                                                        <FormMessage />
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                ))}
+                                            </Accordion>
+                                        </TabsContent>
+                                        <TabsContent value="quiz" className="flex-1 overflow-auto mt-4 space-y-4">
+                                             {quizFields.map((quizItem, index) => {
+                                                const { fields: optionFields, remove: removeOption, append: appendOption } = useFieldArray({
+                                                    control: editableForm.control,
+                                                    name: `quiz.${index}.options`
+                                                });
+                                                return (
+                                                <Card key={quizItem.id} className="relative">
+                                                     <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2 h-6 w-6" onClick={() => removeQuiz(index)}><X className="h-4 w-4" /></Button>
+                                                    <CardHeader>
+                                                        <FormField
+                                                            control={editableForm.control}
+                                                            name={`quiz.${index}.question`}
+                                                            render={({ field }) => (
+                                                                <FormItem>
+                                                                    <FormLabel>Pergunta {index + 1}</FormLabel>
+                                                                    <FormControl>
+                                                                        <Textarea {...field} />
+                                                                    </FormControl>
+                                                                    <FormMessage />
+                                                                </FormItem>
+                                                            )}
+                                                        />
+                                                    </CardHeader>
+                                                    <CardContent className="space-y-2">
+                                                        <Label>Opções</Label>
+                                                        {optionFields.map((optionItem, optionIndex) => (
+                                                            <FormField
+                                                                key={optionItem.id}
+                                                                control={editableForm.control}
+                                                                name={`quiz.${index}.options.${optionIndex}`}
+                                                                render={({ field }) => (
+                                                                    <FormItem>
+                                                                        <FormControl>
+                                                                            <Input {...field} />
+                                                                        </FormControl>
+                                                                        <FormMessage />
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                        ))}
+                                                        <FormField
+                                                            control={editableForm.control}
+                                                            name={`quiz.${index}.correctAnswer`}
+                                                            render={({ field }) => (
+                                                                <FormItem className="pt-2">
+                                                                     <FormLabel>Resposta Correta</FormLabel>
+                                                                    <FormControl>
+                                                                        <Input {...field} />
+                                                                    </FormControl>
+                                                                    <FormMessage />
+                                                                </FormItem>
+                                                            )}
+                                                        />
+                                                        <FormField
+                                                            control={editableForm.control}
+                                                            name={`quiz.${index}.explanation`}
+                                                            render={({ field }) => (
+                                                                <FormItem className="pt-2">
+                                                                    <FormLabel>Explicação</FormLabel>
+                                                                    <FormControl>
+                                                                        <Textarea {...field} />
+                                                                    </FormControl>
+                                                                    <FormMessage />
+                                                                </FormItem>
+                                                            )}
+                                                        />
+                                                    </CardContent>
+                                                </Card>
+                                            )})}
+                                        </TabsContent>
+                                        <TabsContent value="general" className="flex-1 overflow-auto mt-4 space-y-4">
+                                            <FormField
+                                                control={editableForm.control}
+                                                name="conclusion"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Mensagem de Conclusão</FormLabel>
+                                                        <FormControl>
+                                                            <Textarea {...field} className="min-h-[120px]" />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </TabsContent>
+                                    </Tabs>
+                                    <div className="mt-6">
+                                        <Button type="submit" className="w-full">
+                                            <Save className="mr-2 h-4 w-4"/>
+                                            Salvar e Publicar
+                                        </Button>
+                                    </div>
+                                </form>
+                             </Form>
                         )}
                         {!isLoading && !generatedContent && (
                             <div className="flex h-full items-center justify-center rounded-md border border-dashed">
-                                <p className="text-sm text-muted-foreground">O curso gerado aparecerá aqui.</p>
+                                <p className="text-sm text-muted-foreground">O editor do curso aparecerá aqui.</p>
                             </div>
                         )}
                     </CardContent>
@@ -270,3 +438,5 @@ export default function ContentPage() {
         </div>
     );
 }
+
+    
