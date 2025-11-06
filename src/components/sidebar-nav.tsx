@@ -151,9 +151,10 @@ const links = [
     icon: Settings,
   },
   {
-    href: "#",
+    href: "https://lab.anam.ai/frame/qIZpOx7b5c8mvyAeEmjvd",
     label: "HyperXIA",
     icon: BrainCircuit,
+    external: true,
   },
 ];
 
@@ -206,7 +207,7 @@ export function SidebarNav() {
         ) : (
           <SidebarMenuItem key={link.href}>
             <SidebarMenuButton asChild isActive={pathname === link.href}>
-                <Link href={link.href!}>
+                <Link href={link.href!} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined}>
                   <link.icon />
                   <span>{link.label}</span>
                 </Link>
