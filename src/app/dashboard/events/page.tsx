@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -77,7 +78,7 @@ export default function EventsPage() {
                     </CardContent>
                     <CardFooter>
                        <Button className="w-full" asChild>
-                            <Link href="#">
+                            <Link href={`/dashboard/events/${event.id}`}>
                                 {event.category === 'Próximo Evento' ? (
                                     'Inscreva-se'
                                 ) : (
