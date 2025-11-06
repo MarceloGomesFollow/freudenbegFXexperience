@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -15,7 +16,12 @@ const GenerateCourseContentInputSchema = z.object({
   topic: z.string().describe('The topic of the course content.'),
   documentContent: z
     .string()
-    .describe('The content of the document provided by the user.'),
+    .optional()
+    .describe('The content of the document provided by the user (optional).'),
+  numberOfModules: z
+    .number()
+    .optional()
+    .describe('The desired number of modules for the course (optional).'),
   language: z
     .string()
     .describe('The language for the response (e.g., "en" or "pt").'),
@@ -68,19 +74,28 @@ const prompt = ai.definePrompt({
   name: 'generateCourseContentPrompt',
   input: {schema: GenerateCourseContentInputSchema},
   output: {schema: GenerateCourseContentOutputSchema},
-  prompt: `You are an expert instructional designer. Your goal is to transform the provided document content into a well-structured and engaging online course.
+  prompt: `You are an expert instructional designer. Your goal is to transform the provided information into a well-structured and engaging online course.
 
   Respond in the following language: {{{language}}}.
 
   The main topic of the course is: {{{topic}}}
+
+  {{#if documentContent}}
   The source content from the document is:
   ---
   {{{documentContent}}}
   ---
+  {{/if}}
 
-  Based on the content, please generate the following:
+  Based on the provided information, please generate the following:
   1.  A main 'courseTitle' for the entire course.
-  2.  A series of 'modules'. Each module should have a 'title' and detailed 'content'. If relevant, suggest placeholders for a 'videoLink' or 'pdfLink'.
+  2.  A series of 'modules'. 
+      {{#if numberOfModules}}
+      Generate exactly {{{numberOfModules}}} modules.
+      {{else}}
+      Generate a relevant number of modules based on the topic.
+      {{/if}}
+      Each module should have a 'title' and detailed 'content'. If relevant, suggest placeholders for a 'videoLink' or 'pdfLink'.
   3.  A friendly 'quiz' with a few multiple-choice questions to test understanding. Each question must have 'options', a 'correctAnswer', and a brief 'explanation'.
   4.  A list of creative 'videoIdeas' that could complement the course material.
   5.  A warm and encouraging 'conclusion' message to finalize the course.
@@ -100,3 +115,5 @@ const generateCourseContentFlow = ai.defineFlow(
     return output!;
   }
 );
+
+    

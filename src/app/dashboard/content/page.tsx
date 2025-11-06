@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -18,7 +19,8 @@ import { Quiz } from '@/components/quiz';
 
 const formSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
-    file: z.instanceof(File).refine(file => file.size > 0, "É necessário anexar um arquivo."),
+    file: z.instanceof(File).optional(),
+    numberOfModules: z.coerce.number().min(1, "Deve haver pelo menos 1 módulo.").max(10, "O máximo é 10 módulos.").optional(),
 });
 
 export default function ContentPage() {
@@ -32,6 +34,7 @@ export default function ContentPage() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             topic: "Técnicas de Venda Consultiva",
+            numberOfModules: 5,
         },
     });
 
@@ -46,16 +49,13 @@ export default function ContentPage() {
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
         setGeneratedContent(null);
-    
-        const reader = new FileReader();
-        reader.readAsText(values.file, "UTF-8");
-    
-        reader.onload = async (evt) => {
-            const documentContent = evt.target?.result as string;
-            try {
+
+        const processAndGenerate = async (documentContent?: string) => {
+             try {
                 const result = await generateCourseContent({
                     topic: values.topic,
-                    documentContent,
+                    documentContent: documentContent,
+                    numberOfModules: values.numberOfModules,
                     language
                 });
                 setGeneratedContent(result);
@@ -73,30 +73,42 @@ export default function ContentPage() {
             } finally {
                 setIsLoading(false);
             }
-        };
-    
-        reader.onerror = () => {
-            toast({
-                variant: 'destructive',
-                title: 'Erro ao Ler Arquivo',
-                description: 'Não foi possível ler o conteúdo do arquivo selecionado.',
-            });
-            setIsLoading(false);
-        };
+        }
+
+        if (values.file) {
+            const reader = new FileReader();
+            reader.readAsText(values.file, "UTF-8");
+        
+            reader.onload = (evt) => {
+                const documentContent = evt.target?.result as string;
+                processAndGenerate(documentContent);
+            };
+        
+            reader.onerror = () => {
+                toast({
+                    variant: 'destructive',
+                    title: 'Erro ao Ler Arquivo',
+                    description: 'Não foi possível ler o conteúdo do arquivo selecionado.',
+                });
+                setIsLoading(false);
+            };
+        } else {
+            processAndGenerate();
+        }
     }
 
     return (
         <div className="space-y-8">
             <h2 className="text-3xl font-bold tracking-tight">Criação de Conteúdo com IA</h2>
             <p className="text-muted-foreground">
-                Faça o upload de um documento e deixe a IA Freudy transformá-lo em um curso interativo, com módulos, quiz e muito mais.
+                Forneça um tópico (e opcionalmente um documento) e deixe a IA Freudy transformá-lo em um curso interativo.
             </p>
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Gerador de Curso a partir de Documento</CardTitle>
+                        <CardTitle>Gerador de Curso</CardTitle>
                         <CardDescription>
-                            Preencha o tópico e anexe um arquivo de texto (.txt) para começar.
+                            Preencha o tópico e anexe um arquivo de texto (.txt) se desejar.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -121,7 +133,7 @@ export default function ContentPage() {
                                   name="file"
                                   render={({ field }) => (
                                     <FormItem>
-                                      <FormLabel>Anexar Documento</FormLabel>
+                                      <FormLabel>Anexar Documento (Opcional)</FormLabel>
                                       <FormControl>
                                         <div className="relative">
                                           <Button type="button" variant="outline" asChild>
@@ -138,6 +150,21 @@ export default function ContentPage() {
                                     </FormItem>
                                   )}
                                 />
+
+                                <FormField
+                                    control={form.control}
+                                    name="numberOfModules"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Número de Módulos</FormLabel>
+                                            <FormControl>
+                                                <Input type="number" placeholder="Ex: 5" {...field} onChange={e => field.onChange(e.target.valueAsNumber)}/>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
 
                                 <Button type="submit" className="w-full" disabled={isLoading}>
                                     {isLoading ? (
@@ -220,3 +247,5 @@ export default function ContentPage() {
         </div>
     );
 }
+
+    
