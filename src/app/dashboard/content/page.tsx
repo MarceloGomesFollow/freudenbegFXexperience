@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { generateCourseContent, type GenerateCourseContentOutput } from '@/ai/flows/generate-course-content';
+import { generateCourseContent, type GenerateCourseContentOutput, type CourseQuizQuestion } from '@/ai/flows/generate-course-content';
 import { Bot, Loader2, Upload, BookOpen, HelpCircle, Award, Sparkles, Save, X, Network, Library } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -423,7 +423,7 @@ export default function ContentPage() {
                                                 <FormItem>
                                                     <FormLabel>Número de Módulos (Opcional)</FormLabel>
                                                     <FormControl>
-                                                        <Input type="number" placeholder="Ex: 5" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : e.target.valueAsNumber)} value={field.value ?? ''} />
+                                                        <Input type="number" placeholder="Ex: 5" {...field} onChange={e => field.onChange(e.target.value === '' ? undefined : e.target.valueAsNumber)} value={field.value ?? ''} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -697,5 +697,3 @@ export default function ContentPage() {
         </div>
     );
 }
-
-    
