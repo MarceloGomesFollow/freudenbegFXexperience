@@ -21,6 +21,7 @@ import { X } from 'lucide-react';
 
 const generationFormSchema = z.object({
     topic: z.string().min(5, 'O tópico deve ter pelo menos 5 caracteres.'),
+    knowledgeSource: z.string().optional(),
     details: z.string().optional(),
     file: z.instanceof(File).optional(),
     numberOfModules: z.coerce.number().min(1, "Deve haver pelo menos 1 módulo.").max(10, "O máximo é 10 módulos.").optional(),
@@ -58,6 +59,7 @@ export default function ContentPage() {
         resolver: zodResolver(generationFormSchema),
         defaultValues: {
             topic: "Técnicas de Venda Consultiva",
+            knowledgeSource: "Workshop interno com equipe de vendas sênior.",
             details: "Focar em rapport, escuta ativa e fechamento de vendas B2B para o setor de tecnologia.",
             numberOfModules: 5,
         },
@@ -105,6 +107,7 @@ export default function ContentPage() {
              try {
                 const result = await generateCourseContent({
                     topic: values.topic,
+                    knowledgeSource: values.knowledgeSource,
                     details: values.details,
                     documentContent: documentContent,
                     numberOfModules: values.numberOfModules,
@@ -182,6 +185,20 @@ export default function ContentPage() {
                                             <FormLabel>Tópico Principal do Curso</FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Ex: Liderança Situacional" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={generationForm.control}
+                                    name="knowledgeSource"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Origem do Conhecimento (Opcional)</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Ex: Empresa, visita, departamento X" {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

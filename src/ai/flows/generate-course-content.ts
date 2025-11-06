@@ -14,6 +14,12 @@ import {z} from 'genkit';
 
 const GenerateCourseContentInputSchema = z.object({
   topic: z.string().describe('The topic of the course content.'),
+  knowledgeSource: z
+    .string()
+    .optional()
+    .describe(
+      'The origin of the knowledge (e.g., company, visit, department).'
+    ),
   details: z
     .string()
     .optional()
@@ -83,6 +89,10 @@ const prompt = ai.definePrompt({
   Respond in the following language: {{{language}}}.
 
   The main topic of the course is: {{{topic}}}
+
+  {{#if knowledgeSource}}
+  The knowledge for this course comes from: {{{knowledgeSource}}}
+  {{/if}}
 
   {{#if details}}
   Here are more details about the desired content:
