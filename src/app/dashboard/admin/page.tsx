@@ -11,6 +11,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, BarChart, Clock, TrendingUp, Users as UsersIcon, ArrowLeftRight } from "lucide-react";
 import { Bar, BarChart as RechartsBarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { WorldTalentMap } from '@/components/world-talent-map';
+import { Progress } from '@/components/ui/progress';
 
 export default function AdminDashboardPage() {
 
@@ -36,6 +37,20 @@ export default function AdminDashboardPage() {
 
         // @ts-ignore
         return <Badge variant={variant} className={colorClass}>{status}</Badge>;
+    }
+    
+    const calculateProgress = (startDate: string, endDate: string) => {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const now = new Date();
+        
+        if (now >= end) return 100;
+        if (now <= start) return 0;
+        
+        const totalDuration = end.getTime() - start.getTime();
+        const elapsedDuration = now.getTime() - start.getTime();
+        
+        return Math.round((elapsedDuration / totalDuration) * 100);
     }
 
     return (
@@ -148,12 +163,17 @@ export default function AdminDashboardPage() {
                                 <TableHead>Origem</TableHead>
                                 <TableHead>Destino</TableHead>
                                 <TableHead>Período</TableHead>
+                                <TableHead className="w-[150px]">Progresso</TableHead>
                                 <TableHead>Status</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                         {transfers.map((transfer) => {
                             const userAvatar = PlaceHolderImages.find(p => p.id === transfer.userAvatar);
+                            const progress = calculateProgress(transfer.startDate, transfer.endDate);
+                            const formattedStartDate = new Date(transfer.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                            const formattedEndDate = new Date(transfer.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+
                             return (
                             <TableRow key={transfer.id}>
                                 <TableCell>
@@ -173,7 +193,13 @@ export default function AdminDashboardPage() {
                                      <div className="font-medium">{transfer.toCompany}</div>
                                     <div className="text-xs text-muted-foreground">{transfer.toDepartment}</div>
                                 </TableCell>
-                                <TableCell>{transfer.startDate} - {transfer.endDate}</TableCell>
+                                <TableCell>{formattedStartDate} - {formattedEndDate}</TableCell>
+                                 <TableCell>
+                                    <div className="flex items-center gap-2">
+                                        <Progress value={progress} className="h-2" />
+                                        <span className="text-xs font-medium text-muted-foreground">{progress}%</span>
+                                    </div>
+                                </TableCell>
                                 <TableCell>
                                     <StatusBadge status={transfer.status} />
                                 </TableCell>

@@ -314,9 +314,9 @@ export const transferFlowData = [
 ];
 
 export const transfers: Transfer[] = [
-    { id: 't1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Empresa A', fromDepartment: 'Tecnologia', toCompany: 'Empresa B', toDepartment: 'Inovação', startDate: '01/08/24', endDate: '30/08/24', status: 'Em Andamento' },
-    { id: 't2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'Empresa A', fromDepartment: 'Marketing', toCompany: 'Empresa A', toDepartment: 'Vendas', startDate: '15/07/24', endDate: '15/08/24', status: 'Concluído' },
-    { id: 't3', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'Empresa B', fromDepartment: 'Tecnologia', toCompany: 'Empresa A', toDepartment: 'P&D', startDate: '01/09/24', endDate: '30/09/24', status: 'Agendado' },
+    { id: 't1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Empresa A', fromDepartment: 'Tecnologia', toCompany: 'Empresa B', toDepartment: 'Inovação', startDate: '2025-06-01', endDate: '2025-06-30', status: 'Em Andamento' },
+    { id: 't2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'Empresa A', fromDepartment: 'Marketing', toCompany: 'Empresa A', toDepartment: 'Vendas', startDate: '2025-03-15', endDate: '2025-04-15', status: 'Concluído' },
+    { id: 't3', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'Empresa B', fromDepartment: 'Tecnologia', toCompany: 'Empresa A', toDepartment: 'P&D', startDate: '2025-07-01', endDate: '2025-07-31', status: 'Agendado' },
 ];
 
 
@@ -441,7 +441,7 @@ export let coursesDb: Course[] = [
                 question: "Qual ferramenta permite criar um novo curso com a ajuda da inteligência artificial?",
                 options: ["Gerador de Relatório A3", "Criador de Conteúdo no Learning Hub", "Submissão de Ideia nos Labs"],
                 correctAnswer: "Criador de Conteúdo no Learning Hub",
-                explanation: "Dentro do Learning Hub, a funcionalidade 'Criar com IA' permite que você gere cursos completos a partir de tópicos e detalhes."
+                explanation: "Dentro do Learning Hub, a funcionalidade 'Criar com IA' permite que you gere cursos completos a partir de tópicos e detalhes."
             }
         ],
         videoIdeas: ["Tour guiado pela interface da plataforma.", "Como submeter sua primeira ideia no Innovation Labs."],
