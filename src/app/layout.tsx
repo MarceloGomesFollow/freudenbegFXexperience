@@ -4,8 +4,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 
 export const metadata: Metadata = {
-  title: 'DPX Digital',
-  description: 'DPX Digital - Digital Professional Experience Platform',
+  title: 'FollowLabs',
+  description: 'FollowLabs - Digital Professional Experience Platform',
 };
 
 export default function RootLayout({
