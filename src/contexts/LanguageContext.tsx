@@ -3,8 +3,9 @@
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import en from '@/locales/en.json';
 import pt from '@/locales/pt.json';
+import de from '@/locales/de.json';
 
-type Language = 'en' | 'pt';
+type Language = 'en' | 'pt' | 'de';
 
 interface LanguageContextType {
   language: Language;
@@ -12,7 +13,7 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
-const translations: Record<Language, any> = { en, pt };
+const translations: Record<Language, any> = { en, pt, de };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
@@ -20,7 +21,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguageState] = useState<Language>('pt');
 
   const setLanguage = (lang: string) => {
-    if (lang === 'en' || lang === 'pt') {
+    if (lang === 'en' || lang === 'pt' || lang === 'de') {
       setLanguageState(lang as Language);
     }
   };

@@ -38,6 +38,9 @@ export function LanguageToggle() {
             <DropdownMenuRadioItem value="en">
                 English
             </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="de">
+                Deutsch
+            </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

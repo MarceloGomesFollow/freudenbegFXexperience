@@ -1,0 +1,44 @@
+{
+  "login": "Anmelden",
+  "enrollNow": "Jetzt anmelden",
+  "hero": {
+    "title": "FX Experience: Die Zukunft der Berufserfahrung",
+    "subtitle": "Eine einheitliche Plattform zur Verwaltung, Verfolgung und Verstärkung der beruflichen Entwicklungsprogramme Ihres Unternehmens mit der Kraft der KI."
+  },
+  "getStarted": "Loslegen",
+  "learnMore": "Mehr erfahren",
+  "keyFeatures": "Hauptmerkmale",
+  "features": {
+    "title": "Alles, was Sie für den Erfolg brauchen",
+    "subtitle": "Unsere Plattform ist vollgepackt mit leistungsstarken Funktionen, um Ihre Programme zu optimieren, das Lernen zu verbessern und die Wirkung zu messen.",
+    "streamlinedWorkflows": {
+      "title": "Optimierte Arbeitsabläufe",
+      "description": "Digitale Anmeldung und automatisierte Genehmigungsprozesse für Teilnehmer, Administratoren und Personalabteilung."
+    },
+    "interactiveDigitalDiary": {
+      "title": "Interaktives digitales Tagebuch",
+      "description": "Protokollieren Sie Aktivitäten, Reflexionen und laden Sie Multimedia-Inhalte (Text, Fotos, Videos) hoch."
+    },
+    "aiAssistedReporting": {
+      "title": "KI-gestützte Berichterstattung",
+      "description": "Generieren Sie automatisch A3-Berichte, indem Sie Tagebucheinträge und Feedback zusammenfassen."
+    },
+    "structuredFeedback": {
+      "title": "Strukturiertes Feedback",
+      "description": "Sammeln Sie geführtes Feedback von empfangenden Einheiten mit Bewertungen und Anhängen."
+    },
+    "executiveDashboards": {
+      "title": "Executive-Dashboards",
+      "description": "Überwachen Sie KPIs, ROI und den Fortschritt der Teilnehmer in Echtzeit mit leistungsstarken Analysen."
+    },
+    "lgpdCompliant": {
+      "title": "DSGVO-konform",
+      "description": "Gewährleisten Sie Datenschutz und Compliance mit digitalen Signaturen und Einwilligungskontrolle."
+    }
+  },
+  "footer": {
+    "copy": "© 2024 DPX Digital. Alle Rechte vorbehalten.",
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutz"
+  }
+}
