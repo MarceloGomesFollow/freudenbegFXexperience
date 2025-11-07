@@ -29,6 +29,7 @@ import {
   FileText,
   Trophy,
   Youtube,
+  ExternalLink,
 } from "lucide-react";
 
 import {
@@ -170,32 +171,13 @@ const links = [
 
 function FreudyIaLink() {
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <SidebarMenuButton>
-                    <BrainCircuit />
-                    <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
-                </SidebarMenuButton>
-            </DialogTrigger>
-            <DialogContent className="max-w-4xl h-[80vh]">
-                <DialogHeader>
-                    <DialogTitle>Experimente o FreudyIA</DialogTitle>
-                    <DialogDescription>
-                       Interaja diretamente com nossa IA generativa para explorar suas capacidades.
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="flex-1 w-full h-full rounded-lg overflow-hidden border">
-                    <iframe
-                        className="w-full h-full"
-                        src="https://lab.anam.ai/frame/id8RD2drjB1keqJc6LKOP"
-                        title="HyperXIA Player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
-                </div>
-            </DialogContent>
-        </Dialog>
+        <a href="https://lab.anam.ai/frame/id8RD2drjB1keqJc6LKOP" target="_blank" rel="noopener noreferrer">
+            <SidebarMenuButton>
+                <BrainCircuit />
+                <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
+                <ExternalLink className="ml-auto h-3 w-3" />
+            </SidebarMenuButton>
+        </a>
     );
 }
 
