@@ -14,6 +14,7 @@ import { LifeBuoy, Mail, Phone } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { users } from "@/lib/data";
+import { DateTime } from "@/components/date-time";
 
 export const metadata: Metadata = {
   title: 'Dashboard | DPX Digital',
@@ -50,6 +51,7 @@ export default function DashboardLayout({
                           <RoleSwitcher />
                       </div>
                       <div className="flex items-center gap-2">
+                          <DateTime />
                           <Dialog>
                             <DialogTrigger asChild>
                                 <Button variant="outline" size="sm">

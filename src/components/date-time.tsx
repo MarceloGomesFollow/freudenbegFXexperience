@@ -1,0 +1,37 @@
+
+"use client";
+
+import { useState, useEffect } from 'react';
+
+export function DateTime() {
+    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentDateTime(new Date());
+        }, 60000); // Update every minute
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, []);
+
+    const formattedDate = currentDateTime.toLocaleDateString('pt-BR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+
+    const formattedTime = currentDateTime.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+    return (
+        <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
+            <span>{formattedDate}</span>
+            <span className="font-semibold">{formattedTime}</span>
+        </div>
+    );
+}
