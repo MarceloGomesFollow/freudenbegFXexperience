@@ -1,6 +1,6 @@
 
 "use client";
-
+import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +10,7 @@ import { adminKpis, transfers, transferFlowData } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, BarChart, Clock, TrendingUp, Users as UsersIcon, ArrowLeftRight } from "lucide-react";
 import { Bar, BarChart as RechartsBarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { WorldTalentMap } from '@/components/world-talent-map';
 
 export default function AdminDashboardPage() {
 
@@ -122,26 +123,13 @@ export default function AdminDashboardPage() {
 
                 <Card className="lg:col-span-3">
                     <CardHeader>
-                        <CardTitle>Mapa de Intercâmbios</CardTitle>
+                        <CardTitle>Mapa Global de Talentos</CardTitle>
                         <CardDescription>
-                            Simulação visual do fluxo de talentos entre as unidades.
+                            Visualize os participantes ativos pelo mundo.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex items-center justify-center h-[300px] bg-muted/50 rounded-lg">
-                        <div className="text-center text-muted-foreground">
-                            <p className="font-bold text-lg">Empresa A</p>
-                            <div className="flex items-center gap-4 my-4">
-                                <p className="text-sm">Tecnologia</p>
-                                <div className="flex flex-col items-center">
-                                    <p className="text-sm font-bold">8</p>
-                                    <ArrowRight className="h-6 w-6 text-primary"/>
-                                     <ArrowLeft className="h-6 w-6 text-accent"/>
-                                     <p className="text-sm font-bold">4</p>
-                                </div>
-                                <p className="text-sm">Compras</p>
-                            </div>
-                            <p className="font-bold text-lg">Empresa B</p>
-                        </div>
+                    <CardContent className="p-0">
+                        <WorldTalentMap />
                     </CardContent>
                 </Card>
             </div>
@@ -199,12 +187,3 @@ export default function AdminDashboardPage() {
         </div>
     );
 }
-
-const ArrowLeft = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="m12 19-7-7 7-7"/>
-        <path d="M19 12H5"/>
-    </svg>
-)
-
-    
