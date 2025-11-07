@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -148,5 +149,18 @@
     -webkit-text-fill-color: transparent;
     background-size: 200% 100%;
     animation: shimmer-animation 5s infinite linear;
+  }
+
+  .shimmer-text-blue-sidebar {
+    background: linear-gradient(
+      90deg,
+      #80d9ff,
+      #c4fed5,
+      #80d9ff
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    animation: shimmer-animation 4s infinite linear;
   }
 }

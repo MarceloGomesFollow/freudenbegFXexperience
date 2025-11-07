@@ -28,6 +28,7 @@ import {
   Lightbulb,
   FileText,
   Trophy,
+  Youtube,
 } from "lucide-react";
 
 import {
@@ -40,6 +41,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { useRole } from "./role-switcher";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 
 const links = [
@@ -166,6 +168,37 @@ const links = [
   },
 ];
 
+function FreudyIaLink() {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <SidebarMenuButton>
+                    <BrainCircuit />
+                    <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
+                </SidebarMenuButton>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                    <DialogTitle>Conheça o FreudyIA</DialogTitle>
+                    <DialogDescription>
+                        Assista ao vídeo para entender o poder da nossa plataforma de experiência digital.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="aspect-video rounded-lg overflow-hidden border">
+                    <iframe
+                        className="w-full h-full"
+                        src="https://www.youtube.com/embed/Jl0c2A7cP4Q"
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
 export function SidebarNav() {
   const pathname = usePathname();
   const { selectedRole } = useRole();
@@ -217,12 +250,26 @@ export function SidebarNav() {
           </Collapsible>
         ) : (
           <SidebarMenuItem key={link.href}>
-            <SidebarMenuButton asChild isActive={pathname === link.href}>
-                <Link href={link.href!}>
-                  <link.icon />
-                  <span>{link.label}</span>
-                </Link>
-            </SidebarMenuButton>
+            {link.href === '/dashboard/settings' ? (
+                <>
+                <SidebarMenuButton asChild isActive={pathname === link.href}>
+                    <Link href={link.href!}>
+                    <link.icon />
+                    <span>{link.label}</span>
+                    </Link>
+                </SidebarMenuButton>
+                <SidebarMenuItem>
+                    <FreudyIaLink />
+                </SidebarMenuItem>
+                </>
+            ) : (
+                <SidebarMenuButton asChild isActive={pathname === link.href}>
+                    <Link href={link.href!}>
+                    <link.icon />
+                    <span>{link.label}</span>
+                    </Link>
+                </SidebarMenuButton>
+            )}
           </SidebarMenuItem>
         )
       })}
