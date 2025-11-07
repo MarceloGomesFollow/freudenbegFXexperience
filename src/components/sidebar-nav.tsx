@@ -166,6 +166,7 @@ const links = [
     href: "/dashboard/settings",
     label: "Configurações",
     icon: Settings,
+    isSettings: true,
   },
 ];
 
@@ -199,7 +200,7 @@ export function SidebarNav() {
       {links.map((link) => {
         if (!userHasRole(link.roles)) return null;
         
-        return link.subLinks ? (
+        const menuItemContent = link.subLinks ? (
           <Collapsible key={link.label} className="w-full" defaultOpen={isSubLinkActive(link.subLinks)}>
             <CollapsibleTrigger asChild>
                 <div className="group/menu-item relative">
@@ -231,28 +232,25 @@ export function SidebarNav() {
             </CollapsibleContent>
           </Collapsible>
         ) : (
-          <SidebarMenuItem key={link.href}>
-            {link.href === '/dashboard/settings' ? (
-                <>
-                <SidebarMenuButton asChild isActive={pathname === link.href}>
-                    <Link href={link.href!}>
-                    <link.icon />
-                    <span>{link.label}</span>
-                    </Link>
-                </SidebarMenuButton>
+            <SidebarMenuButton asChild isActive={pathname === link.href}>
+                <Link href={link.href!}>
+                <link.icon />
+                <span>{link.label}</span>
+                </Link>
+            </SidebarMenuButton>
+        );
+
+        return (
+            <React.Fragment key={link.label}>
                 <SidebarMenuItem>
-                    <FreudyIaLink />
+                    {menuItemContent}
                 </SidebarMenuItem>
-                </>
-            ) : (
-                <SidebarMenuButton asChild isActive={pathname === link.href}>
-                    <Link href={link.href!}>
-                    <link.icon />
-                    <span>{link.label}</span>
-                    </Link>
-                </SidebarMenuButton>
-            )}
-          </SidebarMenuItem>
+                {link.isSettings && (
+                     <SidebarMenuItem>
+                        <FreudyIaLink />
+                    </SidebarMenuItem>
+                )}
+            </React.Fragment>
         )
       })}
     </SidebarMenu>
