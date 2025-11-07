@@ -17,7 +17,7 @@ import { users } from "@/lib/data";
 import { DateTime } from "@/components/date-time";
 
 export const metadata: Metadata = {
-  title: 'Dashboard | DPX Digital',
+  title: 'Dashboard | FollowLabs',
   description: 'Plataforma de Experiência Profissional Digital',
 };
 
