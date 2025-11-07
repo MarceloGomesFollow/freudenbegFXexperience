@@ -10,6 +10,7 @@ import { Send, X, Mic, Sparkles, Calendar, Bell, MessageSquarePlus, Loader2 } fr
 import { FreudIcon } from "./freud-icon";
 import { chatWithFreudy } from "@/ai/flows/chatbot-flow";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 
 type Message = {
     from: "user" | "ai";
