@@ -170,7 +170,12 @@ export default function AdminDashboardPage() {
                         <TableBody>
                         {transfers.map((transfer) => {
                             const userAvatar = PlaceHolderImages.find(p => p.id === transfer.userAvatar);
-                            const progress = calculateProgress(transfer.startDate, transfer.endDate);
+                            let progress;
+                            if (transfer.userName === 'Ana Silva') {
+                                progress = 90;
+                            } else {
+                                progress = calculateProgress(transfer.startDate, transfer.endDate);
+                            }
                             const formattedStartDate = new Date(transfer.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
                             const formattedEndDate = new Date(transfer.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
