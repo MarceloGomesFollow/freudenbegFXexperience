@@ -91,7 +91,10 @@ export default function DashboardLayout({
                                 </div>
                             </DialogContent>
                           </Dialog>
-                          <LanguageToggle />
+                          <div className="flex items-center gap-1">
+                            <span className="text-sm font-medium text-muted-foreground">Idioma:</span>
+                            <LanguageToggle />
+                          </div>
                           <ThemeToggle />
                           <UserNav />
                       </div>

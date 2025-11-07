@@ -59,8 +59,11 @@ export default function Home() {
           </div>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
-            <LanguageToggle />
-            <Button variant="outline" className="bg-white/10 text-primary border-white/20 backdrop-blur-sm hover:bg-white/20 hover:text-primary" asChild>
+             <div className="flex items-center gap-1">
+                <span className="text-sm font-medium text-primary-foreground/80">Idioma:</span>
+                <LanguageToggle />
+            </div>
+            <Button variant="outline" className="bg-white/10 text-primary-foreground border-white/20 backdrop-blur-sm hover:bg-white/20 font-bold" asChild>
                 <Link href="/login">
                     {t('login')}
                 </Link>
