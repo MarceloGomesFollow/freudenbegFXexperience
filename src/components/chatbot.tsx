@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Send, X, Mic, Sparkles, Calendar, Bell, MessageSquarePlus, Loader2 } from "lucide-react";
 import { FreudIcon } from "./freud-icon";
 import { chatWithFreudy } from "@/ai/flows/chatbot-flow";
+import { useToast } from "@/hooks/use-toast";
 
 type Message = {
     from: "user" | "ai";
@@ -22,6 +23,30 @@ export function Chatbot() {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [hasMicPermission, setHasMicPermission] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (isOpen) {
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          setHasMicPermission(true);
+          // Stop the track immediately, we only needed to ask for permission
+          stream.getTracks().forEach(track => track.stop());
+        })
+        .catch(err => {
+          setHasMicPermission(false);
+          console.error("Microphone access denied:", err);
+          if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+              toast({
+                variant: "destructive",
+                title: "Acesso ao Microfone Negado",
+                description: "Por favor, habilite o acesso ao microfone nas configurações do seu navegador.",
+              });
+          }
+        });
+    }
+  }, [isOpen, toast]);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
@@ -133,8 +158,8 @@ export function Chatbot() {
                     disabled={isLoading}
                   />
                   <div className="absolute right-2 flex items-center">
-                    <Button variant="ghost" size="icon" className="h-8 w-8" disabled>
-                        <Mic className="h-4 w-4 text-muted-foreground" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8" disabled={!hasMicPermission}>
+                        <Mic className={cn("h-4 w-4", hasMicPermission ? "text-primary" : "text-muted-foreground")} />
                     </Button>
                      <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSendMessage} disabled={isLoading}>
                         <Send className="h-4 w-4" />
