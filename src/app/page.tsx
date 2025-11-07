@@ -62,7 +62,7 @@ export default function Home() {
             <LanguageToggle />
             <Link
                 href="/login"
-                className="text-sm font-medium hover:underline underline-offset-4 text-foreground"
+                className="text-sm font-bold shimmer-text-blue hover:opacity-80 transition-opacity"
             >
                 {t('login')}
             </Link>
