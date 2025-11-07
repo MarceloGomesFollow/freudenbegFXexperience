@@ -164,11 +164,6 @@ const links = [
     label: "Configurações",
     icon: Settings,
   },
-  {
-    href: "/dashboard/hyperxia",
-    label: "HyperXIA",
-    icon: BrainCircuit,
-  },
 ];
 
 export function SidebarNav() {
@@ -206,11 +201,12 @@ export function SidebarNav() {
               <SidebarMenuSub>
                 {link.subLinks.map((subLink) => {
                   if (!userHasRole(subLink.roles)) return null;
+                  const SubLinkIcon = subLink.icon;
                   return (
                   <SidebarMenuSubItem key={subLink.href}>
                     <SidebarMenuSubButton asChild isActive={pathname === subLink.href}>
-                        <Link href={subLink.href} className="flex items-center gap-2" target={subLink.external ? "_blank" : undefined} rel={subLink.external ? "noopener noreferrer" : undefined}>
-                          {subLink.icon && <subLink.icon />}
+                        <Link href={subLink.href} className="flex items-center gap-2">
+                          {SubLinkIcon && <SubLinkIcon />}
                           {subLink.label}
                         </Link>
                     </SidebarMenuSubButton>
@@ -222,7 +218,7 @@ export function SidebarNav() {
         ) : (
           <SidebarMenuItem key={link.href}>
             <SidebarMenuButton asChild isActive={pathname === link.href}>
-                <Link href={link.href!} target={link.external ? "_blank" : undefined} rel={link.external ? "noopener noreferrer" : undefined}>
+                <Link href={link.href!}>
                   <link.icon />
                   <span>{link.label}</span>
                 </Link>

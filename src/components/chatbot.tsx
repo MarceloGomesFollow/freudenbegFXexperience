@@ -114,7 +114,7 @@ export function Chatbot() {
               <CardHeader className="text-center bg-card/30">
                 <div className="flex items-center justify-center gap-2">
                     <Sparkles className="h-6 w-6 text-accent" />
-                    <CardTitle>IA Freudy</CardTitle>
+                    <CardTitle>Freudy</CardTitle>
                 </div>
                 <CardDescription>Seu Assistente Pessoal</CardDescription>
               </CardHeader>
