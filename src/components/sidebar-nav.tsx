@@ -166,19 +166,37 @@ const links = [
     href: "/dashboard/settings",
     label: "Configurações",
     icon: Settings,
-    isSettings: true,
   },
 ];
 
 function FreudyIaLink() {
     return (
-        <a href="https://lab.anam.ai/frame/id8RD2drjB1keqJc6LKOP" target="_blank" rel="noopener noreferrer">
-            <SidebarMenuButton>
-                <BrainCircuit />
-                <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
-                <ExternalLink className="ml-auto h-3 w-3" />
-            </SidebarMenuButton>
-        </a>
+        <Dialog>
+            <DialogTrigger asChild>
+                <SidebarMenuButton>
+                    <BrainCircuit />
+                    <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
+                </SidebarMenuButton>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl h-[80vh]">
+                <DialogHeader>
+                    <DialogTitle>FreudyIA</DialogTitle>
+                    <DialogDescription>
+                        Interaja com a IA generativa da plataforma.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="w-full h-full rounded-lg overflow-hidden border">
+                    <iframe
+                        className="w-full h-full"
+                        src="https://lab.anam.ai/frame/id8RD2drjB1keqJc6LKOP"
+                        title="FreudyIA Player"
+                        frameBorder="0"
+                        allow="microphone; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            </DialogContent>
+        </Dialog>
     );
 }
 
@@ -241,18 +259,14 @@ export function SidebarNav() {
         );
 
         return (
-            <React.Fragment key={link.label}>
-                <SidebarMenuItem>
-                    {menuItemContent}
-                </SidebarMenuItem>
-                {link.isSettings && (
-                     <SidebarMenuItem>
-                        <FreudyIaLink />
-                    </SidebarMenuItem>
-                )}
-            </React.Fragment>
+            <SidebarMenuItem key={link.label}>
+                {menuItemContent}
+            </SidebarMenuItem>
         )
       })}
+      <SidebarMenuItem>
+        <FreudyIaLink />
+      </SidebarMenuItem>
     </SidebarMenu>
   );
 }
