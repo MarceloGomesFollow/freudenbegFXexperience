@@ -164,6 +164,11 @@ const links = [
     label: "Configurações",
     icon: Settings,
   },
+  {
+    href: "/dashboard/hyperxia",
+    label: "HyperXIA",
+    icon: BrainCircuit,
+  },
 ];
 
 export function SidebarNav() {

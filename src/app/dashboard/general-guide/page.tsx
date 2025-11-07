@@ -338,24 +338,6 @@ export default function GeneralGuidePage() {
                                     </ul>
                                 </AccordionContent>
                             </AccordionItem>
-                            <AccordionItem value="item-6">
-                                <AccordionTrigger>
-                                    <h3 className="text-lg font-semibold flex items-center gap-2"><BrainCircuit className="h-5 w-5" /> Experimente o HyperXIA</h3>
-                                </AccordionTrigger>
-                                <AccordionContent className="text-muted-foreground pl-6">
-                                    <p className="mb-4">Interaja diretamente com o HyperXIA, nossa IA generativa, para explorar suas capacidades e obter insights em tempo real. Use a janela abaixo para fazer perguntas, testar cenários e ver o poder da IA em ação.</p>
-                                    <div className="aspect-video w-full rounded-lg overflow-hidden border">
-                                        <iframe
-                                            className="w-full h-full"
-                                            src="https://lab.anam.ai/frame/id8RD2drjB1keqJc6LKOP"
-                                            title="HyperXIA Player"
-                                            frameBorder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowFullScreen
-                                        ></iframe>
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
                         </Accordion>
                     </div>
                  </TabsContent>
