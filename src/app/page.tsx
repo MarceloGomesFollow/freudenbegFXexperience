@@ -180,7 +180,7 @@ export default function Home() {
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-card text-card-foreground">
         <div className="text-xs text-muted-foreground text-center sm:text-left">
-            <p>Produzido por Follow<span className="font-bold shimmer-text-blue">Labs</span></p>
+            <p><b>Produzido por Follow<span className="shimmer-text-blue">Labs</span></b> - www.followadvisor.com</p>
             <p>Propriedade de Follow Advisor Ltda. CNPJ 32.814.520/0001-24</p>
         </div>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
