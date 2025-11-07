@@ -51,7 +51,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center bg-background/60 backdrop-blur-md border-b">
+      <header className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center bg-muted/30 backdrop-blur-lg border-b border-muted/20">
         <Link href="/" className="flex items-center justify-center gap-4">
           <Logo />
            <div className="text-xl font-bold tracking-wider uppercase shimmer-text">

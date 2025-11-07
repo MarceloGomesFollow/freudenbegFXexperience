@@ -75,7 +75,7 @@ export default function EnrollmentPage() {
 
   return (
     <div className="w-full min-h-screen bg-background flex flex-col">
-        <header className="px-4 lg:px-6 h-16 flex items-center border-b shrink-0">
+        <header className="px-4 lg:px-6 h-16 flex items-center border-b shrink-0 bg-muted/30 backdrop-blur-lg border-muted/20">
             <Link href="/" className="flex items-center justify-center">
             <Logo />
             </Link>
