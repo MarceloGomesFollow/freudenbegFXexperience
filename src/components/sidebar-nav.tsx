@@ -177,18 +177,18 @@ function FreudyIaLink() {
                     <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
                 </SidebarMenuButton>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl">
+            <DialogContent className="max-w-4xl h-[80vh]">
                 <DialogHeader>
-                    <DialogTitle>Conheça o FreudyIA</DialogTitle>
+                    <DialogTitle>Experimente o FreudyIA</DialogTitle>
                     <DialogDescription>
-                        Assista ao vídeo para entender o poder da nossa plataforma de experiência digital.
+                       Interaja diretamente com nossa IA generativa para explorar suas capacidades.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="aspect-video rounded-lg overflow-hidden border">
+                <div className="flex-1 w-full h-full rounded-lg overflow-hidden border">
                     <iframe
                         className="w-full h-full"
-                        src="https://www.youtube.com/embed/Jl0c2A7cP4Q"
-                        title="YouTube video player"
+                        src="https://lab.anam.ai/frame/id8RD2drjB1keqJc6LKOP"
+                        title="HyperXIA Player"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
