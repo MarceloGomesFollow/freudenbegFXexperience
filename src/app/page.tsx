@@ -60,7 +60,7 @@ export default function Home() {
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
             <LanguageToggle />
-            <Button variant="outline" className="bg-white/10 text-primary-foreground border-white/20 backdrop-blur-sm hover:bg-white/20 hover:text-primary-foreground" asChild>
+            <Button variant="outline" className="bg-white/10 text-primary border-white/20 backdrop-blur-sm hover:bg-white/20 hover:text-primary" asChild>
                 <Link href="/login">
                     {t('login')}
                 </Link>
