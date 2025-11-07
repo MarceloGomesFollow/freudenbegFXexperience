@@ -4,9 +4,12 @@
 import { useState, useEffect } from 'react';
 
 export function DateTime() {
-    const [currentDateTime, setCurrentDateTime] = useState(new Date());
+    const [currentDateTime, setCurrentDateTime] = useState<Date | null>(null);
 
     useEffect(() => {
+        // Set the date only on the client
+        setCurrentDateTime(new Date());
+
         const timer = setInterval(() => {
             setCurrentDateTime(new Date());
         }, 60000); // Update every minute
@@ -15,6 +18,11 @@ export function DateTime() {
             clearInterval(timer);
         };
     }, []);
+
+    if (!currentDateTime) {
+        // Render a placeholder or nothing on the server and initial client render
+        return null;
+    }
 
     const formattedDate = currentDateTime.toLocaleDateString('pt-BR', {
         weekday: 'long',
