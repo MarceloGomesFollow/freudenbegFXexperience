@@ -1,37 +1,38 @@
 
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Progress } from "./ui/progress";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Maximize, Building } from "lucide-react";
+import { Maximize, Building, Users, Globe } from "lucide-react";
 import { users } from "@/lib/data";
 
 const units = [
     { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { y: 79.5, x: 35.3 } },
-    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { y: 75.8, x: 42.6 } },
-    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { y: 75.9, x: 42.7 } },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'Jacareí – SP', position: { y: 75.8, x: 42.6 } },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'Jacareí – SP', position: { y: 75.9, x: 42.7 } },
     { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { y: 74.4, x: 33.0 } },
-    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { y: 78.2, x: 36.7 } },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'Guarulhos – SP', position: { y: 78.2, x: 36.7 } },
     { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { y: 74.6, x: 33.1 } },
     { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { y: 74.7, x: 33.2 } },
-    { name: 'Klüber Lubrication Brasil', location: 'São Paulo (SP)', position: { y: 78.1, x: 36.8 } },
+    { name: 'Klüber Lubrication Brasil', location: 'Alphaville – SP', position: { y: 78.1, x: 36.8 } },
     { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { y: 78.0, x: 35.5 } },
 ];
 
 
 const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
+    const [filter, setFilter] = useState<'all' | 'companies' | 'employees'>('all');
     const activeParticipants = users.filter(u => u.status === 'Ativo');
 
     const getSlightOffset = (index: number) => {
-        const angle = index * 137.5; 
-        const radius = 0.5 + (index * 0.1); 
+        const angle = index * 137.5;
+        const radius = 0.5 + (index * 0.1);
         return {
             x: Math.cos(angle) * radius,
             y: Math.sin(angle) * radius,
@@ -51,7 +52,7 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                 className="absolute inset-0"
             ></iframe>
 
-            {units.map((unit, i) => (
+            {(filter === 'all' || filter === 'companies') && units.map((unit, i) => (
                 <TooltipProvider key={unit.name}>
                     <Tooltip>
                     <TooltipTrigger asChild>
@@ -75,7 +76,7 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                 </TooltipProvider>
             ))}
 
-            {activeParticipants.map((p, i) => {
+            {(filter === 'all' || filter === 'employees') && activeParticipants.map((p, i) => {
                 const unitData = units.find(u => u.name === p.unit);
                 if (!unitData) return null;
 
@@ -97,7 +98,7 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                                 animate={{ scale: 1 }}
                                 transition={{ delay: 0.2 * i, type: "spring" }}
                             >
-                                <Avatar className="h-8 w-8 border-2 border-primary ring-2 ring-primary/50 shadow-lg">
+                                <Avatar className="h-8 w-8 border-2 border-accent ring-2 ring-accent/50 shadow-lg">
                                     {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={p.name} />}
                                     <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
                                 </Avatar>
@@ -133,6 +134,21 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                     </TooltipProvider>
                 )
             })}
+
+             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 bg-background/50 backdrop-blur-sm p-1.5 rounded-lg border">
+                <Button size="sm" variant={filter === 'all' ? 'secondary' : 'ghost'} onClick={() => setFilter('all')}>
+                    <Globe className="mr-2 h-4 w-4" />
+                    Todos
+                </Button>
+                <Button size="sm" variant={filter === 'companies' ? 'secondary' : 'ghost'} onClick={() => setFilter('companies')}>
+                    <Building className="mr-2 h-4 w-4" />
+                    Empresas
+                </Button>
+                 <Button size="sm" variant={filter === 'employees' ? 'secondary' : 'ghost'} onClick={() => setFilter('employees')}>
+                    <Users className="mr-2 h-4 w-4" />
+                    Funcionários
+                </Button>
+            </div>
         </div>
     );
 };
