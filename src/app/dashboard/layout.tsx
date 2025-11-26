@@ -32,7 +32,7 @@ export default function DashboardLayout({
     <RoleProvider>
       <SidebarProvider>
           <div className="flex h-screen overflow-hidden bg-background">
-              <Sidebar className="border-r bg-muted/30 backdrop-blur-lg sidebar-motion-bg tech-texture">
+              <Sidebar className="border-r bg-muted/30 backdrop-blur-lg">
                   <SidebarHeader>
                       <Logo />
                   </SidebarHeader>
