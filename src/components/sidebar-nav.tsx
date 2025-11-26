@@ -30,6 +30,7 @@ import {
   Trophy,
   Youtube,
   ExternalLink,
+  Home,
 } from "lucide-react";
 
 import {
@@ -46,6 +47,11 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 
 
 const links = [
+  {
+    href: "/dashboard/home",
+    label: "Home",
+    icon: Home,
+  },
   {
     href: "/dashboard/general-guide",
     label: "Guia Geral",

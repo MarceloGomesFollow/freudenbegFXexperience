@@ -1,0 +1,111 @@
+
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { WorldTalentMap } from "@/components/world-talent-map";
+import { kpis, exchangeOpportunities, challenges } from "@/lib/data";
+import { ArrowRight, Beaker, Briefcase, Lightbulb, Users } from "lucide-react";
+import Link from "next/link";
+
+export default function HomePage() {
+  return (
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h2 className="text-3xl font-bold tracking-tight">Bem-vindo à Experiência FX!</h2>
+        <p className="text-muted-foreground max-w-3xl">
+          Sua plataforma central para desenvolvimento, inovação e conexão. Explore o que está acontecendo no programa e como você pode participar.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Participantes Ativos</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{kpis.activeParticipants}</div>
+            <p className="text-xs text-muted-foreground">Colaboradores em desenvolvimento.</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Oportunidades Abertas</CardTitle>
+            <Briefcase className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{exchangeOpportunities.length}</div>
+            <p className="text-xs text-muted-foreground">Vagas para intercâmbio.</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Desafios de Inovação</CardTitle>
+            <Beaker className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{challenges.filter(c => c.status === 'Aberto').length}</div>
+            <p className="text-xs text-muted-foreground">Problemas reais buscando soluções.</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Ideias Submetidas</CardTitle>
+            <Lightbulb className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">3</div>
+            <p className="text-xs text-muted-foreground">Novas ideias no último mês.</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-8 grid-cols-1 lg:grid-cols-5">
+        <div className="lg:col-span-3 space-y-8">
+            <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
+                <CardHeader>
+                    <CardTitle className="text-primary">Qual o seu próximo passo?</CardTitle>
+                </CardHeader>
+                <CardContent className="grid sm:grid-cols-2 gap-4">
+                    <Button size="lg" asChild>
+                        <Link href="/dashboard/innovation-labs/submit-idea">
+                            <Lightbulb className="mr-2"/> Submeter uma Ideia
+                        </Link>
+                    </Button>
+                    <Button size="lg" variant="secondary" asChild>
+                         <Link href="/dashboard/exchange-center">
+                            Explorar Intercâmbios <ArrowRight className="ml-2"/>
+                        </Link>
+                    </Button>
+                </CardContent>
+            </Card>
+             <Card>
+                <CardHeader>
+                    <CardTitle>Onde estão nossos talentos?</CardTitle>
+                    <CardDescription>
+                        Visualize os participantes ativos em intercâmbio pelo mundo em tempo real.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-sm text-center text-muted-foreground">
+                        O mapa global de talentos será exibido aqui.
+                    </p>
+                </CardContent>
+            </Card>
+        </div>
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Mapa Global de Talentos</CardTitle>
+            <CardDescription>
+              Acompanhe a jornada dos nossos participantes.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0">
+            <WorldTalentMap />
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
