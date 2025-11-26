@@ -142,7 +142,7 @@ export default function ContentPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [textFileName, setTextFileName] = useState("");
     const [coverImageName, setCoverImageName] = useState("");
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
 
     const generationForm = useForm<z.infer<typeof generationFormSchema>>({
         resolver: zodResolver(generationFormSchema),
@@ -710,6 +710,8 @@ export default function ContentPage() {
         </div>
     );
 }
+
+    
 
     
 
