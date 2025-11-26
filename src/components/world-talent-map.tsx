@@ -1,7 +1,7 @@
 
 "use client";
 
-import { motion, PanInfo, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
@@ -15,21 +15,20 @@ import { users } from "@/lib/data";
 import Image from "next/image";
 
 const units = [
-    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { y: 70.2, x: 45.1 } },
-    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { y: 69.5, x: 45.4 } },
-    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { y: 69.6, x: 45.5 } },
-    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { y: 69.2, x: 44.8 } },
-    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { y: 69.8, x: 45.0 } },
-    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { y: 69.3, x: 44.9 } },
-    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { y: 69.4, x: 45.0 } },
-    { name: 'Klüber Lubrication Brasil', location: 'São Paulo (SP)', position: { y: 69.7, x: 44.9 } },
-    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { y: 69.9, x: 45.0 } },
+    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { y: 80.5, x: 37.3 } },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { y: 79.8, x: 38.6 } },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { y: 79.9, x: 38.7 } },
+    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { y: 79.4, x: 37.0 } },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { y: 80.2, x: 37.7 } },
+    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { y: 79.6, x: 37.1 } },
+    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { y: 79.7, x: 37.2 } },
+    { name: 'Klüber Lubrication Brasil', location: 'São Paulo (SP)', position: { y: 80.1, x: 37.8 } },
+    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { y: 80.0, x: 37.5 } },
 ];
 
 const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
     const [zoom, setZoom] = React.useState(isFullScreen ? 1.5 : 1);
     const mapContainerRef = useRef<HTMLDivElement>(null);
-    const controls = useAnimation();
 
     const activeParticipants = users.filter(u => u.status === 'Ativo');
 
@@ -73,7 +72,7 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                         <TooltipTrigger asChild>
                             <motion.div
                                 className="absolute z-10"
-                                style={{ top: `${'${unit.position.y}'}%`, left: `${'${unit.position.x}'}%` }}
+                                style={{ top: `${unit.position.y}%`, left: `${unit.position.x}%` }}
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 transition={{ delay: 0.1 * i, type: "spring" }}
@@ -93,7 +92,9 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
 
                 {activeParticipants.map((p, i) => {
                     const unitData = units.find(u => u.name === p.unit);
-                    const position = unitData ? unitData.position : { y: 50, x: 50}; // Default position if unit not found
+                    if (!unitData) return null; // Don't render user if their unit is not on the map
+
+                    const position = unitData.position;
                     const offset = getSlightOffset(i);
                     
                     return (
@@ -103,8 +104,8 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                                 <motion.div
                                     className="absolute z-20"
                                     style={{ 
-                                        top: `calc(${'${position.y}'}% + ${'${offset.y}'}px)`, 
-                                        left: `calc(${'${position.x}'}% + ${'${offset.x}'}px)` 
+                                        top: `calc(${position.y}% + ${offset.y}px)`, 
+                                        left: `calc(${position.x}% + ${offset.x}px)` 
                                     }}
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
