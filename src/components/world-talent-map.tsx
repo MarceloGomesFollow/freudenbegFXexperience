@@ -12,35 +12,28 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "./ui/button";
 import { Maximize, Building, ZoomIn, ZoomOut } from "lucide-react";
 import { users } from "@/lib/data";
+import Image from "next/image";
 
 const units = [
-    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '70.2%', left: '45.1%' }, userUnitIdentifier: 'Freudenberg-NOK' },
-    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '69.4%', left: '45.4%' }, userUnitIdentifier: 'Freudenberg Filtration Technologies Brasil' },
-    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '69.5%', left: '45.5%' }, userUnitIdentifier: 'Freudenberg Performance Materials Brasil' },
-    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '69.2%', left: '44.8%' }, userUnitIdentifier: 'EagleBurgmann Brasil' },
-    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '69.8%', left: '45.0%' }, userUnitIdentifier: 'Trelleborg Vibracoustic Brasil' },
-    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '69.3%', left: '44.9%' }, userUnitIdentifier: 'Chem-Trend Brasil' },
-    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '69.4%', left: '45.0%' }, userUnitIdentifier: 'SurTec Brasil' },
-    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '69.7%', left: '44.9%' }, userUnitIdentifier: 'Klüber Lubrication Brasil' },
-    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '69.9%', left: '45.0%' }, userUnitIdentifier: 'FRCC SA (escritório regional Freudenberg)' },
+    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '70.2%', left: '45.1%' } },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '69.5%', left: '45.4%' } },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '69.6%', left: '45.5%' } },
+    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '69.2%', left: '44.8%' } },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '69.8%', left: '45.0%' } },
+    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '69.3%', left: '44.9%' } },
+    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '69.4%', left: '45.0%' } },
+    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '69.7%', left: '44.9%' } },
+    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '69.9%', left: '45.0%' } },
 ];
 
 
-const MapContent = ({ initialZoom = 1 }: { initialZoom?: number }) => {
-    const [zoom, setZoom] = React.useState(initialZoom);
-
-    // This key is crucial. Changing the key forces React to re-mount the iframe,
-    // which effectively reloads it with the new `src` URL.
-    const mapKey = `google-map-zoom-${zoom}`;
-
-    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&maptype=satellite&zoom=${zoom}`;
-
+const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
+    const [zoom, setZoom] = React.useState(isFullScreen ? 1.5 : 1);
     const activeParticipants = users.filter(u => u.status === 'Ativo');
 
-    // Add a slight random offset to avoid exact overlaps
     const getSlightOffset = (index: number) => {
-        const angle = index * 137.5; // Golden angle for distribution
-        const radius = 0.5 + (index * 0.1); // Increase radius for each user
+        const angle = index * 137.5; 
+        const radius = 0.5 + (index * 0.1); 
         return {
             x: Math.cos(angle) * radius,
             y: Math.sin(angle) * radius,
@@ -48,117 +41,123 @@ const MapContent = ({ initialZoom = 1 }: { initialZoom?: number }) => {
     };
 
     return (
-        <div className="relative w-full h-full">
-            <iframe
-                key={mapKey}
-                className="w-full h-full border-0 rounded-lg"
-                loading="lazy"
-                allowFullScreen
-                src={mapUrl}>
-            </iframe>
-             <div className="absolute bottom-4 right-4 flex flex-col gap-2">
-                <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.min(z + 1, 18))} className="bg-background/80">
+        <div className="relative w-full h-full overflow-hidden bg-gray-800 rounded-lg">
+             <motion.div
+                className="absolute inset-0"
+                animate={{ scale: zoom }}
+                transition={{ duration: 0.5 }}
+            >
+                <Image
+                    src="https://picsum.photos/seed/world-map-satellite/2000/1500"
+                    alt="World Map"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="satellite world map"
+                />
+            </motion.div>
+             <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-20">
+                <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.min(z + 0.5, 5))} className="bg-background/80">
                     <ZoomIn className="h-4 w-4" />
                 </Button>
-                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.max(z - 1, 1))} className="bg-background/80">
+                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.max(z - 0.5, 1))} className="bg-background/80">
                     <ZoomOut className="h-4 w-4" />
                 </Button>
             </div>
-            {units.map((unit, i) => (
-                <TooltipProvider key={unit.name}>
-                    <Tooltip>
-                    <TooltipTrigger asChild>
-                        <motion.div
-                            className="absolute z-10"
-                            style={{ top: unit.position.top, left: unit.position.left }}
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.1 * i, type: "spring" }}
-                        >
-                            <div className="p-1.5 bg-primary/80 text-primary-foreground rounded-full shadow-lg">
-                                <Building className="h-4 w-4" />
-                            </div>
-                        </motion.div>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <p className="font-semibold">{unit.name}</p>
-                        <p className="text-sm text-muted-foreground">{unit.location}</p>
-                    </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            ))}
-             {activeParticipants.map((p, i) => {
-                const unitData = units.find(u => u.userUnitIdentifier === p.unit);
-                const position = unitData ? unitData.position : { top: '50%', left: '50%'}; // Default position if not found
-                const offset = getSlightOffset(i);
-                
-                return (
-                    <TooltipProvider key={p.email}>
-                        <Tooltip>
-                        <TooltipTrigger asChild>
-                            <motion.div
-                            className="absolute z-10"
-                            style={{ 
-                                top: `calc(${position.top} + ${offset.y}%)`, 
-                                left: `calc(${position.left} + ${offset.x}%)` 
-                            }}
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: 0.2 * i, type: "spring" }}
-                            >
-                            <Avatar className="h-8 w-8 border-2 border-primary ring-2 ring-primary/50 shadow-lg">
-                                <AvatarImage
-                                src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl}
-                                alt={p.name}
-                                />
-                                <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
-                            </Avatar>
-                            </motion.div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                             <Card className="w-64 border-0 shadow-none">
-                                <CardHeader className="flex-row items-center gap-4 p-4">
-                                    <Avatar>
-                                    <AvatarImage
-                                        src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl}
-                                        alt={p.name}
-                                    />
-                                    <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
-                                    </Avatar>
-                                    <div>
-                                    <CardTitle className="text-base">{p.name}</CardTitle>
+            <div className="absolute inset-0">
+                 <motion.div
+                    className="relative w-full h-full"
+                    animate={{ scale: zoom }}
+                    transition={{ duration: 0.5 }}
+                >
+                    {units.map((unit, i) => (
+                        <TooltipProvider key={unit.name}>
+                            <Tooltip>
+                            <TooltipTrigger asChild>
+                                <motion.div
+                                    className="absolute z-10"
+                                    style={{ top: unit.position.top, left: unit.position.left }}
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 / zoom }}
+                                    transition={{ delay: 0.1 * i, type: "spring" }}
+                                >
+                                    <div className="p-1.5 bg-primary/80 text-primary-foreground rounded-full shadow-lg">
+                                        <Building className="h-4 w-4" />
                                     </div>
-                                </CardHeader>
-                                <CardContent className="p-4 pt-0">
-                                    <div className="text-sm space-y-2">
-                                    <p>
-                                        <strong>Unidade:</strong> {p.unit}
-                                    </p>
-                                    <p>
-                                        <strong>Cargo:</strong> {p.role}
-                                    </p>
-                                    <div>
-                                        <div className="flex justify-between text-xs mb-1">
-                                        <span>Progresso</span>
-                                        <span>{p.progress}%</span>
-                                        </div>
-                                        <Progress value={p.progress} className="h-2" />
-                                    </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                )
-             })}
+                                </motion.div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="font-semibold">{unit.name}</p>
+                                <p className="text-sm text-muted-foreground">{unit.location}</p>
+                            </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    ))}
+                    {activeParticipants.map((p, i) => {
+                        const unitData = units.find(u => u.name === p.unit);
+                        const position = unitData ? unitData.position : { top: '50%', left: '50%'};
+                        const offset = getSlightOffset(i);
+                        
+                        return (
+                            <TooltipProvider key={p.email}>
+                                <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <motion.div
+                                        className="absolute z-20"
+                                        style={{ 
+                                            top: `calc(${position.top} + ${offset.y}%)`, 
+                                            left: `calc(${position.left} + ${offset.x}%)` 
+                                        }}
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 / zoom }}
+                                        transition={{ delay: 0.2 * i, type: "spring" }}
+                                    >
+                                        <Avatar className="h-8 w-8 border-2 border-primary ring-2 ring-primary/50 shadow-lg">
+                                            <AvatarImage
+                                                src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl}
+                                                alt={p.name}
+                                            />
+                                            <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                    </motion.div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <Card className="w-64 border-0 shadow-none">
+                                        <CardHeader className="flex-row items-center gap-4 p-4">
+                                            <Avatar>
+                                                <AvatarImage src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl} alt={p.name} />
+                                                <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <CardTitle className="text-base">{p.name}</CardTitle>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent className="p-4 pt-0">
+                                            <div className="text-sm space-y-2">
+                                                <p><strong>Unidade:</strong> {p.unit}</p>
+                                                <p><strong>Cargo:</strong> {p.role}</p>
+                                                <div>
+                                                    <div className="flex justify-between text-xs mb-1">
+                                                        <span>Progresso</span>
+                                                        <span>{p.progress}%</span>
+                                                    </div>
+                                                    <Progress value={p.progress} className="h-2" />
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        )
+                    })}
+                </motion.div>
+            </div>
         </div>
     )
 }
 
 
 export function WorldTalentMap() {
-
     return (
         <div className="relative w-full aspect-video">
             <MapContent />
@@ -168,15 +167,15 @@ export function WorldTalentMap() {
                         <Maximize className="h-4 w-4"/>
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-6">
-                    <DialogHeader>
+                <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
+                    <DialogHeader className="p-6 pb-0">
                         <DialogTitle>Mapa Global de Talentos</DialogTitle>
                         <DialogDescription>
                             Navegue pelo mapa para ver onde nossos participantes e unidades estão.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="flex-1 -m-6 mt-2">
-                        <MapContent initialZoom={6} />
+                    <div className="flex-1">
+                        <MapContent isFullScreen={true} />
                     </div>
                 </DialogContent>
             </Dialog>
