@@ -41,13 +41,12 @@ export default function DashboardLayout({
                       <SidebarNav />
                   </SidebarContent>
                   <SidebarFooter>
-                      <SidebarTrigger />
                   </SidebarFooter>
               </Sidebar>
               <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
                   <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-muted/30 px-4 backdrop-blur-lg sm:px-6 border-muted/20">
                       <div className="flex items-center gap-4">
-                          <SidebarTrigger className="md:hidden" />
+                          <SidebarTrigger />
                           <RoleSwitcher />
                       </div>
                       <div className="flex items-center gap-2">
