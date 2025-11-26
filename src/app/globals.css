@@ -30,13 +30,14 @@
     --chart-4: 223 30% 40%;
     --chart-5: 174 15% 70%;
     --radius: 0.5rem;
-    --sidebar-background: 224 71% 20% / 0.9;
+    --sidebar-background: 224 71% 15%;
+    --sidebar-background-dark: 224 71% 5%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 0 0% 98%;
     --sidebar-primary-foreground: 223 39% 26%;
-    --sidebar-accent: 224 71% 30% / 0.5;
+    --sidebar-accent: 224 71% 20% / 0.5;
     --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 224 71% 25% / 0.5;
+    --sidebar-border: 224 71% 15% / 0.5;
     --sidebar-ring: 174 20% 51%;
   }
   .dark {
@@ -64,7 +65,8 @@
     --chart-3: 218 15% 60%;
     --chart-4: 0 0% 80%;
     --chart-5: 174 15% 70%;
-    --sidebar-background: 224 71% 10% / 0.9;
+    --sidebar-background: 224 71% 15%;
+    --sidebar-background-dark: 224 71% 5%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 0 0% 98%;
     --sidebar-primary-foreground: 223 39% 26%;
@@ -162,5 +164,16 @@
     -webkit-text-fill-color: transparent;
     background-size: 200% 100%;
     animation: shimmer-animation 4s infinite linear;
+  }
+  
+  .sidebar-motion-bg {
+    background: linear-gradient(
+      -45deg,
+      hsl(var(--sidebar-background)),
+      hsl(var(--sidebar-background-dark)),
+      hsl(var(--sidebar-background))
+    );
+    background-size: 400% 400%;
+    animation: gradient-animation 10s ease infinite;
   }
 }
