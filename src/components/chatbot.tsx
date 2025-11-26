@@ -94,10 +94,9 @@ export function Chatbot() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={toggleOpen}
-          size="icon"
-          className="rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-lg transition-transform hover:scale-110"
+          className="rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-lg transition-transform hover:scale-110 flex items-center justify-center text-lg font-bold"
         >
-          {isOpen ? <X className="h-8 w-8" /> : <FreudyIAIcon className="h-8 w-8" />}
+          {isOpen ? <X className="h-8 w-8" /> : "FreudIA"}
         </Button>
       </div>
 
