@@ -11,7 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const GenerateMentorshipReportInputSchema = z.object({
+const GenerateMentorshipReportInputSchema = z.object({
   menteeName: z.string().describe('The name of the participant being evaluated.'),
   mentorName: z.string().describe('The name of the mentor providing the feedback.'),
   projectPeriod: z.string().describe('The start and end date of the project period (e.g., "De ___/___/___ a ___/___/___").'),
