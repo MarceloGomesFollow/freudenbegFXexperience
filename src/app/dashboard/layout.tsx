@@ -33,7 +33,7 @@ export default function DashboardLayout({
     <RoleProvider>
       <SidebarProvider>
           <div className="flex h-screen overflow-hidden bg-background">
-              <Sidebar className="border-r">
+              <Sidebar className="border-r bg-sidebar/80 backdrop-blur-lg">
                   <SidebarHeader>
                       <Logo />
                   </SidebarHeader>
