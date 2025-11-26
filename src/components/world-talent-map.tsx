@@ -85,6 +85,65 @@ const MapContent = () => {
                     <ZoomOut className="h-4 w-4" />
                 </Button>
             </div>
+             {participants.map((p, i) => (
+                <TooltipProvider key={p.name}>
+                    <Tooltip>
+                    <TooltipTrigger asChild>
+                        <motion.div
+                        className="absolute z-10"
+                        style={{ top: p.position.top, left: p.position.left }}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.2 * i, type: "spring" }}
+                        >
+                        <Avatar className="h-8 w-8 border-2 border-primary ring-2 ring-primary/50 shadow-lg">
+                            <AvatarImage
+                            src={PlaceHolderImages.find(img => img.id === p.avatarId)?.imageUrl}
+                            alt={p.name}
+                            />
+                            <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        </motion.div>
+                    </TooltipTrigger>
+                    <TooltipContent asChild>
+                        <Card className="w-64">
+                        <CardHeader className="flex-row items-center gap-4 p-4">
+                            <Avatar>
+                            <AvatarImage
+                                src={PlaceHolderImages.find(img => img.id === p.avatarId)?.imageUrl}
+                                alt={p.name}
+                            />
+                            <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                            <CardTitle className="text-base">{p.name}</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="p-4 pt-0">
+                            <div className="text-sm space-y-2">
+                            <p>
+                                <strong>Unidade:</strong> {p.unit}
+                            </p>
+                            <p>
+                                <strong>Local:</strong> {p.location}
+                            </p>
+                            <p>
+                                <strong>Tempo:</strong> {p.timeAtUnit}
+                            </p>
+                            <div>
+                                <div className="flex justify-between text-xs mb-1">
+                                <span>Progresso</span>
+                                <span>{p.progress}%</span>
+                                </div>
+                                <Progress value={p.progress} className="h-2" />
+                            </div>
+                            </div>
+                        </CardContent>
+                        </Card>
+                    </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            ))}
         </div>
     )
 }
