@@ -47,13 +47,15 @@ export default function DashboardLayout({
                   <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-muted/30 px-4 backdrop-blur-lg sm:px-6 border-muted/20">
                       <div className="flex items-center gap-4">
                           <SidebarTrigger />
-                          <RoleSwitcher />
+                          <div className="hidden sm:block">
+                            <RoleSwitcher />
+                          </div>
                       </div>
                       <div className="flex items-center gap-2">
                           <DateTime />
                           <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" size="sm">
+                                <Button variant="outline" size="sm" className="hidden sm:inline-flex">
                                     <LifeBuoy className="mr-2 h-4 w-4" />
                                     Apoio RH
                                 </Button>
@@ -104,7 +106,7 @@ export default function DashboardLayout({
                                 </div>
                             </DialogContent>
                           </Dialog>
-                          <div className="flex items-center gap-1">
+                          <div className="hidden sm:flex items-center gap-1">
                             <span className="text-sm font-medium text-muted-foreground">Idioma:</span>
                             <LanguageToggle />
                           </div>

@@ -55,11 +55,13 @@ export default function AdminDashboardPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex items-center justify-between space-y-2">
-                <h2 className="text-3xl font-bold tracking-tight">Painel do Administrador</h2>
-                 <p className="text-muted-foreground">
-                    Visão geral do fluxo de intercâmbios e participantes.
-                </p>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
+                <div>
+                    <h2 className="text-3xl font-bold tracking-tight">Painel do Administrador</h2>
+                    <p className="text-muted-foreground mt-1">
+                        Visão geral do fluxo de intercâmbios e participantes.
+                    </p>
+                </div>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                 <Card>
@@ -118,7 +120,7 @@ export default function AdminDashboardPage() {
                 <Card className="lg:col-span-4">
                     <CardHeader>
                         <CardTitle>Fluxo de Transferências Entre Empresas</CardTitle>
-                        <CardDescription>Visualização do volume de intercâmbios entre as empresas A e B.</CardDescription>
+                        <CardDescription>Visualização do volume de intercâmbios entre as empresas.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ChartContainer config={chartConfig} className="h-[300px] w-full">
@@ -160,10 +162,10 @@ export default function AdminDashboardPage() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Colaborador</TableHead>
-                                <TableHead>Origem</TableHead>
-                                <TableHead>Destino</TableHead>
-                                <TableHead>Período</TableHead>
-                                <TableHead className="w-[150px]">Progresso</TableHead>
+                                <TableHead className="hidden sm:table-cell">Origem</TableHead>
+                                <TableHead className="hidden sm:table-cell">Destino</TableHead>
+                                <TableHead className="hidden md:table-cell">Período</TableHead>
+                                <TableHead className="w-[150px] hidden lg:table-cell">Progresso</TableHead>
                                 <TableHead>Status</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -190,16 +192,16 @@ export default function AdminDashboardPage() {
                                         <div className="font-medium">{transfer.userName}</div>
                                     </div>
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="hidden sm:table-cell">
                                     <div className="font-medium">{transfer.fromCompany}</div>
                                     <div className="text-xs text-muted-foreground">{transfer.fromDepartment}</div>
                                 </TableCell>
-                                <TableCell>
+                                <TableCell className="hidden sm:table-cell">
                                      <div className="font-medium">{transfer.toCompany}</div>
                                     <div className="text-xs text-muted-foreground">{transfer.toDepartment}</div>
                                 </TableCell>
-                                <TableCell>{formattedStartDate} - {formattedEndDate}</TableCell>
-                                 <TableCell>
+                                <TableCell className="hidden md:table-cell">{formattedStartDate} - {formattedEndDate}</TableCell>
+                                 <TableCell className="hidden lg:table-cell">
                                     <div className="flex items-center gap-2">
                                         <Progress value={progress} className="h-2" />
                                         <span className="text-xs font-medium text-muted-foreground">{progress}%</span>

@@ -18,7 +18,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Participantes Ativos</CardTitle>
@@ -87,14 +87,12 @@ export default function HomePage() {
                         Visualize os participantes ativos em intercâmbio pelo mundo em tempo real.
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <p className="text-sm text-center text-muted-foreground">
-                        O mapa global de talentos será exibido aqui.
-                    </p>
+                <CardContent className="p-0">
+                   <WorldTalentMap />
                 </CardContent>
             </Card>
         </div>
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 hidden lg:block">
           <CardHeader>
             <CardTitle>Mapa Global de Talentos</CardTitle>
             <CardDescription>

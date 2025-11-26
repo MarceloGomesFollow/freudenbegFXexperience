@@ -1,16 +1,16 @@
 
 "use client";
 
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useAnimation } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Progress } from "./ui/progress";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import React, { useRef, useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Maximize, Building, Users, Globe } from "lucide-react";
+import { Maximize, Building, Users, Globe, ZoomIn, ZoomOut } from "lucide-react";
 import { users } from "@/lib/data";
 
 const units = [
@@ -28,6 +28,8 @@ const units = [
 
 const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
     const [filter, setFilter] = useState<'all' | 'companies' | 'employees'>('all');
+    const [zoom, setZoom] = useState(1);
+    const mapContainerRef = useRef<HTMLDivElement>(null);
     const activeParticipants = users.filter(u => u.status === 'Ativo');
 
     const getSlightOffset = (index: number) => {
@@ -38,19 +40,30 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
             y: Math.sin(angle) * radius,
         };
     };
+    
+    const handleZoomIn = () => setZoom(prev => Math.min(prev * 1.5, 8));
+    const handleZoomOut = () => setZoom(prev => Math.max(prev / 1.5, 1));
+
 
     return (
-        <div className="relative w-full h-full overflow-hidden bg-gray-800 rounded-lg">
-             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d234200.3539824391!2d-46.85183864197992!3d-23.47952410292723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbr!4v1689264423838!5m2!1sen!2sbr"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={true}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="absolute inset-0"
-            ></iframe>
+        <div ref={mapContainerRef} className="relative w-full h-full overflow-hidden bg-gray-800 rounded-lg">
+             <motion.div
+                drag
+                dragConstraints={mapContainerRef}
+                className="absolute inset-0 w-full h-full"
+                animate={{ scale: zoom }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d234200.3539824391!2d-46.85183864197992!3d-23.47952410292723!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbr!4v1689264423838!5m2!1sen!2sbr"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen={true}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0 pointer-events-none"
+                ></iframe>
 
             {(filter === 'all' || filter === 'companies') && units.map((unit, i) => (
                 <TooltipProvider key={unit.name}>
@@ -134,7 +147,7 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                     </TooltipProvider>
                 )
             })}
-
+             </motion.div>
              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 bg-background/50 backdrop-blur-sm p-1.5 rounded-lg border">
                 <Button size="sm" variant={filter === 'all' ? 'secondary' : 'ghost'} onClick={() => setFilter('all')}>
                     <Globe className="mr-2 h-4 w-4" />
@@ -147,6 +160,14 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                  <Button size="sm" variant={filter === 'employees' ? 'secondary' : 'ghost'} onClick={() => setFilter('employees')}>
                     <Users className="mr-2 h-4 w-4" />
                     Funcionários
+                </Button>
+            </div>
+             <div className="absolute top-2 right-12 flex flex-col gap-2">
+                <Button variant="outline" size="icon" className="h-8 w-8 bg-background/50" onClick={handleZoomIn}>
+                    <ZoomIn className="h-4 w-4" />
+                </Button>
+                 <Button variant="outline" size="icon" className="h-8 w-8 bg-background/50" onClick={handleZoomOut}>
+                    <ZoomOut className="h-4 w-4" />
                 </Button>
             </div>
         </div>
@@ -163,14 +184,14 @@ export function WorldTalentMap() {
                         <Maximize className="h-4 w-4"/>
                     </Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-0">
-                    <DialogHeader className="p-6 pb-0">
+                <DialogContent className="max-w-7xl h-[90vh] flex flex-col p-2 sm:p-4">
+                    <DialogHeader className="p-4 pb-0 sm:p-6 sm:pb-0">
                         <DialogTitle>Mapa Global de Talentos</DialogTitle>
                         <DialogDescription>
                             Navegue pelo mapa para ver onde nossos participantes e unidades estão. Use os controles do mapa para zoom e navegação.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="flex-1 p-2">
+                    <div className="flex-1">
                         <MapContent isFullScreen={true} />
                     </div>
                 </DialogContent>
