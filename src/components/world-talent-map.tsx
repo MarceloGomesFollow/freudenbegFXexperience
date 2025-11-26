@@ -26,9 +26,14 @@ const units = [
 ];
 
 
-const MapContent = () => {
-    const [zoom, setZoom] = React.useState(1);
-    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&maptype=satellite&zoom=${zoom}`
+const MapContent = ({ initialZoom = 1 }: { initialZoom?: number }) => {
+    const [zoom, setZoom] = React.useState(initialZoom);
+
+    // This key is crucial. Changing the key forces React to re-mount the iframe,
+    // which effectively reloads it with the new `src` URL.
+    const mapKey = `google-map-zoom-${zoom}`;
+
+    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&maptype=satellite&zoom=${zoom}`;
 
     const activeParticipants = users.filter(u => u.status === 'Ativo');
 
@@ -45,7 +50,7 @@ const MapContent = () => {
     return (
         <div className="relative w-full h-full">
             <iframe
-                key={zoom} // Re-render iframe when zoom changes
+                key={mapKey}
                 className="w-full h-full border-0 rounded-lg"
                 loading="lazy"
                 allowFullScreen
@@ -171,7 +176,7 @@ export function WorldTalentMap() {
                         </DialogDescription>
                     </DialogHeader>
                     <div className="flex-1 -m-6 mt-2">
-                        <MapContent />
+                        <MapContent initialZoom={6} />
                     </div>
                 </DialogContent>
             </Dialog>
