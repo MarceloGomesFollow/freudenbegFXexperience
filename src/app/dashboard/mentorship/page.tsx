@@ -20,6 +20,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
+import { generateMentorshipReport, GenerateMentorshipReportInput } from "@/ai/flows/generate-mentorship-report";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const MenteesTab = () => {
     const currentUserEmail = 'fabio.pereira@example.com'; // Simulando o mentor logado
@@ -256,32 +258,109 @@ const MeetingsTab = () => {
 }
 
 const AiReportTab = () => {
+    const [selectedMentee, setSelectedMentee] = useState<string | null>(null);
+    const [generatedReport, setGeneratedReport] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const { toast } = useToast();
+
+    const handleGenerateReport = async () => {
+        if (!selectedMentee) {
+            toast({
+                variant: 'destructive',
+                title: "Selecione um mentorado",
+                description: "Você precisa escolher um mentorado para gerar o relatório.",
+            });
+            return;
+        }
+
+        setIsLoading(true);
+        setGeneratedReport(null);
+
+        const mentee = users.find(u => u.email === selectedMentee);
+        const mentor = users.find(u => u.role === 'Mentor');
+
+        if (!mentee || !mentor) {
+            toast({
+                variant: 'destructive',
+                title: "Erro",
+                description: "Não foi possível encontrar os dados do mentorado ou mentor.",
+            });
+            setIsLoading(false);
+            return;
+        }
+
+        const reportInput: GenerateMentorshipReportInput = {
+            menteeName: mentee.name,
+            mentorName: mentor.name,
+            projectPeriod: "01/07/2024 a 31/07/2024",
+            feedbackDate: new Date().toLocaleDateString('pt-BR'),
+            diaryEntries: "O participante demonstrou proatividade, registrando suas atividades e aprendizados diariamente. Destaque para a resolução do desafio X e a proposta de melhoria Y.",
+            meetingMinutes: "As reuniões de alinhamento foram produtivas. O mentorado sempre trouxe pautas claras e absorveu bem os feedbacks. Houve um bom progresso nas metas definidas.",
+            tasksCompleted: "90% das tarefas foram concluídas no prazo. O relatório A3 final foi entregue com alta qualidade.",
+        };
+        
+        try {
+            const result = await generateMentorshipReport(reportInput);
+            setGeneratedReport(result.report);
+            toast({
+                title: "Relatório Gerado!",
+                description: "O relatório de feedback foi gerado com sucesso pela IA.",
+            });
+        } catch (error) {
+            console.error("Error generating report:", error);
+            toast({
+                variant: 'destructive',
+                title: "Erro ao Gerar Relatório",
+                description: "A IA não conseguiu processar a solicitação. Tente novamente.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
     return (
         <div className="mt-6">
-            <Card className="max-w-3xl mx-auto">
+            <Card className="max-w-4xl mx-auto">
                 <CardHeader>
                     <CardTitle>Relatório Consolidado com IA</CardTitle>
-                    <CardDescription>Selecione um mentorado para gerar um relatório que consolida atas de reunião e atividades registradas.</CardDescription>
+                    <CardDescription>Selecione um mentorado para gerar um relatório de feedback com base em atas, atividades e diário de bordo.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                      <div className="space-y-2">
                         <Label htmlFor="mentee-select">Selecione o Mentorado</Label>
-                        <Select>
+                        <Select onValueChange={setSelectedMentee}>
                             <SelectTrigger id="mentee-select">
                                 <SelectValue placeholder="Escolha um mentorado..." />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="ana-silva">Ana Silva</SelectItem>
-                                <SelectItem value="eduarda-lima">Eduarda Lima</SelectItem>
+                                <SelectItem value="ana.silva@example.com">Ana Silva</SelectItem>
+                                <SelectItem value="eduarda.lima@example.com">Eduarda Lima</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
-                     <Button className="w-full"><Bot className="mr-2 h-4 w-4"/> Gerar Relatório</Button>
+                     <Button className="w-full" onClick={handleGenerateReport} disabled={isLoading}>
+                        <Bot className="mr-2 h-4 w-4"/> 
+                        {isLoading ? 'Gerando...' : 'Gerar Relatório de Feedback'}
+                    </Button>
                 </CardContent>
                 <CardFooter>
-                    <div className="w-full p-4 border border-dashed rounded-md text-center text-muted-foreground">
-                        <p>O relatório gerado pela IA aparecerá aqui.</p>
-                    </div>
+                    {isLoading ? (
+                         <div className="w-full space-y-4 p-4 border border-dashed rounded-md">
+                            <Skeleton className="h-4 w-1/4" />
+                            <Skeleton className="h-16 w-full" />
+                            <Skeleton className="h-4 w-1/3" />
+                            <Skeleton className="h-24 w-full" />
+                         </div>
+                    ) : generatedReport ? (
+                         <div className="w-full p-4 border rounded-md bg-muted/20">
+                            <pre className="whitespace-pre-wrap text-sm font-sans">{generatedReport}</pre>
+                        </div>
+                    ) : (
+                        <div className="w-full p-4 border border-dashed rounded-md text-center text-muted-foreground">
+                            <p>O relatório gerado pela IA aparecerá aqui.</p>
+                        </div>
+                    )}
                 </CardFooter>
             </Card>
         </div>

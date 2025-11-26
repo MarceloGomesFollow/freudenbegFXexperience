@@ -1,3 +1,4 @@
+'use server';
 import { config } from 'dotenv';
 config();
 
@@ -9,3 +10,4 @@ import '@/ai/flows/generate-course-content.ts';
 import '@/ai/flows/recommend-learning-playlists.ts';
 import '@/ai/flows/summarize-diary-entries.ts';
 import '@/ai/flows/chatbot-flow.ts';
+import '@/ai/flows/generate-mentorship-report.ts';
