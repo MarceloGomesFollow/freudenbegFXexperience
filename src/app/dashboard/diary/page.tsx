@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Textarea } from "@/components/ui/textarea";
 import { diaryEntries, users, userGoals, type DiaryEntry, type Goal } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Bot, Image as ImageIcon, Paperclip, Send, Video, XCircle, FileText, Pencil, Flag, Upload, PlusCircle } from "lucide-react";
+import { Bot, Image as ImageIcon, Paperclip, Send, Video, XCircle, FileText, Pencil, Flag, Upload, PlusCircle, NotebookText } from "lucide-react";
 import { summarizeDiaryEntries } from "@/ai/flows/summarize-diary-entries";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -371,3 +371,5 @@ export default function DiaryPage() {
         </div>
     )
 }
+
+    
