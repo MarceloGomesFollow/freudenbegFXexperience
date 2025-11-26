@@ -58,6 +58,8 @@ export default function ExchangeApplicationPage() {
       registration: "12345",
       originUnit: "Tecnologia",
       currentRole: "Analista de Sistemas Pleno",
+      companyTimeYears: undefined,
+      companyTimeMonths: undefined,
     },
   });
 
@@ -190,7 +192,7 @@ export default function ExchangeApplicationPage() {
                         render={({ field }) => (
                             <FormItem className="flex-1">
                                 <FormControl>
-                                    <Input type="number" placeholder="Anos" {...field} />
+                                    <Input type="number" placeholder="Anos" {...field} value={field.value ?? ''} />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -201,7 +203,7 @@ export default function ExchangeApplicationPage() {
                         render={({ field }) => (
                             <FormItem className="flex-1">
                                 <FormControl>
-                                <Input type="number" placeholder="Meses" {...field} />
+                                <Input type="number" placeholder="Meses" {...field} value={field.value ?? ''} />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -321,3 +323,5 @@ export default function ExchangeApplicationPage() {
     </div>
   );
 }
+
+    
