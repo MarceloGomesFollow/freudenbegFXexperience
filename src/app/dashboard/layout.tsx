@@ -41,7 +41,7 @@ export default function DashboardLayout({
                       <SidebarNav />
                   </SidebarContent>
                   <SidebarFooter>
-                      {/* Placeholder for footer content */}
+                      <SidebarTrigger />
                   </SidebarFooter>
               </Sidebar>
               <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
