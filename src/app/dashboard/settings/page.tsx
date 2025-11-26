@@ -1,6 +1,8 @@
 
+
 "use client";
 
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,8 +11,9 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Activity, Bell, FileText, Lock, User as UserIcon, Download } from "lucide-react";
+import { Activity, Bell, FileText, Lock, User as UserIcon, Download, Building, PlusCircle } from "lucide-react";
 import * as data from "@/lib/data";
+import { useRole } from '@/components/role-switcher';
 
 const activityLogs = [
     { id: 1, action: "Login na plataforma", ip: "189.12.34.56", date: "25/07/2024 10:30" },
@@ -21,10 +24,16 @@ const activityLogs = [
 ]
 
 export default function SettingsPage() {
+    const { selectedRole } = useRole();
+    const isAdmin = selectedRole.id === 'admin';
+    const [companies, setCompanies] = useState(data.companies);
+    const [newCompanyName, setNewCompanyName] = useState('');
+    const [newCompanyLocation, setNewCompanyLocation] = useState('');
 
     const handleExport = () => {
         const allData = {
             users: data.users,
+            companies: companies,
             diaryEntries: data.diaryEntries,
             tasks: data.tasks,
             mentorships: data.mentorships,
@@ -42,24 +51,38 @@ export default function SettingsPage() {
 
         const textData = JSON.stringify(allData, null, 2);
         
-        const blob = new Blob([textData], { type: "text/plain" });
+        const blob = new Blob([textData], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "registros.txt";
+        link.download = "registros.json";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
     }
 
+    const handleAddCompany = () => {
+        if (newCompanyName.trim() && newCompanyLocation.trim()) {
+            const newCompany = {
+                id: newCompanyName.toLowerCase().replace(/\s+/g, '-'),
+                name: newCompanyName,
+                location: newCompanyLocation,
+            };
+            setCompanies([...companies, newCompany]);
+            setNewCompanyName('');
+            setNewCompanyLocation('');
+        }
+    };
+
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight">Configurações</h2>
             
             <Tabs defaultValue="profile" className="w-full">
-                <TabsList className="grid w-full grid-cols-5">
+                <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-6' : 'grid-cols-5'}`}>
                     <TabsTrigger value="profile"><UserIcon className="mr-2 h-4 w-4"/>Perfil</TabsTrigger>
+                    {isAdmin && <TabsTrigger value="companies"><Building className="mr-2 h-4 w-4" />Empresas</TabsTrigger>}
                     <TabsTrigger value="security"><Lock className="mr-2 h-4 w-4"/>Segurança</TabsTrigger>
                     <TabsTrigger value="notifications"><Bell className="mr-2 h-4 w-4"/>Notificações</TabsTrigger>
                     <TabsTrigger value="logs"><Activity className="mr-2 h-4 w-4"/>Logs</TabsTrigger>
@@ -97,6 +120,58 @@ export default function SettingsPage() {
                         </CardFooter>
                     </Card>
                 </TabsContent>
+
+                 {isAdmin && (
+                    <TabsContent value="companies" className="mt-6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Gerenciamento de Empresas</CardTitle>
+                                <CardDescription>
+                                    Adicione e gerencie as unidades de negócio da organização.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className='text-lg'>Adicionar Nova Empresa</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="flex flex-col sm:flex-row gap-4 items-end">
+                                        <div className="space-y-2 flex-1 w-full">
+                                            <Label htmlFor="new-company-name">Nome da Empresa</Label>
+                                            <Input id="new-company-name" value={newCompanyName} onChange={(e) => setNewCompanyName(e.target.value)} placeholder="Ex: Freudenberg-NOK" />
+                                        </div>
+                                        <div className="space-y-2 flex-1 w-full">
+                                            <Label htmlFor="new-company-location">Localização</Label>
+                                            <Input id="new-company-location" value={newCompanyLocation} onChange={(e) => setNewCompanyLocation(e.target.value)} placeholder="Ex: Diadema – SP" />
+                                        </div>
+                                        <Button onClick={handleAddCompany} className="w-full sm:w-auto">
+                                            <PlusCircle className="mr-2 h-4 w-4" />
+                                            Adicionar
+                                        </Button>
+                                    </CardContent>
+                                </Card>
+
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Nome da Empresa</TableHead>
+                                            <TableHead>Localização</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {companies.map((company) => (
+                                            <TableRow key={company.id}>
+                                                <TableCell className="font-medium">{company.name}</TableCell>
+                                                <TableCell>{company.location}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                )}
+
 
                 <TabsContent value="security" className="mt-6">
                     <Card>
@@ -240,16 +315,16 @@ export default function SettingsPage() {
                         <CardHeader>
                             <CardTitle>Exportar Todos os Registros</CardTitle>
                             <CardDescription>
-                                Faça o download de todos os dados da plataforma em um único arquivo de texto (.txt) para alimentar sistemas externos ou IAs.
+                                Faça o download de todos os dados da plataforma em um único arquivo para alimentar sistemas externos ou IAs.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <p className="text-sm text-muted-foreground mb-4">
-                                Ao clicar no botão abaixo, um arquivo chamado <strong>registros.txt</strong> será gerado e baixado. Este arquivo conterá todos os dados de usuários, diários, cursos, ideias, e outras informações da plataforma em formato JSON.
+                                Ao clicar no botão abaixo, um arquivo chamado <strong>registros.json</strong> será gerado e baixado. Este arquivo conterá todos os dados de usuários, diários, cursos, ideias, e outras informações da plataforma em formato JSON.
                             </p>
                             <Button onClick={handleExport}>
                                 <Download className="mr-2 h-4 w-4" />
-                                Gerar e Baixar Arquivo de Log (.txt)
+                                Gerar e Baixar Arquivo de Log (.json)
                             </Button>
                         </CardContent>
                     </Card>
@@ -258,5 +333,3 @@ export default function SettingsPage() {
         </div>
     );
 }
-
-    

@@ -6,10 +6,16 @@ export type User = {
   name: string;
   avatar: string; // image id from placeholder-images
   email: string;
-  role: 'Participante' | 'Mentor' | 'RH';
+  role: 'Participante' | 'Mentor' | 'RH' | 'Gestor' | 'Admin';
   status: 'Ativo' | 'Inativo' | 'Aguardando Aprovação';
   unit: string;
   progress: number;
+};
+
+export type Company = {
+  id: string;
+  name: string;
+  location: string;
 };
 
 export type DiaryEntry = {
@@ -193,6 +199,19 @@ export const users: User[] = [
   { name: 'Fábio Pereira', avatar: 'user-avatar-6', email: 'fabio.pereira@example.com', role: 'Mentor', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 100 },
   { name: 'Gabriela Ramos', avatar: 'user-avatar-7', email: 'gabriela.ramos@example.com', role: 'RH', status: 'Ativo', unit: 'RH (Empresa A)', progress: 100 },
   { name: 'Heitor Oliveira', avatar: 'user-avatar-8', email: 'heitor.oliveira@example.com', role: 'Participante', status: 'Aguardando Aprovação', unit: 'Compras (Empresa B)', progress: 5 },
+  { name: 'Zeke', avatar: 'user-avatar-1', email: 'zeke@example.com', role: 'Admin', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 100 },
+];
+
+export const companies: Company[] = [
+    { id: 'f-nok', name: 'Freudenberg-NOK', location: 'Diadema – SP' },
+    { id: 'f-filt', name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP' },
+    { id: 'f-perf', name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP' },
+    { id: 'eagle', name: 'EagleBurgmann Brasil', location: 'Campinas – SP' },
+    { id: 'trelle', name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)' },
+    { id: 'chem', name: 'Chem-Trend Brasil', location: 'Valinhos – SP' },
+    { id: 'surtec', name: 'SurTec Brasil', location: 'Valinhos – SP' },
+    { id: 'kluber', name: 'Klüber Lubrication Brasil', location: 'São Paulo (SP)' },
+    { id: 'frcc', name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP' },
 ];
 
 export const mentorships: Mentorship[] = [
