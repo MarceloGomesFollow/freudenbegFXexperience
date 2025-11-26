@@ -53,20 +53,20 @@ const participants = [
 ];
 
 const units = [
-    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '68%', left: '35.5%' } },
-    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '66%', left: '36.5%' } },
-    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '67%', left: '37.5%' } },
-    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '64%', left: '34.5%' } },
-    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '65.5%', left: '34%' } },
-    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '63%', left: '35%' } },
-    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '62%', left: '36%' } },
-    { name: 'Klüber Lubrication Brasil', location: 'São Paulo (SP)', position: { top: '64.5%', left: '36.5%' } },
-    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '63.5%', left: '33.5%' } },
+    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '69%', left: '34.5%' } },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '67%', left: '37%' } },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '68%', left: '38%' } },
+    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '64%', left: '33%' } },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '66%', left: '35%' } },
+    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '63%', left: '34%' } },
+    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '62%', left: '35%' } },
+    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '65.5%', left: '32.5%' } },
+    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '64.5%', left: '31.5%' } },
 ];
 
 const MapContent = () => {
-    const [zoom, setZoom] = React.useState(2);
-    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&zoom=${zoom}`
+    const [zoom, setZoom] = React.useState(1);
+    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&zoom=${zoom}&maptype=satellite`
 
     return (
         <div className="relative w-full h-full">
