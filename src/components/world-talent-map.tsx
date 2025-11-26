@@ -11,62 +11,42 @@ import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Maximize, Building, ZoomIn, ZoomOut } from "lucide-react";
-
-
-const participants = [
-  {
-    name: "Ana Silva",
-    location: "São Paulo, Brasil",
-    unit: "Tecnologia",
-    avatarId: "user-avatar-1",
-    timeAtUnit: "3 semanas",
-    progress: 75,
-    position: { top: "65%", left: "35%" },
-  },
-  {
-    name: "John Smith",
-    location: "Chicago, EUA",
-    unit: "Vendas",
-    avatarId: "user-avatar-2",
-    timeAtUnit: "2 semanas",
-    progress: 50,
-    position: { top: "35%", left: "20%" },
-  },
-  {
-    name: "Priya Sharma",
-    location: "Mumbai, Índia",
-    unit: "P&D",
-    avatarId: "user-avatar-5",
-    timeAtUnit: "1 semana",
-    progress: 25,
-    position: { top: "45%", left: "75%" },
-  },
-  {
-    name: "Lukas Schmidt",
-    location: "Berlim, Alemanha",
-    unit: "Inovação",
-    avatarId: "user-avatar-6",
-    timeAtUnit: "4 semanas",
-    progress: 90,
-    position: { top: "30%", left: "55%" },
-  },
-];
+import { users } from "@/lib/data";
 
 const units = [
-    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '69%', left: '34.5%' } },
-    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '67%', left: '37%' } },
-    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '68%', left: '38%' } },
-    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '64%', left: '33%' } },
-    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '66%', left: '35%' } },
-    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '63%', left: '34%' } },
-    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '62%', left: '35%' } },
-    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '65.5%', left: '32.5%' } },
-    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '64.5%', left: '31.5%' } },
+    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '69%', left: '34.5%' }, userUnitIdentifier: 'Diadema' },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '67%', left: '37%' }, userUnitIdentifier: 'Filtration' },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '68%', left: '38%' }, userUnitIdentifier: 'Performance' },
+    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '64%', left: '33%' }, userUnitIdentifier: 'EagleBurgmann' },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '66%', left: '35%' }, userUnitIdentifier: 'Trelleborg' },
+    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '63%', left: '34%' }, userUnitIdentifier: 'Chem-Trend' },
+    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '62%', left: '35%' }, userUnitIdentifier: 'SurTec' },
+    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '65.5%', left: '32.5%' }, userUnitIdentifier: 'Klüber' },
+    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '64.5%', left: '31.5%' }, userUnitIdentifier: 'FRCC' },
+    // Simplified mapping for other user units
+    { name: 'Tecnologia (Empresa A)', location: 'São Paulo', position: { top: '65%', left: '35%' }, userUnitIdentifier: 'Tecnologia (Empresa A)' },
+    { name: 'Marketing (Empresa A)', location: 'São Paulo', position: { top: '65.5%', left: '35.5%' }, userUnitIdentifier: 'Marketing (Empresa A)' },
+    { name: 'RH (Empresa A)', location: 'São Paulo', position: { top: '66%', left: '34.5%' }, userUnitIdentifier: 'RH (Empresa A)' },
+    { name: 'Vendas (Empresa B)', location: 'Campinas', position: { top: '63.5%', left: '33.5%' }, userUnitIdentifier: 'Vendas (Empresa B)' },
+    { name: 'Tecnologia (Empresa B)', location: 'São José dos Campos', position: { top: '67.5%', left: '37.5%' }, userUnitIdentifier: 'Tecnologia (Empresa B)' },
+    { name: 'Compras (Empresa B)', location: 'Diadema', position: { top: '68.5%', left: '34%' }, userUnitIdentifier: 'Compras (Empresa B)' },
 ];
 
 const MapContent = () => {
     const [zoom, setZoom] = React.useState(1);
-    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&zoom=${zoom}&maptype=satellite`
+    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&maptype=satellite&zoom=${zoom}`
+
+    const activeParticipants = users.filter(u => u.status === 'Ativo');
+
+    // Add a slight random offset to avoid exact overlaps
+    const getSlightOffset = (index: number) => {
+        const angle = index * 137.5; // Golden angle for distribution
+        const radius = 0.5 + (index * 0.1); // Increase radius for each user
+        return {
+            x: Math.cos(angle) * radius,
+            y: Math.sin(angle) * radius,
+        };
+    };
 
     return (
         <div className="relative w-full h-full">
@@ -108,65 +88,71 @@ const MapContent = () => {
                     </Tooltip>
                 </TooltipProvider>
             ))}
-             {participants.map((p, i) => (
-                <TooltipProvider key={p.name}>
-                    <Tooltip>
-                    <TooltipTrigger asChild>
-                        <motion.div
-                        className="absolute z-10"
-                        style={{ top: p.position.top, left: p.position.left }}
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ delay: 0.2 * i, type: "spring" }}
-                        >
-                        <Avatar className="h-8 w-8 border-2 border-primary ring-2 ring-primary/50 shadow-lg">
-                            <AvatarImage
-                            src={PlaceHolderImages.find(img => img.id === p.avatarId)?.imageUrl}
-                            alt={p.name}
-                            />
-                            <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        </motion.div>
-                    </TooltipTrigger>
-                    <TooltipContent asChild>
-                        <Card className="w-64">
-                        <CardHeader className="flex-row items-center gap-4 p-4">
-                            <Avatar>
-                            <AvatarImage
-                                src={PlaceHolderImages.find(img => img.id === p.avatarId)?.imageUrl}
+             {activeParticipants.map((p, i) => {
+                const unitData = units.find(u => u.userUnitIdentifier === p.unit);
+                const position = unitData ? unitData.position : { top: '50%', left: '50%'}; // Default position if not found
+                const offset = getSlightOffset(i);
+                
+                return (
+                    <TooltipProvider key={p.email}>
+                        <Tooltip>
+                        <TooltipTrigger asChild>
+                            <motion.div
+                            className="absolute z-10"
+                            style={{ 
+                                top: `calc(${position.top} + ${offset.y}%)`, 
+                                left: `calc(${position.left} + ${offset.x}%)` 
+                            }}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.2 * i, type: "spring" }}
+                            >
+                            <Avatar className="h-8 w-8 border-2 border-primary ring-2 ring-primary/50 shadow-lg">
+                                <AvatarImage
+                                src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl}
                                 alt={p.name}
-                            />
-                            <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                                />
+                                <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
                             </Avatar>
-                            <div>
-                            <CardTitle className="text-base">{p.name}</CardTitle>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="p-4 pt-0">
-                            <div className="text-sm space-y-2">
-                            <p>
-                                <strong>Unidade:</strong> {p.unit}
-                            </p>
-                            <p>
-                                <strong>Local:</strong> {p.location}
-                            </p>
-                            <p>
-                                <strong>Tempo:</strong> {p.timeAtUnit}
-                            </p>
-                            <div>
-                                <div className="flex justify-between text-xs mb-1">
-                                <span>Progresso</span>
-                                <span>{p.progress}%</span>
+                            </motion.div>
+                        </TooltipTrigger>
+                        <TooltipContent asChild>
+                            <Card className="w-64">
+                            <CardHeader className="flex-row items-center gap-4 p-4">
+                                <Avatar>
+                                <AvatarImage
+                                    src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl}
+                                    alt={p.name}
+                                />
+                                <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                <CardTitle className="text-base">{p.name}</CardTitle>
                                 </div>
-                                <Progress value={p.progress} className="h-2" />
-                            </div>
-                            </div>
-                        </CardContent>
-                        </Card>
-                    </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            ))}
+                            </CardHeader>
+                            <CardContent className="p-4 pt-0">
+                                <div className="text-sm space-y-2">
+                                <p>
+                                    <strong>Unidade:</strong> {p.unit}
+                                </p>
+                                <p>
+                                    <strong>Cargo:</strong> {p.role}
+                                </p>
+                                <div>
+                                    <div className="flex justify-between text-xs mb-1">
+                                    <span>Progresso</span>
+                                    <span>{p.progress}%</span>
+                                    </div>
+                                    <Progress value={p.progress} className="h-2" />
+                                </div>
+                                </div>
+                            </CardContent>
+                            </Card>
+                        </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                )
+             })}
         </div>
     )
 }
