@@ -65,8 +65,8 @@ const units = [
 ];
 
 const MapContent = () => {
-    const [zoom, setZoom] = React.useState(8);
-    const mapUrl = `https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d120011.02636325997!2d-46.6333824!3d-23.5506509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sFreudenberg%20Brasil!5e0!3m2!1spt-BR!2sbr!4v1689255012345&zoom=${zoom}`
+    const [zoom, setZoom] = React.useState(2);
+    const mapUrl = `https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d130571168.6015098!2d-52.93489825!3d2.1123498499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1spt-BR!2sbr!4v1721759438061!5m2!1spt-BR!2sbr&zoom=${zoom}`
 
     return (
         <div className="relative w-full h-full">
@@ -81,7 +81,7 @@ const MapContent = () => {
                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.min(z + 1, 18))} className="bg-background/80">
                     <ZoomIn className="h-4 w-4" />
                 </Button>
-                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.max(z - 1, 3))} className="bg-background/80">
+                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.max(z - 1, 1))} className="bg-background/80">
                     <ZoomOut className="h-4 w-4" />
                 </Button>
             </div>
