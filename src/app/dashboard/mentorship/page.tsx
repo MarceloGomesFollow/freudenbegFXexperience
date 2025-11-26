@@ -403,4 +403,9 @@ export default function MentorshipPage() {
                     <MeetingsTab />
                 </TabsContent>
                 <TabsContent value="report">
-                    <Ai
+                    <AiReportTab />
+                </TabsContent>
+            </Tabs>
+        </div>
+    );
+}
