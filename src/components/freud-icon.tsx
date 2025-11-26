@@ -1,6 +1,9 @@
 
 import { cn } from "@/lib/utils";
 
+/**
+ * @deprecated Use FreudyIAIcon instead.
+ */
 export function FreudIcon({ className }: { className?: string }) {
   return (
     <svg

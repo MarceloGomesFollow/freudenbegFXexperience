@@ -23,7 +23,6 @@ import {
   Shield,
   BookUser,
   CheckSquare,
-  BrainCircuit,
   LineChart,
   Lightbulb,
   FileText,
@@ -44,6 +43,7 @@ import {
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { useRole } from "./role-switcher";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { FreudyIAIcon } from "./freudy-ia-icon";
 
 
 const links = [
@@ -180,7 +180,7 @@ function FreudyIaLink() {
         <Dialog>
             <DialogTrigger asChild>
                 <SidebarMenuButton>
-                    <BrainCircuit />
+                    <FreudyIAIcon />
                     <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
                 </SidebarMenuButton>
             </DialogTrigger>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Send, X, Mic, Sparkles, Calendar, Bell, MessageSquarePlus, Loader2 } from "lucide-react";
-import { FreudIcon } from "./freud-icon";
+import { FreudyIAIcon } from "./freudy-ia-icon";
 import { chatWithFreudy } from "@/ai/flows/chatbot-flow";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -97,7 +97,7 @@ export function Chatbot() {
           size="icon"
           className="rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-lg transition-transform hover:scale-110"
         >
-          {isOpen ? <X className="h-8 w-8" /> : <FreudIcon className="h-8 w-8" />}
+          {isOpen ? <X className="h-8 w-8" /> : <FreudyIAIcon className="h-8 w-8" />}
         </Button>
       </div>
 
@@ -121,7 +121,7 @@ export function Chatbot() {
               <CardContent className="p-4 h-96 overflow-y-auto space-y-4">
                 {messages.map((msg, index) => (
                   <div key={index} className={`flex items-start gap-3 ${msg.from === 'user' ? 'justify-end' : ''}`}>
-                    {msg.from === 'ai' && <div className="p-2 bg-primary rounded-full text-primary-foreground"><FreudIcon className="h-5 w-5"/></div>}
+                    {msg.from === 'ai' && <div className="p-2 bg-primary rounded-full text-primary-foreground"><FreudyIAIcon className="h-5 w-5"/></div>}
                     <div className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.from === 'ai' ? 'bg-muted text-foreground' : 'bg-primary text-primary-foreground'}`}>
                       <p className="text-sm">{msg.text}</p>
                     </div>
@@ -130,7 +130,7 @@ export function Chatbot() {
                  {isLoading && (
                     <div className="flex items-start gap-3">
                         <div className="p-2 bg-primary rounded-full text-primary-foreground">
-                            <FreudIcon className="h-5 w-5"/>
+                            <FreudyIAIcon className="h-5 w-5"/>
                         </div>
                         <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted text-foreground flex items-center">
                             <Loader2 className="h-4 w-4 animate-spin" />
