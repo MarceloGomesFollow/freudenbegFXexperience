@@ -10,7 +10,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import React from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Button } from "./ui/button";
-import { Maximize, Building } from "lucide-react";
+import { Maximize, Building, ZoomIn, ZoomOut } from "lucide-react";
 
 
 const participants = [
@@ -64,16 +64,30 @@ const units = [
     { name: 'FRCC SA (Escritório Regional)', location: 'Alphaville (Barueri) – SP', position: { top: '63.5%', left: '33.5%' } },
 ];
 
-const MapContent = () => (
-    <div className="relative w-full h-full">
-        <iframe
-            className="w-full h-full border-0 rounded-lg"
-            loading="lazy"
-            allowFullScreen
-            src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d120011.02636325997!2d-46.6333824!3d-23.5506509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sFreudenberg%20Brasil!5e0!3m2!1spt-BR!2sbr!4v1689255012345">
-        </iframe>
-    </div>
-)
+const MapContent = () => {
+    const [zoom, setZoom] = React.useState(8);
+    const mapUrl = `https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d120011.02636325997!2d-46.6333824!3d-23.5506509!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sFreudenberg%20Brasil!5e0!3m2!1spt-BR!2sbr!4v1689255012345&zoom=${zoom}`
+
+    return (
+        <div className="relative w-full h-full">
+            <iframe
+                key={zoom} // Re-render iframe when zoom changes
+                className="w-full h-full border-0 rounded-lg"
+                loading="lazy"
+                allowFullScreen
+                src={mapUrl}>
+            </iframe>
+             <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+                <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.min(z + 1, 18))} className="bg-background/80">
+                    <ZoomIn className="h-4 w-4" />
+                </Button>
+                 <Button variant="outline" size="icon" onClick={() => setZoom(z => Math.max(z - 1, 3))} className="bg-background/80">
+                    <ZoomOut className="h-4 w-4" />
+                </Button>
+            </div>
+        </div>
+    )
+}
 
 
 export function WorldTalentMap() {
