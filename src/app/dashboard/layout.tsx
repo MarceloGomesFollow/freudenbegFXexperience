@@ -1,4 +1,6 @@
 
+"use client";
+
 import type { Metadata } from "next";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
@@ -15,17 +17,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { users } from "@/lib/data";
 import { DateTime } from "@/components/date-time";
-
-export const metadata: Metadata = {
-  title: 'Dashboard | FollowLabs',
-  description: 'Plataforma de Experiência Profissional Digital',
-};
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const { t } = useLanguage();
     const rhAdmin = users.find(u => u.role === 'RH');
     const rhAdminAvatar = PlaceHolderImages.find(p => p.id === rhAdmin?.avatar);
 
@@ -33,14 +32,14 @@ export default function DashboardLayout({
     <RoleProvider>
       <SidebarProvider>
           <div className="flex h-screen overflow-hidden bg-background">
-              <Sidebar className="border-r bg-muted/30 backdrop-blur-lg sidebar-motion-bg">
+              <Sidebar className="border-r bg-muted/30 backdrop-blur-lg sidebar-motion-bg tech-texture">
                   <SidebarHeader>
                       <Logo />
                   </SidebarHeader>
-                  <SidebarContent>
+                  <SidebarContent className="relative z-10">
                       <SidebarNav />
                   </SidebarContent>
-                  <SidebarFooter>
+                  <SidebarFooter className="relative z-10">
                   </SidebarFooter>
               </Sidebar>
               <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
@@ -107,7 +106,7 @@ export default function DashboardLayout({
                             </DialogContent>
                           </Dialog>
                           <div className="hidden sm:flex items-center gap-1">
-                            <span className="text-sm font-medium text-muted-foreground">Idioma:</span>
+                            <span className="text-sm font-medium text-muted-foreground">{t('language')}:</span>
                             <LanguageToggle />
                           </div>
                           <ThemeToggle />

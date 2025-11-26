@@ -11,6 +11,7 @@ import { FreudyIAIcon } from "./freudy-ia-icon";
 import { chatWithFreudy } from "@/ai/flows/chatbot-flow";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Message = {
     from: "user" | "ai";
@@ -19,13 +20,18 @@ type Message = {
 
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { from: "ai", text: "Olá! Sou o Freudy, seu assistente de IA. Como posso ajudar você a navegar na plataforma, agendar um evento ou tirar uma dúvida?" }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [hasMicPermission, setHasMicPermission] = useState(false);
   const { toast } = useToast();
+  const { t, language } = useLanguage();
+
+  useEffect(() => {
+    setMessages([
+        { from: "ai", text: t('chatbot.welcome') }
+    ])
+  }, [language, t]);
 
   useEffect(() => {
     if (isOpen) {
@@ -41,13 +47,13 @@ export function Chatbot() {
           if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
               toast({
                 variant: "destructive",
-                title: "Acesso ao Microfone Negado",
-                description: "Por favor, habilite o acesso ao microfone nas configurações do seu navegador.",
+                title: t('chatbot.micDenied.title'),
+                description: t('chatbot.micDenied.description'),
               });
           }
         });
     }
-  }, [isOpen, toast]);
+  }, [isOpen, toast, t]);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
@@ -69,7 +75,7 @@ export function Chatbot() {
         setMessages(prev => [...prev, aiMessage]);
     } catch (error) {
         console.error("Error with chatbot flow:", error);
-        const errorMessage: Message = { from: "ai", text: "Desculpe, não consegui processar sua pergunta. Tente novamente." };
+        const errorMessage: Message = { from: "ai", text: t('chatbot.error') };
         setMessages(prev => [...prev, errorMessage]);
     } finally {
         setIsLoading(false);
@@ -83,9 +89,9 @@ export function Chatbot() {
   }
 
   const suggestedActions = [
-    { icon: Calendar, text: "Agendar mentoria" },
-    { icon: Bell, text: "Ver notificações" },
-    { icon: MessageSquarePlus, text: "Incluir meu gestor" }
+    { icon: Calendar, text: t('chatbot.actions.schedule') },
+    { icon: Bell, text: t('chatbot.actions.notifications') },
+    { icon: MessageSquarePlus, text: t('chatbot.actions.manager') }
   ];
 
 
@@ -115,7 +121,7 @@ export function Chatbot() {
                     <Sparkles className="h-6 w-6 text-accent" />
                     <CardTitle>Freudy</CardTitle>
                 </div>
-                <CardDescription>Seu Assistente Pessoal</CardDescription>
+                <CardDescription>{t('chatbot.tagline')}</CardDescription>
               </CardHeader>
               <CardContent className="p-4 h-96 overflow-y-auto space-y-4">
                 {messages.map((msg, index) => (
@@ -150,7 +156,7 @@ export function Chatbot() {
               <CardFooter className="p-4 bg-card/30 border-t">
                 <div className="relative w-full flex items-center">
                   <Input
-                    placeholder="Pergunte ao Freudy..."
+                    placeholder={t('chatbot.placeholder')}
                     className="pr-20 bg-background"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}

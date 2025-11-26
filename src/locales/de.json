@@ -1,13 +1,20 @@
+
 {
+  "language": "Sprache",
   "login": "Anmelden",
   "enrollNow": "Jetzt anmelden",
+  "getStarted": "Loslegen",
+  "learnMore": "Mehr erfahren",
+  "keyFeatures": "Hauptmerkmale",
+  "demo": "Demo",
+  "platformInAction": "Sehen Sie die Plattform in Aktion",
+  "demoDescription": "Sehen Sie sich eine kurze Demonstration an, wie DPX Digital Ihre Entwicklungsprogramme revolutionieren kann.",
+  "producedBy": "Hergestellt von",
+  "propertyOf": "Eigentum von Follow Advisor Ltda. CNPJ 32.814.520/0001-24",
   "hero": {
     "title": "FX Experience: Die Zukunft der Berufserfahrung",
     "subtitle": "Eine einheitliche Plattform zur Verwaltung, Verfolgung und Verstärkung der beruflichen Entwicklungsprogramme Ihres Unternehmens mit der Kraft der KI."
   },
-  "getStarted": "Loslegen",
-  "learnMore": "Mehr erfahren",
-  "keyFeatures": "Hauptmerkmale",
   "features": {
     "title": "Alles, was Sie für den Erfolg brauchen",
     "subtitle": "Unsere Plattform ist vollgepackt mit leistungsstarken Funktionen, um Ihre Programme zu optimieren, das Lernen zu verbessern und die Wirkung zu messen.",
@@ -40,5 +47,26 @@
     "copy": "© 2024 DPX Digital. Alle Rechte vorbehalten.",
     "terms": "Nutzungsbedingungen",
     "privacy": "Datenschutz"
+  },
+  "theme": {
+    "toggle": "Thema wechseln",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "system": "System"
+  },
+  "chatbot": {
+    "welcome": "Hallo! Ich bin Freudy, Ihr KI-Assistent. Wie kann ich Ihnen helfen, auf der Plattform zu navigieren, eine Veranstaltung zu planen oder eine Frage zu beantworten?",
+    "tagline": "Ihr persönlicher Assistent",
+    "placeholder": "Fragen Sie Freudy...",
+    "error": "Entschuldigung, ich konnte Ihre Frage nicht bearbeiten. Bitte versuchen Sie es erneut.",
+    "micDenied": {
+        "title": "Mikrofonzugriff verweigert",
+        "description": "Bitte aktivieren Sie den Mikrofonzugriff in Ihren Browsereinstellungen."
+    },
+    "actions": {
+        "schedule": "Mentoring planen",
+        "notifications": "Benachrichtigungen anzeigen",
+        "manager": "Meinen Vorgesetzten einbeziehen"
+    }
   }
 }

@@ -1,13 +1,20 @@
+
 {
+  "language": "Language",
   "login": "Login",
   "enrollNow": "Enroll Now",
+  "getStarted": "Get Started",
+  "learnMore": "Learn More",
+  "keyFeatures": "Key Features",
+  "demo": "Demo",
+  "platformInAction": "See the Platform in Action",
+  "demoDescription": "Watch a quick demonstration of how DPX Digital can revolutionize your development programs.",
+  "producedBy": "Produced by",
+  "propertyOf": "Property of Follow Advisor Ltda. CNPJ 32.814.520/0001-24",
   "hero": {
     "title": "FX Experience: The Future of Professional Experience",
     "subtitle": "A unified platform to manage, track, and amplify your company's professional development programs with the power of AI."
   },
-  "getStarted": "Get Started",
-  "learnMore": "Learn More",
-  "keyFeatures": "Key Features",
   "features": {
     "title": "Everything You Need to Succeed",
     "subtitle": "Our platform is packed with powerful features to streamline your programs, enhance learning, and measure impact.",
@@ -40,5 +47,26 @@
     "copy": "© 2024 DPX Digital. All rights reserved.",
     "terms": "Terms of Service",
     "privacy": "Privacy"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "chatbot": {
+    "welcome": "Hello! I'm Freudy, your AI assistant. How can I help you navigate the platform, schedule an event, or answer a question?",
+    "tagline": "Your Personal Assistant",
+    "placeholder": "Ask Freudy...",
+    "error": "Sorry, I couldn't process your question. Please try again.",
+    "micDenied": {
+        "title": "Microphone Access Denied",
+        "description": "Please enable microphone access in your browser settings."
+    },
+    "actions": {
+        "schedule": "Schedule mentoring",
+        "notifications": "View notifications",
+        "manager": "Include my manager"
+    }
   }
 }

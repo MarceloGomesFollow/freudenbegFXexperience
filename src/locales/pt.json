@@ -1,13 +1,20 @@
+
 {
+  "language": "Idioma",
   "login": "Login",
   "enrollNow": "Inscreva-se Agora",
+  "getStarted": "Comece Agora",
+  "learnMore": "Saiba Mais",
+  "keyFeatures": "Principais Recursos",
+  "demo": "Demonstração",
+  "platformInAction": "Veja a Plataforma em Ação",
+  "demoDescription": "Assista a uma rápida demonstração de como a DPX Digital pode revolucionar seus programas de desenvolvimento.",
+  "producedBy": "Produzido por",
+  "propertyOf": "Propriedade de Follow Advisor Ltda. CNPJ 32.814.520/0001-24",
   "hero": {
     "title": "FX Experience: O Futuro da Experiência Profissional",
     "subtitle": "Uma plataforma unificada para gerenciar, acompanhar e ampliar os programas de desenvolvimento profissional da sua empresa com o poder da IA."
   },
-  "getStarted": "Comece Agora",
-  "learnMore": "Saiba Mais",
-  "keyFeatures": "Principais Recursos",
   "features": {
     "title": "Tudo o que Você Precisa para o Sucesso",
     "subtitle": "Nossa plataforma está repleta de recursos poderosos para otimizar seus programas, aprimorar o aprendizado e medir o impacto.",
@@ -40,5 +47,26 @@
     "copy": "© 2024 DPX Digital. Todos os direitos reservados.",
     "terms": "Termos de Serviço",
     "privacy": "Privacidade"
+  },
+  "theme": {
+    "toggle": "Alternar tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  },
+  "chatbot": {
+    "welcome": "Olá! Sou o Freudy, seu assistente de IA. Como posso ajudar você a navegar na plataforma, agendar um evento ou tirar uma dúvida?",
+    "tagline": "Seu Assistente Pessoal",
+    "placeholder": "Pergunte ao Freudy...",
+    "error": "Desculpe, não consegui processar sua pergunta. Tente novamente.",
+    "micDenied": {
+      "title": "Acesso ao Microfone Negado",
+      "description": "Por favor, habilite o acesso ao microfone nas configurações do seu navegador."
+    },
+    "actions": {
+        "schedule": "Agendar mentoria",
+        "notifications": "Ver notificações",
+        "manager": "Incluir meu gestor"
+    }
   }
 }

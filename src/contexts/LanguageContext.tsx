@@ -1,6 +1,7 @@
+
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useCallback, useEffect } from 'react';
 import en from '@/locales/en.json';
 import pt from '@/locales/pt.json';
 import de from '@/locales/de.json';
@@ -20,6 +21,13 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguageState] = useState<Language>('pt');
 
+  useEffect(() => {
+    const browserLang = navigator.language.split('-')[0];
+    if (browserLang === 'en' || browserLang === 'pt' || browserLang === 'de') {
+      setLanguageState(browserLang);
+    }
+  }, []);
+
   const setLanguage = (lang: string) => {
     if (lang === 'en' || lang === 'pt' || lang === 'de') {
       setLanguageState(lang as Language);
@@ -32,11 +40,11 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     for (const k of keys) {
       result = result?.[k];
       if (result === undefined) {
-        // Fallback to English if translation is missing
+        // Fallback to English if translation is missing in the current language
         let fallbackResult = translations['en'];
         for (const fk of keys) {
             fallbackResult = fallbackResult?.[fk];
-            if(fallbackResult === undefined) return key;
+            if(fallbackResult === undefined) return key; // Return the key if not found in English either
         }
         return fallbackResult || key;
       }
