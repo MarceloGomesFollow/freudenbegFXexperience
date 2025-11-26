@@ -10,7 +10,7 @@ import { RoleProvider, RoleSwitcher } from "@/components/role-switcher";
 import { Chatbot } from "@/components/chatbot";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { LifeBuoy, Mail, Phone } from "lucide-react";
+import { LifeBuoy, Mail, Phone, MessageSquare } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { users } from "@/lib/data";
@@ -80,6 +80,18 @@ export default function DashboardLayout({
                                                 <Mail className="mr-2 h-4 w-4 opacity-70" />{" "}
                                                 <a href={`mailto:${rhAdmin.email}`} className="text-xs text-muted-foreground hover:underline">
                                                     {rhAdmin.email}
+                                                </a>
+                                            </div>
+                                            <div className="flex items-center pt-1">
+                                                <Phone className="mr-2 h-4 w-4 opacity-70" />{" "}
+                                                <a href="tel:+5511999998888" className="text-xs text-muted-foreground hover:underline">
+                                                    +55 (11) 99999-8888
+                                                </a>
+                                            </div>
+                                             <div className="flex items-center pt-1">
+                                                <MessageSquare className="mr-2 h-4 w-4 opacity-70" />{" "}
+                                                <a href="#" className="text-xs text-muted-foreground hover:underline">
+                                                    WhatsApp
                                                 </a>
                                             </div>
                                         </div>
