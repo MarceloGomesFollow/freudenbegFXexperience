@@ -22,7 +22,7 @@ const units = [
     { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { y: 69.8, x: 45.0 } },
     { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { y: 69.3, x: 44.9 } },
     { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { y: 69.4, x: 45.0 } },
-    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { y: 69.7, x: 44.9 } },
+    { name: 'Klüber Lubrication Brasil', location: 'São Paulo (SP)', position: { y: 69.7, x: 44.9 } },
     { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { y: 69.9, x: 45.0 } },
 ];
 
@@ -55,7 +55,7 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                 drag
                 dragConstraints={mapContainerRef}
                 className="absolute inset-0 w-full h-full"
-                animate={{ scale: zoom, ...controls.get() }}
+                animate={{ scale: zoom }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
                 <Image
@@ -73,7 +73,7 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                         <TooltipTrigger asChild>
                             <motion.div
                                 className="absolute z-10"
-                                style={{ top: `${unit.position.y}%`, left: `${unit.position.x}%` }}
+                                style={{ top: `${'${unit.position.y}'}%`, left: `${'${unit.position.x}'}%` }}
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
                                 transition={{ delay: 0.1 * i, type: "spring" }}
@@ -103,8 +103,8 @@ const MapContent = ({ isFullScreen = false }: { isFullScreen?: boolean }) => {
                                 <motion.div
                                     className="absolute z-20"
                                     style={{ 
-                                        top: `calc(${position.y}% + ${offset.y}px)`, 
-                                        left: `calc(${position.x}% + ${offset.x}px)` 
+                                        top: `calc(${'${position.y}'}% + ${'${offset.y}'}px)`, 
+                                        left: `calc(${'${position.x}'}% + ${'${offset.x}'}px)` 
                                     }}
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
