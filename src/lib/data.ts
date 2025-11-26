@@ -32,6 +32,18 @@ export type DiaryEntry = {
   }[];
 };
 
+export type Goal = {
+    id: string;
+    title: string;
+    description: string;
+    status: 'Não Iniciado' | 'Em Andamento' | 'Concluído';
+    progress: number;
+    evidence: {
+        notes: string;
+        files: string[];
+    };
+};
+
 export type Task = {
   id: string;
   title: string;
@@ -259,6 +271,31 @@ export const diaryEntries: DiaryEntry[] = [
     content: 'Participei de um workshop sobre growth hacking. O whiteboard ficou cheio de ideias. Segue a foto para registrar o momento de brainstorming intenso!',
     comments: [],
   },
+];
+
+export const userGoals: Goal[] = [
+    {
+        id: 'goal-1',
+        title: 'Desenvolver Protótipo de Onboarding',
+        description: 'Criar um protótipo funcional da nova plataforma de onboarding gamificada para validação com o RH.',
+        status: 'Em Andamento',
+        progress: 40,
+        evidence: {
+            notes: 'Link para o Figma e rascunho da arquitetura.',
+            files: ['prototipo_v1.fig', 'arquitetura.pdf'],
+        },
+    },
+    {
+        id: 'goal-2',
+        title: 'Apresentar Projeto para Diretoria',
+        description: 'Preparar e realizar a apresentação do projeto de onboarding para a diretoria, buscando aprovação para o piloto.',
+        status: 'Não Iniciado',
+        progress: 0,
+        evidence: {
+            notes: '',
+            files: [],
+        },
+    },
 ];
 
 export const kpis = {
