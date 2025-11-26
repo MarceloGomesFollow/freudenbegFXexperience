@@ -14,22 +14,21 @@ import { Maximize, Building, ZoomIn, ZoomOut } from "lucide-react";
 import { users } from "@/lib/data";
 
 const units = [
-    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '70.5%', left: '35.2%' }, userUnitIdentifier: 'Diadema' },
-    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '67.5%', left: '38.2%' }, userUnitIdentifier: 'Filtration' },
-    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '68%', left: '38.5%' }, userUnitIdentifier: 'Performance' },
-    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '66.5%', left: '34%' }, userUnitIdentifier: 'EagleBurgmann' },
-    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '68.5%', left: '34.5%' }, userUnitIdentifier: 'Trelleborg' },
-    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '67%', left: '34.2%' }, userUnitIdentifier: 'Chem-Trend' },
-    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '67.5%', left: '34.7%' }, userUnitIdentifier: 'SurTec' },
-    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '68.2%', left: '33.8%' }, userUnitIdentifier: 'Klüber' },
-    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '68.7%', left: '33.5%' }, userUnitIdentifier: 'FRCC' },
-    // Simplified mapping for other user units
-    { name: 'Tecnologia (Empresa A)', location: 'São Paulo', position: { top: '68.5%', left: '34.5%' }, userUnitIdentifier: 'Tecnologia (Empresa A)' },
-    { name: 'Marketing (Empresa A)', location: 'São Paulo', position: { top: '69%', left: '35%' }, userUnitIdentifier: 'Marketing (Empresa A)' },
-    { name: 'RH (Empresa A)', location: 'São Paulo', position: { top: '69.5%', left: '34.5%' }, userUnitIdentifier: 'RH (Empresa A)' },
-    { name: 'Vendas (Empresa B)', location: 'Campinas', position: { top: '66.5%', left: '34%' }, userUnitIdentifier: 'Vendas (Empresa B)' },
-    { name: 'Tecnologia (Empresa B)', location: 'São José dos Campos', position: { top: '67.5%', left: '38.2%' }, userUnitIdentifier: 'Tecnologia (Empresa B)' },
-    { name: 'Compras (Empresa B)', location: 'Diadema', position: { top: '70.5%', left: '35.2%' }, userUnitIdentifier: 'Compras (Empresa B)' },
+    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '70.8%', left: '35.4%' }, userUnitIdentifier: 'Diadema' },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '69.1%', left: '36.8%' }, userUnitIdentifier: 'Filtration' },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '69.4%', left: '37.1%' }, userUnitIdentifier: 'Performance' },
+    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '68.8%', left: '34.5%' }, userUnitIdentifier: 'EagleBurgmann' },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '70.1%', left: '35.1%' }, userUnitIdentifier: 'Trelleborg' },
+    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '69.1%', left: '34.8%' }, userUnitIdentifier: 'Chem-Trend' },
+    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '69.4%', left: '35.1%' }, userUnitIdentifier: 'SurTec' },
+    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '70.2%', left: '34.8%' }, userUnitIdentifier: 'Klüber' },
+    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '70.5%', left: '34.5%' }, userUnitIdentifier: 'FRCC' },
+    { name: 'Tecnologia (Empresa A)', location: 'São Paulo', position: { top: '70.1%', left: '35.1%' }, userUnitIdentifier: 'Tecnologia (Empresa A)' },
+    { name: 'Marketing (Empresa A)', location: 'São Paulo', position: { top: '70.4%', left: '35.4%' }, userUnitIdentifier: 'Marketing (Empresa A)' },
+    { name: 'RH (Empresa A)', location: 'São Paulo', position: { top: '70.7%', left: '35.1%' }, userUnitIdentifier: 'RH (Empresa A)' },
+    { name: 'Vendas (Empresa B)', location: 'Campinas', position: { top: '68.8%', left: '34.5%' }, userUnitIdentifier: 'Vendas (Empresa B)' },
+    { name: 'Tecnologia (Empresa B)', location: 'São José dos Campos', position: { top: '69.1%', left: '36.8%' }, userUnitIdentifier: 'Tecnologia (Empresa B)' },
+    { name: 'Compras (Empresa B)', location: 'Diadema', position: { top: '70.8%', left: '35.4%' }, userUnitIdentifier: 'Compras (Empresa B)' },
 ];
 
 
