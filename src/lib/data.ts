@@ -191,15 +191,15 @@ export type Sprint = {
 
 
 export const users: User[] = [
-  { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 75 },
-  { name: 'Bruno Costa', avatar: 'user-avatar-2', email: 'bruno.costa@example.com', role: 'Participante', status: 'Ativo', unit: 'Marketing (Empresa A)', progress: 50 },
-  { name: 'Carla Dias', avatar: 'user-avatar-3', email: 'carla.dias@example.com', role: 'Participante', status: 'Aguardando Aprovação', unit: 'RH (Empresa A)', progress: 10 },
-  { name: 'Daniel Alves', avatar: 'user-avatar-4', email: 'daniel.alves@example.com', role: 'Participante', status: 'Inativo', unit: 'Vendas (Empresa B)', progress: 20 },
-  { name: 'Eduarda Lima', avatar: 'user-avatar-5', email: 'eduarda.lima@example.com', role: 'Participante', status: 'Ativo', unit: 'Tecnologia (Empresa B)', progress: 60 },
-  { name: 'Fábio Pereira', avatar: 'user-avatar-6', email: 'fabio.pereira@example.com', role: 'Mentor', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 100 },
-  { name: 'Gabriela Ramos', avatar: 'user-avatar-7', email: 'gabriela.ramos@example.com', role: 'RH', status: 'Ativo', unit: 'RH (Empresa A)', progress: 100 },
-  { name: 'Heitor Oliveira', avatar: 'user-avatar-8', email: 'heitor.oliveira@example.com', role: 'Participante', status: 'Aguardando Aprovação', unit: 'Compras (Empresa B)', progress: 5 },
-  { name: 'Zeke', avatar: 'user-avatar-1', email: 'zeke@example.com', role: 'Admin', status: 'Ativo', unit: 'Tecnologia (Empresa A)', progress: 100 },
+  { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Freudenberg-NOK', progress: 75 },
+  { name: 'Bruno Costa', avatar: 'user-avatar-2', email: 'bruno.costa@example.com', role: 'Participante', status: 'Ativo', unit: 'EagleBurgmann Brasil', progress: 50 },
+  { name: 'Carla Dias', avatar: 'user-avatar-3', email: 'carla.dias@example.com', role: 'Participante', status: 'Aguardando Aprovação', unit: 'Chem-Trend Brasil', progress: 10 },
+  { name: 'Daniel Alves', avatar: 'user-avatar-4', email: 'daniel.alves@example.com', role: 'Participante', status: 'Inativo', unit: 'Trelleborg Vibracoustic Brasil', progress: 20 },
+  { name: 'Eduarda Lima', avatar: 'user-avatar-5', email: 'eduarda.lima@example.com', role: 'Participante', status: 'Ativo', unit: 'SurTec Brasil', progress: 60 },
+  { name: 'Fábio Pereira', avatar: 'user-avatar-6', email: 'fabio.pereira@example.com', role: 'Mentor', status: 'Ativo', unit: 'Klüber Lubrication Brasil', progress: 100 },
+  { name: 'Gabriela Ramos', avatar: 'user-avatar-7', email: 'gabriela.ramos@example.com', role: 'RH', status: 'Ativo', unit: 'FRCC SA (escritório regional Freudenberg)', progress: 100 },
+  { name: 'Heitor Oliveira', avatar: 'user-avatar-8', email: 'heitor.oliveira@example.com', role: 'Participante', status: 'Aguardando Aprovação', unit: 'Freudenberg Filtration Technologies Brasil', progress: 5 },
+  { name: 'Zeke', avatar: 'user-avatar-1', email: 'zeke@example.com', role: 'Admin', status: 'Ativo', unit: 'Freudenberg Performance Materials Brasil', progress: 100 },
 ];
 
 export const companies: Company[] = [
