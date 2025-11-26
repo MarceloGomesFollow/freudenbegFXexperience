@@ -20,8 +20,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
-import { generateMentorshipReport, GenerateMentorshipReportInput } from "@/ai/flows/generate-mentorship-report";
+import { generateMentorshipReport } from '@/ai/flows/generate-mentorship-report';
 import { Skeleton } from "@/components/ui/skeleton";
+import { z } from 'zod';
+
+const GenerateMentorshipReportInputSchema = z.object({
+  menteeName: z.string().describe('The name of the participant being evaluated.'),
+  mentorName: z.string().describe('The name of the mentor providing the feedback.'),
+  projectPeriod: z.string().describe('The start and end date of the project period (e.g., "De ___/___/___ a ___/___/___").'),
+  feedbackDate: z.string().describe('The date the feedback is being given (e.g., "___/___/___").'),
+  diaryEntries: z.string().describe("A summary of the mentee's diary entries, highlighting activities and learnings."),
+  meetingMinutes: z.string().describe("A summary of the discussions and outcomes from mentorship meetings."),
+  tasksCompleted: z.string().describe("A summary of the mentee's performance on assigned tasks and deliverables."),
+});
+type GenerateMentorshipReportInput = z.infer<typeof GenerateMentorshipReportInputSchema>;
+
 
 const MenteesTab = () => {
     const currentUserEmail = 'fabio.pereira@example.com'; // Simulando o mentor logado
@@ -390,9 +403,4 @@ export default function MentorshipPage() {
                     <MeetingsTab />
                 </TabsContent>
                 <TabsContent value="report">
-                    <AiReportTab />
-                </TabsContent>
-            </Tabs>
-        </div>
-    );
-}
+                    <Ai
