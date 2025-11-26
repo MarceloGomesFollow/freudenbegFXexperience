@@ -116,7 +116,7 @@ const MapContent = () => {
                             </Avatar>
                             </motion.div>
                         </TooltipTrigger>
-                        <TooltipContent asChild>
+                        <TooltipContent>
                             <Card className="w-64">
                             <CardHeader className="flex-row items-center gap-4 p-4">
                                 <Avatar>
