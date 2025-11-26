@@ -14,23 +14,24 @@ import { Maximize, Building, ZoomIn, ZoomOut } from "lucide-react";
 import { users } from "@/lib/data";
 
 const units = [
-    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '69%', left: '34.5%' }, userUnitIdentifier: 'Diadema' },
-    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '67%', left: '37%' }, userUnitIdentifier: 'Filtration' },
-    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '68%', left: '38%' }, userUnitIdentifier: 'Performance' },
-    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '64%', left: '33%' }, userUnitIdentifier: 'EagleBurgmann' },
-    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '66%', left: '35%' }, userUnitIdentifier: 'Trelleborg' },
-    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '63%', left: '34%' }, userUnitIdentifier: 'Chem-Trend' },
-    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '62%', left: '35%' }, userUnitIdentifier: 'SurTec' },
-    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '65.5%', left: '32.5%' }, userUnitIdentifier: 'Klüber' },
-    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '64.5%', left: '31.5%' }, userUnitIdentifier: 'FRCC' },
+    { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '70.5%', left: '35.2%' }, userUnitIdentifier: 'Diadema' },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '67.5%', left: '38.2%' }, userUnitIdentifier: 'Filtration' },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '68%', left: '38.5%' }, userUnitIdentifier: 'Performance' },
+    { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '66.5%', left: '34%' }, userUnitIdentifier: 'EagleBurgmann' },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '68.5%', left: '34.5%' }, userUnitIdentifier: 'Trelleborg' },
+    { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '67%', left: '34.2%' }, userUnitIdentifier: 'Chem-Trend' },
+    { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '67.5%', left: '34.7%' }, userUnitIdentifier: 'SurTec' },
+    { name: 'Klüber Lubrication Brasil', location: 'Alphaville (Barueri) – SP', position: { top: '68.2%', left: '33.8%' }, userUnitIdentifier: 'Klüber' },
+    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '68.7%', left: '33.5%' }, userUnitIdentifier: 'FRCC' },
     // Simplified mapping for other user units
-    { name: 'Tecnologia (Empresa A)', location: 'São Paulo', position: { top: '65%', left: '35%' }, userUnitIdentifier: 'Tecnologia (Empresa A)' },
-    { name: 'Marketing (Empresa A)', location: 'São Paulo', position: { top: '65.5%', left: '35.5%' }, userUnitIdentifier: 'Marketing (Empresa A)' },
-    { name: 'RH (Empresa A)', location: 'São Paulo', position: { top: '66%', left: '34.5%' }, userUnitIdentifier: 'RH (Empresa A)' },
-    { name: 'Vendas (Empresa B)', location: 'Campinas', position: { top: '63.5%', left: '33.5%' }, userUnitIdentifier: 'Vendas (Empresa B)' },
-    { name: 'Tecnologia (Empresa B)', location: 'São José dos Campos', position: { top: '67.5%', left: '37.5%' }, userUnitIdentifier: 'Tecnologia (Empresa B)' },
-    { name: 'Compras (Empresa B)', location: 'Diadema', position: { top: '68.5%', left: '34%' }, userUnitIdentifier: 'Compras (Empresa B)' },
+    { name: 'Tecnologia (Empresa A)', location: 'São Paulo', position: { top: '68.5%', left: '34.5%' }, userUnitIdentifier: 'Tecnologia (Empresa A)' },
+    { name: 'Marketing (Empresa A)', location: 'São Paulo', position: { top: '69%', left: '35%' }, userUnitIdentifier: 'Marketing (Empresa A)' },
+    { name: 'RH (Empresa A)', location: 'São Paulo', position: { top: '69.5%', left: '34.5%' }, userUnitIdentifier: 'RH (Empresa A)' },
+    { name: 'Vendas (Empresa B)', location: 'Campinas', position: { top: '66.5%', left: '34%' }, userUnitIdentifier: 'Vendas (Empresa B)' },
+    { name: 'Tecnologia (Empresa B)', location: 'São José dos Campos', position: { top: '67.5%', left: '38.2%' }, userUnitIdentifier: 'Tecnologia (Empresa B)' },
+    { name: 'Compras (Empresa B)', location: 'Diadema', position: { top: '70.5%', left: '35.2%' }, userUnitIdentifier: 'Compras (Empresa B)' },
 ];
+
 
 const MapContent = () => {
     const [zoom, setZoom] = React.useState(1);
@@ -117,36 +118,36 @@ const MapContent = () => {
                             </motion.div>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <Card className="w-64">
-                            <CardHeader className="flex-row items-center gap-4 p-4">
-                                <Avatar>
-                                <AvatarImage
-                                    src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl}
-                                    alt={p.name}
-                                />
-                                <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                                <div>
-                                <CardTitle className="text-base">{p.name}</CardTitle>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="p-4 pt-0">
-                                <div className="text-sm space-y-2">
-                                <p>
-                                    <strong>Unidade:</strong> {p.unit}
-                                </p>
-                                <p>
-                                    <strong>Cargo:</strong> {p.role}
-                                </p>
-                                <div>
-                                    <div className="flex justify-between text-xs mb-1">
-                                    <span>Progresso</span>
-                                    <span>{p.progress}%</span>
+                            <Card className="w-64 border-0 shadow-none">
+                                <CardHeader className="flex-row items-center gap-4 p-4">
+                                    <Avatar>
+                                    <AvatarImage
+                                        src={PlaceHolderImages.find(img => img.id === p.avatar)?.imageUrl}
+                                        alt={p.name}
+                                    />
+                                    <AvatarFallback>{p.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                    <CardTitle className="text-base">{p.name}</CardTitle>
                                     </div>
-                                    <Progress value={p.progress} className="h-2" />
-                                </div>
-                                </div>
-                            </CardContent>
+                                </CardHeader>
+                                <CardContent className="p-4 pt-0">
+                                    <div className="text-sm space-y-2">
+                                    <p>
+                                        <strong>Unidade:</strong> {p.unit}
+                                    </p>
+                                    <p>
+                                        <strong>Cargo:</strong> {p.role}
+                                    </p>
+                                    <div>
+                                        <div className="flex justify-between text-xs mb-1">
+                                        <span>Progresso</span>
+                                        <span>{p.progress}%</span>
+                                        </div>
+                                        <Progress value={p.progress} className="h-2" />
+                                    </div>
+                                    </div>
+                                </CardContent>
                             </Card>
                         </TooltipContent>
                         </Tooltip>
