@@ -54,14 +54,14 @@ const participants = [
 
 const units = [
     { name: 'Freudenberg-NOK', location: 'Diadema – SP', position: { top: '68%', left: '35.5%' } },
-    { name: 'Freudenberg Filtration', location: 'São José dos Campos – SP', position: { top: '66%', left: '36.5%' } },
-    { name: 'Freudenberg Performance Materials', location: 'São José dos Campos – SP', position: { top: '67%', left: '37.5%' } },
+    { name: 'Freudenberg Filtration Technologies Brasil', location: 'São José dos Campos – SP', position: { top: '66%', left: '36.5%' } },
+    { name: 'Freudenberg Performance Materials Brasil', location: 'São José dos Campos – SP', position: { top: '67%', left: '37.5%' } },
     { name: 'EagleBurgmann Brasil', location: 'Campinas – SP', position: { top: '64%', left: '34.5%' } },
-    { name: 'Trelleborg Vibracoustic', location: 'São Paulo (SP)', position: { top: '65.5%', left: '34%' } },
+    { name: 'Trelleborg Vibracoustic Brasil', location: 'São Paulo (SP)', position: { top: '65.5%', left: '34%' } },
     { name: 'Chem-Trend Brasil', location: 'Valinhos – SP', position: { top: '63%', left: '35%' } },
     { name: 'SurTec Brasil', location: 'Valinhos – SP', position: { top: '62%', left: '36%' } },
-    { name: 'Klüber Lubrication', location: 'São Paulo (SP)', position: { top: '64.5%', left: '36.5%' } },
-    { name: 'FRCC SA (Escritório Regional)', location: 'Alphaville (Barueri) – SP', position: { top: '63.5%', left: '33.5%' } },
+    { name: 'Klüber Lubrication Brasil', location: 'São Paulo (SP)', position: { top: '64.5%', left: '36.5%' } },
+    { name: 'FRCC SA (escritório regional Freudenberg)', location: 'Alphaville (Barueri) – SP', position: { top: '63.5%', left: '33.5%' } },
 ];
 
 const MapContent = () => {
@@ -85,6 +85,29 @@ const MapContent = () => {
                     <ZoomOut className="h-4 w-4" />
                 </Button>
             </div>
+            {units.map((unit, i) => (
+                <TooltipProvider key={unit.name}>
+                    <Tooltip>
+                    <TooltipTrigger asChild>
+                        <motion.div
+                            className="absolute z-10"
+                            style={{ top: unit.position.top, left: unit.position.left }}
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.1 * i, type: "spring" }}
+                        >
+                            <div className="p-1.5 bg-primary/80 text-primary-foreground rounded-full shadow-lg">
+                                <Building className="h-4 w-4" />
+                            </div>
+                        </motion.div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                        <p className="font-semibold">{unit.name}</p>
+                        <p className="text-sm text-muted-foreground">{unit.location}</p>
+                    </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            ))}
              {participants.map((p, i) => (
                 <TooltipProvider key={p.name}>
                     <Tooltip>
