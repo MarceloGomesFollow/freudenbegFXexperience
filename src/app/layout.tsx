@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LogoProvider } from '@/components/logo';
+import { FloatingImage } from '@/components/FloatingImage';
 
 export const metadata: Metadata = {
   title: 'FollowLabs',
@@ -34,6 +35,7 @@ export default function RootLayout({
           <LanguageProvider>
             <LogoProvider>
               {children}
+              <FloatingImage />
             </LogoProvider>
             <Toaster />
           </LanguageProvider>
