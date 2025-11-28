@@ -12,6 +12,7 @@ import { chatWithFreudy } from "@/ai/flows/chatbot-flow";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Image from "next/image";
 
 type Message = {
     from: "user" | "ai";
@@ -100,9 +101,16 @@ export function Chatbot() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={toggleOpen}
-          className="rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-lg transition-transform hover:scale-110 flex items-center justify-center text-lg font-bold"
+          className="relative rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-lg transition-transform hover:scale-110 flex items-center justify-center text-lg font-bold overflow-hidden p-0"
         >
-          {isOpen ? <X className="h-8 w-8" /> : "FreudIA"}
+          {isOpen ? <X className="h-8 w-8" /> : (
+            <Image 
+                src="https://images.unsplash.com/photo-1764361095241-2d95d12c1b9e?q=80&w=829&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                alt="Freudy IA" 
+                fill
+                className="object-cover"
+            />
+          )}
         </Button>
       </div>
 
