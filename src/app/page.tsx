@@ -14,7 +14,6 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
-  const headerLogo = PlaceHolderImages.find(p => p.id === 'header-logo');
   const { t } = useLanguage();
 
   const features = [
@@ -85,35 +84,6 @@ export default function Home() {
             />
           )}
           
-          <motion.div
-                drag
-                dragMomentum={false}
-                className="fixed bottom-28 right-6 z-[101] cursor-grab active:cursor-grabbing"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{
-                    y: [0, -10, 0],
-                    opacity: 1,
-                }}
-                transition={{
-                    opacity: { duration: 0.5 },
-                    y: {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    },
-                }}
-            >
-                <div className="relative w-64 h-20 overflow-hidden">
-                    <Image
-                        src="https://images.unsplash.com/photo-1764354946985-631d48464ef3?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                        alt="Floating decorative image"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20" />
-                </div>
-            </motion.div>
             <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-white [text-shadow:2px_2px_8px_rgba(0,0,0,0.7)]">
@@ -191,15 +161,21 @@ export default function Home() {
             </div>
             <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-3 pt-12">
               {features.map((feature, index) => (
-                <Card key={index} className="h-full hover:shadow-lg transition-shadow">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    {feature.icon}
-                    <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{feature.description}</p>
-                  </CardContent>
-                </Card>
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -8, scale: 1.05, rotateX: 10 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
+                  <Card className="h-full shadow-md hover:shadow-xl transition-shadow">
+                    <CardHeader className="flex flex-row items-center gap-4">
+                      {feature.icon}
+                      <CardTitle className="text-xl">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">{feature.description}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -224,5 +200,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
