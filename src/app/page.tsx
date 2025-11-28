@@ -94,7 +94,7 @@ export default function Home() {
               data-ai-hint={heroImage.imageHint}
             />
           )}
-          <div className="absolute inset-0 bg-black/50" />
+          
           <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-white">
@@ -117,7 +117,7 @@ export default function Home() {
 
         <motion.section 
             id="demo" 
-            className="w-full py-12 md:py-24 lg:py-32 bg-muted/40"
+            className="w-full py-12 md:py-24 lg:py-32 bg-gray-900 text-gray-50"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
@@ -126,11 +126,11 @@ export default function Home() {
             <div className="container px-4 md:px-6">
                  <div className="flex flex-col items-center justify-center space-y-4 text-center">
                     <div className="space-y-2">
-                        <div className="inline-block rounded-lg bg-secondary px-3 py-1 text-sm text-secondary-foreground">{t('demo')}</div>
-                        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-foreground">
+                        <div className="inline-block rounded-lg bg-gray-800 px-3 py-1 text-sm">{t('demo')}</div>
+                        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
                             {t('platformInAction')}
                         </h2>
-                        <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                        <p className="max-w-[900px] text-gray-400 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                             {t('demoDescription')}
                         </p>
                     </div>
