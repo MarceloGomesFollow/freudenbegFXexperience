@@ -1,3 +1,4 @@
+
 "use client";
 
 import { motion } from "framer-motion";
@@ -27,7 +28,7 @@ export function FloatingImage() {
         },
       }}
     >
-      <Card className="w-48 overflow-hidden rounded-xl border-border/20 bg-background/50 p-1 shadow-2xl backdrop-blur-lg">
+      <Card className="w-64 overflow-hidden rounded-xl border-border/20 bg-background/50 p-1 shadow-2xl backdrop-blur-lg">
         <div className="flex justify-center items-center p-1 text-muted-foreground">
           <GripVertical className="h-4 w-4" />
         </div>
