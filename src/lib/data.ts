@@ -201,6 +201,16 @@ export type Sprint = {
   result: 'Validado' | 'Parcial' | 'Não Validado' | null;
 };
 
+export type ActivityFeedItem = {
+    id: string;
+    type: 'idea' | 'course' | 'diary' | 'challenge' | 'user';
+    user: Pick<User, 'name' | 'avatar'>;
+    action: string;
+    target: string;
+    timestamp: string;
+    link: string;
+};
+
 
 export const users: User[] = [
   { name: 'Ana Silva', avatar: 'user-avatar-1', email: 'ana.silva@example.com', role: 'Participante', status: 'Ativo', unit: 'Freudenberg-NOK', progress: 75 },
@@ -648,6 +658,14 @@ export const courseEngagement: CourseEngagement[] = [
     { courseId: 'inovacao-01', courseTitle: 'Design Thinking na Prática', likes: 250, comments: 88 },
     { courseId: 'lideranca-01', courseTitle: 'Liderança Situacional', likes: 180, comments: 62 },
     { courseId: 'tutorial-dpx-platform', courseTitle: 'Tutorial da Plataforma DPX', likes: 350, comments: 12 },
+];
+
+export const activityFeed: ActivityFeedItem[] = [
+    { id: 'act1', type: 'idea', user: { name: 'Ana Silva', avatar: 'user-avatar-1' }, action: 'submeteu uma nova ideia', target: 'Plataforma de Onboarding Gamificada', timestamp: '2h atrás', link: '/dashboard/innovation-labs/idea/idea-01' },
+    { id: 'act2', type: 'course', user: { name: 'Bruno Costa', avatar: 'user-avatar-2' }, action: 'concluiu o curso', target: 'Design Thinking na Prática', timestamp: '8h atrás', link: '/dashboard/learning/inovacao-01' },
+    { id: 'act3', type: 'diary', user: { name: 'Eduarda Lima', avatar: 'user-avatar-5' }, action: 'fez uma nova entrada no diário', target: 'Reflexões sobre a semana', timestamp: '1d atrás', link: '/dashboard/diary' },
+    { id: 'act4', type: 'challenge', user: { name: 'Gabriela Ramos', avatar: 'user-avatar-7' }, action: 'lançou um novo desafio', target: 'Reduzir Tempo de Onboarding', timestamp: '2d atrás', link: '/dashboard/innovation-labs/challenge-01' },
+    { id: 'act5', type: 'user', user: { name: 'Carla Dias', avatar: 'user-avatar-3' }, action: 'iniciou a trilha de aprendizado', target: 'Onboarding para Participantes', timestamp: '3d atrás', link: '/dashboard/learning/onboarding-participante' },
 ];
 
 // --- Innovation Labs Data ---

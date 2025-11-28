@@ -1,12 +1,26 @@
 
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { WorldTalentMap } from "@/components/world-talent-map";
-import { kpis, exchangeOpportunities, challenges } from "@/lib/data";
-import { ArrowRight, Beaker, Briefcase, Lightbulb, Users } from "lucide-react";
+import { kpis, exchangeOpportunities, challenges, activityFeed, type ActivityFeedItem } from "@/lib/data";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { ArrowRight, Beaker, Briefcase, Lightbulb, Users, Rss, BookOpen, NotebookText, Star } from "lucide-react";
 import Link from "next/link";
+
+const ActivityIcon = ({ type }: { type: ActivityFeedItem['type'] }) => {
+    switch (type) {
+        case 'idea': return <Lightbulb className="h-5 w-5 text-accent" />;
+        case 'course': return <BookOpen className="h-5 w-5 text-accent" />;
+        case 'diary': return <NotebookText className="h-5 w-5 text-accent" />;
+        case 'challenge': return <Star className="h-5 w-5 text-accent" />;
+        case 'user': return <Users className="h-5 w-5 text-accent" />;
+        default: return <Rss className="h-5 w-5 text-accent" />;
+    }
+}
+
 
 export default function HomePage() {
   return (
@@ -61,9 +75,37 @@ export default function HomePage() {
         </Card>
       </div>
 
-      <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-8 grid-cols-1 lg:grid-cols-3">
+        <div className="lg:col-span-2 space-y-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><Rss className="h-6 w-6"/> Feed de Atividades</CardTitle>
+                    <CardDescription>O que está acontecendo na plataforma.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    {activityFeed.map((item) => {
+                        const userAvatar = PlaceHolderImages.find(p => p.id === item.user.avatar);
+                        return (
+                            <div key={item.id} className="flex items-start gap-4 p-2 rounded-lg hover:bg-muted/50">
+                                <ActivityIcon type={item.type} />
+                                <div className="flex-1">
+                                    <p className="text-sm">
+                                        <span className="font-semibold">{item.user.name}</span> {item.action} <Link href={item.link} className="font-semibold text-primary hover:underline">{item.target}</Link>.
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">{item.timestamp}</p>
+                                </div>
+                                <Avatar className="h-9 w-9">
+                                    {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={item.user.name} />}
+                                    <AvatarFallback>{item.user.name.slice(0,2)}</AvatarFallback>
+                                </Avatar>
+                            </div>
+                        )
+                    })}
+                </CardContent>
+            </Card>
+        </div>
         <div className="space-y-8">
-            <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
+             <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
                 <CardHeader>
                     <CardTitle className="text-primary">Qual o seu próximo passo?</CardTitle>
                 </CardHeader>
@@ -80,18 +122,18 @@ export default function HomePage() {
                     </Button>
                 </CardContent>
             </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Onde estão nossos talentos?</CardTitle>
+                    <CardDescription>
+                    Visualize os participantes ativos em intercâmbio pelo mundo em tempo real.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="p-0">
+                    <WorldTalentMap />
+                </CardContent>
+            </Card>
         </div>
-        <Card>
-          <CardHeader>
-            <CardTitle>Onde estão nossos talentos?</CardTitle>
-            <CardDescription>
-              Visualize os participantes ativos em intercâmbio pelo mundo em tempo real.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-0">
-            <WorldTalentMap />
-          </CardContent>
-        </Card>
       </div>
     </div>
   );
