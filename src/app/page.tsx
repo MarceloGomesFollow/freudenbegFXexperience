@@ -54,16 +54,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center bg-muted/30 backdrop-blur-lg border-b border-muted/20">
         <Link href="/" className="flex items-center justify-center gap-2">
-          {headerLogo && (
-            <Image
-                src={headerLogo.imageUrl}
-                alt={headerLogo.description}
-                width={32}
-                height={32}
-                className="rounded-md"
-                data-ai-hint={headerLogo.imageHint}
-            />
-          )}
+          
           <Logo />
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
@@ -94,8 +85,7 @@ export default function Home() {
             />
           )}
           
-          <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
-            <motion.div
+          <motion.div
                 drag
                 dragMomentum={false}
                 className="fixed bottom-28 right-6 z-[101] cursor-grab active:cursor-grabbing"
@@ -124,6 +114,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20" />
                 </div>
             </motion.div>
+            <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-white [text-shadow:2px_2px_8px_rgba(0,0,0,0.7)]">
                 {t('hero.title')}
