@@ -107,7 +107,7 @@ export default function HomePage() {
         <div className="space-y-8">
              <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
                 <CardHeader>
-                    <CardTitle className="text-primary">Qual o seu próximo passo?</CardTitle>
+                    <CardTitle className="text-white [text-shadow:1px_1px_2px_rgba(0,0,0,0.5)]">Qual o seu próximo passo?</CardTitle>
                 </CardHeader>
                 <CardContent className="grid sm:grid-cols-2 gap-4">
                     <Button size="lg" asChild>
