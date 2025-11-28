@@ -129,7 +129,7 @@ export default function Home() {
                     <div className="aspect-video overflow-hidden rounded-xl shadow-2xl">
                          <iframe
                             className="w-full h-full"
-                            src="https://www.youtube.com/embed/Jl0c2A7cP4Q"
+                            src="https://www.youtube.com/embed/h-AJdntupdw"
                             title="YouTube video player"
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
