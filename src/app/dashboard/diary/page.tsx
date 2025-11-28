@@ -23,13 +23,13 @@ import { Progress } from "@/components/ui/progress";
 
 export default function DiaryPage() {
     const [newEntry, setNewEntry] = useState("");
-    const [attachments, setAttachments] = useState<string[]>([]);
+    const [attachments, setAttachments] = useState<File[]>([]);
     const [entries, setEntries] = useState<DiaryEntry[]>(diaryEntries);
     const [summary, setSummary] = useState<{ summary: string; insights: string[]; sentiment: string } | null>(null);
     const [isSummarizing, setIsSummarizing] = useState(false);
     const [goals, setGoals] = useState<Goal[]>(userGoals);
     const { toast } = useToast();
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
 
     const currentUser = users.find(u => u.email === 'ana.silva@example.com');
     const userAvatar = PlaceHolderImages.find(p => p.id === currentUser?.avatar);
@@ -38,20 +38,22 @@ export default function DiaryPage() {
         setGoals(goals.map(g => g.id === goalId ? { ...g, progress: newProgress } : g));
     };
 
-    const handleAddAttachment = () => {
-        if (attachments.length < 3) {
-            setAttachments([...attachments, `documento_simulado_${attachments.length + 1}.pdf`]);
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Limite de anexos atingido",
-                description: "Você pode anexar no máximo 3 arquivos.",
-            });
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            if (attachments.length + event.target.files.length > 3) {
+                toast({
+                    variant: "destructive",
+                    title: "Limite de anexos atingido",
+                    description: "Você pode anexar no máximo 3 arquivos.",
+                });
+                return;
+            }
+            setAttachments(prev => [...prev, ...Array.from(event.target.files!)]);
         }
     };
 
     const handleRemoveAttachment = (fileName: string) => {
-        setAttachments(attachments.filter(file => file !== fileName));
+        setAttachments(attachments.filter(file => file.name !== fileName));
     };
 
     const handleAddEntry = () => {
@@ -62,7 +64,7 @@ export default function DiaryPage() {
             date: "Agora",
             type: 'text',
             content: newEntry,
-            attachments: attachments,
+            attachments: attachments.map(f => f.name),
             comments: [],
         };
         setEntries([entry, ...entries]);
@@ -139,8 +141,8 @@ export default function DiaryPage() {
                                             />
                                         </TabsContent>
                                         <TabsContent value="image" className="mt-4 space-y-2">
-                                            <Input type="file" disabled />
-                                            <p className="text-xs text-muted-foreground">Simulação: Upload de imagem desabilitado.</p>
+                                            <Input type="file" accept="image/*" onChange={handleFileChange} />
+                                            <p className="text-xs text-muted-foreground">Simulação: Upload de imagem.</p>
                                             <Textarea 
                                                 placeholder="Adicione uma legenda para a sua imagem..." 
                                                 value={newEntry}
@@ -149,8 +151,8 @@ export default function DiaryPage() {
                                             />
                                         </TabsContent>
                                         <TabsContent value="video" className="mt-4 space-y-2">
-                                            <Input type="file" disabled />
-                                            <p className="text-xs text-muted-foreground">Simulação: Upload de vídeo desabilitado.</p>
+                                            <Input type="file" accept="video/*" onChange={handleFileChange} />
+                                            <p className="text-xs text-muted-foreground">Simulação: Upload de vídeo.</p>
                                             <Textarea 
                                                 placeholder="Adicione uma descrição para o seu vídeo..." 
                                                 value={newEntry}
@@ -163,18 +165,15 @@ export default function DiaryPage() {
                                     <div className="mt-4 space-y-2">
                                         <Label className="text-sm font-medium">Anexos (Opcional)</Label>
                                         <div className="flex items-center gap-2">
-                                            <Button variant="outline" size="sm" onClick={handleAddAttachment} disabled={attachments.length >= 3}>
-                                                <Paperclip className="mr-2 h-4 w-4" />
-                                                Adicionar Arquivo
-                                            </Button>
+                                             <Input id="attachment-upload" type="file" multiple onChange={handleFileChange} className="w-full" />
                                         </div>
 
                                         {attachments.length > 0 && (
                                             <div className="flex flex-wrap gap-2 pt-2">
                                                 {attachments.map((file, index) => (
                                                     <Badge key={index} variant="secondary" className="pl-2 pr-1">
-                                                        {file}
-                                                        <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => handleRemoveAttachment(file)}>
+                                                        {file.name}
+                                                        <Button variant="ghost" size="icon" className="h-4 w-4 ml-1" onClick={() => handleRemoveAttachment(file.name)}>
                                                             <XCircle className="h-3 w-3"/>
                                                         </Button>
                                                     </Badge>
@@ -371,5 +370,7 @@ export default function DiaryPage() {
         </div>
     )
 }
+
+    
 
     
