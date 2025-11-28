@@ -5,6 +5,7 @@ import { Layers3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface LogoContextType {
   logo: string | null;
@@ -35,8 +36,17 @@ export function Logo({ className }: { className?: string }) {
   const { logo } = useLogo();
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
-      <Image src="https://images.unsplash.com/photo-1764354946985-631d48464ef3?q=80&w=1334&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Custom Logo" width={160} height={32} className="h-8 object-contain" />
-    </div>
+    <motion.div
+      animate={{ y: [0, -4, 0] }}
+      transition={{
+        duration: 2.5,
+        ease: "easeInOut",
+        repeat: Infinity,
+      }}
+    >
+      <div className={cn("flex items-center gap-2", className)}>
+        <Image src="https://images.unsplash.com/photo-1764354946985-631d48464ef3?q=80&w=1334&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Custom Logo" width={160} height={32} className="h-8 object-contain" />
+      </div>
+    </motion.div>
   );
 }
