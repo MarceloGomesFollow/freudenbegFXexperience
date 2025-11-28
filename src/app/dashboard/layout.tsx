@@ -55,7 +55,7 @@ export default function DashboardLayout({
                           <DateTime />
                           <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="hidden sm:inline-flex text-white border-white/20 bg-white/10 hover:bg-white/20">
+                                <Button variant="outline" size="sm" className="hidden sm:inline-flex text-white border-white/20 bg-white/10 hover:bg-white/20 hover:text-white">
                                     <LifeBuoy className="mr-2 h-4 w-4" />
                                     {t('rhSupport.button')}
                                 </Button>
