@@ -83,7 +83,7 @@ export default function Home() {
         </nav>
       </header>
       <main className="flex-1">
-        <section className="relative w-full py-20 md:py-32 lg:py-40">
+        <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center">
           {heroImage && (
             <Image
               src={heroImage.imageUrl}
@@ -94,20 +94,20 @@ export default function Home() {
               data-ai-hint={heroImage.imageHint}
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-blue-900" />
+          <div className="absolute inset-0 bg-black/50" />
           <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-transparent bg-clip-text shimmer-text-hero">
+              <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-white">
                 {t('hero.title')}
               </h1>
-              <p className="mt-4 text-lg md:text-xl text-primary-foreground/80">
+              <p className="mt-4 text-lg md:text-xl text-slate-200">
                 {t('hero.subtitle')}
               </p>
               <div className="mt-8 flex justify-center gap-4">
-                <Button size="lg" asChild variant="secondary">
+                <Button size="lg" asChild >
                   <Link href="/enrollment">{t('getStarted')}</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+                <Button size="lg" variant="secondary">
                   {t('learnMore')}
                 </Button>
               </div>
