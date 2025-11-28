@@ -105,7 +105,7 @@ export function Chatbot() {
         >
           {isOpen ? <X className="h-8 w-8" /> : (
             <Image 
-                src="https://images.unsplash.com/photo-1764361095241-2d95d12c1b9e?q=80&w=829&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                src="https://images.unsplash.com/photo-1764360840282-838414e69953?q=80&w=829&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                 alt="Freudy IA" 
                 fill
                 className="object-cover"
