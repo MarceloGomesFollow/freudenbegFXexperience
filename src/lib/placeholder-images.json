@@ -2,14 +2,14 @@
   "placeholderImages": [
     {
       "id": "hero",
-      "description": "Abstract technology background",
-      "imageUrl": "https://images.unsplash.com/photo-1568952433726-3896e3881c65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhYnN0cmFjdCUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzYyMjgzNzQ2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract technology"
+      "description": "Team collaborating on a project",
+      "imageUrl": "https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3b3Jrc2hvcHxlbnwwfHx8fDE3NjI4Nzk3OTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "team workshop"
     },
     {
       "id": "logo-fx",
       "description": "Freudenberg Experience Logo",
-      "imageUrl": "https://storage.googleapis.com/project-spark-3353b.appspot.com/a933f95e-9988-4629-9b9a-9d8c005b4ce8.png",
+      "imageUrl": "https://storage.googleapis.com/project-spark-3353b.appspot.com/64468a6f-1d44-42b7-a367-c1d06e625574.png",
       "imageHint": "company logo"
     },
     {
