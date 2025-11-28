@@ -11,6 +11,7 @@ import { Logo } from "@/components/logo";
 import { LanguageToggle } from "@/components/language-toggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
@@ -159,24 +160,40 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:max-w-none lg:grid-cols-3 pt-12">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ y: -8, scale: 1.05, rotateX: 10 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
+            <div className="mx-auto max-w-5xl pt-12">
+                <Carousel
+                    opts={{
+                    align: "start",
+                    loop: true,
+                    }}
+                    className="w-full"
                 >
-                  <Card className="h-full shadow-md hover:shadow-xl transition-shadow">
-                    <CardHeader className="flex flex-row items-center gap-4">
-                      {feature.icon}
-                      <CardTitle className="text-xl">{feature.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">{feature.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                    <CarouselContent>
+                    {features.map((feature, index) => (
+                        <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                            <div className="p-1 h-full">
+                                <motion.div
+                                    whileHover={{ y: -8, scale: 1.05, rotateX: 10 }}
+                                    transition={{ type: 'spring', stiffness: 300 }}
+                                    className="h-full"
+                                >
+                                    <Card className="h-full shadow-md hover:shadow-xl transition-shadow flex flex-col">
+                                        <CardHeader className="flex flex-row items-center gap-4">
+                                            {feature.icon}
+                                            <CardTitle className="text-xl">{feature.title}</CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="flex-grow">
+                                            <p className="text-muted-foreground">{feature.description}</p>
+                                        </CardContent>
+                                    </Card>
+                                </motion.div>
+                            </div>
+                        </CarouselItem>
+                    ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
             </div>
           </div>
         </motion.section>
