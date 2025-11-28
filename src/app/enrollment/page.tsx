@@ -243,6 +243,7 @@ export default function EnrollmentPage() {
              <div className="text-xs text-muted-foreground text-center sm:text-left">
                 <p><b>Produzido por Follow<span className="shimmer-text-blue">Labs</span></b> - www.followadvisor.com</p>
                 <p>Propriedade de Follow Advisor Ltda. CNPJ 32.814.520/0001-24</p>
+                <p className="mt-2 font-semibold">PROTOTIPO DEMO PARA FREUDENBERG BRASIL, SEM CUSTO , SALVO ERROS OU FUNÇÕES LIMITADAS POR CARACTERISTICAS DE DEMONSTRAÇÃO</p>
             </div>
             <nav className="sm:ml-auto flex gap-4 sm:gap-6">
                 <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
