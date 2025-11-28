@@ -186,7 +186,7 @@ function FreudyIaLink() {
             </DialogTrigger>
             <DialogContent className="max-w-4xl h-[80vh] p-0 flex flex-col bg-black/10 backdrop-blur-lg border-white/20">
                 <DialogHeader className="p-4 pb-0">
-                    <DialogTitle>Freudy IA Assistant</DialogTitle>
+                    <DialogTitle className="text-white">Freudy IA Assistant</DialogTitle>
                 </DialogHeader>
                 <iframe
                     className="w-full h-full rounded-b-lg"
