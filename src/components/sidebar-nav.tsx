@@ -184,20 +184,20 @@ function FreudyIaLink() {
                     <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
                 </SidebarMenuButton>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl h-[80vh]">
+            <DialogContent className="max-w-4xl h-auto">
                 <DialogHeader>
-                    <DialogTitle>FreudyIA</DialogTitle>
+                    <DialogTitle>Demonstração da Plataforma</DialogTitle>
                     <DialogDescription>
-                        Interaja com a IA generativa da plataforma.
+                        Assista a uma rápida demonstração de como a DPX Digital pode revolucionar seus programas de desenvolvimento.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="w-full h-full rounded-lg overflow-hidden border">
+                <div className="aspect-video w-full rounded-lg overflow-hidden border">
                     <iframe
                         className="w-full h-full"
-                        src="https://lab.anam.ai/frame/4lQeno3aYnB9HuXExy6jG"
-                        title="FreudyIA Player"
+                        src="https://www.youtube.com/embed/Jl0c2A7cP4Q"
+                        title="YouTube video player"
                         frameBorder="0"
-                        allow="microphone; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                     ></iframe>
                 </div>
