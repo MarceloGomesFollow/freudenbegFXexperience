@@ -11,9 +11,11 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Activity, Bell, FileText, Lock, User as UserIcon, Download, Building, PlusCircle } from "lucide-react";
+import { Activity, Bell, FileText, Lock, User as UserIcon, Download, Building, PlusCircle, Image as ImageIcon } from "lucide-react";
 import * as data from "@/lib/data";
 import { useRole } from '@/components/role-switcher';
+import { useLogo } from '@/components/logo';
+import Image from "next/image";
 
 const activityLogs = [
     { id: 1, action: "Login na plataforma", ip: "189.12.34.56", date: "25/07/2024 10:30" },
@@ -29,6 +31,26 @@ export default function SettingsPage() {
     const [companies, setCompanies] = useState(data.companies);
     const [newCompanyName, setNewCompanyName] = useState('');
     const [newCompanyLocation, setNewCompanyLocation] = useState('');
+    const { logo, setLogo } = useLogo();
+    const [logoPreview, setLogoPreview] = useState<string | null>(logo);
+
+    const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const newLogoUrl = reader.result as string;
+                setLogoPreview(newLogoUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleSaveLogo = () => {
+        if (logoPreview) {
+            setLogo(logoPreview);
+        }
+    };
 
     const handleExport = () => {
         const allData = {
@@ -80,9 +102,10 @@ export default function SettingsPage() {
             <h2 className="text-3xl font-bold tracking-tight">Configurações</h2>
             
             <Tabs defaultValue="profile" className="w-full">
-                <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-6' : 'grid-cols-5'}`}>
+                <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-7' : 'grid-cols-6'}`}>
                     <TabsTrigger value="profile"><UserIcon className="mr-2 h-4 w-4"/>Perfil</TabsTrigger>
                     {isAdmin && <TabsTrigger value="companies"><Building className="mr-2 h-4 w-4" />Empresas</TabsTrigger>}
+                    {isAdmin && <TabsTrigger value="branding"><ImageIcon className="mr-2 h-4 w-4" />Branding</TabsTrigger>}
                     <TabsTrigger value="security"><Lock className="mr-2 h-4 w-4"/>Segurança</TabsTrigger>
                     <TabsTrigger value="notifications"><Bell className="mr-2 h-4 w-4"/>Notificações</TabsTrigger>
                     <TabsTrigger value="logs"><Activity className="mr-2 h-4 w-4"/>Logs</TabsTrigger>
@@ -168,6 +191,41 @@ export default function SettingsPage() {
                                     </TableBody>
                                 </Table>
                             </CardContent>
+                        </Card>
+                    </TabsContent>
+                )}
+
+                 {isAdmin && (
+                    <TabsContent value="branding" className="mt-6">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Branding da Plataforma</CardTitle>
+                                <CardDescription>
+                                    Personalize a aparência da plataforma com seu próprio logo.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label>Logo Atual</Label>
+                                    <div className="p-4 border rounded-md bg-muted flex items-center justify-center">
+                                        {logoPreview ? (
+                                            <Image src={logoPreview} alt="Logo Preview" width={160} height={32} className="object-contain" />
+                                        ) : (
+                                            <div className="h-8 w-40 bg-muted-foreground/20 rounded-md" />
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="logo-upload">Trocar Logo</Label>
+                                    <Input id="logo-upload" type="file" accept="image/*" onChange={handleLogoChange} />
+                                    <p className="text-sm text-muted-foreground">
+                                        Use uma imagem com fundo transparente (PNG ou SVG) para melhores resultados.
+                                    </p>
+                                </div>
+                            </CardContent>
+                            <CardFooter>
+                                <Button onClick={handleSaveLogo}>Salvar Logo</Button>
+                            </CardFooter>
                         </Card>
                     </TabsContent>
                 )}

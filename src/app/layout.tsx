@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { ThemeProvider } from '@/components/theme-provider';
+import { LogoProvider } from '@/components/logo';
 
 export const metadata: Metadata = {
   title: 'FollowLabs',
@@ -31,7 +32,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            {children}
+            <LogoProvider>
+              {children}
+            </LogoProvider>
             <Toaster />
           </LanguageProvider>
         </ThemeProvider>

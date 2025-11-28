@@ -84,7 +84,7 @@ export default function DashboardLayout({
                                             </div>
                                             <div className="flex items-center pt-1">
                                                 <Phone className="mr-2 h-4 w-4 opacity-70" />{" "}
-                                                <a href="tel:+5511999998888" className="text-xs text-muted-foreground hover:underline">
+                                                <a href="tel:+5511999998888" className="text-xs text-muted-foreground hover-underline">
                                                     +55 (11) 99999-8888
                                                 </a>
                                             </div>
