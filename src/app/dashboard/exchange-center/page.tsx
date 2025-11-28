@@ -14,8 +14,8 @@ export default function ExchangeCenterPage() {
         <div className="space-y-8">
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Central de Intercâmbio</h2>
-                    <p className="text-muted-foreground mt-2">
+                    <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Central de Intercâmbio</h2>
+                    <p className="mt-2 text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                         Explore oportunidades em outras áreas e empresas para ampliar sua experiência.
                     </p>
                 </div>
