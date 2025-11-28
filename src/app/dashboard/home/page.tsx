@@ -5,8 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { WorldTalentMap } from "@/components/world-talent-map";
 import { kpis, exchangeOpportunities, challenges } from "@/lib/data";
-import { ArrowRight, Beaker, Briefcase, Lightbulb, Users } from "lucide-react";
+import { ArrowRight, Beaker, Briefcase, Lightbulb, Users, Newspaper, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+
+const newsItems = [
+    {
+        id: 1,
+        category: "Inovação",
+        title: "Nova ideia de gamificação aprovada para sprint!",
+        description: "A ideia 'Plataforma de Onboarding Gamificada' de Ana Silva foi aprovada e entrará em fase de experimentação.",
+        time: "2h atrás",
+        href: "/dashboard/innovation-labs/idea/idea-01"
+    },
+    {
+        id: 2,
+        category: "Intercâmbio",
+        title: "Oportunidade em Compras na Empresa B",
+        description: "Nova vaga para Comprador Técnico disponível. Ideal para quem busca experiência em negociação estratégica.",
+        time: "1 dia atrás",
+        href: "/dashboard/exchange-center"
+    },
+    {
+        id: 3,
+        category: "Learning Hub",
+        title: "Novo curso de Liderança Situacional adicionado",
+        description: "Desenvolva sua capacidade de adaptar seu estilo de liderança a cada membro da equipe.",
+        time: "3 dias atrás",
+        href: "/dashboard/learning/lideranca-01"
+    }
+];
 
 export default function HomePage() {
   return (
@@ -92,17 +120,46 @@ export default function HomePage() {
                 </CardContent>
             </Card>
         </div>
-        <Card className="lg:col-span-2 hidden lg:block">
-          <CardHeader>
-            <CardTitle>Mapa Global de Talentos</CardTitle>
-            <CardDescription>
-              Acompanhe a jornada dos nossos participantes.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-0">
-            <WorldTalentMap />
-          </CardContent>
-        </Card>
+        <div className="lg:col-span-2 space-y-8">
+            <Card>
+            <CardHeader>
+                <CardTitle>Mapa Global de Talentos</CardTitle>
+                <CardDescription>
+                Acompanhe a jornada dos nossos participantes.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0 hidden lg:block">
+                <WorldTalentMap />
+            </CardContent>
+            </Card>
+            <Card>
+                 <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><Newspaper className="h-5 w-5"/> Últimas Notícias</CardTitle>
+                    <CardDescription>
+                        Fique por dentro do que está acontecendo no programa.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    {newsItems.map((item) => (
+                        <div key={item.id} className="group flex items-start gap-4">
+                             <div className="w-16 text-right">
+                                <Badge variant={item.category === "Inovação" ? "default" : "secondary"}>{item.category}</Badge>
+                            </div>
+                            <div className="flex-1 space-y-1">
+                                <Link href={item.href} className="font-semibold hover:underline">{item.title}</Link>
+                                <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>
+                                <p className="text-xs text-muted-foreground">{item.time}</p>
+                            </div>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity" asChild>
+                                <Link href={item.href}>
+                                    <ExternalLink className="h-4 w-4"/>
+                                </Link>
+                            </Button>
+                        </div>
+                    ))}
+                </CardContent>
+            </Card>
+        </div>
       </div>
     </div>
   );
