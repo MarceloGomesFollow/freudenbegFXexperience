@@ -72,7 +72,7 @@ export default function Home() {
         </nav>
       </header>
       <main className="flex-1">
-        <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center">
+        <section className="relative w-full py-20 md:py-28 lg:py-32 flex items-center justify-center">
           {heroImage && (
             <Image
               src={heroImage.imageUrl}
@@ -106,11 +106,11 @@ export default function Home() {
 
         <motion.section 
             id="demo" 
-            className="w-full py-12 md:py-24 lg:py-32 bg-gray-900 text-gray-50"
-            initial={{ opacity: 0, scale: 0.9 }}
+            className="w-full py-12 md:py-20 bg-gray-900 text-gray-50"
+            initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
         >
             <div className="container px-4 md:px-6">
                  <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -200,7 +200,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
