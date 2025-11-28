@@ -56,8 +56,8 @@ export default function BusinessFitPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-3xl font-bold tracking-tight">Auxiliar de Aderência (IA Business Fit)</h2>
-             <p className="text-muted-foreground">
+            <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Auxiliar de Aderência (IA Business Fit)</h2>
+             <p className="text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                 Avalie o alinhamento estratégico de suas ideias e projetos com os objetivos da empresa usando IA.
             </p>
             <div className="grid gap-8 md:grid-cols-2">
