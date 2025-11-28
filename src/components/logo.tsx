@@ -36,15 +36,7 @@ export function Logo({ className }: { className?: string }) {
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      {logo ? (
-        <Image src={logo} alt="Custom Logo" width={32} height={32} className="h-7 w-7 object-contain" />
-      ) : null}
-      <div className="flex flex-col">
-        
-        <span className="text-lg leading-none">
-            <span className="font-bold">Follow<span className="shimmer-text-blue">Labs</span></span>
-        </span>
-      </div>
+      <Image src="https://images.unsplash.com/photo-1764354946985-631d48464ef3?q=80&w=1334&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Custom Logo" width={160} height={32} className="h-8 object-contain" />
     </div>
   );
 }
