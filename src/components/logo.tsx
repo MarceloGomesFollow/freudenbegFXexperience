@@ -35,8 +35,15 @@ export function Logo({ className }: { className?: string }) {
   const { logo } = useLogo();
 
   return (
-    <div className={cn("flex items-center gap-2 font-bold text-xl tracking-tight", className)}>
-      <span className="shimmer-text">FX-Experience</span>
+    <div className={cn("flex items-center gap-2", className)}>
+      <Image 
+        src="https://images.unsplash.com/photo-1764354946985-631d48464ef3?q=80&w=1334&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="FX-Experience Logo"
+        width={140}
+        height={32}
+        className="object-contain"
+        priority
+      />
     </div>
   );
 }
