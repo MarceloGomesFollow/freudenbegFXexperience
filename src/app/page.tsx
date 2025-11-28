@@ -14,7 +14,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero');
-  const fxLogo = PlaceHolderImages.find(p => p.id === 'logo-fx');
+  const headerLogo = PlaceHolderImages.find(p => p.id === 'header-logo');
   const { t } = useLanguage();
 
   const features = [
@@ -53,7 +53,17 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center bg-muted/30 backdrop-blur-lg border-b border-muted/20">
-        <Link href="/" className="flex items-center justify-center">
+        <Link href="/" className="flex items-center justify-center gap-2">
+          {headerLogo && (
+            <Image
+                src={headerLogo.imageUrl}
+                alt={headerLogo.description}
+                width={32}
+                height={32}
+                className="rounded-md"
+                data-ai-hint={headerLogo.imageHint}
+            />
+          )}
           <Logo />
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
@@ -85,6 +95,35 @@ export default function Home() {
           )}
           
           <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
+            <motion.div
+                drag
+                dragMomentum={false}
+                className="fixed bottom-28 right-6 z-[101] cursor-grab active:cursor-grabbing"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{
+                    y: [0, -10, 0],
+                    opacity: 1,
+                }}
+                transition={{
+                    opacity: { duration: 0.5 },
+                    y: {
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    },
+                }}
+            >
+                <div className="relative w-64 h-20 overflow-hidden">
+                    <Image
+                        src="https://images.unsplash.com/photo-1764354946985-631d48464ef3?q=80&w=400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Floating decorative image"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20" />
+                </div>
+            </motion.div>
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-white [text-shadow:2px_2px_8px_rgba(0,0,0,0.7)]">
                 {t('hero.title')}
@@ -194,3 +233,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
