@@ -184,7 +184,7 @@ function FreudyIaLink() {
                     <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
                 </SidebarMenuButton>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl h-[80vh] p-0 border-0 flex flex-col">
+            <DialogContent className="max-w-4xl h-[80vh] p-0 flex flex-col bg-black/10 backdrop-blur-lg border-white/20">
                 <DialogTitle className="sr-only">FreudyIA Player</DialogTitle>
                 <iframe
                     className="w-full h-full rounded-lg"
