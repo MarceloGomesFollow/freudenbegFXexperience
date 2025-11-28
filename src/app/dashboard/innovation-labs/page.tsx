@@ -19,8 +19,8 @@ export default function InnovationLabsPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-start">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Innovation Labs</h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl">
+          <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Innovation Labs</h2>
+          <p className="mt-2 max-w-2xl text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
             Um espaço para lançar desafios, capturar ideias, experimentar rápido e medir impacto. Conecte-se com mentores e áreas para gerar melhorias, savings e novos padrões.
           </p>
         </div>
