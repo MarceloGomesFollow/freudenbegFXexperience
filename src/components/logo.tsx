@@ -38,9 +38,7 @@ export function Logo({ className }: { className?: string }) {
     <div className={cn("flex items-center gap-2", className)}>
       {logo ? (
         <Image src={logo} alt="Custom Logo" width={32} height={32} className="h-7 w-7 object-contain" />
-      ) : (
-        <Layers3 className="h-7 w-7 text-current" />
-      )}
+      ) : null}
       <div className="flex flex-col">
         <span className="text-sm font-bold leading-none">FX Experience</span>
         <span className="text-lg leading-none">
