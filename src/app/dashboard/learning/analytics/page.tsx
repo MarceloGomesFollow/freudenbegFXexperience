@@ -28,13 +28,13 @@ export default function LearningAnalyticsPage() {
 
     return (
         <div className="space-y-8">
-             <div className="flex items-center justify-between space-y-2">
+             <div className="flex flex-col sm:flex-row items-center justify-between space-y-2">
                 <h2 className="text-3xl font-bold tracking-tight">Learning Analytics</h2>
                  <p className="text-muted-foreground">
                     Insights sobre o engajamento e progresso no Learning Hub.
                 </p>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">Total de Inscrições</CardTitle>
@@ -115,35 +115,37 @@ export default function LearningAnalyticsPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                         <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Usuário</TableHead>
-                                    <TableHead>Concluídos</TableHead>
-                                    <TableHead>Em Progresso</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                            {userLearningProgress.map((user) => {
-                                const userAvatar = PlaceHolderImages.find(p => p.id === user.userAvatar);
-                                return (
-                                <TableRow key={user.userId}>
-                                    <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <Avatar className="h-9 w-9">
-                                                {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={user.userName} data-ai-hint="person portrait" />}
-                                                <AvatarFallback>{user.userName.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            <div className="font-medium">{user.userName}</div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{user.completedCourses}</TableCell>
-                                    <TableCell>{user.inProgressCourses}</TableCell>
-                                </TableRow>
-                                );
-                            })}
-                            </TableBody>
-                        </Table>
+                        <div className="overflow-x-auto">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Usuário</TableHead>
+                                        <TableHead>Concluídos</TableHead>
+                                        <TableHead>Em Progresso</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                {userLearningProgress.map((user) => {
+                                    const userAvatar = PlaceHolderImages.find(p => p.id === user.userAvatar);
+                                    return (
+                                    <TableRow key={user.userId}>
+                                        <TableCell>
+                                            <div className="flex items-center gap-3">
+                                                <Avatar className="h-9 w-9">
+                                                    {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={user.userName} data-ai-hint="person portrait" />}
+                                                    <AvatarFallback>{user.userName.charAt(0)}</AvatarFallback>
+                                                </Avatar>
+                                                <div className="font-medium whitespace-nowrap">{user.userName}</div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>{user.completedCourses}</TableCell>
+                                        <TableCell>{user.inProgressCourses}</TableCell>
+                                    </TableRow>
+                                    );
+                                })}
+                                </TableBody>
+                            </Table>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

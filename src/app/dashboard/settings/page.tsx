@@ -97,22 +97,31 @@ export default function SettingsPage() {
         }
     };
 
+    const tabsList = [
+        { value: "profile", label: "Perfil", icon: UserIcon, admin: false },
+        { value: "companies", label: "Empresas", icon: Building, admin: true },
+        { value: "branding", label: "Branding", icon: ImageIcon, admin: true },
+        { value: "security", label: "Segurança", icon: Lock, admin: false },
+        { value: "notifications", label: "Notificações", icon: Bell, admin: false },
+        { value: "logs", label: "Logs", icon: Activity, admin: false },
+        { value: "export", label: "Exportar Dados", icon: Download, admin: false },
+    ].filter(tab => isAdmin || !tab.admin);
+
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight">Configurações</h2>
             
-            <Tabs defaultValue="profile" className="w-full">
-                <TabsList className={`grid w-full ${isAdmin ? 'grid-cols-7' : 'grid-cols-6'}`}>
-                    <TabsTrigger value="profile"><UserIcon className="mr-2 h-4 w-4"/>Perfil</TabsTrigger>
-                    {isAdmin && <TabsTrigger value="companies"><Building className="mr-2 h-4 w-4" />Empresas</TabsTrigger>}
-                    {isAdmin && <TabsTrigger value="branding"><ImageIcon className="mr-2 h-4 w-4" />Branding</TabsTrigger>}
-                    <TabsTrigger value="security"><Lock className="mr-2 h-4 w-4"/>Segurança</TabsTrigger>
-                    <TabsTrigger value="notifications"><Bell className="mr-2 h-4 w-4"/>Notificações</TabsTrigger>
-                    <TabsTrigger value="logs"><Activity className="mr-2 h-4 w-4"/>Logs</TabsTrigger>
-                    <TabsTrigger value="export"><Download className="mr-2 h-4 w-4"/>Exportar Dados</TabsTrigger>
+            <Tabs defaultValue="profile" className="w-full" orientation="vertical">
+                <TabsList className="w-full md:w-48 h-auto flex-col items-start justify-start p-1 bg-muted rounded-lg">
+                    {tabsList.map(({ value, label, icon: Icon }) => (
+                        <TabsTrigger key={value} value={value} className="w-full justify-start gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm">
+                            <Icon className="h-4 w-4"/>
+                            <span className="hidden md:inline">{label}</span>
+                        </TabsTrigger>
+                    ))}
                 </TabsList>
                 
-                <TabsContent value="profile" className="mt-6">
+                <TabsContent value="profile" className="mt-0 md:pl-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>Perfil Público</CardTitle>
@@ -145,7 +154,7 @@ export default function SettingsPage() {
                 </TabsContent>
 
                  {isAdmin && (
-                    <TabsContent value="companies" className="mt-6">
+                    <TabsContent value="companies" className="mt-0 md:pl-6">
                         <Card>
                             <CardHeader>
                                 <CardTitle>Gerenciamento de Empresas</CardTitle>
@@ -196,7 +205,7 @@ export default function SettingsPage() {
                 )}
 
                  {isAdmin && (
-                    <TabsContent value="branding" className="mt-6">
+                    <TabsContent value="branding" className="mt-0 md:pl-6">
                         <Card>
                             <CardHeader>
                                 <CardTitle>Branding da Plataforma</CardTitle>
@@ -231,7 +240,7 @@ export default function SettingsPage() {
                 )}
 
 
-                <TabsContent value="security" className="mt-6">
+                <TabsContent value="security" className="mt-0 md:pl-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>Segurança da Conta</CardTitle>
@@ -274,7 +283,7 @@ export default function SettingsPage() {
                     </Card>
                 </TabsContent>
 
-                <TabsContent value="notifications" className="mt-6">
+                <TabsContent value="notifications" className="mt-0 md:pl-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>Preferências de Notificação</CardTitle>
@@ -337,7 +346,7 @@ export default function SettingsPage() {
                     </Card>
                 </TabsContent>
 
-                 <TabsContent value="logs" className="mt-6">
+                 <TabsContent value="logs" className="mt-0 md:pl-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>Logs de Atividade</CardTitle>
@@ -346,29 +355,31 @@ export default function SettingsPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Ação</TableHead>
-                                        <TableHead>Endereço IP</TableHead>
-                                        <TableHead className="text-right">Data</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {activityLogs.map((log) => (
-                                        <TableRow key={log.id}>
-                                            <TableCell className="font-medium">{log.action}</TableCell>
-                                            <TableCell>{log.ip}</TableCell>
-                                            <TableCell className="text-right">{log.date}</TableCell>
+                            <div className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Ação</TableHead>
+                                            <TableHead>Endereço IP</TableHead>
+                                            <TableHead className="text-right">Data</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {activityLogs.map((log) => (
+                                            <TableRow key={log.id}>
+                                                <TableCell className="font-medium">{log.action}</TableCell>
+                                                <TableCell>{log.ip}</TableCell>
+                                                <TableCell className="text-right whitespace-nowrap">{log.date}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
                         </CardContent>
                     </Card>
                 </TabsContent>
 
-                <TabsContent value="export" className="mt-6">
+                <TabsContent value="export" className="mt-0 md:pl-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>Exportar Todos os Registros</CardTitle>

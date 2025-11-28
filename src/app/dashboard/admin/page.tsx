@@ -63,7 +63,7 @@ export default function AdminDashboardPage() {
                     </p>
                 </div>
             </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">Total de Intercâmbios</CardTitle>
@@ -158,63 +158,65 @@ export default function AdminDashboardPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                     <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Colaborador</TableHead>
-                                <TableHead className="hidden sm:table-cell">Origem</TableHead>
-                                <TableHead className="hidden sm:table-cell">Destino</TableHead>
-                                <TableHead className="hidden md:table-cell">Período</TableHead>
-                                <TableHead className="w-[150px] hidden lg:table-cell">Progresso</TableHead>
-                                <TableHead>Status</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                        {transfers.map((transfer) => {
-                            const userAvatar = PlaceHolderImages.find(p => p.id === transfer.userAvatar);
-                            let progress;
-                            if (transfer.userName === 'Ana Silva') {
-                                progress = 90;
-                            } else {
-                                progress = calculateProgress(transfer.startDate, transfer.endDate);
-                            }
-                            const formattedStartDate = new Date(transfer.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-                            const formattedEndDate = new Date(transfer.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Colaborador</TableHead>
+                                    <TableHead className="hidden sm:table-cell">Origem</TableHead>
+                                    <TableHead className="hidden sm:table-cell">Destino</TableHead>
+                                    <TableHead className="hidden md:table-cell">Período</TableHead>
+                                    <TableHead className="w-[150px] hidden lg:table-cell">Progresso</TableHead>
+                                    <TableHead>Status</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                            {transfers.map((transfer) => {
+                                const userAvatar = PlaceHolderImages.find(p => p.id === transfer.userAvatar);
+                                let progress;
+                                if (transfer.userName === 'Ana Silva') {
+                                    progress = 90;
+                                } else {
+                                    progress = calculateProgress(transfer.startDate, transfer.endDate);
+                                }
+                                const formattedStartDate = new Date(transfer.startDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                                const formattedEndDate = new Date(transfer.endDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
-                            return (
-                            <TableRow key={transfer.id}>
-                                <TableCell>
-                                    <div className="flex items-center gap-3">
-                                        <Avatar className="h-9 w-9">
-                                            {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={transfer.userName} data-ai-hint="person portrait" />}
-                                            <AvatarFallback>{transfer.userName.charAt(0)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="font-medium">{transfer.userName}</div>
-                                    </div>
-                                </TableCell>
-                                <TableCell className="hidden sm:table-cell">
-                                    <div className="font-medium">{transfer.fromCompany}</div>
-                                    <div className="text-xs text-muted-foreground">{transfer.fromDepartment}</div>
-                                </TableCell>
-                                <TableCell className="hidden sm:table-cell">
-                                     <div className="font-medium">{transfer.toCompany}</div>
-                                    <div className="text-xs text-muted-foreground">{transfer.toDepartment}</div>
-                                </TableCell>
-                                <TableCell className="hidden md:table-cell">{formattedStartDate} - {formattedEndDate}</TableCell>
-                                 <TableCell className="hidden lg:table-cell">
-                                    <div className="flex items-center gap-2">
-                                        <Progress value={progress} className="h-2" />
-                                        <span className="text-xs font-medium text-muted-foreground">{progress}%</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <StatusBadge status={transfer.status} />
-                                </TableCell>
-                            </TableRow>
-                            );
-                        })}
-                        </TableBody>
-                    </Table>
+                                return (
+                                <TableRow key={transfer.id}>
+                                    <TableCell>
+                                        <div className="flex items-center gap-3">
+                                            <Avatar className="h-9 w-9">
+                                                {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={transfer.userName} data-ai-hint="person portrait" />}
+                                                <AvatarFallback>{transfer.userName.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            <div className="font-medium">{transfer.userName}</div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="hidden sm:table-cell">
+                                        <div className="font-medium">{transfer.fromCompany}</div>
+                                        <div className="text-xs text-muted-foreground">{transfer.fromDepartment}</div>
+                                    </TableCell>
+                                    <TableCell className="hidden sm:table-cell">
+                                        <div className="font-medium">{transfer.toCompany}</div>
+                                        <div className="text-xs text-muted-foreground">{transfer.toDepartment}</div>
+                                    </TableCell>
+                                    <TableCell className="hidden md:table-cell">{formattedStartDate} - {formattedEndDate}</TableCell>
+                                    <TableCell className="hidden lg:table-cell">
+                                        <div className="flex items-center gap-2">
+                                            <Progress value={progress} className="h-2" />
+                                            <span className="text-xs font-medium text-muted-foreground">{progress}%</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <StatusBadge status={transfer.status} />
+                                    </TableCell>
+                                </TableRow>
+                                );
+                            })}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
         </div>

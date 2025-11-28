@@ -88,80 +88,81 @@ export default function ApprovalsPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Candidato</TableHead>
-                                <TableHead>Status Geral</TableHead>
-                                <TableHead className="hidden md:table-cell">Responsável</TableHead>
-                                <TableHead className="text-center">Checklist</TableHead>
-                                <TableHead className="text-right">Ações</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {approvals.map((approval) => {
-                                const userAvatar = PlaceHolderImages.find(p => p.id === approval.userAvatar);
-                                const pendingItems = approval.checklist.filter(i => i.status === 'pending').length;
-                                return (
-                                <TableRow key={approval.userId}>
-                                    <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <Avatar className="h-9 w-9">
-                                                {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={approval.userName} data-ai-hint="person portrait" />}
-                                                <AvatarFallback>{approval.userName.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            <div>
-                                                <div className="font-medium">{approval.userName}</div>
-                                                <div className="text-xs text-muted-foreground">{approval.unit}</div>
-                                            </div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                        <OverallStatusBadge status={approval.overallStatus} />
-                                    </TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                        <p className="font-medium">Gestor da Unidade</p>
-                                        <p className="text-xs text-muted-foreground">RH</p>
-                                    </TableCell>
-                                    <TableCell className="text-center">
-                                        <div className="flex items-center justify-center gap-2">
-                                            {pendingItems > 0 ? (
-                                                <>
-                                                    <AlertCircle className="h-4 w-4 text-yellow-500" />
-                                                    <span className="text-sm text-muted-foreground">{pendingItems} pendente(s)</span>
-                                                </>
-                                            ) : (
-                                                 <>
-                                                    <CheckCircle className="h-4 w-4 text-green-500" />
-                                                    <span className="text-sm text-muted-foreground">Completo</span>
-                                                </>
-                                            )}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                         <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="ghost" size="icon">
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuItem disabled>
-                                                    <Eye className="mr-2 h-4 w-4" /> Ver Detalhes
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem onClick={() => handleApproveCandidate(approval.userId)} disabled={pendingItems > 0 || approval.overallStatus === 'approved'}>
-                                                    <CheckCircle className="mr-2 h-4 w-4" /> Aprovar Candidato
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </TableCell>
+                    <div className="overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Candidato</TableHead>
+                                    <TableHead>Status Geral</TableHead>
+                                    <TableHead className="hidden md:table-cell">Responsável</TableHead>
+                                    <TableHead className="text-center">Checklist</TableHead>
+                                    <TableHead className="text-right">Ações</TableHead>
                                 </TableRow>
-                            )})}
-                        </TableBody>
-                    </Table>
+                            </TableHeader>
+                            <TableBody>
+                                {approvals.map((approval) => {
+                                    const userAvatar = PlaceHolderImages.find(p => p.id === approval.userAvatar);
+                                    const pendingItems = approval.checklist.filter(i => i.status === 'pending').length;
+                                    return (
+                                    <TableRow key={approval.userId}>
+                                        <TableCell>
+                                            <div className="flex items-center gap-3">
+                                                <Avatar className="h-9 w-9">
+                                                    {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={approval.userName} data-ai-hint="person portrait" />}
+                                                    <AvatarFallback>{approval.userName.charAt(0)}</AvatarFallback>
+                                                </Avatar>
+                                                <div>
+                                                    <div className="font-medium">{approval.userName}</div>
+                                                    <div className="text-xs text-muted-foreground">{approval.unit}</div>
+                                                </div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <OverallStatusBadge status={approval.overallStatus} />
+                                        </TableCell>
+                                        <TableCell className="hidden md:table-cell">
+                                            <p className="font-medium">Gestor da Unidade</p>
+                                            <p className="text-xs text-muted-foreground">RH</p>
+                                        </TableCell>
+                                        <TableCell className="text-center">
+                                            <div className="flex items-center justify-center gap-2">
+                                                {pendingItems > 0 ? (
+                                                    <>
+                                                        <AlertCircle className="h-4 w-4 text-yellow-500" />
+                                                        <span className="text-sm text-muted-foreground">{pendingItems} pendente(s)</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <CheckCircle className="h-4 w-4 text-green-500" />
+                                                        <span className="text-sm text-muted-foreground">Completo</span>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon">
+                                                        <MoreHorizontal className="h-4 w-4" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuItem disabled>
+                                                        <Eye className="mr-2 h-4 w-4" /> Ver Detalhes
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem onClick={() => handleApproveCandidate(approval.userId)} disabled={pendingItems > 0 || approval.overallStatus === 'approved'}>
+                                                        <CheckCircle className="mr-2 h-4 w-4" /> Aprovar Candidato
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                )})}
+                            </TableBody>
+                        </Table>
+                    </div>
                 </CardContent>
             </Card>
         </div>
     );
 }
-
