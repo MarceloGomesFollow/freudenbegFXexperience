@@ -55,7 +55,7 @@ export default function DashboardLayout({
                           <DateTime />
                           <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="hidden sm:inline-flex">
+                                <Button variant="outline" size="sm" className="hidden sm:inline-flex text-white border-white/20 bg-white/10 hover:bg-white/20">
                                     <LifeBuoy className="mr-2 h-4 w-4" />
                                     Apoio RH
                                 </Button>
@@ -107,7 +107,7 @@ export default function DashboardLayout({
                             </DialogContent>
                           </Dialog>
                           <div className="hidden sm:flex items-center gap-1">
-                            <span className="text-sm font-medium text-muted-foreground">{t('language')}:</span>
+                            <span className="text-sm font-medium text-white/80">{t('language')}:</span>
                             <LanguageToggle />
                           </div>
                           <ThemeToggle />
