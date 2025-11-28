@@ -98,10 +98,17 @@ export function Chatbot() {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50">
+      <motion.div
+        whileHover={{ scale: 1.1, y: -5 }}
+        whileTap={{ scale: 0.95, y: 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className="fixed bottom-6 right-6 z-50"
+        style={{ perspective: "1000px" }}
+      >
         <Button
           onClick={toggleOpen}
-          className="relative rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-lg transition-transform hover:scale-110 flex items-center justify-center text-lg font-bold overflow-hidden p-0"
+          className="relative rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-2xl transition-transform flex items-center justify-center text-lg font-bold overflow-hidden p-0"
+          style={{ transformStyle: "preserve-3d" }}
         >
           {isOpen ? <X className="h-8 w-8" /> : (
             <Image 
@@ -112,7 +119,7 @@ export function Chatbot() {
             />
           )}
         </Button>
-      </div>
+      </motion.div>
 
       <AnimatePresence>
         {isOpen && (
