@@ -94,7 +94,7 @@ export default function Home() {
               data-ai-hint={heroImage.imageHint}
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-blue-900/80" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/60 to-blue-900/70" />
           <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-transparent bg-clip-text shimmer-text-hero">
