@@ -18,6 +18,7 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { users } from "@/lib/data";
 import { DateTime } from "@/components/date-time";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { cn } from "@/lib/utils";
 
 export default function DashboardLayout({
   children,
@@ -113,7 +114,7 @@ export default function DashboardLayout({
                           <UserNav />
                       </div>
                   </header>
-                  <main className="flex-1 p-4 sm:p-6 lg:p-8 bg-muted/40">
+                  <main className={cn("flex-1 p-4 sm:p-6 lg:p-8 bg-muted/40 dashboard-bg")}>
                       {children}
                   </main>
                   <Chatbot />
