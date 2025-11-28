@@ -11,7 +11,7 @@ export function FloatingImage() {
     <motion.div
       drag
       dragMomentum={false}
-      className="fixed bottom-28 right-6 z-[101] cursor-grab active:cursor-grabbing w-64 rounded-xl shadow-2xl"
+      className="fixed bottom-28 right-6 z-[101] cursor-grab active:cursor-grabbing w-64 rounded-xl shadow-2xl overflow-hidden"
       initial={{ y: 20, opacity: 0 }}
       animate={{
         y: [0, -10, 0],
@@ -26,14 +26,15 @@ export function FloatingImage() {
         },
       }}
     >
-        <div className="relative aspect-square w-full">
+        <div className="relative aspect-[2/1] w-full">
           <Image
             src={imageUrl}
             alt="Floating decorative image"
             fill
-            className="rounded-xl object-cover"
+            className="object-cover"
             priority
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20" />
         </div>
     </motion.div>
   );
