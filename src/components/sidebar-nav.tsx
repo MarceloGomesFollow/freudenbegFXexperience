@@ -184,23 +184,15 @@ function FreudyIaLink() {
                     <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
                 </SidebarMenuButton>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl h-[80vh]">
-                <DialogHeader>
-                    <DialogTitle>FreudyIA</DialogTitle>
-                    <DialogDescription>
-                        Interaja com a IA generativa da plataforma.
-                    </DialogDescription>
-                </DialogHeader>
-                <div className="w-full h-full rounded-lg overflow-hidden border">
-                    <iframe
-                        className="w-full h-full"
-                        src="https://lab.anam.ai/frame/4lQeno3aYnB9HuXExy6jG"
-                        title="Anam AI"
-                        frameBorder="0"
-                        allow="camera;microphone"
-                        allowFullScreen
-                    ></iframe>
-                </div>
+            <DialogContent className="max-w-4xl h-[80vh] p-0 border-0">
+                <iframe
+                    className="w-full h-full rounded-lg"
+                    src="https://lab.anam.ai/frame/4lQeno3aYnB9HuXExy6jG"
+                    title="Anam AI"
+                    frameBorder="0"
+                    allow="camera;microphone"
+                    allowFullScreen
+                ></iframe>
             </DialogContent>
         </Dialog>
     );

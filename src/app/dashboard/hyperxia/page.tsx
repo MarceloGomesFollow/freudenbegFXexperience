@@ -3,6 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BrainCircuit } from "lucide-react";
+import Link from "next/link";
 
 export default function HyperXiapage() {
     return (
@@ -11,19 +12,14 @@ export default function HyperXiapage() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2"><BrainCircuit className="h-6 w-6"/> HyperXIA - Experimentos</CardTitle>
                     <CardDescription>
-                        Interaja com a IA generativa da plataforma neste ambiente de testes.
+                        Esta seção foi movida para um acesso mais rápido. Clique no ícone da{' '}
+                        <Link href="#" className="text-primary underline">FreudyIA na barra lateral</Link> 
+                        {' '}para interagir com a IA.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="aspect-video w-full rounded-lg overflow-hidden border">
-                        <iframe
-                            className="w-full h-full"
-                            src="https://lab.anam.ai/frame/4lQeno3aYnB9HuXExy6jG"
-                            title="Anam AI"
-                            frameBorder="0"
-                            allow="camera;microphone"
-                            allowFullScreen
-                        ></iframe>
+                    <div className="aspect-video w-full rounded-lg bg-muted flex items-center justify-center">
+                        <p className="text-muted-foreground">O player foi movido para a barra lateral.</p>
                     </div>
                 </CardContent>
             </Card>
