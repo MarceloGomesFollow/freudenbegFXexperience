@@ -72,8 +72,8 @@ export default function LearningPage() {
         <div className="space-y-8">
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Learning Hub</h2>
-                    <p className="text-muted-foreground mt-2">
+                    <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Learning Hub</h2>
+                    <p className="mt-2 text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                         Explore, aprenda e crie. Seu portal para o desenvolvimento contínuo.
                     </p>
                 </div>
