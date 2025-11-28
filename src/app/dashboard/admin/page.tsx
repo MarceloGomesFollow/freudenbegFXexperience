@@ -190,7 +190,7 @@ export default function AdminDashboardPage() {
                                                 {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={transfer.userName} data-ai-hint="person portrait" />}
                                                 <AvatarFallback>{transfer.userName.charAt(0)}</AvatarFallback>
                                             </Avatar>
-                                            <div className="font-medium">{transfer.userName}</div>
+                                            <div className="font-medium whitespace-nowrap">{transfer.userName}</div>
                                         </div>
                                     </TableCell>
                                     <TableCell className="hidden sm:table-cell">

@@ -25,7 +25,7 @@ export default function DashboardPage() {
 
     return (
         <div className="space-y-8">
-            <div className="flex items-center justify-between space-y-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
                 <h2 className="text-3xl font-bold tracking-tight">Painel Executivo</h2>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -107,39 +107,41 @@ export default function DashboardPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Participante</TableHead>
-                                    <TableHead>Unidade</TableHead>
-                                    <TableHead>Status</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                            {activeParticipants.map((user) => {
-                                const userAvatar = PlaceHolderImages.find(p => p.id === user.avatar);
-                                return (
-                                <TableRow key={user.email}>
-                                    <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <Avatar className="h-9 w-9">
-                                                {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={user.name} data-ai-hint="person portrait" />}
-                                                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                                            </Avatar>
-                                            <div className="font-medium">{user.name}</div>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{user.unit}</TableCell>
-                                    <TableCell>
-                                        <Badge variant={user.status === 'Ativo' ? 'default' : 'secondary'} className={user.status === 'Ativo' ? 'bg-green-500/20 text-green-700 dark:bg-green-500/20 dark:text-green-400' : ''}>
-                                            {user.status}
-                                        </Badge>
-                                    </TableCell>
-                                </TableRow>
-                                );
-                            })}
-                            </TableBody>
-                        </Table>
+                         <div className="overflow-x-auto">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Participante</TableHead>
+                                        <TableHead className="hidden sm:table-cell">Unidade</TableHead>
+                                        <TableHead>Status</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                {activeParticipants.map((user) => {
+                                    const userAvatar = PlaceHolderImages.find(p => p.id === user.avatar);
+                                    return (
+                                    <TableRow key={user.email}>
+                                        <TableCell>
+                                            <div className="flex items-center gap-3">
+                                                <Avatar className="h-9 w-9">
+                                                    {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={user.name} data-ai-hint="person portrait" />}
+                                                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                                                </Avatar>
+                                                <div className="font-medium whitespace-nowrap">{user.name}</div>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="hidden sm:table-cell">{user.unit}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={user.status === 'Ativo' ? 'default' : 'secondary'} className={user.status === 'Ativo' ? 'bg-green-500/20 text-green-700 dark:bg-green-500/20 dark:text-green-400' : ''}>
+                                                {user.status}
+                                            </Badge>
+                                        </TableCell>
+                                    </TableRow>
+                                    );
+                                })}
+                                </TableBody>
+                            </Table>
+                        </div>
                     </CardContent>
                 </Card>
             </div>
