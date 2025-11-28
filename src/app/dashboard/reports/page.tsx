@@ -5,8 +5,8 @@ import Link from "next/link";
 export default function ReportsPage() {
     return (
         <div className="space-y-8">
-            <h2 className="text-3xl font-bold tracking-tight">Central de Relatórios</h2>
-            <p className="text-muted-foreground">
+            <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Central de Relatórios</h2>
+            <p className="text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                 Acesse e gere relatórios sobre o progresso e os resultados do programa.
             </p>
 
