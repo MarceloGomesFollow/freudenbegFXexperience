@@ -12,8 +12,8 @@ export default function HomePage() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Bem-vindo à Experiência FX!</h2>
-        <p className="text-muted-foreground max-w-3xl">
+        <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Bem-vindo à Experiência FX!</h2>
+        <p className="text-slate-200 max-w-3xl [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
           Sua plataforma central para desenvolvimento, inovação e conexão. Explore o que está acontecendo no programa e como você pode participar.
         </p>
       </div>
