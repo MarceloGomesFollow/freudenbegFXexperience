@@ -128,7 +128,8 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-size: 200% 100%;
-      animation: shimmer-animation 5s infinite linear;
+      animation: shimmer-animation 10s infinite linear;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
     }
 
   @keyframes shimmer-animation {
