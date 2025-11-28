@@ -53,19 +53,8 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <header className="sticky top-0 z-50 px-4 lg:px-6 h-16 flex items-center bg-muted/30 backdrop-blur-lg border-b border-muted/20">
-        <Link href="/" className="flex items-center justify-center gap-4">
+        <Link href="/" className="flex items-center justify-center">
           <Logo />
-          {fxLogo && (
-            <div className="relative h-8 w-40">
-              <Image 
-                src={fxLogo.imageUrl}
-                alt={fxLogo.description}
-                fill
-                className="object-contain"
-                data-ai-hint={fxLogo.imageHint}
-              />
-            </div>
-          )}
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
              <div className="flex items-center gap-1">
