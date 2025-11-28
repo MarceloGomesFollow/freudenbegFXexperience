@@ -14,19 +14,13 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type Role = {
     id: string;
     name: string;
     icon: React.ElementType;
 };
-
-const roles: Role[] = [
-    { id: 'mentee', name: 'Usuário Mentorado', icon: User },
-    { id: 'manager', name: 'Gestor', icon: Users },
-    { id: 'mentor', name: 'Mentor', icon: Shield },
-    { id: 'admin', name: 'Administrador', icon: Crown },
-];
 
 type RoleContextType = {
     selectedRole: Role;
@@ -44,7 +38,27 @@ export function useRole() {
 }
 
 export function RoleProvider({ children }: { children: React.ReactNode }) {
+    const { t } = useLanguage();
+
+    const roles: Role[] = [
+        { id: 'mentee', name: t('sidebar.role_mentee'), icon: User },
+        { id: 'manager', name: t('sidebar.role_manager'), icon: Users },
+        { id: 'mentor', name: t('sidebar.role_mentor'), icon: Shield },
+        { id: 'admin', name: t('sidebar.role_admin'), icon: Crown },
+    ];
+    
     const [selectedRole, setSelectedRole] = React.useState(roles[0]);
+
+    // Update role names when language changes
+    React.useEffect(() => {
+        const updatedRoles: Role[] = [
+            { id: 'mentee', name: t('sidebar.role_mentee'), icon: User },
+            { id: 'manager', name: t('sidebar.role_manager'), icon: Users },
+            { id: 'mentor', name: t('sidebar.role_mentor'), icon: Shield },
+            { id: 'admin', name: t('sidebar.role_admin'), icon: Crown },
+        ];
+        setSelectedRole(prevRole => updatedRoles.find(r => r.id === prevRole.id) || updatedRoles[0]);
+    }, [t]);
     
     return (
         <RoleContext.Provider value={{ selectedRole, setSelectedRole }}>
@@ -56,14 +70,22 @@ export function RoleProvider({ children }: { children: React.ReactNode }) {
 export function RoleSwitcher() {
   const { selectedRole, setSelectedRole } = useRole();
   const { toast } = useToast();
+  const { t } = useLanguage();
+
+  const roles: Role[] = [
+    { id: 'mentee', name: t('sidebar.role_mentee'), icon: User },
+    { id: 'manager', name: t('sidebar.role_manager'), icon: Users },
+    { id: 'mentor', name: t('sidebar.role_mentor'), icon: Shield },
+    { id: 'admin', name: t('sidebar.role_admin'), icon: Crown },
+];
 
   const handleRoleChange = (roleId: string) => {
     const role = roles.find(r => r.id === roleId);
     if (role && role.id !== selectedRole.id) {
         setSelectedRole(role);
         toast({
-            title: `Visão alterada para: ${role.name}`,
-            description: "A interface agora reflete a visão deste perfil.",
+            title: t('sidebar.role_changed_title').replace('{roleName}', role.name),
+            description: t('sidebar.role_changed_description'),
         })
     }
   };
@@ -84,7 +106,7 @@ export function RoleSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-48">
         <DropdownMenuLabel>
-            Simular Visão Como
+            {t('sidebar.role_switcher_label')}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         {roles.map(role => {

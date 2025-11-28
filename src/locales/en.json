@@ -68,5 +68,57 @@
         "notifications": "View notifications",
         "manager": "Include my manager"
     }
+  },
+  "sidebar": {
+    "home": "Home",
+    "generalGuide": "General Guide",
+    "exchangeCenter": "Exchange Center",
+    "dashboard": "Dashboard",
+    "adminDashboard": "Admin Dashboard",
+    "approvals": "Approvals",
+    "diary": "Diary 4.0",
+    "calendar": "Calendar",
+    "mentorship": "Mentorship",
+    "learningHub": "Learning Hub",
+    "learningHub_explore": "Explore",
+    "learningHub_create": "Create Content",
+    "learningHub_analytics": "Analytics",
+    "innovationLabs": "Innovation Labs",
+    "innovationLabs_challenges": "Challenges",
+    "innovationLabs_submit": "Submit Idea",
+    "innovationLabs_practices": "Best Practices",
+    "innovationLabs_dashboard": "Labs Dashboard",
+    "specialResources": "Special Resources",
+    "specialResources_overview": "Overview",
+    "specialResources_freudy": "Freudy AI",
+    "specialResources_businessFit": "Business Fit AI",
+    "events": "Events",
+    "alumni": "Alumni Network",
+    "reports": "Reports",
+    "reports_overview": "Overview",
+    "reports_a3": "A3 Generator",
+    "settings": "Settings",
+    "freudyIA": "FreudyIA",
+    "freudyIADialog_title": "Freudy IA Assistant",
+    "role_mentee": "Mentee User",
+    "role_manager": "Manager",
+    "role_mentor": "Mentor",
+    "role_admin": "Administrator",
+    "role_switcher_label": "Simulate View As",
+    "role_changed_title": "View changed to: {roleName}",
+    "role_changed_description": "The interface now reflects this profile's view."
+  },
+  "userNav": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
+  },
+  "rhSupport": {
+    "button": "HR Support",
+    "title": "HR Support Contact",
+    "description": "Need help or have questions about the program? Contact the administrator.",
+    "admin_role": "Program Admin",
+    "whatsapp": "WhatsApp",
+    "sendMessage": "Send Message (soon)"
   }
 }

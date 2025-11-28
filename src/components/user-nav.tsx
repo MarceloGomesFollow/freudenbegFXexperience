@@ -1,4 +1,5 @@
-"use client"
+
+"use client";
 
 import Link from "next/link";
 import {
@@ -14,9 +15,12 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { CreditCard, LogOut, Settings, User as UserIcon } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function UserNav() {
     const userAvatar = PlaceHolderImages.find((p) => p.id === 'user-avatar-1');
+    const { t } = useLanguage();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -41,13 +45,13 @@ export function UserNav() {
           <DropdownMenuItem asChild>
             <Link href="/dashboard/settings">
                 <UserIcon className="mr-2" />
-                <span>Perfil</span>
+                <span>{t('userNav.profile')}</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
              <Link href="/dashboard/settings">
                 <Settings className="mr-2" />
-                <span>Configurações</span>
+                <span>{t('userNav.settings')}</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -55,7 +59,7 @@ export function UserNav() {
         <DropdownMenuItem asChild>
             <Link href="/login">
                 <LogOut className="mr-2" />
-                <span>Sair</span>
+                <span>{t('userNav.logout')}</span>
             </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

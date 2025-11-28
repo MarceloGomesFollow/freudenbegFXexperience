@@ -68,5 +68,57 @@
         "notifications": "Benachrichtigungen anzeigen",
         "manager": "Meinen Vorgesetzten einbeziehen"
     }
+  },
+    "sidebar": {
+    "home": "Home",
+    "generalGuide": "Allgemeiner Leitfaden",
+    "exchangeCenter": "Austauschzentrum",
+    "dashboard": "Dashboard",
+    "adminDashboard": "Admin-Dashboard",
+    "approvals": "Genehmigungen",
+    "diary": "Tagebuch 4.0",
+    "calendar": "Kalender",
+    "mentorship": "Mentoring",
+    "learningHub": "Lernzentrum",
+    "learningHub_explore": "Erkunden",
+    "learningHub_create": "Inhalt erstellen",
+    "learningHub_analytics": "Analytik",
+    "innovationLabs": "Innovationslabore",
+    "innovationLabs_challenges": "Herausforderungen",
+    "innovationLabs_submit": "Idee einreichen",
+    "innovationLabs_practices": "Beste Praktiken",
+    "innovationLabs_dashboard": "Labs-Dashboard",
+    "specialResources": "Spezielle Ressourcen",
+    "specialResources_overview": "Überblick",
+    "specialResources_freudy": "Freudy KI",
+    "specialResources_businessFit": "Business Fit KI",
+    "events": "Veranstaltungen",
+    "alumni": "Alumni-Netzwerk",
+    "reports": "Berichte",
+    "reports_overview": "Überblick",
+    "reports_a3": "A3-Generator",
+    "settings": "Einstellungen",
+    "freudyIA": "FreudyKI",
+    "freudyIADialog_title": "Freudy KI-Assistent",
+    "role_mentee": "Mentee-Benutzer",
+    "role_manager": "Manager",
+    "role_mentor": "Mentor",
+    "role_admin": "Administrator",
+    "role_switcher_label": "Ansicht simulieren als",
+    "role_changed_title": "Ansicht geändert zu: {roleName}",
+    "role_changed_description": "Die Benutzeroberfläche spiegelt nun die Ansicht dieses Profils wider."
+  },
+  "userNav": {
+    "profile": "Profil",
+    "settings": "Einstellungen",
+    "logout": "Abmelden"
+  },
+  "rhSupport": {
+    "button": "HR-Support",
+    "title": "HR-Support-Kontakt",
+    "description": "Benötigen Sie Hilfe oder haben Sie Fragen zum Programm? Kontaktieren Sie den Administrator.",
+    "admin_role": "Programm-Admin",
+    "whatsapp": "WhatsApp",
+    "sendMessage": "Nachricht senden (bald)"
   }
 }

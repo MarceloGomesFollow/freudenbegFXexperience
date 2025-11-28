@@ -44,149 +44,22 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collap
 import { useRole } from "./role-switcher";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { FreudyIAIcon } from "./freudy-ia-icon";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-
-const links = [
-  {
-    href: "/dashboard/home",
-    label: "Home",
-    icon: Home,
-  },
-  {
-    href: "/dashboard/general-guide",
-    label: "Guia Geral",
-    icon: BookUser,
-  },
-  {
-    href: "/dashboard/exchange-center",
-    label: "Central de Intercâmbio",
-    icon: Briefcase,
-  },
-  {
-    href: "/dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-    roles: ['manager', 'admin']
-  },
-  {
-    href: "/dashboard/admin",
-    label: "Admin Dashboard",
-    icon: Shield,
-    roles: ['admin']
-  },
-   {
-    href: "/dashboard/approvals",
-    label: "Aprovações",
-    icon: CheckSquare,
-    roles: ['manager', 'admin']
-  },
-  {
-    href: "/dashboard/diary",
-    label: "Diário 4.0",
-    icon: NotebookText,
-  },
-  {
-    href: "/dashboard/calendar",
-    label: "Agenda",
-    icon: Calendar,
-  },
-    {
-    href: "/dashboard/mentorship",
-    label: "Mentoria",
-    icon: Users,
-  },
-  {
-    label: "Learning Hub",
-    icon: GraduationCap,
-    subLinks: [
-        {
-            href: "/dashboard/learning",
-            label: "Explorar",
-        },
-        {
-            href: "/dashboard/content",
-            label: "Criar Conteúdo",
-        },
-        {
-            href: "/dashboard/learning/analytics",
-            label: "Analytics",
-            roles: ['admin', 'manager']
-        },
-    ]
-  },
-  {
-    label: "Innovation Labs",
-    icon: Beaker,
-    subLinks: [
-        { href: "/dashboard/innovation-labs", label: "Desafios" },
-        { href: "/dashboard/innovation-labs/submit-idea", label: "Submeter Ideia" },
-        { href: "/dashboard/innovation-labs/catalog", label: "Boas Práticas" },
-        { href: "/dashboard/innovation-labs/analytics", label: "Dashboard Labs", roles: ['admin', 'manager'] },
-    ]
-  },
-  {
-    label: "Recursos Especiais",
-    icon: Sparkles,
-     subLinks: [
-        {
-            href: "/dashboard/special-resources",
-            label: "Visão Geral",
-        },
-        {
-            href: "/dashboard/ai-mentor",
-            label: "IA Freudy",
-            icon: Bot,
-        },
-        {
-            href: "/dashboard/business-fit",
-            label: "IA Business Fit",
-            icon: ShieldCheck,
-        }
-    ]
-  },
-  {
-    href: "/dashboard/events",
-    label: "Eventos",
-    icon: Presentation,
-  },
-  {
-    href: "/dashboard/alumni",
-    label: "Rede Alumni",
-    icon: Contact,
-  },
-  {
-    label: "Relatórios",
-    icon: BarChart3,
-    subLinks: [
-        {
-            href: "/dashboard/reports",
-            label: "Visão Geral",
-        },
-        {
-            href: "/dashboard/reports/a3",
-            label: "Gerador A3",
-        }
-    ]
-  },
-  {
-    href: "/dashboard/settings",
-    label: "Configurações",
-    icon: Settings,
-  },
-];
 
 function FreudyIaLink() {
+    const { t } = useLanguage();
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <SidebarMenuButton>
                     <FreudyIAIcon />
-                    <span>Freudy<span className="shimmer-text-blue-sidebar">IA</span></span>
+                    <span>{t('sidebar.freudyIA')}<span className="shimmer-text-blue-sidebar"></span></span>
                 </SidebarMenuButton>
             </DialogTrigger>
             <DialogContent className="max-w-4xl h-[80vh] p-0 flex flex-col bg-black/10 backdrop-blur-lg border-white/20">
                 <DialogHeader className="p-4 pb-0">
-                    <DialogTitle className="text-white">Freudy IA Assistant</DialogTitle>
+                    <DialogTitle className="text-white">{t('sidebar.freudyIADialog_title')}</DialogTitle>
                 </DialogHeader>
                 <iframe
                     className="w-full h-full rounded-b-lg"
@@ -204,6 +77,136 @@ function FreudyIaLink() {
 export function SidebarNav() {
   const pathname = usePathname();
   const { selectedRole } = useRole();
+  const { t } = useLanguage();
+
+  const links = [
+    {
+      href: "/dashboard/home",
+      label: t('sidebar.home'),
+      icon: Home,
+    },
+    {
+      href: "/dashboard/general-guide",
+      label: t('sidebar.generalGuide'),
+      icon: BookUser,
+    },
+    {
+      href: "/dashboard/exchange-center",
+      label: t('sidebar.exchangeCenter'),
+      icon: Briefcase,
+    },
+    {
+      href: "/dashboard",
+      label: t('sidebar.dashboard'),
+      icon: LayoutDashboard,
+      roles: ['manager', 'admin']
+    },
+    {
+      href: "/dashboard/admin",
+      label: t('sidebar.adminDashboard'),
+      icon: Shield,
+      roles: ['admin']
+    },
+     {
+      href: "/dashboard/approvals",
+      label: t('sidebar.approvals'),
+      icon: CheckSquare,
+      roles: ['manager', 'admin']
+    },
+    {
+      href: "/dashboard/diary",
+      label: t('sidebar.diary'),
+      icon: NotebookText,
+    },
+    {
+      href: "/dashboard/calendar",
+      label: t('sidebar.calendar'),
+      icon: Calendar,
+    },
+      {
+      href: "/dashboard/mentorship",
+      label: t('sidebar.mentorship'),
+      icon: Users,
+    },
+    {
+      label: t('sidebar.learningHub'),
+      icon: GraduationCap,
+      subLinks: [
+          {
+              href: "/dashboard/learning",
+              label: t('sidebar.learningHub_explore'),
+          },
+          {
+              href: "/dashboard/content",
+              label: t('sidebar.learningHub_create'),
+          },
+          {
+              href: "/dashboard/learning/analytics",
+              label: t('sidebar.learningHub_analytics'),
+              roles: ['admin', 'manager']
+          },
+      ]
+    },
+    {
+      label: t('sidebar.innovationLabs'),
+      icon: Beaker,
+      subLinks: [
+          { href: "/dashboard/innovation-labs", label: t('sidebar.innovationLabs_challenges') },
+          { href: "/dashboard/innovation-labs/submit-idea", label: t('sidebar.innovationLabs_submit') },
+          { href: "/dashboard/innovation-labs/catalog", label: t('sidebar.innovationLabs_practices') },
+          { href: "/dashboard/innovation-labs/analytics", label: t('sidebar.innovationLabs_dashboard'), roles: ['admin', 'manager'] },
+      ]
+    },
+    {
+      label: t('sidebar.specialResources'),
+      icon: Sparkles,
+       subLinks: [
+          {
+              href: "/dashboard/special-resources",
+              label: t('sidebar.specialResources_overview'),
+          },
+          {
+              href: "/dashboard/ai-mentor",
+              label: t('sidebar.specialResources_freudy'),
+              icon: Bot,
+          },
+          {
+              href: "/dashboard/business-fit",
+              label: t('sidebar.specialResources_businessFit'),
+              icon: ShieldCheck,
+          }
+      ]
+    },
+    {
+      href: "/dashboard/events",
+      label: t('sidebar.events'),
+      icon: Presentation,
+    },
+    {
+      href: "/dashboard/alumni",
+      label: t('sidebar.alumni'),
+      icon: Contact,
+    },
+    {
+      label: t('sidebar.reports'),
+      icon: BarChart3,
+      subLinks: [
+          {
+              href: "/dashboard/reports",
+              label: t('sidebar.reports_overview'),
+          },
+          {
+              href: "/dashboard/reports/a3",
+              label: t('sidebar.reports_a3'),
+          }
+      ]
+    },
+    {
+      href: "/dashboard/settings",
+      label: t('sidebar.settings'),
+      icon: Settings,
+    },
+  ];
 
   const isSubLinkActive = (subLinks: any[] | undefined) => {
     return subLinks?.some(subLink => pathname.startsWith(subLink.href));

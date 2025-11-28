@@ -57,14 +57,14 @@ export default function DashboardLayout({
                             <DialogTrigger asChild>
                                 <Button variant="outline" size="sm" className="hidden sm:inline-flex text-white border-white/20 bg-white/10 hover:bg-white/20">
                                     <LifeBuoy className="mr-2 h-4 w-4" />
-                                    Apoio RH
+                                    {t('rhSupport.button')}
                                 </Button>
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
-                                    <DialogTitle>Contato de Suporte RH</DialogTitle>
+                                    <DialogTitle>{t('rhSupport.title')}</DialogTitle>
                                     <DialogDescription>
-                                        Precisa de ajuda ou tem alguma dúvida sobre o programa? Entre em contato com o administrador.
+                                        {t('rhSupport.description')}
                                     </DialogDescription>
                                 </DialogHeader>
                                 <div className="flex items-center space-x-4 pt-4">
@@ -76,7 +76,7 @@ export default function DashboardLayout({
                                         </Avatar>
                                         <div className="space-y-1">
                                             <h4 className="text-lg font-semibold">{rhAdmin.name}</h4>
-                                            <p className="text-sm text-muted-foreground">Admin do Programa</p>
+                                            <p className="text-sm text-muted-foreground">{t('rhSupport.admin_role')}</p>
                                             <div className="flex items-center pt-2">
                                                 <Mail className="mr-2 h-4 w-4 opacity-70" />{" "}
                                                 <a href={`mailto:${rhAdmin.email}`} className="text-xs text-muted-foreground hover:underline">
@@ -92,7 +92,7 @@ export default function DashboardLayout({
                                              <div className="flex items-center pt-1">
                                                 <MessageSquare className="mr-2 h-4 w-4 opacity-70" />{" "}
                                                 <a href="#" className="text-xs text-muted-foreground hover:underline">
-                                                    WhatsApp
+                                                    {t('rhSupport.whatsapp')}
                                                 </a>
                                             </div>
                                         </div>
@@ -101,7 +101,7 @@ export default function DashboardLayout({
                                 </div>
                                 <div className="pt-4">
                                     <Button className="w-full" disabled>
-                                        <Mail className="mr-2 h-4 w-4" /> Enviar Mensagem (em breve)
+                                        <Mail className="mr-2 h-4 w-4" /> {t('rhSupport.sendMessage')}
                                     </Button>
                                 </div>
                             </DialogContent>

@@ -68,5 +68,58 @@
         "notifications": "Ver notificações",
         "manager": "Incluir meu gestor"
     }
+  },
+  "sidebar": {
+    "home": "Home",
+    "generalGuide": "Guia Geral",
+    "exchangeCenter": "Central de Intercâmbio",
+    "dashboard": "Dashboard",
+    "adminDashboard": "Admin Dashboard",
+    "approvals": "Aprovações",
+    "diary": "Diário 4.0",
+    "calendar": "Agenda",
+    "mentorship": "Mentoria",
+    "learningHub": "Learning Hub",
+    "learningHub_explore": "Explorar",
+    "learningHub_create": "Criar Conteúdo",
+    "learningHub_analytics": "Analytics",
+    "innovationLabs": "Innovation Labs",
+    "innovationLabs_challenges": "Desafios",
+    "innovationLabs_submit": "Submeter Ideia",
+    "innovationLabs_practices": "Boas Práticas",
+    "innovationLabs_dashboard": "Dashboard Labs",
+    "specialResources": "Recursos Especiais",
+    "specialResources_overview": "Visão Geral",
+    "specialResources_freudy": "IA Freudy",
+    "specialResources_businessFit": "IA Business Fit",
+    "events": "Eventos",
+    "alumni": "Rede Alumni",
+    "reports": "Relatórios",
+    "reports_overview": "Visão Geral",
+    "reports_a3": "Gerador A3",
+    "settings": "Configurações",
+    "freudyIA": "FreudyIA",
+    "freudyIADialog_title": "Assistente Freudy IA",
+    "role_mentee": "Usuário Mentorado",
+    "role_manager": "Gestor",
+    "role_mentor": "Mentor",
+    "role_admin": "Administrador",
+    "role_switcher_label": "Simular Visão Como",
+    "role_changed_title": "Visão alterada para: {roleName}",
+    "role_changed_description": "A interface agora reflete a visão deste perfil."
+  },
+  "userNav": {
+    "profile": "Perfil",
+    "settings": "Configurações",
+    "logout": "Sair"
+  },
+  "rhSupport": {
+    "button": "Apoio RH",
+    "title": "Contato de Suporte RH",
+    "description": "Precisa de ajuda ou tem alguma dúvida sobre o programa? Entre em contato com o administrador.",
+    "admin_role": "Admin do Programa",
+    "whatsapp": "WhatsApp",
+    "sendMessage": "Enviar Mensagem (em breve)"
   }
 }
+
