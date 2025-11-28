@@ -121,9 +121,9 @@
   .shimmer-text-hero {
       background: linear-gradient(
         90deg,
-        hsl(var(--primary-foreground)),
-        hsl(var(--accent)),
-        hsl(var(--primary-foreground))
+        #ffffff,
+        #007BFF,
+        #ffffff
       );
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
