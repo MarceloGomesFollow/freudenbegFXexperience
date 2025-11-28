@@ -94,13 +94,13 @@ export default function Home() {
               data-ai-hint={heroImage.imageHint}
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+          
           <div className="container px-4 md:px-6 relative text-center text-primary-foreground">
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl shimmer-text-hero">
+              <h1 className="text-4xl font-headline font-bold tracking-tighter sm:text-5xl md:text-6xl text-white [text-shadow:2px_2px_8px_rgba(0,0,0,0.7)]">
                 {t('hero.title')}
               </h1>
-              <p className="mt-4 text-lg md:text-xl text-slate-200">
+              <p className="mt-4 text-lg md:text-xl text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                 {t('hero.subtitle')}
               </p>
               <div className="mt-8 flex justify-center gap-4">
