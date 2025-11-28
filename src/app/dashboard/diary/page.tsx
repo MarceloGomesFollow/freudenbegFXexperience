@@ -107,8 +107,8 @@ export default function DiaryPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-3xl font-bold tracking-tight">Diário 4.0</h2>
-             <p className="text-muted-foreground max-w-3xl">
+            <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Diário 4.0</h2>
+             <p className="text-slate-200 max-w-3xl [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                 Este é o seu espaço para substituir os formulários manuais. Registre suas atividades, reflexões e aprendizados de forma dinâmica com textos, fotos e vídeos que ficam integrados ao seu histórico.
             </p>
             
@@ -370,6 +370,8 @@ export default function DiaryPage() {
         </div>
     )
 }
+
+    
 
     
 
