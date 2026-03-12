@@ -65,7 +65,7 @@ export default function AdminDashboardPage() {
         <div className="space-y-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight">Painel do Administrador</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Painel do Administrador</h2>
                     <p className="text-muted-foreground mt-1">
                         Visão geral do fluxo de intercâmbios e participantes.
                     </p>

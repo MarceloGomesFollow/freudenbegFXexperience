@@ -75,7 +75,7 @@ export default function ApprovalsPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-3xl font-bold tracking-tight">Checklist e Aprovação de Candidatos</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Checklist e Aprovação de Candidatos</h2>
                 <p className="text-muted-foreground mt-2">
                     Acompanhe a logística e aprove os participantes para o programa de intercâmbio.
                 </p>

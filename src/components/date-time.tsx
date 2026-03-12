@@ -37,9 +37,9 @@ export function DateTime() {
     });
 
     return (
-        <div className="hidden md:flex items-center gap-2 text-sm text-white/80">
+        <div className="hidden md:flex items-center gap-2 glass-subtle rounded-lg px-3 py-1.5 text-sm font-medium text-foreground/80">
             <span>{formattedDate}</span>
-            <span className="font-semibold text-white">{formattedTime}</span>
+            <span className="font-semibold text-foreground">{formattedTime}</span>
         </div>
     );
 }

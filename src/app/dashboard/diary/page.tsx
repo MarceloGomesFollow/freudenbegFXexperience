@@ -20,6 +20,7 @@ import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
+import { motion } from "framer-motion";
 
 export default function DiaryPage() {
     const [newEntry, setNewEntry] = useState("");
@@ -105,14 +106,28 @@ export default function DiaryPage() {
     }
 
 
+    const containerVariants = {
+      hidden: { opacity: 0 },
+      show: { opacity: 1, transition: { staggerChildren: 0.08 } }
+    };
+    const itemVariants = {
+      hidden: { opacity: 0, y: 16 },
+      show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+    };
+
     return (
-        <div className="space-y-8">
-            <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Diário 4.0</h2>
-             <p className="text-slate-200 max-w-3xl [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
-                Este é o seu espaço para substituir os formulários manuais. Registre suas atividades, reflexões e aprendizados de forma dinâmica com textos, fotos e vídeos que ficam integrados ao seu histórico.
-            </p>
+        <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="show">
+            <motion.div variants={itemVariants}>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                    <span className="gold-text">Diário</span>{" "}
+                    <span className="text-foreground">4.0</span>
+                </h2>
+                <p className="text-muted-foreground max-w-3xl mt-2">
+                    Este é o seu espaço para substituir os formulários manuais. Registre suas atividades, reflexões e aprendizados de forma dinâmica com textos, fotos e vídeos que ficam integrados ao seu histórico.
+                </p>
+            </motion.div>
             
-            <div className="grid gap-8 lg:grid-cols-3">
+            <motion.div variants={itemVariants} className="grid gap-8 lg:grid-cols-3">
                 <div className="lg:col-span-2 space-y-6">
                     <Tabs defaultValue="diary">
                         <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
@@ -191,10 +206,10 @@ export default function DiaryPage() {
 
                             <div className="space-y-6">
                                 <h3 className="text-xl font-semibold">Histórico de Entradas</h3>
-                                {entries.map(entry => {
+                                {entries.map((entry, index) => {
                                     const entryUserAvatar = PlaceHolderImages.find(p => p.id === entry.user.avatar);
                                     return (
-                                    <Card key={entry.id}>
+                                    <Card key={entry.id} className={index < 3 ? "border-l-2 border-gold" : ""}>
                                         <CardHeader className="flex flex-row items-start gap-4 space-y-0">
                                             <Avatar>
                                                 {entryUserAvatar && <AvatarImage src={entryUserAvatar.imageUrl} alt={entry.user.name} />}
@@ -333,7 +348,7 @@ export default function DiaryPage() {
                             <p className="text-muted-foreground mb-4 text-sm">
                                 Use a IA para extrair insights e analisar o sentimento das suas entradas no diário.
                             </p>
-                            <Button onClick={handleSummarize} className="w-full" disabled={isSummarizing}>
+                            <Button variant="gold" onClick={handleSummarize} className="w-full" disabled={isSummarizing}>
                                 {isSummarizing ? "Gerando..." : "Gerar Resumo"}
                             </Button>
 
@@ -366,8 +381,8 @@ export default function DiaryPage() {
                         </CardContent>
                     </Card>
                 </div>
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
     )
 }
 

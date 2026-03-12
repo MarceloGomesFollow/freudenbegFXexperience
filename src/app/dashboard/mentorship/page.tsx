@@ -23,6 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 import { generateMentorshipReport, type GenerateMentorshipReportInput } from '@/ai/flows/generate-mentorship-report';
 import { Skeleton } from "@/components/ui/skeleton";
 import { z } from 'zod';
+import { motion } from "framer-motion";
 
 
 const MenteesTab = () => {
@@ -64,7 +65,7 @@ const MenteesTab = () => {
                 const lateTasks = menteeTasks.filter(t => t.status === 'Atrasado');
 
                 return (
-                    <Card key={mentee.email} className="flex flex-col">
+                    <Card key={mentee.email} className="flex flex-col card-hover">
                         <CardHeader>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-4">
@@ -343,8 +344,8 @@ const AiReportTab = () => {
                             </SelectContent>
                         </Select>
                     </div>
-                     <Button className="w-full" onClick={handleGenerateReport} disabled={isLoading}>
-                        <Bot className="mr-2 h-4 w-4"/> 
+                     <Button variant="gold" className="w-full" onClick={handleGenerateReport} disabled={isLoading}>
+                        <Bot className="mr-2 h-4 w-4"/>
                         {isLoading ? 'Gerando...' : 'Gerar Relatório de Feedback'}
                     </Button>
                 </CardContent>
@@ -371,16 +372,29 @@ const AiReportTab = () => {
     );
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } }
+};
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+};
+
 export default function MentorshipPage() {
     return (
-        <div className="space-y-8">
-            <div>
-                <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Central de Mentoria</h2>
-                <p className="mt-2 text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
+        <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="show">
+            <motion.div variants={itemVariants}>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                    <span className="gold-text">Central</span>{" "}
+                    <span className="text-foreground">de Mentoria</span>
+                </h2>
+                <p className="mt-2 text-muted-foreground">
                     Acompanhe o progresso, agende reuniões e gere relatórios de seus mentorados.
                 </p>
-            </div>
-            
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
             <Tabs defaultValue="mentees" className="w-full">
                 <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
                     <TabsTrigger value="mentees"><UsersIcon className="mr-2 h-4 w-4"/>Mentees</TabsTrigger>
@@ -397,6 +411,7 @@ export default function MentorshipPage() {
                     <AiReportTab />
                 </TabsContent>
             </Tabs>
-        </div>
+            </motion.div>
+        </motion.div>
     );
 }

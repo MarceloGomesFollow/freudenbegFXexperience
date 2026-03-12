@@ -5,76 +5,235 @@
 
 @layer base {
   :root {
-    --background: 218 21% 91%;
-    --foreground: 223 39% 10%;
-    --card: 0 0% 100%;
-    --card-foreground: 223 39% 10%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 223 39% 10%;
-    --primary: 223 39% 26%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 218 20% 85%;
-    --secondary-foreground: 223 39% 10%;
-    --muted: 218 20% 85%;
-    --muted-foreground: 223 39% 20%;
-    --accent: 174 20% 51%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 218 20% 80%;
-    --input: 218 20% 80%;
-    --ring: 174 20% 51%;
-    --chart-1: 223 39% 26%;
-    --chart-2: 174 20% 51%;
-    --chart-3: 218 15% 60%;
-    --chart-4: 223 30% 40%;
-    --chart-5: 174 15% 70%;
-    --radius: 0.5rem;
-    --sidebar-background: 220 9% 46%;
-    --sidebar-background-dark: 220 9% 16%;
-    --sidebar-foreground: 220 14% 95%;
-    --sidebar-primary: 220 13% 25%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 250 63% 50%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 13% 35% / 0.5;
-    --sidebar-ring: 250 63% 50%;
-  }
+  /* --- Glass & Gold Design System --- */
+  /* Backgrounds */
+  --background: 0 0% 97%;            /* #F7F7F7 */
+  --foreground: 230 25% 12%;         /* #1A1A2E */
+
+  /* Surfaces (glass) */
+  --card: 0 0% 100%;
+  --card-foreground: 230 25% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 230 25% 12%;
+
+  /* Brand */
+  --primary: 220 35% 27%;            /* #293B5F Freudenberg Blue */
+  --primary-foreground: 0 0% 98%;
+
+  /* Secondary */
+  --secondary: 220 15% 92%;          /* #E8EBF0 */
+  --secondary-foreground: 230 25% 12%;
+
+  /* Muted */
+  --muted: 220 15% 92%;
+  --muted-foreground: 220 10% 40%;
+
+  /* Accent - Teal */
+  --accent: 166 22% 50%;             /* #6A9993 */
+  --accent-foreground: 0 0% 98%;
+
+  /* Destructive */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  /* Borders & inputs */
+  --border: 220 15% 88%;
+  --input: 220 15% 88%;
+  --ring: 220 35% 27%;                /* Freudenberg Blue as ring */
+
+  /* Gold Accent Tokens */
+  --gold: 43 78% 44%;                /* #C5941A */
+  --gold-light: 46 78% 59%;          /* #E8C547 */
+  --gold-dark: 42 67% 50%;           /* #D4A829 */
+
+  /* Chart colors */
+  --chart-1: 220 35% 27%;
+  --chart-2: 166 22% 50%;
+  --chart-3: 43 78% 44%;
+  --chart-4: 220 20% 55%;
+  --chart-5: 166 15% 70%;
+
+  --radius: 0.75rem;
+
+  /* Sidebar — Light gray with blue accents */
+  --sidebar-background: 220 15% 96%;
+  --sidebar-foreground: 230 25% 12%;
+  --sidebar-primary: 220 35% 27%;          /* Freudenberg Blue */
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 220 20% 90%;           /* Light blue-gray hover */
+  --sidebar-accent-foreground: 230 25% 12%;
+  --sidebar-border: 220 15% 88%;
+  --sidebar-ring: 220 35% 27%;
+
+  /* Glass tokens — gray-tinted for visibility on light bg */
+  --glass-bg: 220 10% 50% / 0.06;
+  --glass-border: 220 10% 50% / 0.12;
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
   .dark {
-    --background: 223 39% 5%;
-    --foreground: 0 0% 98%;
-    --card: 223 39% 10%;
-    --card-foreground: 0 0% 98%;
-    --popover: 223 39% 5%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 223 39% 26%;
-    --secondary: 223 39% 15%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 223 39% 15%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 174 20% 51%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 223 39% 15%;
-    --input: 223 39% 15%;
-    --ring: 174 20% 51%;
-    --chart-1: 0 0% 98%;
-    --chart-2: 174 20% 51%;
-    --chart-3: 218 15% 60%;
-    --chart-4: 0 0% 80%;
-    --chart-5: 174 15% 70%;
-    --sidebar-background: 220 9% 26%;
-    --sidebar-background-dark: 220 9% 6%;
-    --sidebar-foreground: 220 14% 95%;
-    --sidebar-primary: 220 13% 25%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 250 63% 50%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 13% 35% / 0.5;
-    --sidebar-ring: 250 63% 50%;
-  }
+  --background: 230 25% 4%;          /* #090A10 */
+  --foreground: 0 0% 96%;
+
+  --card: 230 20% 8%;
+  --card-foreground: 0 0% 96%;
+  --popover: 230 20% 6%;
+  --popover-foreground: 0 0% 96%;
+
+  --primary: 0 0% 96%;
+  --primary-foreground: 220 35% 27%;
+
+  --secondary: 230 20% 12%;
+  --secondary-foreground: 0 0% 96%;
+
+  --muted: 230 20% 12%;
+  --muted-foreground: 0 0% 64%;
+
+  --accent: 166 22% 50%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 230 20% 14%;
+  --input: 230 20% 14%;
+  --ring: 46 78% 59%;               /* Lighter gold in dark */
+
+  --gold: 46 78% 59%;               /* Brighter gold for dark mode */
+  --gold-light: 46 80% 68%;
+  --gold-dark: 43 78% 44%;
+
+  --chart-1: 0 0% 96%;
+  --chart-2: 166 22% 50%;
+  --chart-3: 46 78% 59%;
+  --chart-4: 0 0% 80%;
+  --chart-5: 166 15% 70%;
+
+  --sidebar-background: 230 20% 7%;
+  --sidebar-foreground: 220 14% 95%;
+  --sidebar-primary: 46 78% 59%;
+  --sidebar-primary-foreground: 230 25% 4%;
+  --sidebar-accent: 46 78% 59%;
+  --sidebar-accent-foreground: 230 25% 4%;
+  --sidebar-border: 230 20% 12%;
+  --sidebar-ring: 46 78% 59%;
+
+  --glass-bg: 0 0% 100% / 0.05;
+  --glass-border: 0 0% 100% / 0.08;
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+  .blue {
+  --background: 225 30% 8%;
+  --foreground: 210 20% 95%;
+
+  --card: 225 28% 12%;
+  --card-foreground: 210 20% 95%;
+  --popover: 225 28% 10%;
+  --popover-foreground: 210 20% 95%;
+
+  --primary: 215 60% 50%;
+  --primary-foreground: 0 0% 98%;
+
+  --secondary: 225 25% 16%;
+  --secondary-foreground: 210 20% 95%;
+
+  --muted: 225 25% 16%;
+  --muted-foreground: 210 15% 60%;
+
+  --accent: 166 22% 50%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 225 25% 18%;
+  --input: 225 25% 18%;
+  --ring: 215 60% 50%;
+
+  --gold: 46 78% 59%;
+  --gold-light: 46 80% 68%;
+  --gold-dark: 43 78% 44%;
+
+  --chart-1: 215 60% 50%;
+  --chart-2: 166 22% 50%;
+  --chart-3: 46 78% 59%;
+  --chart-4: 210 40% 60%;
+  --chart-5: 166 15% 70%;
+
+  --radius: 0.75rem;
+
+  --sidebar-background: 225 35% 6%;
+  --sidebar-foreground: 210 20% 95%;
+  --sidebar-primary: 215 60% 55%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 215 60% 55%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-border: 225 30% 14%;
+  --sidebar-ring: 215 60% 50%;
+
+  --glass-bg: 215 40% 50% / 0.06;
+  --glass-border: 0 0% 100% / 0.08;
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+  .gold {
+  --background: 35 15% 6%;
+  --foreground: 40 20% 92%;
+
+  --card: 35 12% 10%;
+  --card-foreground: 40 20% 92%;
+  --popover: 35 12% 8%;
+  --popover-foreground: 40 20% 92%;
+
+  --primary: 43 78% 44%;
+  --primary-foreground: 35 15% 6%;
+
+  --secondary: 35 12% 14%;
+  --secondary-foreground: 40 20% 92%;
+
+  --muted: 35 10% 14%;
+  --muted-foreground: 35 10% 55%;
+
+  --accent: 46 78% 59%;
+  --accent-foreground: 35 15% 6%;
+
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 35 12% 16%;
+  --input: 35 12% 16%;
+  --ring: 43 78% 44%;
+
+  --gold: 46 80% 62%;
+  --gold-light: 46 82% 72%;
+  --gold-dark: 43 78% 44%;
+
+  --chart-1: 43 78% 44%;
+  --chart-2: 46 78% 59%;
+  --chart-3: 35 40% 50%;
+  --chart-4: 40 20% 60%;
+  --chart-5: 46 50% 70%;
+
+  --radius: 0.75rem;
+
+  --sidebar-background: 35 18% 5%;
+  --sidebar-foreground: 40 20% 92%;
+  --sidebar-primary: 43 78% 50%;
+  --sidebar-primary-foreground: 35 15% 6%;
+  --sidebar-accent: 43 78% 50%;
+  --sidebar-accent-foreground: 35 15% 6%;
+  --sidebar-border: 35 15% 12%;
+  --sidebar-ring: 43 78% 44%;
+
+  --glass-bg: 43 40% 50% / 0.06;
+  --glass-border: 43 40% 50% / 0.1;
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
 }
 
 @layer base {
@@ -87,134 +246,634 @@
 }
 
 @layer utilities {
+
+  /* ========================================
+     DASHBOARD BACKGROUND — Subtle ambient glow
+     ======================================== */
   .dashboard-bg {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1764362557364-a235c3542360?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-    background-size: cover;
-    background-position: center;
-    background-attachment: scroll;
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(ellipse at 15% 50%, hsl(var(--gold) / 0.04) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 15%, hsl(220 35% 27% / 0.06) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 85%, hsl(var(--accent) / 0.03) 0%, transparent 45%);
   }
-  .dark .dashboard-bg {
-     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1764362557364-a235c3542360?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-  }
-
-  @media (min-width: 1024px) {
-    .dashboard-bg {
-      background-attachment: fixed;
-    }
-  }
-
-  .animated-gradient {
-    background: linear-gradient(
-      -45deg,
-      hsl(var(--primary) / 0.9),
-      hsl(var(--primary) / 0.7),
-      hsl(240, 60%, 30%),
-      hsl(var(--accent) / 0.8)
-    );
-    background-size: 400% 400%;
-    animation: gradient-animation 15s ease infinite;
+  .dark .dashboard-bg,
+  .blue .dashboard-bg,
+  .gold .dashboard-bg {
+    background-image:
+      radial-gradient(ellipse at 15% 50%, hsl(var(--gold) / 0.05) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 15%, hsl(220 35% 50% / 0.04) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 85%, hsl(var(--accent) / 0.04) 0%, transparent 45%);
   }
 
-  @keyframes gradient-animation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  /* ========================================
+     LAYER 1: STANDARD FREUDENBERG — Solid corporate
+     ======================================== */
+  .card-standard {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+  .dark .card-standard,
+  .blue .card-standard,
+  .gold .card-standard {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
 
-  .shimmer-text {
-    background: linear-gradient(
-      90deg,
-      hsl(var(--primary)),
-      hsl(var(--accent)),
-      hsl(var(--primary))
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 100%;
-    animation: shimmer-animation 5s infinite linear;
-  }
-  
-  .shimmer-text-hero {
-      background: linear-gradient(
-        90deg,
-        #ffffff,
-        #007BFF,
-        #ffffff
+  /* ========================================
+     GLASSMORPHISM — Premium multi-layer effects
+     Inspired by Apple Vision Pro / iOS glass
+     ======================================== */
+
+  /* --- Standard Glass Card --- */
+  .glass {
+    background:
+      linear-gradient(
+        135deg,
+        hsl(0 0% 100% / 0.85) 0%,
+        hsl(220 10% 97% / 0.7) 40%,
+        hsl(0 0% 100% / 0.8) 100%
       );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% 100%;
-      animation: shimmer-animation 10s infinite linear;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    }
-
-  @keyframes shimmer-animation {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid hsl(220 15% 85% / 0.6);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.06),
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 hsl(0 0% 100% / 0.7),
+      inset 0 -1px 0 hsl(220 15% 50% / 0.06);
+  }
+  .dark .glass,
+  .blue .glass,
+  .gold .glass {
+    background:
+      linear-gradient(
+        135deg,
+        hsl(0 0% 100% / 0.07) 0%,
+        hsl(0 0% 100% / 0.03) 40%,
+        hsl(0 0% 100% / 0.05) 100%
+      );
+    border-color: hsl(0 0% 100% / 0.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 hsl(0 0% 100% / 0.1),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.2);
   }
 
-  .shimmer-text-blue {
+  /* --- Subtle Glass — small elements, chips, badges --- */
+  .glass-subtle {
+    background:
+      linear-gradient(
+        135deg,
+        hsl(220 10% 97% / 0.6) 0%,
+        hsl(220 10% 95% / 0.4) 100%
+      );
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    border: 1px solid hsl(220 15% 85% / 0.5);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 hsl(0 0% 100% / 0.6);
+  }
+  .dark .glass-subtle,
+  .blue .glass-subtle,
+  .gold .glass-subtle {
+    background:
+      linear-gradient(
+        135deg,
+        hsl(0 0% 100% / 0.06) 0%,
+        hsl(0 0% 100% / 0.02) 100%
+      );
+    border-color: hsl(0 0% 100% / 0.08);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 hsl(0 0% 100% / 0.06);
+  }
+
+  /* --- Strong Glass — modals, elevated surfaces --- */
+  .glass-strong {
+    background:
+      linear-gradient(
+        135deg,
+        hsl(0 0% 100% / 0.95) 0%,
+        hsl(220 10% 97% / 0.85) 40%,
+        hsl(0 0% 100% / 0.9) 100%
+      );
+    backdrop-filter: blur(40px) saturate(1.6);
+    -webkit-backdrop-filter: blur(40px) saturate(1.6);
+    border: 1px solid hsl(220 15% 85% / 0.7);
+    box-shadow:
+      0 24px 48px rgba(0, 0, 0, 0.08),
+      0 4px 16px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 hsl(0 0% 100% / 0.8),
+      inset 0 -1px 0 hsl(220 15% 50% / 0.05);
+  }
+  .dark .glass-strong,
+  .blue .glass-strong,
+  .gold .glass-strong {
+    background:
+      linear-gradient(
+        135deg,
+        hsl(0 0% 100% / 0.1) 0%,
+        hsl(0 0% 100% / 0.04) 40%,
+        hsl(0 0% 100% / 0.07) 100%
+      );
+    border-color: hsl(0 0% 100% / 0.12);
+    box-shadow:
+      0 24px 48px rgba(0, 0, 0, 0.6),
+      0 4px 16px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 hsl(0 0% 100% / 0.1),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.3);
+  }
+
+  /* ========================================
+     GOLD ACCENT UTILITIES — Premium metallic
+     ======================================== */
+  .gold-gradient {
     background: linear-gradient(
-      90deg,
-      #00c9ff,
-      #92fe9d,
-      #00c9ff
+      135deg,
+      hsl(var(--gold-dark)) 0%,
+      hsl(var(--gold-light)) 45%,
+      hsl(var(--gold)) 65%,
+      hsl(var(--gold-dark)) 100%
     );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 100%;
-    animation: shimmer-animation 5s infinite linear;
   }
 
-  .shimmer-text-blue-sidebar {
-    background: linear-gradient(
-      90deg,
-      #80d9ff,
-      #c4fed5,
-      #80d9ff
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 100%;
-    animation: shimmer-animation 4s infinite linear;
-  }
-  
-  .sidebar-motion-bg {
-    background: linear-gradient(
-      -45deg,
-      hsl(var(--sidebar-background)),
-      hsl(var(--sidebar-background-dark)),
-      hsl(var(--sidebar-background))
-    );
-    background-size: 400% 400%;
-    animation: gradient-animation 10s ease infinite;
-  }
-
-  .tech-texture {
+  /* Gold border with double-layer clip trick */
+  .gold-border {
     position: relative;
+    border: 2px solid transparent;
+    background-image:
+      linear-gradient(hsl(var(--card)), hsl(var(--card))),
+      linear-gradient(
+        135deg,
+        hsl(var(--gold-dark)) 0%,
+        hsl(var(--gold-light)) 35%,
+        hsl(var(--gold)) 65%,
+        hsl(var(--gold-dark)) 100%
+      );
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow:
+      0 0 12px hsl(var(--gold) / 0.15),
+      0 0 4px hsl(var(--gold) / 0.1);
+  }
+  .dark .gold-border,
+  .blue .gold-border,
+  .gold .gold-border {
+    box-shadow:
+      0 0 16px hsl(var(--gold) / 0.25),
+      0 0 6px hsl(var(--gold) / 0.15);
+  }
+
+  .gold-glow {
+    box-shadow:
+      0 0 20px hsl(var(--gold) / 0.3),
+      0 0 40px hsl(var(--gold) / 0.1),
+      0 0 80px hsl(var(--gold) / 0.05);
+  }
+  .dark .gold-glow,
+  .blue .gold-glow,
+  .gold .gold-glow {
+    box-shadow:
+      0 0 24px hsl(var(--gold) / 0.5),
+      0 0 60px hsl(var(--gold) / 0.2),
+      0 0 100px hsl(var(--gold) / 0.08);
+  }
+
+  .gold-text {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--gold-dark)) 0%,
+      hsl(var(--gold-light)) 50%,
+      hsl(var(--gold)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ========================================
+     GLASS BUTTON CIRCLE — Crystal orb effect
+     Matches reference image: chrome rim, inner
+     specular highlight, refraction at edges
+     ======================================== */
+  .glass-button-circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    position: relative;
+    background:
+      radial-gradient(
+        ellipse at 35% 25%,
+        hsl(0 0% 100% / 0.5) 0%,
+        hsl(0 0% 100% / 0.15) 40%,
+        hsl(0 0% 100% / 0.05) 70%,
+        transparent 100%
+      );
+    backdrop-filter: blur(16px) saturate(1.5);
+    -webkit-backdrop-filter: blur(16px) saturate(1.5);
+    /* Chrome metallic rim */
+    border: 1.5px solid hsl(0 0% 100% / 0.3);
+    box-shadow:
+      /* Outer depth */
+      0 6px 24px rgba(0, 0, 0, 0.15),
+      0 2px 8px rgba(0, 0, 0, 0.1),
+      /* Chrome rim highlight */
+      inset 0 1px 2px hsl(0 0% 100% / 0.4),
+      /* Bottom inner shadow — gives the "orb" depth */
+      inset 0 -2px 6px rgba(0, 0, 0, 0.12),
+      /* Side subtle color refraction */
+      -1px 0 3px hsl(350 80% 60% / 0.06),
+      1px 0 3px hsl(200 80% 60% / 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    color: white;
     overflow: hidden;
   }
-
-  .tech-texture::before {
-    content: "";
+  /* Specular highlight pseudo-element */
+  .glass-button-circle::before {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 200%;
-    background-image: 
-      repeating-linear-gradient(45deg, hsla(var(--sidebar-foreground), 0.05) 0, hsla(var(--sidebar-foreground), 0.05) 1px, transparent 1px, transparent 10px),
-      repeating-linear-gradient(-45deg, hsla(var(--sidebar-foreground), 0.05) 0, hsla(var(--sidebar-foreground), 0.05) 1px, transparent 1px, transparent 10px);
-    animation: tech-texture-animation 20s linear infinite;
-    z-index: 0;
+    top: 6px;
+    left: 15%;
+    width: 50%;
+    height: 35%;
+    background: radial-gradient(
+      ellipse,
+      hsl(0 0% 100% / 0.5) 0%,
+      hsl(0 0% 100% / 0) 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .glass-button-circle:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.2),
+      0 4px 12px rgba(0, 0, 0, 0.12),
+      inset 0 1px 2px hsl(0 0% 100% / 0.5),
+      inset 0 -2px 6px rgba(0, 0, 0, 0.1),
+      -2px 0 6px hsl(350 80% 60% / 0.1),
+      2px 0 6px hsl(200 80% 60% / 0.1);
   }
 
-  @keyframes tech-texture-animation {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-50%, -50%); }
+  /* ========================================
+     LAYER 3: CRYSTAL TRANSPARENT — Pure glass orb
+     Chrome rim, specular highlight, chromatic aberration
+     ======================================== */
+
+  /* Crystal circular button — like a real glass sphere */
+  .crystal-button {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    position: relative;
+    /* Radial gradient creates the glass orb "bulge" highlight */
+    background:
+      radial-gradient(
+        ellipse at 30% 20%,
+        hsl(0 0% 100% / 0.6) 0%,
+        hsl(0 0% 100% / 0.2) 30%,
+        hsl(0 0% 100% / 0.08) 55%,
+        hsl(0 0% 100% / 0.03) 75%,
+        transparent 100%
+      );
+    backdrop-filter: blur(20px) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    /* Chrome metallic rim */
+    border: 1.5px solid;
+    border-image: linear-gradient(
+      160deg,
+      hsl(0 0% 85%) 0%,
+      hsl(0 0% 60%) 25%,
+      hsl(0 0% 95%) 50%,
+      hsl(0 0% 55%) 75%,
+      hsl(0 0% 80%) 100%
+    ) 1;
+    border-radius: 50%;
+    /* Multi-layer shadow for orb depth */
+    box-shadow:
+      /* Outer shadow — object rests on surface */
+      0 6px 24px rgba(0, 0, 0, 0.18),
+      0 2px 8px rgba(0, 0, 0, 0.12),
+      /* Chrome rim highlight top */
+      inset 0 2px 3px hsl(0 0% 100% / 0.45),
+      /* Bottom inner shadow — orb curvature */
+      inset 0 -3px 8px rgba(0, 0, 0, 0.12),
+      /* Left chromatic aberration (slight red) */
+      -1px 0 4px hsl(350 80% 60% / 0.08),
+      /* Right chromatic aberration (slight blue) */
+      1px 0 4px hsl(210 80% 60% / 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    color: hsl(0 0% 100% / 0.9);
+    overflow: hidden;
+  }
+  /* Specular highlight spot — bright dot at top-left like real glass */
+  .crystal-button::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 18%;
+    width: 45%;
+    height: 30%;
+    background: radial-gradient(
+      ellipse,
+      hsl(0 0% 100% / 0.6) 0%,
+      hsl(0 0% 100% / 0.15) 50%,
+      transparent 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  /* Bottom rim reflection */
+  .crystal-button::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 25%;
+    width: 50%;
+    height: 12%;
+    background: radial-gradient(
+      ellipse,
+      hsl(0 0% 100% / 0.15) 0%,
+      transparent 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .crystal-button:hover {
+    transform: translateY(-3px) scale(1.06);
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.22),
+      0 4px 12px rgba(0, 0, 0, 0.14),
+      inset 0 2px 3px hsl(0 0% 100% / 0.55),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.1),
+      -2px 0 8px hsl(350 80% 60% / 0.12),
+      2px 0 8px hsl(210 80% 60% / 0.12);
+  }
+  .crystal-button:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  /* Dark mode crystal — brighter highlights against dark */
+  .dark .crystal-button,
+  .blue .crystal-button,
+  .gold .crystal-button {
+    background:
+      radial-gradient(
+        ellipse at 30% 20%,
+        hsl(0 0% 100% / 0.25) 0%,
+        hsl(0 0% 100% / 0.08) 30%,
+        hsl(0 0% 100% / 0.03) 55%,
+        transparent 75%,
+        transparent 100%
+      );
+    box-shadow:
+      0 6px 24px rgba(0, 0, 0, 0.5),
+      0 2px 8px rgba(0, 0, 0, 0.4),
+      inset 0 2px 3px hsl(0 0% 100% / 0.2),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.3),
+      -1px 0 4px hsl(350 80% 60% / 0.1),
+      1px 0 4px hsl(210 80% 60% / 0.1);
+  }
+
+  /* Crystal panel — for floating panels (not buttons) */
+  .crystal-panel {
+    background:
+      linear-gradient(
+        160deg,
+        hsl(0 0% 100% / 0.18) 0%,
+        hsl(0 0% 100% / 0.06) 40%,
+        hsl(0 0% 100% / 0.1) 100%
+      );
+    backdrop-filter: blur(24px) saturate(1.5);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    border: 1px solid hsl(0 0% 100% / 0.2);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 hsl(0 0% 100% / 0.3),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+  }
+  .dark .crystal-panel,
+  .blue .crystal-panel,
+  .gold .crystal-panel {
+    border-color: hsl(0 0% 100% / 0.1);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 hsl(0 0% 100% / 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  /* ========================================
+     CARD HOVER — Smooth premium lift
+     ======================================== */
+  .card-hover {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.25s ease-out;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.08),
+      0 4px 12px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 hsl(0 0% 100% / 0.6);
+  }
+  .dark .card-hover:hover,
+  .blue .card-hover:hover,
+  .gold .card-hover:hover {
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.5),
+      0 4px 12px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 hsl(0 0% 100% / 0.08);
+  }
+
+  /* ========================================
+     ANIMATIONS — Smooth, premium feel
+     ======================================== */
+  @keyframes shimmer-gold {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  .shimmer-gold {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--gold-dark)),
+      hsl(var(--gold-light)),
+      hsl(var(--gold)),
+      hsl(var(--gold-dark))
+    );
+    background-size: 300% 100%;
+    animation: shimmer-gold 5s infinite linear;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes pulse-gold {
+    0%, 100% { box-shadow: 0 0 0 0 hsl(var(--gold) / 0.5); }
+    50% { box-shadow: 0 0 0 10px hsl(var(--gold) / 0); }
+  }
+  .animate-pulse-gold {
+    animation: pulse-gold 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes count-up {
+    from { opacity: 0; transform: translateY(10px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-count-up {
+    animation: count-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Stagger children with spring easing */
+  .stagger-children > * {
+    opacity: 0;
+    animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .stagger-children > *:nth-child(1) { animation-delay: 0.04s; }
+  .stagger-children > *:nth-child(2) { animation-delay: 0.08s; }
+  .stagger-children > *:nth-child(3) { animation-delay: 0.12s; }
+  .stagger-children > *:nth-child(4) { animation-delay: 0.16s; }
+  .stagger-children > *:nth-child(5) { animation-delay: 0.20s; }
+  .stagger-children > *:nth-child(6) { animation-delay: 0.24s; }
+  .stagger-children > *:nth-child(7) { animation-delay: 0.28s; }
+  .stagger-children > *:nth-child(8) { animation-delay: 0.32s; }
+
+  /* Skeleton shimmer — gold tinted */
+  @keyframes skeleton-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .skeleton-gold {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 25%,
+      hsl(var(--gold) / 0.12) 50%,
+      hsl(var(--muted)) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.8s ease infinite;
+    border-radius: 12px;
+  }
+
+  /* ========================================
+     MOBILE UTILITIES
+     ======================================== */
+
+  /* Safe area padding for iPhones with notch/home indicator */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* WCAG 2.5.5 minimum touch target */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Mobile container — prevent horizontal overflow */
+  .mobile-container {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Hide scrollbar for horizontal carousels */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ========================================
+     SIDEBAR SCROLLBAR — Thin, elegant, themed
+     ======================================== */
+
+  /* Webkit browsers (Chrome, Edge, Safari) */
+  [data-sidebar="content"]::-webkit-scrollbar {
+    width: 4px;
+  }
+  [data-sidebar="content"]::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 4px 0;
+  }
+  [data-sidebar="content"]::-webkit-scrollbar-thumb {
+    background: hsl(var(--sidebar-border));
+    border-radius: 4px;
+  }
+  [data-sidebar="content"]::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--gold) / 0.6);
+  }
+  [data-sidebar="content"]::-webkit-scrollbar-thumb:active {
+    background: hsl(var(--gold) / 0.8);
+  }
+
+  /* Firefox */
+  [data-sidebar="content"] {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--sidebar-border)) transparent;
+  }
+
+  /* ========================================
+     SIDEBAR ACTIVE ITEM — Gold left accent
+     ======================================== */
+  [data-sidebar="menu-button"][data-active="true"] {
+    border-left: 2px solid hsl(var(--gold));
+    padding-left: calc(0.5rem - 2px);
+  }
+}
+
+/* ========================================
+   REDUCED MOTION — Accessibility
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   TOUCH DEVICE OPTIMIZATION
+   ======================================== */
+@media (hover: none) {
+  .card-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .glass-button-circle:hover {
+    transform: none;
+  }
+  .crystal-button:hover {
+    transform: none;
+  }
+  .card-hover:active {
+    transform: scale(0.98);
   }
 }

@@ -23,7 +23,7 @@ export default function CatalogPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Catálogo de Boas Práticas</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Catálogo de Boas Práticas</h2>
                 <p className="mt-2 max-w-2xl text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                    Repositório de ideias validadas e prontas para serem replicadas em outras áreas e unidades.
                 </p>

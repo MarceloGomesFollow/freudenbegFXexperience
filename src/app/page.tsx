@@ -125,16 +125,34 @@ export default function Home() {
                         </p>
                     </div>
                 </div>
-                <div className="mx-auto max-w-4xl mt-12">
-                    <div className="aspect-video overflow-hidden rounded-xl shadow-2xl">
-                         <iframe
-                            className="w-full h-full"
-                            src="https://www.youtube.com/embed/h-AJdntupdw"
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
+                <div className="mx-auto max-w-4xl mt-12 space-y-8">
+                    {/* English */}
+                    <div>
+                        <p className="text-center text-sm text-gray-400 mb-2">English</p>
+                        <div className="aspect-video overflow-hidden rounded-xl shadow-2xl">
+                            <iframe
+                                className="w-full h-full"
+                                src="https://www.youtube.com/embed/0s-wRBkWJ0c"
+                                title="YouTube video player - English"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+                    {/* Português */}
+                    <div>
+                        <p className="text-center text-sm text-gray-400 mb-2">Português</p>
+                        <div className="aspect-video overflow-hidden rounded-xl shadow-2xl">
+                            <iframe
+                                className="w-full h-full"
+                                src="https://www.youtube.com/embed/h-AJdntupdw"
+                                title="YouTube video player - Português"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
                     </div>
                 </div>
             </div>

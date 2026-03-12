@@ -53,7 +53,7 @@ export default function AiMentorPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">IA Freudy - Mentor Digital</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">IA Freudy - Mentor Digital</h2>
              <p className="text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
                 Analise dados de aprendizado de diferentes equipes e descubra oportunidades de colaboração e compartilhamento de boas práticas.
             </p>

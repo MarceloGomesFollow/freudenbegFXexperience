@@ -36,14 +36,15 @@ export function Logo({ className }: { className?: string }) {
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <Image 
+      <Image
         src={logoSrc}
         alt="FX-Experience Logo"
         width={140}
         height={32}
-        className="object-contain"
+        className="object-contain w-[110px] sm:w-[140px] h-auto"
         priority
       />
+      <div className="gold-gradient h-0.5 rounded-full mt-1 opacity-60" />
     </div>
   );
 }

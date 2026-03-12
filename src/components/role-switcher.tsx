@@ -95,9 +95,9 @@ export function RoleSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-48 justify-between text-white border-white/20 bg-white/10 hover:bg-white/20 hover:text-white">
+        <Button variant="outline" className="w-48 justify-between text-foreground border-foreground/20 bg-foreground/5 hover:bg-foreground/10 hover:text-foreground">
             <div className="flex items-center gap-2">
-                <SelectedIcon className="h-4 w-4 text-white/80" />
+                <SelectedIcon className="h-4 w-4 text-foreground/80" />
                 <span className="font-medium">{selectedRole.name}</span>
             </div>
           <ChevronsUpDown className="h-4 w-4 opacity-50" />

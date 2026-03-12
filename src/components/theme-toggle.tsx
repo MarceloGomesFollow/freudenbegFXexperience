@@ -3,41 +3,68 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Moon, Sun } from "lucide-react"
+import { Sun, Moon, Droplets, Sparkles } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useLanguage } from "@/contexts/LanguageContext"
+const colorThemes = [
+  { id: "light", icon: Sun, label: "Light" },
+  { id: "blue", icon: Droplets, label: "Blue" },
+  { id: "gold", icon: Sparkles, label: "Gold" },
+] as const
 
-export function ThemeToggle() {
-  const { setTheme } = useTheme()
-  const { t } = useLanguage();
+/** Botões de seleção de tema (light / blue / gold) — ao lado da data */
+export function ThemeSelector() {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => setMounted(true), [])
+
+  if (!mounted) return <div className="flex items-center gap-1 h-6" />
+
+  // Resolve active color theme (dark mode preserves last color choice)
+  const activeColor = theme === "dark" ? "light" : (theme ?? "light")
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="text-white/80 hover:bg-white/20 hover:text-white">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">{t('theme.toggle')}</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          {t('theme.light')}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          {t('theme.dark')}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          {t('theme.system')}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center gap-1">
+      {colorThemes.map(({ id, icon: Icon, label }) => (
+        <button
+          key={id}
+          type="button"
+          onClick={() => setTheme(id)}
+          title={label}
+          className={cn(
+            "h-6 w-6 rounded-full flex items-center justify-center transition-all duration-200",
+            activeColor === id
+              ? "ring-2 ring-gold bg-gold/20 text-gold scale-110"
+              : "text-foreground/50 hover:text-foreground hover:bg-white/10"
+          )}
+        >
+          <Icon className="h-3.5 w-3.5" />
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/** Botão único dark/light mode */
+export function ThemeToggle() {
+  const { theme, setTheme, resolvedTheme } = useTheme()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => setMounted(true), [])
+
+  if (!mounted) return <div className="h-8 w-8" />
+
+  const isDark = resolvedTheme === "dark" || theme === "dark"
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      title={isDark ? "Light mode" : "Dark mode"}
+      className="h-8 w-8 rounded-full flex items-center justify-center glass-subtle border border-gold/40 text-gold hover:bg-gold/10 transition-all duration-200"
+    >
+      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+    </button>
   )
 }

@@ -109,7 +109,7 @@ export default function SettingsPage() {
 
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold tracking-tight">Configurações</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Configurações</h2>
             
             <Tabs defaultValue="profile" className="w-full flex flex-col md:flex-row gap-6 md:gap-8" orientation="vertical">
                 <TabsList className="w-full md:w-48 shrink-0 h-auto flex-row md:flex-col items-start justify-start p-1 bg-muted rounded-lg overflow-x-auto">

@@ -57,7 +57,7 @@ export default function A3ReportPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-3xl font-bold tracking-tight">Gerador de Relatório A3</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Gerador de Relatório A3</h2>
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>

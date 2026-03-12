@@ -4,7 +4,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { PanelLeft, PanelRight } from "lucide-react"
+import { PanelLeft, PanelRight, Pin, EyeOff } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -21,11 +21,14 @@ import {
 } from "@/components/ui/tooltip"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
+const SIDEBAR_MODE_COOKIE_NAME = "sidebar_mode"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
+
+type SidebarMode = "pin" | "auto-hide" | "manual"
 
 type SidebarContext = {
   state: "expanded" | "collapsed"
@@ -35,6 +38,8 @@ type SidebarContext = {
   setOpenMobile: (open: boolean) => void
   isMobile: boolean
   toggleSidebar: () => void
+  sidebarMode: SidebarMode
+  setSidebarMode: (mode: SidebarMode) => void
 }
 
 const SidebarContext = React.createContext<SidebarContext | null>(null)
@@ -52,6 +57,7 @@ const SidebarProvider = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
     defaultOpen?: boolean
+    defaultMode?: SidebarMode
     open?: boolean
     onOpenChange?: (open: boolean) => void
   }
@@ -59,6 +65,7 @@ const SidebarProvider = React.forwardRef<
   (
     {
       defaultOpen = true,
+      defaultMode = "pin",
       open: openProp,
       onOpenChange: setOpenProp,
       className,
@@ -70,11 +77,12 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const isMobile = useIsMobile()
     const [openMobile, setOpenMobile] = React.useState(false)
+    const [sidebarMode, _setSidebarMode] = React.useState<SidebarMode>(defaultMode)
 
     // This is the internal state of the sidebar.
-    // We use openProp and setOpenProp for control from outside the component.
     const [_open, _setOpen] = React.useState(defaultOpen)
-    const open = openProp ?? _open
+    // In pin mode, sidebar is always open
+    const open = sidebarMode === "pin" ? true : (openProp ?? _open)
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
         const openState = typeof value === "function" ? value(open) : value
@@ -84,18 +92,31 @@ const SidebarProvider = React.forwardRef<
           _setOpen(openState)
         }
 
-        // This sets the cookie to keep the sidebar state.
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+        // Don't persist transient auto-hide state changes
+        if (sidebarMode !== "auto-hide") {
+          document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+        }
       },
-      [setOpenProp, open]
+      [setOpenProp, open, sidebarMode]
     )
+
+    const setSidebarMode = React.useCallback((mode: SidebarMode) => {
+      _setSidebarMode(mode)
+      document.cookie = `${SIDEBAR_MODE_COOKIE_NAME}=${mode}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+      if (mode === "pin") {
+        _setOpen(true)
+      } else if (mode === "auto-hide") {
+        _setOpen(false)
+      }
+    }, [])
 
     // Helper to toggle the sidebar.
     const toggleSidebar = React.useCallback(() => {
+      if (sidebarMode === "pin" && !isMobile) return
       return isMobile
         ? setOpenMobile((open) => !open)
         : setOpen((open) => !open)
-    }, [isMobile, setOpen, setOpenMobile])
+    }, [isMobile, setOpen, setOpenMobile, sidebarMode])
 
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
@@ -113,8 +134,6 @@ const SidebarProvider = React.forwardRef<
       return () => window.removeEventListener("keydown", handleKeyDown)
     }, [toggleSidebar])
 
-    // We add a state so that we can do data-state="expanded" or "collapsed".
-    // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? "expanded" : "collapsed"
 
     const contextValue = React.useMemo<SidebarContext>(
@@ -126,8 +145,10 @@ const SidebarProvider = React.forwardRef<
         openMobile,
         setOpenMobile,
         toggleSidebar,
+        sidebarMode,
+        setSidebarMode,
       }),
-      [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
+      [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar, sidebarMode, setSidebarMode]
     )
 
     return (
@@ -176,9 +197,34 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+    const { isMobile, state, openMobile, setOpenMobile, sidebarMode, setOpen } = useSidebar()
+    const collapseTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
-    if (collapsible === "none") {
+    // Compute effective collapsible based on sidebar mode
+    const effectiveCollapsible = sidebarMode === "auto-hide" ? "icon" : collapsible
+
+    const handleMouseEnter = React.useCallback(() => {
+      if (sidebarMode !== "auto-hide") return
+      if (collapseTimerRef.current) {
+        clearTimeout(collapseTimerRef.current)
+        collapseTimerRef.current = null
+      }
+      setOpen(true)
+    }, [sidebarMode, setOpen])
+
+    const handleMouseLeave = React.useCallback(() => {
+      if (sidebarMode !== "auto-hide") return
+      collapseTimerRef.current = setTimeout(() => setOpen(false), 300)
+    }, [sidebarMode, setOpen])
+
+    // Cleanup timer on unmount
+    React.useEffect(() => {
+      return () => {
+        if (collapseTimerRef.current) clearTimeout(collapseTimerRef.current)
+      }
+    }, [])
+
+    if (effectiveCollapsible === "none") {
       return (
         <div
           className={cn(
@@ -218,9 +264,11 @@ const Sidebar = React.forwardRef<
         ref={ref}
         className="group peer hidden md:block text-sidebar-foreground"
         data-state={state}
-        data-collapsible={state === "collapsed" ? collapsible : ""}
+        data-collapsible={state === "collapsed" ? effectiveCollapsible : ""}
         data-variant={variant}
         data-side={side}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         {/* This is what handles the sidebar gap on desktop */}
         <div
@@ -239,7 +287,6 @@ const Sidebar = React.forwardRef<
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
-            // Adjust the padding for floating and inset variants.
             variant === "floating" || variant === "inset"
               ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)_+_theme(spacing.4)_+2px)]"
               : "group-data-[collapsible=icon]:w-[--sidebar-width-icon] group-data-[side=left]:border-r group-data-[side=right]:border-l",
@@ -249,7 +296,7 @@ const Sidebar = React.forwardRef<
         >
           <div
             data-sidebar="sidebar"
-            className={cn("flex h-full w-full flex-col bg-sidebar/80 backdrop-blur-lg border-r border-sidebar-border group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow", className)}
+            className={cn("flex h-full w-full flex-col bg-sidebar/95 backdrop-blur-xl border-r border-sidebar-border group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow", className)}
           >
             {children}
           </div>
@@ -514,7 +561,7 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem"
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-all duration-200 hover:bg-sidebar-accent/80 active:bg-sidebar-accent focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-semibold data-[active=true]:text-sidebar-accent-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-sidebar-ring transition-all duration-200 hover:bg-sidebar-accent/80 active:bg-sidebar-accent focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent/15 data-[active=true]:font-semibold data-[active=true]:text-sidebar-accent-foreground data-[active=true]:shadow-sm group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -737,6 +784,68 @@ const SidebarMenuSubButton = React.forwardRef<
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
 
+const SidebarModeSelector = () => {
+  const { sidebarMode, setSidebarMode, state, isMobile } = useSidebar()
+
+  if (isMobile) return null
+
+  const modes = [
+    { mode: "pin" as const, icon: Pin, label: "Fixar" },
+    { mode: "auto-hide" as const, icon: EyeOff, label: "Auto-ocultar" },
+    { mode: "manual" as const, icon: PanelLeft, label: "Manual" },
+  ]
+
+  // When collapsed, show a single button that cycles through modes
+  if (state === "collapsed") {
+    const currentIdx = modes.findIndex(m => m.mode === sidebarMode)
+    const current = modes[currentIdx]
+    const nextIdx = (currentIdx + 1) % modes.length
+
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            type="button"
+            title={current.label}
+            onClick={() => setSidebarMode(modes[nextIdx].mode)}
+            className="flex h-8 w-8 items-center justify-center rounded-md text-sidebar-foreground/60 hover:text-gold hover:bg-sidebar-accent/15 transition-all duration-200"
+          >
+            <current.icon className="h-4 w-4" />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent side="right">{current.label}</TooltipContent>
+      </Tooltip>
+    )
+  }
+
+  // When expanded, show segmented control
+  return (
+    <div className="flex items-center gap-1 p-1 rounded-lg bg-sidebar-accent/10">
+      {modes.map(({ mode, icon: Icon, label }) => (
+        <Tooltip key={mode}>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              title={label}
+              onClick={() => setSidebarMode(mode)}
+              className={cn(
+                "flex-1 flex items-center justify-center h-7 rounded-md transition-all duration-200",
+                sidebarMode === mode
+                  ? "bg-sidebar-accent/20 text-gold shadow-sm"
+                  : "text-sidebar-foreground/50 hover:text-sidebar-foreground/80"
+              )}
+            >
+              <Icon className="h-4 w-4" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="top">{label}</TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
+  )
+}
+SidebarModeSelector.displayName = "SidebarModeSelector"
+
 export {
   Sidebar,
   SidebarContent,
@@ -761,5 +870,8 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
+  SidebarModeSelector,
   useSidebar,
 }
+
+export type { SidebarMode }

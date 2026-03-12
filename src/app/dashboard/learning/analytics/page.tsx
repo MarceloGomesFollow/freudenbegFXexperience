@@ -29,7 +29,7 @@ export default function LearningAnalyticsPage() {
     return (
         <div className="space-y-8">
              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
-                <h2 className="text-3xl font-bold tracking-tight">Learning Analytics</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Learning Analytics</h2>
                  <p className="text-muted-foreground text-left sm:text-right">
                     Insights sobre o engajamento e progresso no Learning Hub.
                 </p>

@@ -33,7 +33,7 @@ export default function EventsPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-start">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Eventos de Reconhecimento</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Eventos de Reconhecimento</h2>
           <p className="mt-2 text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
             Palestras inspiradoras no estilo TED com nossos talentos internos.
           </p>

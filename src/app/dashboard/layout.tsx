@@ -2,11 +2,13 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import React from "react";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger, SidebarModeSelector } from "@/components/ui/sidebar";
+import type { SidebarMode } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import { SidebarNav } from "@/components/sidebar-nav";
 import { UserNav } from "@/components/user-nav";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle, ThemeSelector } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
 import { RoleProvider, RoleSwitcher } from "@/components/role-switcher";
 import { Button } from "@/components/ui/button";
@@ -29,6 +31,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
     const { t } = useLanguage();
+    const [defaultMode] = React.useState<SidebarMode>(() => {
+      if (typeof window === 'undefined') return 'pin';
+      const match = document.cookie.match(/sidebar_mode=(\w+)/);
+      return (match?.[1] as SidebarMode) || 'pin';
+    });
     const rhAdmin = {
       name: "Gabriela Ramos",
       email: "gabriela.ramos@example.com",
@@ -38,31 +45,35 @@ export default function DashboardLayout({
 
   return (
     <RoleProvider>
-      <SidebarProvider className="w-full">
+      <SidebarProvider className="w-full" defaultMode={defaultMode}>
           <div className="flex min-h-dvh w-full min-w-0 bg-background">
               <Sidebar className="border-r">
                   <SidebarHeader>
-                      <Logo />
+                      <div className="flex items-center justify-between">
+                          <Logo />
+                      </div>
                   </SidebarHeader>
                   <SidebarContent className="relative z-10">
                       <SidebarNav />
                   </SidebarContent>
                   <SidebarFooter className="relative z-10">
+                      <SidebarModeSelector />
                   </SidebarFooter>
               </Sidebar>
               <div className="flex min-w-0 flex-1 flex-col overflow-y-auto overflow-x-auto">
-                  <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-muted/30 px-4 backdrop-blur-lg sm:px-6 border-muted/20">
-                      <div className="flex items-center gap-4">
-                          <SidebarTrigger />
+                  <header className="sticky top-0 z-30 flex h-16 items-center justify-between px-4 sm:px-6 glass border-b border-black/5 dark:border-white/5 text-foreground">
+                      <div className="flex items-center gap-2 sm:gap-4">
+                          <SidebarTrigger className="touch-target" />
                           <div className="hidden sm:block">
                             <RoleSwitcher />
                           </div>
+                          <ThemeSelector />
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1 sm:gap-2">
                           <DateTime />
                           <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="hidden sm:inline-flex text-white border-white/20 bg-white/10 hover:bg-white/20 hover:text-white">
+                                <Button variant="outline" size="sm" className="hidden sm:inline-flex glass-subtle border-0 text-foreground hover:bg-white/20 dark:hover:bg-white/10">
                                     <LifeBuoy className="mr-2 h-4 w-4" />
                                     {t('rhSupport.button')}
                                 </Button>
@@ -114,14 +125,14 @@ export default function DashboardLayout({
                             </DialogContent>
                           </Dialog>
                           <div className="hidden sm:flex items-center gap-1">
-                            <span className="text-sm font-medium text-white/80">{t('language')}:</span>
+                            <span className="text-sm font-medium text-foreground/80">{t('language')}:</span>
                             <LanguageToggle />
                           </div>
                           <ThemeToggle />
                           <UserNav />
                       </div>
                   </header>
-                  <main className={cn("flex-1 min-w-0 p-4 sm:p-6 lg:p-8 bg-muted/40 dashboard-bg")}>
+                  <main className={cn("flex-1 min-w-0 p-4 sm:p-6 lg:p-8 dashboard-bg")}>
                       {children}
                   </main>
                   <Chatbot />

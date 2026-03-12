@@ -4,7 +4,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Send, X, Mic, Sparkles, Calendar, Bell, MessageSquarePlus, Loader2 } from "lucide-react";
 import { FreudyIAIcon } from "./freudy-ia-icon";
@@ -98,28 +97,22 @@ export function Chatbot() {
 
   return (
     <>
-      <motion.div
+      <motion.button
+        onClick={toggleOpen}
         whileHover={{ scale: 1.1, y: -5 }}
         whileTap={{ scale: 0.95, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="fixed bottom-6 right-6 z-50"
-        style={{ perspective: "1000px" }}
+        className="crystal-button animate-pulse-gold fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-14 h-14 sm:w-16 sm:h-16 safe-bottom"
       >
-        <Button
-          onClick={toggleOpen}
-          className="relative rounded-full w-16 h-16 bg-primary/90 backdrop-blur-sm hover:bg-primary/100 text-primary-foreground shadow-2xl transition-transform flex items-center justify-center text-lg font-bold overflow-hidden p-0"
-          style={{ transformStyle: "preserve-3d" }}
-        >
-          {isOpen ? <X className="h-8 w-8" /> : (
-            <Image 
-                src="https://images.unsplash.com/photo-1764360840282-838414e69953?q=80&w=829&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                alt="Freudy IA" 
-                fill
-                className="object-cover"
-            />
-          )}
-        </Button>
-      </motion.div>
+        {isOpen ? <X className="h-6 w-6 relative z-10" /> : (
+          <Image
+            src="https://images.unsplash.com/photo-1764360840282-838414e69953?q=80&w=829&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Freudy IA"
+            fill
+            className="object-cover rounded-full relative z-10"
+          />
+        )}
+      </motion.button>
 
       <AnimatePresence>
         {isOpen && (
@@ -128,21 +121,21 @@ export function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-24 right-6 z-40 w-full max-w-sm"
+            className="fixed bottom-20 right-3 sm:bottom-24 sm:right-6 z-40 w-[calc(100%-1.5rem)] sm:w-full sm:max-w-sm"
           >
-            <Card className="bg-card/60 backdrop-blur-xl border-border/20 shadow-2xl rounded-2xl overflow-hidden">
-              <CardHeader className="text-center bg-card/30">
+            <div className="crystal-panel overflow-hidden flex flex-col max-h-[70vh] sm:max-h-[500px] safe-bottom">
+              <div className="text-center p-4 border-b border-white/10">
                 <div className="flex items-center justify-center gap-2">
                     <Sparkles className="h-6 w-6 text-accent" />
-                    <CardTitle>Freudy</CardTitle>
+                    <h3 className="text-lg font-semibold">Freudy</h3>
                 </div>
-                <CardDescription>{t('chatbot.tagline')}</CardDescription>
-              </CardHeader>
-              <CardContent className="p-4 h-96 overflow-y-auto space-y-4">
+                <p className="text-sm text-muted-foreground">{t('chatbot.tagline')}</p>
+              </div>
+              <div className="p-4 h-96 overflow-y-auto space-y-4">
                 {messages.map((msg, index) => (
                   <div key={index} className={`flex items-start gap-3 ${msg.from === 'user' ? 'justify-end' : ''}`}>
                     {msg.from === 'ai' && <div className="p-2 bg-primary rounded-full text-primary-foreground"><FreudyIAIcon className="h-5 w-5"/></div>}
-                    <div className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.from === 'ai' ? 'bg-muted text-foreground' : 'bg-primary text-primary-foreground'}`}>
+                    <div className={`rounded-2xl px-4 py-3 max-w-[80%] ${msg.from === 'ai' ? 'bg-muted/30 text-foreground border-l-2 border-gold/50' : 'bg-primary text-primary-foreground'}`}>
                       <p className="text-sm">{msg.text}</p>
                     </div>
                   </div>
@@ -160,15 +153,15 @@ export function Chatbot() {
                 {!isLoading && (
                     <div className="flex flex-wrap gap-2 justify-center pt-4">
                         {suggestedActions.map((action, index) => (
-                            <Button key={index} variant="outline" size="sm" className="bg-background/70" onClick={() => setInputValue(action.text)}>
+                            <Button key={index} variant="glass" size="sm" onClick={() => setInputValue(action.text)}>
                                 <action.icon className="h-3 w-3 mr-2"/>
                                 {action.text}
                             </Button>
                         ))}
                     </div>
                 )}
-              </CardContent>
-              <CardFooter className="p-4 bg-card/30 border-t">
+              </div>
+              <div className="p-4 border-t border-white/10">
                 <div className="relative w-full flex items-center">
                   <Input
                     placeholder={t('chatbot.placeholder')}
@@ -182,13 +175,13 @@ export function Chatbot() {
                     <Button variant="ghost" size="icon" className="h-8 w-8" disabled={!hasMicPermission}>
                         <Mic className={cn("h-4 w-4", hasMicPermission ? "text-primary" : "text-muted-foreground")} />
                     </Button>
-                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSendMessage} disabled={isLoading}>
+                     <Button size="icon" className="h-8 w-8 gold-gradient rounded-lg text-white" onClick={handleSendMessage} disabled={isLoading}>
                         <Send className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
-              </CardFooter>
-            </Card>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

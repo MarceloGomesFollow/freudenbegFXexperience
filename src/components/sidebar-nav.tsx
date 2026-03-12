@@ -57,7 +57,7 @@ function FreudyIaLink() {
                     <span>{t('sidebar.freudyIA')}<span className="shimmer-text-blue-sidebar"></span></span>
                 </SidebarMenuButton>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl h-[80vh] p-0 flex flex-col bg-black/10 backdrop-blur-lg border-white/20">
+            <DialogContent className="max-w-4xl h-[80vh] p-0 flex flex-col glass-strong !rounded-2xl overflow-hidden">
                 <DialogHeader className="p-4 pb-0">
                     <DialogTitle className="text-white">{t('sidebar.freudyIADialog_title')}</DialogTitle>
                 </DialogHeader>
@@ -241,7 +241,7 @@ export function SidebarNav() {
           <Collapsible key={link.label} className="w-full" defaultOpen={isSubLinkActive(link.subLinks)}>
             <CollapsibleTrigger asChild>
                 <div className="group/menu-item relative">
-                    <SidebarMenuButton className="w-full justify-between pr-3 group-data-[collapsible=icon]:pr-2">
+                    <SidebarMenuButton tooltip={link.label} className="w-full justify-between pr-3 group-data-[collapsible=icon]:pr-2">
                         <div className="flex items-center gap-2">
                             <link.icon />
                             <span>{link.label}</span>
@@ -269,7 +269,7 @@ export function SidebarNav() {
             </CollapsibleContent>
           </Collapsible>
         ) : link.href ? (
-            <SidebarMenuButton asChild isActive={pathname === link.href}>
+            <SidebarMenuButton asChild isActive={pathname === link.href} tooltip={link.label}>
                 <Link href={link.href!}>
                 <link.icon />
                 <span>{link.label}</span>
