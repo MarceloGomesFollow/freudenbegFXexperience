@@ -24,9 +24,13 @@ import { generateMentorshipReport, type GenerateMentorshipReportInput } from '@/
 import { Skeleton } from "@/components/ui/skeleton";
 import { z } from 'zod';
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translateDataValue } from "@/lib/i18n-mappings";
+import { td } from "@/lib/data-translations";
 
 
 const MenteesTab = () => {
+    const { language, t } = useLanguage();
     const currentUserEmail = 'fabio.pereira@example.com'; // Simulando o mentor logado
     const myMenteesEmails = mentorships.filter(m => m.mentorEmail === currentUserEmail).map(m => m.menteeEmail);
     const myMentees = users.filter(u => myMenteesEmails.includes(u.email));
@@ -53,9 +57,9 @@ const MenteesTab = () => {
             'Baixa': 'outline',
         }[priority] || 'default';
         // @ts-ignore
-        return <Badge variant={variant}>{priority}</Badge>;
+        return <Badge variant={variant}>{translateDataValue(priority, t)}</Badge>;
     }
-    
+
     return (
         <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2 mt-6">
             {myMentees.map(mentee => {
@@ -75,12 +79,12 @@ const MenteesTab = () => {
                                     </Avatar>
                                     <div>
                                         <CardTitle>{mentee.name}</CardTitle>
-                                        <CardDescription>{mentee.role} • {mentee.unit}</CardDescription>
+                                        <CardDescription>{translateDataValue(mentee.role, t)} • {mentee.unit}</CardDescription>
                                     </div>
                                 </div>
                                 <Button size="sm" variant="outline" asChild>
                                     <Link href="#">
-                                        Ver Perfil <ExternalLink className="ml-2 h-4 w-4"/>
+                                        {t('common.viewProfile')} <ExternalLink className="ml-2 h-4 w-4"/>
                                     </Link>
                                 </Button>
                             </div>
@@ -88,21 +92,21 @@ const MenteesTab = () => {
                         <CardContent className="flex-grow space-y-6">
                             <div>
                                 <div className="flex justify-between items-center mb-1">
-                                    <h4 className="text-sm font-medium">Progresso no Programa</h4>
+                                    <h4 className="text-sm font-medium">{t('mentorship.programProgress')}</h4>
                                     <span className="text-sm font-bold text-primary">{mentee.progress}%</span>
                                 </div>
                                 <Progress value={mentee.progress} />
                             </div>
 
                             <div className="space-y-2">
-                                    <h4 className="text-sm font-medium">Alertas e Próximas Entregas</h4>
+                                    <h4 className="text-sm font-medium">{t('mentorship.alertsDeliveries')}</h4>
                                     {lateTasks.length > 0 && (
                                     <div className="p-3 rounded-md bg-destructive/10 border border-destructive/20 text-destructive-foreground">
                                             <div className="flex items-start gap-2">
                                             <Bell className="h-4 w-4 mt-0.5 text-destructive"/>
                                             <div>
-                                                <p className="font-semibold text-sm text-destructive">{lateTasks.length} {lateTasks.length > 1 ? 'tarefas atrasadas' : 'tarefa atrasada'}</p>
-                                                <p className="text-xs">{lateTasks.map(t => t.title).join(', ')}</p>
+                                                <p className="font-semibold text-sm text-destructive">{lateTasks.length} {lateTasks.length > 1 ? t('mentorship.lateTasks') : t('mentorship.lateTask')}</p>
+                                                <p className="text-xs">{lateTasks.map(lt => td(language, 'tasks', lt.id, 'title', lt.title)).join(', ')}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -113,18 +117,18 @@ const MenteesTab = () => {
                                         <Table>
                                             <TableHeader>
                                                 <TableRow>
-                                                    <TableHead className="w-[60%]">Tarefa</TableHead>
-                                                    <TableHead>Prazo</TableHead>
-                                                    <TableHead>Prioridade</TableHead>
+                                                    <TableHead className="w-[60%]">{t('mentorship.tableTask')}</TableHead>
+                                                    <TableHead>{t('mentorship.tableDeadline')}</TableHead>
+                                                    <TableHead>{t('mentorship.tablePriority')}</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
                                                 {pendingTasks.map(task => (
                                                     <TableRow key={task.id}>
                                                         <TableCell className="font-medium flex items-center gap-2">
-                                                            <TaskStatusIcon status={task.status} /> {task.title}
+                                                            <TaskStatusIcon status={task.status} /> {td(language, 'tasks', task.id, 'title', task.title)}
                                                         </TableCell>
-                                                        <TableCell>{task.dueDate}</TableCell>
+                                                        <TableCell>{td(language, 'tasks', task.id, 'dueDate', task.dueDate)}</TableCell>
                                                         <TableCell>
                                                             <PriorityBadge priority={task.priority} />
                                                         </TableCell>
@@ -134,7 +138,7 @@ const MenteesTab = () => {
                                         </Table>
                                     </div>
                                     ) : (
-                                    <p className="text-sm text-muted-foreground text-center py-4">Nenhuma tarefa pendente.</p>
+                                    <p className="text-sm text-muted-foreground text-center py-4">{t('mentorship.noTasksPending')}</p>
                                     )}
                             </div>
                         </CardContent>
@@ -146,14 +150,15 @@ const MenteesTab = () => {
 };
 
 const MeetingsTab = () => {
+    const { t } = useLanguage();
     const [meetingType, setMeetingType] = useState<string>();
     const { toast } = useToast();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         toast({
-            title: "Reunião Agendada!",
-            description: "O convite foi enviado para os participantes."
+            title: t('toast.meetingScheduled'),
+            description: t('toast.meetingScheduledDesc')
         });
     }
 
@@ -169,8 +174,8 @@ const MeetingsTab = () => {
             <div className="md:col-span-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Reuniões Agendadas</CardTitle>
-                        <CardDescription>Visualize e gerencie suas próximas reuniões de mentoria.</CardDescription>
+                        <CardTitle>{t('mentorship.scheduledMeetings')}</CardTitle>
+                        <CardDescription>{t('mentorship.scheduledMeetingsDesc')}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Accordion type="single" collapsible>
@@ -178,25 +183,25 @@ const MeetingsTab = () => {
                                 <AccordionTrigger>Alinhamento Inicial - Projeto Onboarding (Ana Silva)</AccordionTrigger>
                                 <AccordionContent className="space-y-4">
                                     <p className="text-sm text-muted-foreground"><strong>Data:</strong> 25/07/2024, 10:00</p>
-                                    <p className="text-sm text-muted-foreground"><strong>Participantes:</strong> Ana Silva, Fábio Pereira</p>
+                                    <p className="text-sm text-muted-foreground"><strong>{t('mentorship.participants')}:</strong> Ana Silva, Fábio Pereira</p>
                                     <div className="space-y-2">
-                                        <Label>Ata da Reunião</Label>
-                                        <Textarea placeholder="Registre os pontos discutidos, decisões e próximos passos..." />
+                                        <Label>{t('mentorship.meetingMinutes')}</Label>
+                                        <Textarea placeholder={t('mentorship.meetingMinutesPlaceholder')} />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Entregas / Action Items</Label>
+                                        <Label>{t('mentorship.deliverables')}</Label>
                                         <div className="flex items-center gap-2">
-                                            <Input placeholder="Descreva uma nova tarefa..."/>
+                                            <Input placeholder={t('mentorship.newTaskPlaceholder')}/>
                                             <Button><PlusCircle className="h-4 w-4"/></Button>
                                         </div>
                                     </div>
-                                    <Button size="sm">Salvar Ata</Button>
+                                    <Button size="sm">{t('mentorship.saveMinutes')}</Button>
                                 </AccordionContent>
                             </AccordionItem>
                             <AccordionItem value="item-2">
-                                <AccordionTrigger>Planejamento Semanal - Sprint 1 (Ana Silva)</AccordionTrigger>
+                                <AccordionTrigger>{t('mentorship.weeklyPlanningSprint')}</AccordionTrigger>
                                 <AccordionContent>
-                                    <p className="text-muted-foreground text-sm">Detalhes da reunião de planejamento semanal.</p>
+                                    <p className="text-muted-foreground text-sm">{t('mentorship.weeklyPlanningDetails')}</p>
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
@@ -206,38 +211,38 @@ const MeetingsTab = () => {
             <div>
                  <Card>
                     <CardHeader>
-                        <CardTitle>Agendar Nova Reunião</CardTitle>
+                        <CardTitle>{t('mentorship.scheduleNewMeeting')}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="space-y-2">
-                                <Label htmlFor="meeting-type">Tipo de Reunião</Label>
+                                <Label htmlFor="meeting-type">{t('mentorship.meetingType')}</Label>
                                 <Select onValueChange={setMeetingType}>
                                     <SelectTrigger id="meeting-type">
-                                        <SelectValue placeholder="Selecione o tipo" />
+                                        <SelectValue placeholder={t('mentorship.selectType')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="info">Informações de Projeto</SelectItem>
-                                        <SelectItem value="align">Reunião de alinhamento Inicial</SelectItem>
-                                        <SelectItem value="plan">Planejamento Semanal</SelectItem>
+                                        <SelectItem value="info">{t('mentorship.projectInfo')}</SelectItem>
+                                        <SelectItem value="align">{t('mentorship.initialAlignment')}</SelectItem>
+                                        <SelectItem value="plan">{t('mentorship.weeklyPlanning')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             {meetingType === 'plan' && (
                                 <div className="space-y-2">
-                                    <Label htmlFor="recurrence">Semanas de Recorrência</Label>
-                                    <Input id="recurrence" type="number" placeholder="Ex: 4" />
+                                    <Label htmlFor="recurrence">{t('mentorship.recurrenceWeeks')}</Label>
+                                    <Input id="recurrence" type="number" placeholder={t('mentorship.recurrencePlaceholder')} />
                                 </div>
                             )}
 
                             <div className="space-y-2">
-                                <Label htmlFor="date">Data e Hora</Label>
+                                <Label htmlFor="date">{t('mentorship.dateTime')}</Label>
                                 <Input id="date" type="datetime-local" />
                             </div>
 
                             <div className="space-y-2">
-                                <Label>Participantes</Label>
+                                <Label>{t('mentorship.participants')}</Label>
                                 <div className="space-y-2 rounded-md border p-4">
                                 {participants.map((item) => (
                                     <div key={item.id} className="flex flex-row items-start space-x-3 space-y-0">
@@ -247,13 +252,13 @@ const MeetingsTab = () => {
                                 ))}
                                 </div>
                             </div>
-                            
+
                             <div className="space-y-2">
-                                <Label htmlFor="objectives">Objetivos</Label>
-                                <Textarea id="objectives" placeholder="Descreva os principais objetivos da reunião..." />
+                                <Label htmlFor="objectives">{t('mentorship.objectives')}</Label>
+                                <Textarea id="objectives" placeholder={t('mentorship.objectivesPlaceholder')} />
                             </div>
 
-                            <Button type="submit" className="w-full">Agendar Reunião</Button>
+                            <Button type="submit" className="w-full">{t('mentorship.scheduleMeeting')}</Button>
                         </form>
                     </CardContent>
                 </Card>
@@ -263,6 +268,7 @@ const MeetingsTab = () => {
 }
 
 const AiReportTab = () => {
+    const { t } = useLanguage();
     const [selectedMentee, setSelectedMentee] = useState<string | null>(null);
     const [generatedReport, setGeneratedReport] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -272,8 +278,8 @@ const AiReportTab = () => {
         if (!selectedMentee) {
             toast({
                 variant: 'destructive',
-                title: "Selecione um mentorado",
-                description: "Você precisa escolher um mentorado para gerar o relatório.",
+                title: t('toast.selectMentee'),
+                description: t('toast.selectMenteeDesc'),
             });
             return;
         }
@@ -287,8 +293,8 @@ const AiReportTab = () => {
         if (!mentee || !mentor) {
             toast({
                 variant: 'destructive',
-                title: "Erro",
-                description: "Não foi possível encontrar os dados do mentorado ou mentor.",
+                title: t('toast.reportError'),
+                description: t('toast.reportErrorDesc'),
             });
             setIsLoading(false);
             return;
@@ -303,20 +309,20 @@ const AiReportTab = () => {
             meetingMinutes: "As reuniões de alinhamento foram produtivas. O mentorado sempre trouxe pautas claras e absorveu bem os feedbacks. Houve um bom progresso nas metas definidas.",
             tasksCompleted: "90% das tarefas foram concluídas no prazo. O relatório A3 final foi entregue com alta qualidade.",
         };
-        
+
         try {
             const result = await generateMentorshipReport(reportInput);
             setGeneratedReport(result.report);
             toast({
-                title: "Relatório Gerado!",
-                description: "O relatório de feedback foi gerado com sucesso pela IA.",
+                title: t('toast.reportGenerated'),
+                description: t('toast.reportGeneratedDesc'),
             });
         } catch (error) {
             console.error("Error generating report:", error);
             toast({
                 variant: 'destructive',
-                title: "Erro ao Gerar Relatório",
-                description: "A IA não conseguiu processar a solicitação. Tente novamente.",
+                title: t('toast.reportError'),
+                description: t('toast.reportErrorDesc'),
             });
         } finally {
             setIsLoading(false);
@@ -328,15 +334,15 @@ const AiReportTab = () => {
         <div className="mt-6">
             <Card className="max-w-4xl mx-auto">
                 <CardHeader>
-                    <CardTitle>Relatório Consolidado com IA</CardTitle>
-                    <CardDescription>Selecione um mentorado para gerar um relatório de feedback com base em atas, atividades e diário de bordo.</CardDescription>
+                    <CardTitle>{t('mentorship.aiReportTitle')}</CardTitle>
+                    <CardDescription>{t('mentorship.aiReportDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                      <div className="space-y-2">
-                        <Label htmlFor="mentee-select">Selecione o Mentorado</Label>
+                        <Label htmlFor="mentee-select">{t('mentorship.selectMentee')}</Label>
                         <Select onValueChange={setSelectedMentee}>
                             <SelectTrigger id="mentee-select">
-                                <SelectValue placeholder="Escolha um mentorado..." />
+                                <SelectValue placeholder={t('mentorship.chooseMentee')} />
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="ana.silva@example.com">Ana Silva</SelectItem>
@@ -346,7 +352,7 @@ const AiReportTab = () => {
                     </div>
                      <Button variant="gold" className="w-full" onClick={handleGenerateReport} disabled={isLoading}>
                         <Bot className="mr-2 h-4 w-4"/>
-                        {isLoading ? 'Gerando...' : 'Gerar Relatório de Feedback'}
+                        {isLoading ? t('mentorship.generating') : t('mentorship.generateReport')}
                     </Button>
                 </CardContent>
                 <CardFooter>
@@ -363,7 +369,7 @@ const AiReportTab = () => {
                         </div>
                     ) : (
                         <div className="w-full p-4 border border-dashed rounded-md text-center text-muted-foreground">
-                            <p>O relatório gerado pela IA aparecerá aqui.</p>
+                            <p>{t('mentorship.reportPlaceholder')}</p>
                         </div>
                     )}
                 </CardFooter>
@@ -382,24 +388,25 @@ const itemVariants = {
 };
 
 export default function MentorshipPage() {
+    const { t } = useLanguage();
     return (
         <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="show">
             <motion.div variants={itemVariants}>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                    <span className="gold-text">Central</span>{" "}
-                    <span className="text-foreground">de Mentoria</span>
+                    <span className="gold-text">{t('mentorship.title1')}</span>{" "}
+                    <span className="text-foreground">{t('mentorship.title2')}</span>
                 </h2>
                 <p className="mt-2 text-muted-foreground">
-                    Acompanhe o progresso, agende reuniões e gere relatórios de seus mentorados.
+                    {t('mentorship.subtitle')}
                 </p>
             </motion.div>
 
             <motion.div variants={itemVariants}>
             <Tabs defaultValue="mentees" className="w-full">
                 <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
-                    <TabsTrigger value="mentees"><UsersIcon className="mr-2 h-4 w-4"/>Mentees</TabsTrigger>
-                    <TabsTrigger value="meetings"><Calendar className="mr-2 h-4 w-4"/>Reuniões</TabsTrigger>
-                    <TabsTrigger value="report"><Bot className="mr-2 h-4 w-4"/>Relatório IA</TabsTrigger>
+                    <TabsTrigger value="mentees"><UsersIcon className="mr-2 h-4 w-4"/>{t('mentorship.tabs.mentees')}</TabsTrigger>
+                    <TabsTrigger value="meetings"><Calendar className="mr-2 h-4 w-4"/>{t('mentorship.tabs.meetings')}</TabsTrigger>
+                    <TabsTrigger value="report"><Bot className="mr-2 h-4 w-4"/>{t('mentorship.tabs.report')}</TabsTrigger>
                 </TabsList>
                 <TabsContent value="mentees">
                     <MenteesTab />

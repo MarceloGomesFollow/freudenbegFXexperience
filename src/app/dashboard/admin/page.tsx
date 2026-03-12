@@ -12,6 +12,8 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, BarChart, Clock, TrendingUp, Users as UsersIcon, ArrowLeftRight } from "lucide-react";
 import { Bar, BarChart as RechartsBarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Progress } from '@/components/ui/progress';
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translateDataValue } from "@/lib/i18n-mappings";
 
 const WorldTalentMap = dynamic(
   () => import("@/components/world-talent-map").then((mod) => mod.WorldTalentMap),
@@ -22,10 +24,11 @@ const WorldTalentMap = dynamic(
 );
 
 export default function AdminDashboardPage() {
+    const { t } = useLanguage();
 
     const chartConfig = {
         count: {
-            label: "Transferências",
+            label: t('admin.transferLabel'),
             color: "hsl(var(--chart-2))",
         },
     };
@@ -44,7 +47,7 @@ export default function AdminDashboardPage() {
         }[status] || '';
 
         // @ts-ignore
-        return <Badge variant={variant} className={colorClass}>{status}</Badge>;
+        return <Badge variant={variant} className={colorClass}>{translateDataValue(status, t)}</Badge>;
     }
     
     const calculateProgress = (startDate: string, endDate: string) => {
@@ -65,61 +68,61 @@ export default function AdminDashboardPage() {
         <div className="space-y-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Painel do Administrador</h2>
+                    <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('admin.title')}</h2>
                     <p className="text-muted-foreground mt-1">
-                        Visão geral do fluxo de intercâmbios e participantes.
+                        {t('admin.subtitle')}
                     </p>
                 </div>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total de Intercâmbios</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('admin.totalExchanges')}</CardTitle>
                         <ArrowLeftRight className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{adminKpis.totalTransfers}</div>
-                        <p className="text-xs text-muted-foreground">+15% este trimestre</p>
+                        <p className="text-xs text-muted-foreground">{t('admin.totalExchangesDesc')}</p>
                     </CardContent>
                 </Card>
                  <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Intercâmbios Ativos</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('admin.activeExchanges')}</CardTitle>
                         <UsersIcon className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{adminKpis.ongoingTransfers}</div>
-                        <p className="text-xs text-muted-foreground">Participantes em vivência</p>
+                        <p className="text-xs text-muted-foreground">{t('admin.activeExchangesDesc')}</p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Estadia Média</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('admin.averageStay')}</CardTitle>
                         <Clock className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold">{adminKpis.averageStayDays} dias</div>
-                        <p className="text-xs text-muted-foreground">Média do programa</p>
+                        <div className="text-2xl font-bold">{adminKpis.averageStayDays} {t('common.days')}</div>
+                        <p className="text-xs text-muted-foreground">{t('admin.averageStayDesc')}</p>
                     </CardContent>
                 </Card>
                  <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Origem Mais Ativa</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('admin.mostActiveOrigin')}</CardTitle>
                         <TrendingUp className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-base font-bold">{adminKpis.mostActiveOrigin}</div>
-                        <p className="text-xs text-muted-foreground">Unidade com mais envios</p>
+                        <p className="text-xs text-muted-foreground">{t('admin.mostActiveOriginDesc')}</p>
                     </CardContent>
                 </Card>
                  <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Destino Mais Procurado</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('admin.mostActiveDestination')}</CardTitle>
                         <TrendingUp className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-base font-bold">{adminKpis.mostActiveDestination}</div>
-                        <p className="text-xs text-muted-foreground">Unidade mais receptora</p>
+                        <p className="text-xs text-muted-foreground">{t('admin.mostActiveDestinationDesc')}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -127,8 +130,8 @@ export default function AdminDashboardPage() {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="lg:col-span-4">
                     <CardHeader>
-                        <CardTitle>Fluxo de Transferências Entre Empresas</CardTitle>
-                        <CardDescription>Visualização do volume de intercâmbios entre as empresas.</CardDescription>
+                        <CardTitle>{t('admin.transferFlow')}</CardTitle>
+                        <CardDescription>{t('admin.transferFlowDesc')}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ChartContainer config={chartConfig} className="h-[300px] w-full">
@@ -139,7 +142,7 @@ export default function AdminDashboardPage() {
                                     <YAxis />
                                     <Tooltip content={<ChartTooltipContent />} />
                                     <Legend />
-                                    <Bar dataKey="count" fill="var(--color-count)" name="Nº de Transferências" radius={[4, 4, 0, 0]} />
+                                    <Bar dataKey="count" fill="var(--color-count)" name={t('admin.transferCount')} radius={[4, 4, 0, 0]} />
                                 </RechartsBarChart>
                             </ResponsiveContainer>
                         </ChartContainer>
@@ -148,9 +151,9 @@ export default function AdminDashboardPage() {
 
                 <Card className="lg:col-span-3">
                     <CardHeader>
-                        <CardTitle>Mapa Global de Talentos</CardTitle>
+                        <CardTitle>{t('admin.globalTalentMap')}</CardTitle>
                         <CardDescription>
-                            Visualize os participantes ativos pelo mundo.
+                            {t('admin.globalTalentMapDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="p-0">
@@ -160,9 +163,9 @@ export default function AdminDashboardPage() {
             </div>
              <Card>
                 <CardHeader>
-                    <CardTitle>Histórico de Intercâmbios</CardTitle>
+                    <CardTitle>{t('admin.transferHistory')}</CardTitle>
                     <CardDescription>
-                       Lista detalhada de todas as movimentações de participantes.
+                       {t('admin.transferHistoryDesc')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -170,12 +173,12 @@ export default function AdminDashboardPage() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Colaborador</TableHead>
-                                    <TableHead className="hidden sm:table-cell">Origem</TableHead>
-                                    <TableHead className="hidden sm:table-cell">Destino</TableHead>
-                                    <TableHead className="hidden md:table-cell">Período</TableHead>
-                                    <TableHead className="w-[150px] hidden lg:table-cell">Progresso</TableHead>
-                                    <TableHead>Status</TableHead>
+                                    <TableHead>{t('admin.tableEmployee')}</TableHead>
+                                    <TableHead className="hidden sm:table-cell">{t('admin.tableOrigin')}</TableHead>
+                                    <TableHead className="hidden sm:table-cell">{t('admin.tableDestination')}</TableHead>
+                                    <TableHead className="hidden md:table-cell">{t('admin.tablePeriod')}</TableHead>
+                                    <TableHead className="w-[150px] hidden lg:table-cell">{t('admin.tableProgress')}</TableHead>
+                                    <TableHead>{t('admin.tableStatus')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>

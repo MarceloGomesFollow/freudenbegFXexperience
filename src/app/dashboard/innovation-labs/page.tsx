@@ -11,6 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useRole } from "@/components/role-switcher";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translateDataValue } from "@/lib/i18n-mappings";
+import { td } from "@/lib/data-translations";
 
 const container = {
   hidden: { opacity: 0 },
@@ -24,31 +27,32 @@ const item = {
 export default function InnovationLabsPage() {
     const { selectedRole } = useRole();
     const canCreateChallenge = ['admin', 'manager'].includes(selectedRole.id);
+    const { language, t } = useLanguage();
 
   return (
     <motion.div className="space-y-8" variants={container} initial="hidden" animate="show">
       <motion.div variants={item} className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start">
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            <span className="gold-text">Innovation</span>{" "}
-            <span className="text-foreground">Labs</span>
+            <span className="gold-text">{t('innovationLabs.title1')}</span>{" "}
+            <span className="text-foreground">{t('innovationLabs.title2')}</span>
           </h2>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            Um espaço para lançar desafios, capturar ideias, experimentar rápido e medir impacto. Conecte-se com mentores e áreas para gerar melhorias, savings e novos padrões.
+            {t('innovationLabs.subtitle')}
           </p>
         </div>
         <div className="flex gap-2">
              <Button variant="gold" asChild>
                 <Link href="/dashboard/innovation-labs/submit-idea">
                     <Lightbulb className="mr-2 h-4 w-4" />
-                    Submeter Ideia
+                    {t('innovationLabs.submitIdeaLabel')}
                 </Link>
             </Button>
             {canCreateChallenge && (
                  <Button asChild variant="glass">
                     <Link href="#">
                         <Target className="mr-2 h-4 w-4" />
-                        Abrir Desafio
+                        {t('innovationLabs.openChallenge')}
                     </Link>
                 </Button>
             )}
@@ -75,30 +79,30 @@ export default function InnovationLabsPage() {
                                 variant={challenge.status === 'Aberto' ? 'gold' : 'secondary'}
                                 className="absolute top-2 right-2"
                             >
-                                {challenge.status}
+                                {translateDataValue(challenge.status, t)}
                             </Badge>
                         </div>
                         <CardHeader>
-                            <CardTitle>{challenge.title}</CardTitle>
-                            <CardDescription className="line-clamp-2 h-[40px]">{challenge.description}</CardDescription>
+                            <CardTitle>{td(language, 'challenges', challenge.id, 'title', challenge.title)}</CardTitle>
+                            <CardDescription className="line-clamp-2 h-[40px]">{td(language, 'challenges', challenge.id, 'description', challenge.description)}</CardDescription>
                         </CardHeader>
                         <CardContent className="flex-grow space-y-4">
                             <div>
                                 <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                                    <span>Progresso de Ideias ({ideasCount}/5)</span>
+                                    <span>{t('innovationLabs.ideaProgress')} ({ideasCount}/5)</span>
                                     <span>{progress}%</span>
                                 </div>
                                 <Progress value={progress} />
                             </div>
                             <div className="flex items-center text-sm text-muted-foreground">
                                 <Calendar className="h-4 w-4 mr-2" />
-                                <span>Prazo: {challenge.deadline}</span>
+                                <span>{t('innovationLabs.deadline')}: {challenge.deadline}</span>
                             </div>
                         </CardContent>
                          <CardFooter>
                            <Button className="w-full" asChild>
                                 <Link href={`/dashboard/innovation-labs/${challenge.id}`}>
-                                    Ver Desafio <ArrowRight className="ml-2 h-4 w-4" />
+                                    {t('innovationLabs.viewChallenge')} <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>
                            </Button>
                         </CardFooter>
@@ -109,9 +113,9 @@ export default function InnovationLabsPage() {
                 <Card className="border-dashed flex items-center justify-center h-full">
                      <CardHeader className="text-center">
                         <Target className="mx-auto h-10 w-10 text-muted-foreground mb-4"/>
-                        <CardTitle className="text-muted-foreground">Novos Desafios em Breve</CardTitle>
+                        <CardTitle className="text-muted-foreground">{t('innovationLabs.newChallengesSoon')}</CardTitle>
                         <CardDescription>
-                            Fique atento para novas oportunidades de inovação.
+                            {t('innovationLabs.newChallengesDesc')}
                         </CardDescription>
                     </CardHeader>
                 </Card>

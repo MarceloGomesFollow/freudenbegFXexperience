@@ -12,12 +12,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { aiMentorForSharedPractices, type AiMentorForSharedPracticesOutput } from '@/ai/flows/ai-mentor-for-shared-practices';
 import { Bot, Loader2, Share2 } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const formSchema = z.object({
     learningData: z.string().min(50, 'Os dados de aprendizado devem ter pelo menos 50 caracteres.'),
 });
 
 export default function AiMentorPage() {
+    const { t } = useLanguage();
     const { toast } = useToast();
     const [result, setResult] = useState<AiMentorForSharedPracticesOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -53,16 +55,16 @@ export default function AiMentorPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">IA Freudy - Mentor Digital</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">{t('aiMentor.title')}</h2>
              <p className="text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
-                Analise dados de aprendizado de diferentes equipes e descubra oportunidades de colaboração e compartilhamento de boas práticas.
+                {t('aiMentor.subtitle')}
             </p>
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Analisador de Conexões</CardTitle>
+                        <CardTitle>{t('aiMentor.analyzerTitle')}</CardTitle>
                         <CardDescription>
-                            Insira um resumo dos aprendizados de diferentes áreas para que a IA possa identificar sinergias.
+                            {t('aiMentor.analyzerDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -73,10 +75,10 @@ export default function AiMentorPage() {
                                     name="learningData"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Dados de Aprendizado (Compilado)</FormLabel>
+                                            <FormLabel>{t('aiMentor.learningData')}</FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    placeholder="Descreva os principais aprendizados, técnicas ou práticas que diferentes equipes estão aplicando..."
+                                                    placeholder={t('aiMentor.learningDataPlaceholder')}
                                                     className="min-h-[200px]"
                                                     {...field}
                                                 />
@@ -91,7 +93,7 @@ export default function AiMentorPage() {
                                     ) : (
                                         <Bot className="mr-2 h-4 w-4" />
                                     )}
-                                    {isLoading ? 'Analisando...' : 'Encontrar Conexões com IA'}
+                                    {isLoading ? t('aiMentor.analyzing') : t('aiMentor.findConnections')}
                                 </Button>
                             </form>
                         </Form>
@@ -100,9 +102,9 @@ export default function AiMentorPage() {
 
                 <Card className="flex flex-col">
                     <CardHeader>
-                        <CardTitle>Sugestões de Boas Práticas</CardTitle>
+                        <CardTitle>{t('aiMentor.suggestionsTitle')}</CardTitle>
                         <CardDescription>
-                            A IA Freudy sugere como as equipes podem colaborar e aprender umas com as outras.
+                            {t('aiMentor.suggestionsDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-1 flex flex-col">
@@ -114,14 +116,14 @@ export default function AiMentorPage() {
                         {result && (
                              <div className="space-y-4">
                                 <div>
-                                    <h4 className="font-semibold text-lg flex items-center gap-2 mb-2"><Share2 className="h-5 w-5 text-primary"/> Conexões Sugeridas</h4>
+                                    <h4 className="font-semibold text-lg flex items-center gap-2 mb-2"><Share2 className="h-5 w-5 text-primary"/> {t('aiMentor.suggestedConnections')}</h4>
                                     <p className="text-sm text-muted-foreground whitespace-pre-wrap">{result.suggestions}</p>
                                 </div>
                             </div>
                         )}
                         {!isLoading && !result && (
                             <div className="flex h-full items-center justify-center rounded-md border border-dashed">
-                                <p className="text-sm text-muted-foreground">As sugestões da IA aparecerão aqui.</p>
+                                <p className="text-sm text-muted-foreground">{t('aiMentor.suggestionsPlaceholder')}</p>
                             </div>
                         )}
                     </CardContent>

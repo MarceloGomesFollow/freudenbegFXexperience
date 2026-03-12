@@ -64,6 +64,7 @@ const editableContentSchema = z.object({
 type EditableContentSchema = z.infer<typeof editableContentSchema>;
 
 function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<EditableContentSchema>, index: number, removeQuiz: (index: number) => void }) {
+    const { t } = useLanguage();
     const { fields: optionFields, append: appendOption, remove: removeOption } = useFieldArray({
         control,
         // react-hook-form's generic typing does not infer nested string arrays here.
@@ -79,7 +80,7 @@ function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<E
                     name={`quiz.${index}.question`}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Pergunta {index + 1}</FormLabel>
+                            <FormLabel>{t('contentCreation.question')} {index + 1}</FormLabel>
                             <FormControl>
                                 <Textarea {...field} />
                             </FormControl>
@@ -89,7 +90,7 @@ function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<E
                 />
             </CardHeader>
             <CardContent className="space-y-2">
-                <FormLabel>Opções</FormLabel>
+                <FormLabel>{t('contentCreation.options')}</FormLabel>
                 {optionFields.map((optionItem, optionIndex) => (
                     <FormField
                         key={optionItem.id}
@@ -110,7 +111,7 @@ function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<E
                     name={`quiz.${index}.correctAnswer`}
                     render={({ field }) => (
                         <FormItem className="pt-2">
-                             <FormLabel>Resposta Correta</FormLabel>
+                             <FormLabel>{t('contentCreation.correctAnswer')}</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -123,7 +124,7 @@ function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<E
                     name={`quiz.${index}.explanation`}
                     render={({ field }) => (
                         <FormItem className="pt-2">
-                            <FormLabel>Explicação</FormLabel>
+                            <FormLabel>{t('contentCreation.explanation')}</FormLabel>
                             <FormControl>
                                 <Textarea {...field} />
                             </FormControl>
@@ -227,15 +228,15 @@ export default function ContentPage() {
                 });
                 setGeneratedContent(result);
                 toast({
-                    title: 'Conteúdo Gerado!',
-                    description: 'O rascunho do curso foi criado. Revise, edite e salve.',
+                    title: t('contentCreation.contentGenerated'),
+                    description: t('contentCreation.contentGeneratedDesc'),
                 });
             } catch (error) {
                 console.error('Error generating course content:', error);
                 toast({
                     variant: 'destructive',
-                    title: 'Erro ao Gerar Conteúdo',
-                    description: 'Não foi possível se comunicar com a IA. Tente novamente mais tarde.',
+                    title: t('contentCreation.contentGenerationError'),
+                    description: t('contentCreation.contentGenerationErrorDesc'),
                 });
             } finally {
                 setIsLoading(false);
@@ -254,8 +255,8 @@ export default function ContentPage() {
             reader.onerror = () => {
                 toast({
                     variant: 'destructive',
-                    title: 'Erro ao Ler Arquivo',
-                    description: 'Não foi possível ler o conteúdo do arquivo selecionado.',
+                    title: t('contentCreation.fileReadError'),
+                    description: t('contentCreation.fileReadErrorDesc'),
                 });
                 setIsLoading(false);
             };
@@ -276,8 +277,8 @@ export default function ContentPage() {
         };
         addCourseToDb(newCourse);
         toast({
-            title: "Curso Salvo com Sucesso!",
-            description: `${newCourse.courseTitle} está pronto para ser publicado.`
+            title: t('contentCreation.courseSaved'),
+            description: t('contentCreation.courseSavedDesc').replace('{title}', newCourse.courseTitle),
         });
         router.push('/dashboard/learning');
     }
@@ -292,32 +293,32 @@ export default function ContentPage() {
         };
         addLearningPathToDb(newPath);
          toast({
-            title: "Trilha Salva com Sucesso!",
-            description: `${newPath.title} está pronta para ser publicada.`
+            title: t('contentCreation.pathSaved'),
+            description: t('contentCreation.pathSavedDesc').replace('{title}', newPath.title),
         });
         router.push('/dashboard/learning');
     }
 
     return (
         <div className="space-y-8">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Criação de Conteúdo com IA</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">{t('contentCreation.title')}</h2>
              <p className="text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
-                Use a IA Freudy para gerar cursos ou crie trilhas de aprendizado para organizar o conhecimento.
+                {t('contentCreation.subtitle')}
             </p>
 
             <Tabs defaultValue="course">
                 <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
-                    <TabsTrigger value="course"><BookOpen className="mr-2 h-4 w-4"/>Criar Curso</TabsTrigger>
-                    <TabsTrigger value="path"><Network className="mr-2 h-4 w-4"/>Criar Trilha</TabsTrigger>
+                    <TabsTrigger value="course"><BookOpen className="mr-2 h-4 w-4"/>{t('contentCreation.createCourse')}</TabsTrigger>
+                    <TabsTrigger value="path"><Network className="mr-2 h-4 w-4"/>{t('contentCreation.createPath')}</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="course" className="mt-6">
                     <div className="grid gap-8 md:grid-cols-2">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Gerador de Curso</CardTitle>
+                                <CardTitle>{t('contentCreation.courseGenerator')}</CardTitle>
                                 <CardDescription>
-                                    Preencha os campos e deixe a IA Freudy construir um rascunho para você.
+                                    {t('contentCreation.courseGeneratorDesc')}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -328,9 +329,9 @@ export default function ContentPage() {
                                             name="topic"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Tópico Principal do Curso</FormLabel>
+                                                    <FormLabel>{t('contentCreation.mainTopic')}</FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder="Ex: Liderança Situacional" {...field} />
+                                                        <Input placeholder={t('contentCreation.mainTopicPlaceholder')} {...field} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -342,9 +343,9 @@ export default function ContentPage() {
                                             name="knowledgeSource"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Origem do Conhecimento (Opcional)</FormLabel>
+                                                    <FormLabel>{t('contentCreation.knowledgeSource')}</FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder="Ex: Empresa, visita, departamento X" {...field} />
+                                                        <Input placeholder={t('contentCreation.knowledgeSourcePlaceholder')} {...field} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -356,10 +357,10 @@ export default function ContentPage() {
                                             name="details"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Detalhes do Conteúdo (Opcional)</FormLabel>
+                                                    <FormLabel>{t('contentCreation.contentDetails')}</FormLabel>
                                                     <FormControl>
                                                         <Textarea
-                                                            placeholder="Descreva pontos chave, público-alvo ou objetivos do curso..."
+                                                            placeholder={t('contentCreation.contentDetailsPlaceholder')}
                                                             className="min-h-[100px]"
                                                             {...field}
                                                         />
@@ -375,19 +376,19 @@ export default function ContentPage() {
                                             name="textFile"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                <FormLabel>Anexar Documento (.txt)</FormLabel>
+                                                <FormLabel>{t('contentCreation.attachDocument')}</FormLabel>
                                                 <FormControl>
                                                     <div className="relative">
                                                     <Button type="button" variant="outline" asChild className="w-full">
                                                         <label htmlFor="text-file-upload" className="cursor-pointer flex items-center">
                                                         <Upload className="mr-2 h-4 w-4" />
-                                                        Escolher
+                                                        {t('contentCreation.choose')}
                                                         </label>
                                                     </Button>
                                                     <Input id="text-file-upload" type="file" className="sr-only" onChange={handleTextFileChange} accept=".txt" />
                                                     </div>
                                                 </FormControl>
-                                                {textFileName && <p className="text-xs text-muted-foreground pt-1 truncate">Arquivo: {textFileName}</p>}
+                                                {textFileName && <p className="text-xs text-muted-foreground pt-1 truncate">{t('contentCreation.file')}: {textFileName}</p>}
                                                 <FormMessage />
                                                 </FormItem>
                                             )}
@@ -397,19 +398,19 @@ export default function ContentPage() {
                                             name="coverImage"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                <FormLabel>Imagem de Capa (Opcional)</FormLabel>
+                                                <FormLabel>{t('contentCreation.coverImage')}</FormLabel>
                                                 <FormControl>
                                                     <div className="relative">
                                                     <Button type="button" variant="outline" asChild className="w-full">
                                                         <label htmlFor="cover-image-upload" className="cursor-pointer flex items-center">
                                                         <Upload className="mr-2 h-4 w-4" />
-                                                        Escolher
+                                                        {t('contentCreation.choose')}
                                                         </label>
                                                     </Button>
                                                     <Input id="cover-image-upload" type="file" className="sr-only" onChange={(e) => handleCoverImageChange(e, "course")} accept="image/*" />
                                                     </div>
                                                 </FormControl>
-                                                {coverImageName && <p className="text-xs text-muted-foreground pt-1 truncate">Arquivo: {coverImageName}</p>}
+                                                {coverImageName && <p className="text-xs text-muted-foreground pt-1 truncate">{t('contentCreation.file')}: {coverImageName}</p>}
                                                 <FormMessage />
                                                 </FormItem>
                                             )}
@@ -421,9 +422,9 @@ export default function ContentPage() {
                                             name="numberOfModules"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Número de Módulos (Opcional)</FormLabel>
+                                                    <FormLabel>{t('contentCreation.numberOfModules')}</FormLabel>
                                                     <FormControl>
-                                                        <Input type="number" placeholder="Ex: 5" {...field} onChange={e => field.onChange(e.target.value === '' ? undefined : e.target.valueAsNumber)} value={field.value ?? ''} />
+                                                        <Input type="number" placeholder={t('contentCreation.modulesPlaceholder')} {...field} onChange={e => field.onChange(e.target.value === '' ? undefined : e.target.valueAsNumber)} value={field.value ?? ''} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -437,7 +438,7 @@ export default function ContentPage() {
                                             ) : (
                                                 <Sparkles className="mr-2 h-4 w-4" />
                                             )}
-                                            {isLoading ? 'Gerando Rascunho...' : 'Gerar Rascunho com IA'}
+                                            {isLoading ? t('contentCreation.generatingDraft') : t('contentCreation.generateDraft')}
                                         </Button>
                                     </form>
                                 </Form>
@@ -446,9 +447,9 @@ export default function ContentPage() {
 
                         <Card className="flex flex-col">
                             <CardHeader>
-                                <CardTitle>Editor do Curso</CardTitle>
+                                <CardTitle>{t('contentCreation.courseEditor')}</CardTitle>
                                 <CardDescription>
-                                Revise, edite e salve o material criado pela IA antes de publicar.
+                                {t('contentCreation.courseEditorDesc')}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="flex-1 overflow-auto">
@@ -462,9 +463,9 @@ export default function ContentPage() {
                                         <form onSubmit={editableForm.handleSubmit(onSaveCourse)} className="h-full flex flex-col">
                                             <Tabs defaultValue="modules" className="h-full flex flex-col flex-1">
                                                 <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
-                                                    <TabsTrigger value="modules"><BookOpen className="mr-2 h-4 w-4"/>Módulos</TabsTrigger>
-                                                    <TabsTrigger value="quiz"><HelpCircle className="mr-2 h-4 w-4"/>Quiz</TabsTrigger>
-                                                    <TabsTrigger value="general"><Award className="mr-2 h-4 w-4"/>Geral</TabsTrigger>
+                                                    <TabsTrigger value="modules"><BookOpen className="mr-2 h-4 w-4"/>{t('contentCreation.modules')}</TabsTrigger>
+                                                    <TabsTrigger value="quiz"><HelpCircle className="mr-2 h-4 w-4"/>{t('contentCreation.quiz')}</TabsTrigger>
+                                                    <TabsTrigger value="general"><Award className="mr-2 h-4 w-4"/>{t('contentCreation.general')}</TabsTrigger>
                                                 </TabsList>
                                                 <div className='mt-4'>
                                                     <FormField
@@ -472,7 +473,7 @@ export default function ContentPage() {
                                                         name="courseTitle"
                                                         render={({ field }) => (
                                                             <FormItem>
-                                                                <FormLabel className='sr-only'>Título do Curso</FormLabel>
+                                                                <FormLabel className='sr-only'>{t('contentCreation.courseTitle')}</FormLabel>
                                                                 <FormControl>
                                                                     <Input {...field} className="text-xl font-bold tracking-tight border-0 shadow-none focus-visible:ring-0 pl-0" />
                                                                 </FormControl>
@@ -505,7 +506,7 @@ export default function ContentPage() {
                                                                         name={`modules.${index}.content`}
                                                                         render={({ field }) => (
                                                                             <FormItem>
-                                                                                <FormLabel>Conteúdo do Módulo</FormLabel>
+                                                                                <FormLabel>{t('contentCreation.moduleContent')}</FormLabel>
                                                                                 <FormControl>
                                                                                     <Textarea {...field} className="min-h-[150px]" />
                                                                                 </FormControl>
@@ -518,7 +519,7 @@ export default function ContentPage() {
                                                                         name={`modules.${index}.videoLink`}
                                                                         render={({ field }) => (
                                                                             <FormItem>
-                                                                                <FormLabel className="flex items-center gap-2"><Youtube className="h-4 w-4 text-red-500" /> Link do Vídeo (YouTube)</FormLabel>
+                                                                                <FormLabel className="flex items-center gap-2"><Youtube className="h-4 w-4 text-red-500" /> {t('contentCreation.videoLink')}</FormLabel>
                                                                                 <FormControl>
                                                                                     <Input placeholder="https://www.youtube.com/watch?v=..." {...field} />
                                                                                 </FormControl>
@@ -547,7 +548,7 @@ export default function ContentPage() {
                                                         name="conclusion"
                                                         render={({ field }) => (
                                                             <FormItem>
-                                                                <FormLabel>Mensagem de Conclusão</FormLabel>
+                                                                <FormLabel>{t('contentCreation.conclusionMessage')}</FormLabel>
                                                                 <FormControl>
                                                                     <Textarea {...field} className="min-h-[120px]" />
                                                                 </FormControl>
@@ -560,7 +561,7 @@ export default function ContentPage() {
                                             <div className="mt-6">
                                                 <Button type="submit" className="w-full">
                                                     <Save className="mr-2 h-4 w-4"/>
-                                                    Salvar e Publicar Curso
+                                                    {t('contentCreation.saveAndPublish')}
                                                 </Button>
                                             </div>
                                         </form>
@@ -568,7 +569,7 @@ export default function ContentPage() {
                                 )}
                                 {!isLoading && !generatedContent && (
                                     <div className="flex h-full items-center justify-center rounded-md border border-dashed">
-                                        <p className="text-sm text-muted-foreground">O editor do curso aparecerá aqui.</p>
+                                        <p className="text-sm text-muted-foreground">{t('contentCreation.editorPlaceholder')}</p>
                                     </div>
                                 )}
                             </CardContent>
@@ -578,8 +579,8 @@ export default function ContentPage() {
                 <TabsContent value="path" className="mt-6">
                     <Card className="max-w-2xl mx-auto">
                         <CardHeader>
-                            <CardTitle>Criar Nova Trilha de Aprendizado</CardTitle>
-                            <CardDescription>Agrupe cursos existentes em uma jornada de aprendizado sequencial.</CardDescription>
+                            <CardTitle>{t('contentCreation.createNewPath')}</CardTitle>
+                            <CardDescription>{t('contentCreation.createNewPathDesc')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Form {...learningPathForm}>
@@ -589,9 +590,9 @@ export default function ContentPage() {
                                         name="title"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Título da Trilha</FormLabel>
+                                                <FormLabel>{t('contentCreation.pathTitle')}</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Ex: Fundamentos de Gestão de Projetos" {...field} />
+                                                    <Input placeholder={t('contentCreation.pathTitlePlaceholder')} {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -602,9 +603,9 @@ export default function ContentPage() {
                                         name="description"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Descrição</FormLabel>
+                                                <FormLabel>{t('contentCreation.pathDescription')}</FormLabel>
                                                 <FormControl>
-                                                    <Textarea placeholder="Descreva o objetivo desta trilha de aprendizado..." {...field} />
+                                                    <Textarea placeholder={t('contentCreation.pathDescPlaceholder')} {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -616,9 +617,9 @@ export default function ContentPage() {
                                             name="category"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Categoria</FormLabel>
+                                                    <FormLabel>{t('contentCreation.pathCategory')}</FormLabel>
                                                     <FormControl>
-                                                        <Input placeholder="Ex: Gestão" {...field} />
+                                                        <Input placeholder={t('contentCreation.pathCategoryPlaceholder')} {...field} />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -629,13 +630,13 @@ export default function ContentPage() {
                                             name="coverImage"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                <FormLabel>Imagem de Capa (Opcional)</FormLabel>
+                                                <FormLabel>{t('contentCreation.coverImage')}</FormLabel>
                                                 <FormControl>
                                                     <div className="relative">
                                                     <Button type="button" variant="outline" asChild className="w-full">
                                                         <label htmlFor="path-cover-image-upload" className="cursor-pointer flex items-center">
                                                         <Upload className="mr-2 h-4 w-4" />
-                                                        Escolher
+                                                        {t('contentCreation.choose')}
                                                         </label>
                                                     </Button>
                                                     <Input id="path-cover-image-upload" type="file" className="sr-only" onChange={(e) => handleCoverImageChange(e, "path")} accept="image/*" />
@@ -653,9 +654,9 @@ export default function ContentPage() {
                                         render={() => (
                                             <FormItem>
                                                 <div className="mb-4">
-                                                    <FormLabel className="text-base">Selecionar Cursos</FormLabel>
+                                                    <FormLabel className="text-base">{t('contentCreation.selectCourses')}</FormLabel>
                                                     <FormDescription>
-                                                        Escolha os cursos que farão parte desta trilha.
+                                                        {t('contentCreation.selectCoursesDesc')}
                                                     </FormDescription>
                                                 </div>
                                                 <div className="space-y-2 max-h-60 overflow-y-auto border p-4 rounded-md">
@@ -700,7 +701,7 @@ export default function ContentPage() {
 
                                     <Button type="submit" className="w-full">
                                         <Save className="mr-2 h-4 w-4" />
-                                        Salvar Trilha de Aprendizado
+                                        {t('contentCreation.savePath')}
                                     </Button>
                                 </form>
                             </Form>

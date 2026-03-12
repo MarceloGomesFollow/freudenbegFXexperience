@@ -41,7 +41,7 @@ export function Logo({ className }: { className?: string }) {
         alt="FX-Experience Logo"
         width={140}
         height={32}
-        className="object-contain w-[110px] sm:w-[140px] h-auto"
+        className="object-contain w-[110px] sm:w-[140px] max-h-[40px]"
         priority
       />
       <div className="gold-gradient h-0.5 rounded-full mt-1 opacity-60" />

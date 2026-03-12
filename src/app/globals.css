@@ -528,48 +528,34 @@
      Chrome rim, specular highlight, chromatic aberration
      ======================================== */
 
-  /* Crystal circular button — like a real glass sphere */
+  /* Crystal circular button — glass orb with gold accent ring */
   .crystal-button {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    position: relative;
-    /* Radial gradient creates the glass orb "bulge" highlight */
     background:
       radial-gradient(
-        ellipse at 30% 20%,
-        hsl(0 0% 100% / 0.6) 0%,
-        hsl(0 0% 100% / 0.2) 30%,
-        hsl(0 0% 100% / 0.08) 55%,
-        hsl(0 0% 100% / 0.03) 75%,
+        ellipse at 35% 25%,
+        hsl(0 0% 100% / 0.5) 0%,
+        hsl(0 0% 100% / 0.15) 35%,
+        hsl(0 0% 100% / 0.05) 60%,
         transparent 100%
       );
     backdrop-filter: blur(20px) saturate(1.6);
     -webkit-backdrop-filter: blur(20px) saturate(1.6);
-    /* Chrome metallic rim */
-    border: 1.5px solid;
-    border-image: linear-gradient(
-      160deg,
-      hsl(0 0% 85%) 0%,
-      hsl(0 0% 60%) 25%,
-      hsl(0 0% 95%) 50%,
-      hsl(0 0% 55%) 75%,
-      hsl(0 0% 80%) 100%
-    ) 1;
-    border-radius: 50%;
-    /* Multi-layer shadow for orb depth */
+    /* Gold gradient ring using outline + box-shadow trick since border-image breaks border-radius */
+    border: 2.5px solid hsl(var(--gold));
     box-shadow:
-      /* Outer shadow — object rests on surface */
-      0 6px 24px rgba(0, 0, 0, 0.18),
-      0 2px 8px rgba(0, 0, 0, 0.12),
-      /* Chrome rim highlight top */
-      inset 0 2px 3px hsl(0 0% 100% / 0.45),
-      /* Bottom inner shadow — orb curvature */
-      inset 0 -3px 8px rgba(0, 0, 0, 0.12),
-      /* Left chromatic aberration (slight red) */
-      -1px 0 4px hsl(350 80% 60% / 0.08),
-      /* Right chromatic aberration (slight blue) */
-      1px 0 4px hsl(210 80% 60% / 0.08);
+      /* Gold outer glow */
+      0 0 16px hsl(var(--gold) / 0.35),
+      0 0 6px hsl(var(--gold) / 0.2),
+      /* Depth shadow */
+      0 6px 24px rgba(0, 0, 0, 0.2),
+      0 2px 8px rgba(0, 0, 0, 0.14),
+      /* Top highlight */
+      inset 0 2px 4px hsl(0 0% 100% / 0.45),
+      /* Bottom curvature */
+      inset 0 -3px 8px rgba(0, 0, 0, 0.12);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -578,73 +564,76 @@
     color: hsl(0 0% 100% / 0.9);
     overflow: hidden;
   }
-  /* Specular highlight spot — bright dot at top-left like real glass */
+  /* Specular highlight — bright arc at top-left like real glass */
   .crystal-button::before {
     content: '';
     position: absolute;
-    top: 7px;
-    left: 18%;
-    width: 45%;
-    height: 30%;
+    top: 4px;
+    left: 15%;
+    width: 50%;
+    height: 28%;
     background: radial-gradient(
       ellipse,
-      hsl(0 0% 100% / 0.6) 0%,
-      hsl(0 0% 100% / 0.15) 50%,
+      hsl(0 0% 100% / 0.55) 0%,
+      hsl(0 0% 100% / 0.1) 55%,
       transparent 100%
     );
     border-radius: 50%;
     pointer-events: none;
+    z-index: 20;
   }
-  /* Bottom rim reflection */
+  /* Bottom rim gold reflection */
   .crystal-button::after {
     content: '';
     position: absolute;
-    bottom: 5px;
-    left: 25%;
-    width: 50%;
-    height: 12%;
+    bottom: 4px;
+    left: 20%;
+    width: 60%;
+    height: 14%;
     background: radial-gradient(
       ellipse,
-      hsl(0 0% 100% / 0.15) 0%,
+      hsl(var(--gold-light) / 0.3) 0%,
       transparent 100%
     );
     border-radius: 50%;
     pointer-events: none;
+    z-index: 20;
   }
   .crystal-button:hover {
-    transform: translateY(-3px) scale(1.06);
+    transform: translateY(-3px) scale(1.08);
+    border-color: hsl(var(--gold-light));
     box-shadow:
+      0 0 24px hsl(var(--gold) / 0.5),
+      0 0 10px hsl(var(--gold) / 0.3),
       0 12px 36px rgba(0, 0, 0, 0.22),
       0 4px 12px rgba(0, 0, 0, 0.14),
-      inset 0 2px 3px hsl(0 0% 100% / 0.55),
-      inset 0 -3px 8px rgba(0, 0, 0, 0.1),
-      -2px 0 8px hsl(350 80% 60% / 0.12),
-      2px 0 8px hsl(210 80% 60% / 0.12);
+      inset 0 2px 4px hsl(0 0% 100% / 0.55),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.1);
   }
   .crystal-button:active {
     transform: translateY(0) scale(0.97);
   }
 
-  /* Dark mode crystal — brighter highlights against dark */
+  /* Dark mode crystal — stronger gold glow against dark */
   .dark .crystal-button,
   .blue .crystal-button,
   .gold .crystal-button {
     background:
       radial-gradient(
-        ellipse at 30% 20%,
-        hsl(0 0% 100% / 0.25) 0%,
-        hsl(0 0% 100% / 0.08) 30%,
-        hsl(0 0% 100% / 0.03) 55%,
-        transparent 75%,
+        ellipse at 35% 25%,
+        hsl(0 0% 100% / 0.2) 0%,
+        hsl(0 0% 100% / 0.06) 35%,
+        hsl(0 0% 100% / 0.02) 60%,
         transparent 100%
       );
+    border-color: hsl(var(--gold));
     box-shadow:
+      0 0 20px hsl(var(--gold) / 0.4),
+      0 0 8px hsl(var(--gold) / 0.25),
       0 6px 24px rgba(0, 0, 0, 0.5),
       0 2px 8px rgba(0, 0, 0, 0.4),
-      inset 0 2px 3px hsl(0 0% 100% / 0.2),
-      inset 0 -3px 8px rgba(0, 0, 0, 0.3),
-      -1px 0 4px hsl(350 80% 60% / 0.1),
-      1px 0 4px hsl(210 80% 60% / 0.1);
+      inset 0 2px 3px hsl(0 0% 100% / 0.15),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.3);
   }
 
   /* Crystal panel — for floating panels (not buttons) */
@@ -675,27 +664,122 @@
       inset 0 -1px 0 rgba(0, 0, 0, 0.2);
   }
 
+  /* --- Sidebar Frosted Crystal — Layer 2.5: subtle 3D glass ---
+     Uses theme CSS variables so it adapts to ALL themes automatically */
+  .sidebar-crystal {
+    position: relative;
+    background:
+      linear-gradient(
+        180deg,
+        hsl(var(--gold) / 0.04) 0%,
+        transparent 12%,
+        hsl(var(--sidebar-background) / 0.92) 50%,
+        hsl(var(--sidebar-background) / 0.95) 100%
+      );
+    backdrop-filter: blur(32px) saturate(1.5);
+    -webkit-backdrop-filter: blur(32px) saturate(1.5);
+    border-right: 1px solid hsl(var(--gold) / 0.12);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.08),
+      inset 1px 0 0 hsl(0 0% 100% / 0.05),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.1),
+      4px 0 24px rgba(0, 0, 0, 0.12),
+      1px 0 8px hsl(var(--gold) / 0.04);
+  }
+  /* Specular highlight line at top edge */
+  .sidebar-crystal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 8%;
+    width: 84%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(0 0% 100% / 0.15) 25%,
+      hsl(0 0% 100% / 0.25) 50%,
+      hsl(0 0% 100% / 0.15) 75%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+  /* Light mode — stronger inner highlights, softer shadows */
+  :root:not(.dark):not(.blue):not(.gold) .sidebar-crystal {
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.6),
+      inset 1px 0 0 hsl(0 0% 100% / 0.4),
+      inset 0 -1px 0 hsl(220 15% 50% / 0.06),
+      4px 0 20px rgba(0, 0, 0, 0.05);
+  }
+  :root:not(.dark):not(.blue):not(.gold) .sidebar-crystal::before {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(0 0% 100% / 0.7) 25%,
+      hsl(0 0% 100% / 0.9) 50%,
+      hsl(0 0% 100% / 0.7) 75%,
+      transparent 100%
+    );
+  }
+  /* Dark themes — stronger depth, subtle gold glow */
+  .dark .sidebar-crystal,
+  .blue .sidebar-crystal,
+  .gold .sidebar-crystal {
+    border-right: 1px solid hsl(var(--gold) / 0.15);
+    box-shadow:
+      inset 0 1px 0 hsl(var(--gold) / 0.06),
+      inset 1px 0 0 hsl(0 0% 100% / 0.04),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.2),
+      inset -1px 0 0 hsl(0 0% 0% / 0.15),
+      5px 0 30px rgba(0, 0, 0, 0.25),
+      1px 0 12px hsl(var(--gold) / 0.05);
+  }
+  .dark .sidebar-crystal::before,
+  .blue .sidebar-crystal::before,
+  .gold .sidebar-crystal::before {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--gold) / 0.1) 25%,
+      hsl(var(--gold) / 0.18) 50%,
+      hsl(var(--gold) / 0.1) 75%,
+      transparent 100%
+    );
+  }
+
   /* ========================================
      CARD HOVER — Smooth premium lift
      ======================================== */
   .card-hover {
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-                box-shadow 0.25s ease-out;
+                box-shadow 0.25s ease-out,
+                border-color 0.25s ease-out;
   }
+  .card-hover.glass:hover,
   .card-hover:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.01);
     box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.08),
-      0 4px 12px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 hsl(0 0% 100% / 0.6);
+      0 20px 50px rgba(0, 0, 0, 0.12),
+      0 8px 20px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 hsl(0 0% 100% / 0.7),
+      inset 0 -1px 0 hsl(220 15% 50% / 0.06);
+    border-color: hsl(var(--gold) / 0.25);
   }
+  .dark .card-hover.glass:hover,
+  .blue .card-hover.glass:hover,
+  .gold .card-hover.glass:hover,
   .dark .card-hover:hover,
   .blue .card-hover:hover,
   .gold .card-hover:hover {
     box-shadow:
-      0 16px 48px rgba(0, 0, 0, 0.5),
-      0 4px 12px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 hsl(0 0% 100% / 0.08);
+      0 20px 50px rgba(0, 0, 0, 0.6),
+      0 8px 20px rgba(0, 0, 0, 0.4),
+      0 0 20px hsl(var(--gold) / 0.06),
+      inset 0 1px 0 hsl(0 0% 100% / 0.14),
+      inset 0 -1px 0 hsl(0 0% 0% / 0.2);
+    border-color: hsl(var(--gold) / 0.3);
   }
 
   /* ========================================
@@ -837,11 +921,59 @@
   }
 
   /* ========================================
-     SIDEBAR ACTIVE ITEM — Gold left accent
+     SIDEBAR MENU — Gold-accented interactions
      ======================================== */
+
+  /* Hover — subtle gold gradient hint */
+  [data-sidebar="menu-button"]:hover {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--gold) / 0.07) 0%,
+      hsl(var(--sidebar-accent) / 0.4) 100%
+    ) !important;
+  }
+
+  /* Active item — gold gradient + border + glow */
   [data-sidebar="menu-button"][data-active="true"] {
-    border-left: 2px solid hsl(var(--gold));
-    padding-left: calc(0.5rem - 2px);
+    background: linear-gradient(
+      90deg,
+      hsl(var(--gold) / 0.14) 0%,
+      hsl(var(--gold) / 0.04) 70%,
+      transparent 100%
+    ) !important;
+    border-left: 2.5px solid hsl(var(--gold));
+    padding-left: calc(0.5rem - 2.5px);
+    color: hsl(var(--gold-light));
+    box-shadow: inset 3px 0 16px hsl(var(--gold) / 0.08);
+  }
+  [data-sidebar="menu-button"][data-active="true"] svg {
+    color: hsl(var(--gold));
+  }
+
+  /* Expanded group chevron — gold when open */
+  [data-state="open"] > [data-sidebar="menu-button"] svg.lucide-chevron-right {
+    color: hsl(var(--gold));
+  }
+
+  /* Sidebar separator — gold tinted line */
+  [data-sidebar="separator"] {
+    background: linear-gradient(
+      90deg,
+      transparent 5%,
+      hsl(var(--gold) / 0.15) 50%,
+      transparent 95%
+    );
+    height: 1px;
+    border: none;
+  }
+
+  /* Sub-menu items hover */
+  [data-sidebar="menu-sub-button"]:hover {
+    color: hsl(var(--gold-light));
+  }
+  [data-sidebar="menu-sub-button"][data-active="true"] {
+    color: hsl(var(--gold));
+    font-weight: 600;
   }
 }
 

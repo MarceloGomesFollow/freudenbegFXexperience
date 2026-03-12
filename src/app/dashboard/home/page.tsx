@@ -9,6 +9,8 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, Beaker, Briefcase, Lightbulb, Users, Rss, BookOpen, NotebookText, Star, TrendingUp, Globe } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { translateDataValue } from "@/lib/i18n-mappings";
+import { td } from "@/lib/data-translations";
 import { motion } from "framer-motion";
 
 const WorldTalentMap = dynamic(
@@ -68,7 +70,7 @@ function KpiCard({ title, value, description, icon: Icon, accentGold }: KpiCardP
 }
 
 export default function HomePage() {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
 
   return (
     <motion.div
@@ -84,8 +86,7 @@ export default function HomePage() {
           <span className="text-foreground">Experience</span>
         </h2>
         <p className="text-muted-foreground max-w-2xl text-base">
-          Sua plataforma central para desenvolvimento, inovação e conexão global.
-          Explore o que está acontecendo no programa.
+          {t('home.subtitle')}
         </p>
       </motion.div>
 
@@ -97,28 +98,28 @@ export default function HomePage() {
         animate="show"
       >
         <KpiCard
-          title="Participantes Ativos"
+          title={t('home.activeParticipants')}
           value={kpis.activeParticipants}
-          description="Colaboradores em desenvolvimento"
+          description={t('home.activeParticipantsDesc')}
           icon={Users}
           accentGold
         />
         <KpiCard
-          title="Oportunidades Abertas"
+          title={t('home.openOpportunities')}
           value={exchangeOpportunities.length}
-          description="Vagas para intercâmbio"
+          description={t('home.openOpportunitiesDesc')}
           icon={Briefcase}
         />
         <KpiCard
-          title="Desafios de Inovação"
+          title={t('home.innovationChallenges')}
           value={challenges.filter(c => c.status === 'Aberto').length}
-          description="Problemas reais buscando soluções"
+          description={t('home.innovationChallengesDesc')}
           icon={Beaker}
         />
         <KpiCard
-          title="Ideias Submetidas"
+          title={t('home.submittedIdeas')}
           value={3}
-          description="Novas ideias no último mês"
+          description={t('home.submittedIdeasDesc')}
           icon={Lightbulb}
         />
       </motion.div>
@@ -133,9 +134,9 @@ export default function HomePage() {
                 <div className="rounded-lg p-1.5 gold-gradient">
                   <Rss className="h-4 w-4 text-white"/>
                 </div>
-                Feed de Atividades
+                {t('home.activityFeed')}
               </CardTitle>
-              <CardDescription>O que está acontecendo na plataforma.</CardDescription>
+              <CardDescription>{t('home.activityFeedDesc')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-1">
               {activityFeed.map((item, index) => {
@@ -152,9 +153,9 @@ export default function HomePage() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm">
                         <span className="font-semibold">{item.user.name}</span>{" "}
-                        {item.action}{" "}
+                        {translateDataValue(item.action, t)}{" "}
                         <Link href={item.link} className="font-semibold text-gold hover:text-gold-light transition-colors hover:underline">
-                          {item.target}
+                          {td(language, 'activityFeed', item.id, 'target', item.target)}
                         </Link>.
                       </p>
                       <p className="text-xs text-muted-foreground mt-0.5">{item.timestamp}</p>
@@ -178,18 +179,18 @@ export default function HomePage() {
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-gold" />
-                  Qual o seu próximo passo?
+                  {t('home.nextStep')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid gap-3">
                 <Button variant="gold" size="lg" asChild className="w-full rounded-xl">
                   <Link href="/dashboard/innovation-labs/submit-idea">
-                    <Lightbulb className="mr-2 h-4 w-4"/> Submeter uma Ideia
+                    <Lightbulb className="mr-2 h-4 w-4"/> {t('home.submitIdea')}
                   </Link>
                 </Button>
                 <Button variant="glass" size="lg" asChild className="w-full rounded-xl">
                   <Link href="/dashboard/exchange-center">
-                    <Globe className="mr-2 h-4 w-4"/> Explorar Intercâmbios
+                    <Globe className="mr-2 h-4 w-4"/> {t('home.exploreExchanges')}
                   </Link>
                 </Button>
               </CardContent>
@@ -202,10 +203,10 @@ export default function HomePage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Globe className="h-5 w-5 text-accent" />
-                  Nossos Talentos
+                  {t('home.ourTalents')}
                 </CardTitle>
                 <CardDescription>
-                  Participantes ativos em intercâmbio pelo mundo.
+                  {t('home.ourTalentsDesc')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-0 overflow-hidden rounded-b-2xl">

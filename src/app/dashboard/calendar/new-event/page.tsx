@@ -20,22 +20,17 @@ import {
   type CalendarEventType,
 } from "@/lib/calendar-events";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const isValidDateISO = (value: string | null) => {
   if (!value) return false;
   return /^\d{4}-\d{2}-\d{2}$/.test(value);
 };
 
-const eventTypeLabels: Record<CalendarEventType, string> = {
-  Apresentacao: "Apresentacao",
-  Mentoria: "Mentoria",
-  Prazo: "Prazo",
-  Treinamento: "Treinamento",
-};
-
 export default function NewCalendarEventPage() {
+  const { t } = useLanguage();
   return (
-    <Suspense fallback={<div className="p-8 text-center">Carregando...</div>}>
+    <Suspense fallback={<div className="p-8 text-center">{t("common.loading")}</div>}>
       <NewCalendarEventContent />
     </Suspense>
   );
@@ -45,6 +40,14 @@ function NewCalendarEventContent() {
   const router = useRouter();
   const params = useSearchParams();
   const { toast } = useToast();
+  const { t } = useLanguage();
+
+  const eventTypeLabels: Record<CalendarEventType, string> = {
+    Apresentacao: t("data.eventType.presentation"),
+    Mentoria: t("data.eventType.mentoring"),
+    Prazo: t("data.eventType.deadline"),
+    Treinamento: t("data.eventType.training"),
+  };
 
   const initialDate = useMemo(() => {
     const dateFromQuery = params.get("date");
@@ -72,8 +75,8 @@ function NewCalendarEventContent() {
     if (!title.trim() || !unit.trim() || !dateISO) {
       toast({
         variant: "destructive",
-        title: "Campos obrigatorios",
-        description: "Preencha data, evento e unidade para continuar.",
+        title: t("calendar.newEventPage.requiredFields"),
+        description: t("calendar.newEventPage.requiredFieldsDesc"),
       });
       return;
     }
@@ -87,8 +90,8 @@ function NewCalendarEventContent() {
     });
 
     toast({
-      title: "Evento criado",
-      description: "O novo evento foi adicionado na agenda.",
+      title: t("toast.eventAdded"),
+      description: t("toast.eventAddedDesc"),
     });
 
     router.push(`/dashboard/calendar?created=1&date=${encodeURIComponent(dateISO)}`);
@@ -100,15 +103,15 @@ function NewCalendarEventContent() {
         <Button variant="outline" asChild>
           <Link href="/dashboard/calendar">
             <ChevronLeft className="mr-2 h-4 w-4" />
-            Voltar para Agenda
+            {t("calendar.newEventPage.backToCalendar")}
           </Link>
         </Button>
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
-            Novo Evento da Agenda
+            {t("calendar.newEventPage.title")}
           </h2>
           <p className="mt-2 text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
-            Preencha as mesmas informacoes usadas na visao calendario e na visao consolidada.
+            {t("calendar.newEventPage.subtitle")}
           </p>
         </div>
       </div>
@@ -116,13 +119,13 @@ function NewCalendarEventContent() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Criar evento</CardTitle>
-            <CardDescription>Data, evento, tipo e unidade.</CardDescription>
+            <CardTitle>{t("calendar.newEventPage.createEvent")}</CardTitle>
+            <CardDescription>{t("calendar.newEventPage.createEventDesc")}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="event-date">Data</Label>
+                <Label htmlFor="event-date">{t("common.date")}</Label>
                 <Input
                   id="event-date"
                   type="date"
@@ -132,20 +135,20 @@ function NewCalendarEventContent() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="event-title">Evento</Label>
+                <Label htmlFor="event-title">{t("calendar.newEventPage.event")}</Label>
                 <Input
                   id="event-title"
-                  placeholder="Ex: Reuniao de alinhamento"
+                  placeholder={t("calendar.newEventPage.eventPlaceholder")}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="event-type">Tipo</Label>
+                <Label htmlFor="event-type">{t("calendar.tableType")}</Label>
                 <Select value={type} onValueChange={(value) => setType(value as CalendarEventType)}>
                   <SelectTrigger id="event-type">
-                    <SelectValue placeholder="Selecione um tipo" />
+                    <SelectValue placeholder={t("calendar.newEventPage.selectType")} />
                   </SelectTrigger>
                   <SelectContent>
                     {CALENDAR_EVENT_TYPES.map((eventType) => (
@@ -157,10 +160,10 @@ function NewCalendarEventContent() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="event-unit">Unidade</Label>
+                <Label htmlFor="event-unit">{t("common.unit")}</Label>
                 <Input
                   id="event-unit"
-                  placeholder="Ex: Tecnologia"
+                  placeholder={t("calendar.newEventPage.unitPlaceholder")}
                   value={unit}
                   onChange={(e) => setUnit(e.target.value)}
                   required
@@ -168,7 +171,7 @@ function NewCalendarEventContent() {
               </div>
               <Button type="submit" className="w-full" disabled={isSaving}>
                 <PlusCircle className="mr-2 h-4 w-4" />
-                {isSaving ? "Salvando..." : "Salvar Evento"}
+                {isSaving ? t("calendar.newEventPage.saving") : t("calendar.newEventPage.saveEvent")}
               </Button>
             </form>
           </CardContent>
@@ -176,17 +179,17 @@ function NewCalendarEventContent() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Consolidado de eventos</CardTitle>
-            <CardDescription>Referencia atual da agenda (calendario + tabela).</CardDescription>
+            <CardTitle>{t("calendar.newEventPage.consolidatedEvents")}</CardTitle>
+            <CardDescription>{t("calendar.newEventPage.consolidatedEventsDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Evento</TableHead>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead>Unidade</TableHead>
+                  <TableHead>{t("calendar.tableDate")}</TableHead>
+                  <TableHead>{t("calendar.tableEvent")}</TableHead>
+                  <TableHead>{t("calendar.tableType")}</TableHead>
+                  <TableHead>{t("calendar.tableUnit")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

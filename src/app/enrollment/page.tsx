@@ -30,6 +30,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const formSchema = z.object({
   name: z.string().min(2, "O nome deve ter pelo menos 2 caracteres."),
@@ -49,6 +50,7 @@ const formSchema = z.object({
 });
 
 export default function EnrollmentPage() {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const enrollmentArt = PlaceHolderImages.find(p => p.id === 'enrollment-art');
 
@@ -67,8 +69,8 @@ export default function EnrollmentPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     toast({
-      title: "Inscrição Enviada!",
-      description: "Sua inscrição foi enviada para aprovação. Você será notificado por email.",
+      title: t("enrollment.toastTitle"),
+      description: t("enrollment.toastDesc"),
     });
     form.reset();
   }
@@ -81,7 +83,7 @@ export default function EnrollmentPage() {
             </Link>
             <nav className="ml-auto flex gap-4 sm:gap-6">
                 <Button variant="ghost" asChild>
-                    <Link href="/login">Login</Link>
+                    <Link href="/login">{t("enrollment.backToLogin")}</Link>
                 </Button>
             </nav>
         </header>
@@ -90,10 +92,10 @@ export default function EnrollmentPage() {
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <div className="hidden lg:block">
                         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-primary mb-4">
-                            Transforme sua Carreira com DPX
+                            {t("enrollment.title")}
                         </h1>
                         <p className="text-muted-foreground text-lg mb-6">
-                            Participe de uma jornada de desenvolvimento profissional única, conectando-se com diferentes áreas da empresa e ampliando seu impacto.
+                            {t("enrollment.subtitle")}
                         </p>
                         {enrollmentArt && (
                             <Image
@@ -108,7 +110,7 @@ export default function EnrollmentPage() {
                     </div>
                     <Card className="w-full max-w-lg mx-auto">
                         <CardHeader>
-                            <CardTitle className="text-3xl font-bold">Formulário de Inscrição</CardTitle>
+                            <CardTitle className="text-3xl font-bold">{t("enrollment.title")}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <Form {...form}>
@@ -118,9 +120,9 @@ export default function EnrollmentPage() {
                                 name="name"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Nome Completo</FormLabel>
+                                    <FormLabel>{t("enrollment.fullName")}</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Seu nome" {...field} />
+                                        <Input placeholder={t("enrollment.namePlaceholder")} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -131,9 +133,9 @@ export default function EnrollmentPage() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Email Corporativo</FormLabel>
+                                    <FormLabel>{t("enrollment.email")}</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="seu.email@empresa.com" {...field} />
+                                        <Input placeholder={t("enrollment.emailPlaceholder")} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                     </FormItem>
@@ -145,19 +147,19 @@ export default function EnrollmentPage() {
                                     name="unit"
                                     render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Unidade de Negócio</FormLabel>
+                                        <FormLabel>{t("enrollment.unit")}</FormLabel>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger>
-                                            <SelectValue placeholder="Selecione sua unidade" />
+                                            <SelectValue placeholder={t("enrollment.selectCompany")} />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="tecnologia">Tecnologia</SelectItem>
-                                            <SelectItem value="marketing">Marketing</SelectItem>
-                                            <SelectItem value="rh">RH</SelectItem>
-                                            <SelectItem value="vendas">Vendas</SelectItem>
-                                            <SelectItem value="financeiro">Financeiro</SelectItem>
+                                            <SelectItem value="tecnologia">{t("enrollment.selectTechnology")}</SelectItem>
+                                            <SelectItem value="marketing">{t("enrollment.selectMarketing")}</SelectItem>
+                                            <SelectItem value="rh">{t("enrollment.selectHR")}</SelectItem>
+                                            <SelectItem value="vendas">{t("enrollment.selectSales")}</SelectItem>
+                                            <SelectItem value="financeiro">{t("enrollment.selectFinance")}</SelectItem>
                                         </SelectContent>
                                         </Select>
                                         <FormMessage />
@@ -169,9 +171,9 @@ export default function EnrollmentPage() {
                                     name="role"
                                     render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Cargo Atual</FormLabel>
+                                        <FormLabel>{t("enrollment.role")}</FormLabel>
                                         <FormControl>
-                                        <Input placeholder="Ex: Analista de Sistemas" {...field} />
+                                        <Input placeholder={t("enrollment.rolePlaceholder")} {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -183,10 +185,10 @@ export default function EnrollmentPage() {
                                 name="justification"
                                 render={({ field }) => (
                                     <FormItem>
-                                    <FormLabel>Justificativa e Objetivos</FormLabel>
+                                    <FormLabel>{t("enrollment.motivation")}</FormLabel>
                                     <FormControl>
                                         <Textarea
-                                        placeholder="Descreva por que você quer participar do programa e quais são seus objetivos."
+                                        placeholder={t("enrollment.motivationPlaceholder")}
                                         className="resize-none"
                                         {...field}
                                         />
@@ -204,9 +206,9 @@ export default function EnrollmentPage() {
                                             <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                         </FormControl>
                                         <div className="space-y-1 leading-none">
-                                            <FormLabel>Termo de Proteção de Dados (LGPD)</FormLabel>
+                                            <FormLabel>{t("enrollment.lgpdLabel")}</FormLabel>
                                             <FormDescription>
-                                            Eu concordo com a coleta e uso dos meus dados para os fins do programa. <Link href="#" className="underline">Ler termo</Link>.
+                                            {t("enrollment.lgpdDesc")} <Link href="#" className="underline">{t("enrollment.readTerm")}</Link>.
                                             </FormDescription>
                                             <FormMessage />
                                         </div>
@@ -222,16 +224,16 @@ export default function EnrollmentPage() {
                                             <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                                         </FormControl>
                                         <div className="space-y-1 leading-none">
-                                            <FormLabel>Termo de Confidencialidade (NDA)</FormLabel>
+                                            <FormLabel>{t("enrollment.ndaLabel")}</FormLabel>
                                             <FormDescription>
-                                            Eu me comprometo a manter a confidencialidade das informações acessadas. <Link href="#" className="underline">Ler termo</Link>.
+                                            {t("enrollment.ndaDesc")} <Link href="#" className="underline">{t("enrollment.readTerm")}</Link>.
                                             </FormDescription>
                                             <FormMessage />
                                         </div>
                                         </FormItem>
                                     )}
                                 />
-                                <Button type="submit" className="w-full" size="lg">Enviar Inscrição</Button>
+                                <Button type="submit" className="w-full" size="lg">{t("enrollment.submitApplication")}</Button>
                             </form>
                             </Form>
                         </CardContent>
@@ -241,16 +243,16 @@ export default function EnrollmentPage() {
         </main>
         <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t bg-card text-card-foreground">
              <div className="text-xs text-muted-foreground text-center sm:text-left">
-                <p><b>Produzido por Follow<span className="shimmer-text-blue">Labs</span></b> - www.followadvisor.com</p>
-                <p>Propriedade de Follow Advisor Ltda. CNPJ 32.814.520/0001-24</p>
-                <p className="mt-2 font-semibold">PROTOTIPO DEMO PARA FREUDENBERG BRASIL, SEM CUSTO , SALVO ERROS OU FUNÇÕES LIMITADAS POR CARACTERISTICAS DE DEMONSTRAÇÃO</p>
+                <p><b>{t("producedBy")} Follow<span className="shimmer-text-blue">Labs</span></b> - www.followadvisor.com</p>
+                <p>{t("propertyOf")}</p>
+                <p className="mt-2 font-semibold">{t("enrollment.demoDisclaimer")}</p>
             </div>
             <nav className="sm:ml-auto flex gap-4 sm:gap-6">
                 <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-                    Termos de Serviço
+                    {t("footer.terms")}
                 </Link>
                 <Link href="#" className="text-xs hover:underline underline-offset-4 text-muted-foreground">
-                    Privacidade
+                    {t("footer.privacy")}
                 </Link>
             </nav>
         </footer>

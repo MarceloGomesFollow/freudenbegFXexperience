@@ -1,5 +1,6 @@
 
 
+
 "use client";
 
 import React, { useState } from 'react';
@@ -15,15 +16,8 @@ import { Activity, Bell, FileText, Lock, User as UserIcon, Download, Building, P
 import * as data from "@/lib/data";
 import { useRole } from '@/components/role-switcher';
 import { useLogo } from '@/components/logo';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Image from "next/image";
-
-const activityLogs = [
-    { id: 1, action: "Login na plataforma", ip: "189.12.34.56", date: "25/07/2024 10:30" },
-    { id: 2, action: "Criou entrada no Diário 4.0", ip: "189.12.34.56", date: "25/07/2024 09:15" },
-    { id: 3, action: "Submeteu ideia 'Plataforma Gamificada'", ip: "201.55.67.89", date: "24/07/2024 16:45" },
-    { id: 4, action: "Alterou a senha", ip: "201.55.67.89", date: "24/07/2024 11:20" },
-    { id: 5, action: "Concluiu o curso 'Design Thinking'", ip: "201.55.67.89", date: "23/07/2024 18:00" },
-]
 
 export default function SettingsPage() {
     const { selectedRole } = useRole();
@@ -33,6 +27,15 @@ export default function SettingsPage() {
     const [newCompanyLocation, setNewCompanyLocation] = useState('');
     const { logo, setLogo } = useLogo();
     const [logoPreview, setLogoPreview] = useState<string | null>(logo);
+    const { t } = useLanguage();
+
+    const activityLogs = [
+        { id: 1, action: t('settings.logActions.login'), ip: "189.12.34.56", date: "25/07/2024 10:30" },
+        { id: 2, action: t('settings.logActions.diaryEntry'), ip: "189.12.34.56", date: "25/07/2024 09:15" },
+        { id: 3, action: t('settings.logActions.submittedIdea'), ip: "201.55.67.89", date: "24/07/2024 16:45" },
+        { id: 4, action: t('settings.logActions.changedPassword'), ip: "201.55.67.89", date: "24/07/2024 11:20" },
+        { id: 5, action: t('settings.logActions.completedCourse'), ip: "201.55.67.89", date: "23/07/2024 18:00" },
+    ];
 
     const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -72,7 +75,7 @@ export default function SettingsPage() {
         };
 
         const textData = JSON.stringify(allData, null, 2);
-        
+
         const blob = new Blob([textData], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -98,19 +101,19 @@ export default function SettingsPage() {
     };
 
     const tabsList = [
-        { value: "profile", label: "Perfil", icon: UserIcon, admin: false },
-        { value: "companies", label: "Empresas", icon: Building, admin: true },
-        { value: "branding", label: "Branding", icon: ImageIcon, admin: true },
-        { value: "security", label: "Segurança", icon: Lock, admin: false },
-        { value: "notifications", label: "Notificações", icon: Bell, admin: false },
-        { value: "logs", label: "Logs", icon: Activity, admin: false },
-        { value: "export", label: "Exportar Dados", icon: Download, admin: false },
+        { value: "profile", label: t('settings.tabs.profile'), icon: UserIcon, admin: false },
+        { value: "companies", label: t('settings.tabs.companies'), icon: Building, admin: true },
+        { value: "branding", label: t('settings.tabs.branding'), icon: ImageIcon, admin: true },
+        { value: "security", label: t('settings.tabs.security'), icon: Lock, admin: false },
+        { value: "notifications", label: t('settings.tabs.notifications'), icon: Bell, admin: false },
+        { value: "logs", label: t('settings.tabs.logs'), icon: Activity, admin: false },
+        { value: "export", label: t('settings.tabs.export'), icon: Download, admin: false },
     ].filter(tab => isAdmin || !tab.admin);
 
     return (
         <div className="space-y-8 max-w-4xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Configurações</h2>
-            
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('settings.title')}</h2>
+
             <Tabs defaultValue="profile" className="w-full flex flex-col md:flex-row gap-6 md:gap-8" orientation="vertical">
                 <TabsList className="w-full md:w-48 shrink-0 h-auto flex-row md:flex-col items-start justify-start p-1 bg-muted rounded-lg overflow-x-auto">
                     {tabsList.map(({ value, label, icon: Icon }) => (
@@ -120,36 +123,36 @@ export default function SettingsPage() {
                         </TabsTrigger>
                     ))}
                 </TabsList>
-                
+
                 <div className="flex-1">
                     <TabsContent value="profile" className="mt-0">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Perfil Público</CardTitle>
+                                <CardTitle>{t('settings.publicProfile')}</CardTitle>
                                 <CardDescription>
-                                    Estas informações serão visíveis para outros usuários na plataforma.
+                                    {t('settings.publicProfileDesc')}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <div className="space-y-2">
-                                    <Label htmlFor="name">Nome Completo</Label>
+                                    <Label htmlFor="name">{t('settings.fullName')}</Label>
                                     <Input id="name" defaultValue="Ana Silva" />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="email">Email</Label>
+                                    <Label htmlFor="email">{t('settings.email')}</Label>
                                     <Input id="email" type="email" defaultValue="ana.silva@example.com" readOnly />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="role">Função</Label>
+                                    <Label htmlFor="role">{t('settings.role')}</Label>
                                     <Input id="role" defaultValue="Analista de Sistemas Pleno" />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="unit">Unidade</Label>
+                                    <Label htmlFor="unit">{t('settings.unit')}</Label>
                                     <Input id="unit" defaultValue="Tecnologia (Empresa A)" readOnly />
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button>Salvar Alterações</Button>
+                                <Button>{t('common.saveChanges')}</Button>
                             </CardFooter>
                         </Card>
                     </TabsContent>
@@ -158,28 +161,28 @@ export default function SettingsPage() {
                         <TabsContent value="companies" className="mt-0">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Gerenciamento de Empresas</CardTitle>
+                                    <CardTitle>{t('settings.companyManagement')}</CardTitle>
                                     <CardDescription>
-                                        Adicione e gerencie as unidades de negócio da organização.
+                                        {t('settings.companyManagementDesc')}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
                                     <Card>
                                         <CardHeader>
-                                            <CardTitle className='text-lg'>Adicionar Nova Empresa</CardTitle>
+                                            <CardTitle className='text-lg'>{t('settings.addCompany')}</CardTitle>
                                         </CardHeader>
                                         <CardContent className="flex flex-col sm:flex-row gap-4 items-end">
                                             <div className="space-y-2 flex-1 w-full">
-                                                <Label htmlFor="new-company-name">Nome da Empresa</Label>
-                                                <Input id="new-company-name" value={newCompanyName} onChange={(e) => setNewCompanyName(e.target.value)} placeholder="Ex: Freudenberg-NOK" />
+                                                <Label htmlFor="new-company-name">{t('settings.companyName')}</Label>
+                                                <Input id="new-company-name" value={newCompanyName} onChange={(e) => setNewCompanyName(e.target.value)} placeholder={t('settings.companyNamePlaceholder')} />
                                             </div>
                                             <div className="space-y-2 flex-1 w-full">
-                                                <Label htmlFor="new-company-location">Localização</Label>
-                                                <Input id="new-company-location" value={newCompanyLocation} onChange={(e) => setNewCompanyLocation(e.target.value)} placeholder="Ex: Diadema – SP" />
+                                                <Label htmlFor="new-company-location">{t('settings.companyLocation')}</Label>
+                                                <Input id="new-company-location" value={newCompanyLocation} onChange={(e) => setNewCompanyLocation(e.target.value)} placeholder={t('settings.companyLocationPlaceholder')} />
                                             </div>
                                             <Button onClick={handleAddCompany} className="w-full sm:w-auto">
                                                 <PlusCircle className="mr-2 h-4 w-4" />
-                                                Adicionar
+                                                {t('common.add')}
                                             </Button>
                                         </CardContent>
                                     </Card>
@@ -188,8 +191,8 @@ export default function SettingsPage() {
                                         <Table>
                                             <TableHeader>
                                                 <TableRow>
-                                                    <TableHead>Nome da Empresa</TableHead>
-                                                    <TableHead>Localização</TableHead>
+                                                    <TableHead>{t('settings.companyName')}</TableHead>
+                                                    <TableHead>{t('settings.companyLocation')}</TableHead>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
@@ -211,14 +214,14 @@ export default function SettingsPage() {
                         <TabsContent value="branding" className="mt-0">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Branding da Plataforma</CardTitle>
+                                    <CardTitle>{t('settings.branding')}</CardTitle>
                                     <CardDescription>
-                                        Personalize a aparência da plataforma com seu próprio logo.
+                                        {t('settings.brandingDesc')}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
                                     <div className="space-y-2">
-                                        <Label>Logo Atual</Label>
+                                        <Label>{t('settings.currentLogo')}</Label>
                                         <div className="p-4 border rounded-md bg-muted flex items-center justify-center">
                                             {logoPreview ? (
                                                 <Image src={logoPreview} alt="Logo Preview" width={160} height={32} className="object-contain" />
@@ -228,15 +231,15 @@ export default function SettingsPage() {
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="logo-upload">Trocar Logo</Label>
+                                        <Label htmlFor="logo-upload">{t('settings.changeLogo')}</Label>
                                         <Input id="logo-upload" type="file" accept="image/*" onChange={handleLogoChange} />
                                         <p className="text-sm text-muted-foreground">
-                                            Use uma imagem com fundo transparente (PNG ou SVG) para melhores resultados.
+                                            {t('settings.logoHint')}
                                         </p>
                                     </div>
                                 </CardContent>
                                 <CardFooter>
-                                    <Button onClick={handleSaveLogo}>Salvar Logo</Button>
+                                    <Button onClick={handleSaveLogo}>{t('settings.saveLogo')}</Button>
                                 </CardFooter>
                             </Card>
                         </TabsContent>
@@ -246,38 +249,38 @@ export default function SettingsPage() {
                     <TabsContent value="security" className="mt-0">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Segurança da Conta</CardTitle>
+                                <CardTitle>{t('settings.accountSecurity')}</CardTitle>
                                 <CardDescription>
-                                    Gerencie sua senha e métodos de autenticação.
+                                    {t('settings.accountSecurityDesc')}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-8">
                                 <div>
-                                    <h3 className="text-lg font-medium">Alterar Senha</h3>
+                                    <h3 className="text-lg font-medium">{t('settings.changePassword')}</h3>
                                     <Separator className="my-4" />
                                     <div className="space-y-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="current-password">Senha Atual</Label>
+                                            <Label htmlFor="current-password">{t('settings.currentPassword')}</Label>
                                             <Input id="current-password" type="password" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="new-password">Nova Senha</Label>
+                                            <Label htmlFor="new-password">{t('settings.newPassword')}</Label>
                                             <Input id="new-password" type="password" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="confirm-password">Confirmar Nova Senha</Label>
+                                            <Label htmlFor="confirm-password">{t('settings.confirmPassword')}</Label>
                                             <Input id="confirm-password" type="password" />
                                         </div>
-                                        <Button>Atualizar Senha</Button>
+                                        <Button>{t('settings.updatePassword')}</Button>
                                     </div>
                                 </div>
                                 <div>
-                                    <h3 className="text-lg font-medium">Autenticação de Dois Fatores (2FA)</h3>
+                                    <h3 className="text-lg font-medium">{t('settings.twoFactor')}</h3>
                                     <Separator className="my-4" />
                                     <div className="flex items-center justify-between rounded-lg border p-4">
                                         <div>
-                                            <h4 className="font-medium">Status</h4>
-                                            <p className="text-sm text-muted-foreground">Habilitar 2FA aumenta a segurança da sua conta.</p>
+                                            <h4 className="font-medium">{t('settings.twoFactorStatus')}</h4>
+                                            <p className="text-sm text-muted-foreground">{t('settings.twoFactorDesc')}</p>
                                         </div>
                                         <Switch />
                                     </div>
@@ -289,38 +292,38 @@ export default function SettingsPage() {
                     <TabsContent value="notifications" className="mt-0">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Preferências de Notificação</CardTitle>
+                                <CardTitle>{t('settings.notificationPreferences')}</CardTitle>
                                 <CardDescription>
-                                    Escolha como e quando você deseja ser notificado.
+                                    {t('settings.notificationPreferencesDesc')}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <div>
-                                    <h3 className="font-medium mb-4">Notificações por Email</h3>
+                                    <h3 className="font-medium mb-4">{t('settings.emailNotifications')}</h3>
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <Label htmlFor="email-mentions" className="flex flex-col space-y-1">
-                                                <span>Menções e Respostas</span>
+                                                <span>{t('settings.mentions')}</span>
                                                 <span className="font-normal leading-snug text-muted-foreground">
-                                                    Quando alguém @menciona você ou responde a um comentário seu.
+                                                    {t('settings.mentionsDesc')}
                                                 </span>
                                             </Label>
                                             <Switch id="email-mentions" defaultChecked />
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <Label htmlFor="email-tasks" className="flex flex-col space-y-1">
-                                                <span>Tarefas e Prazos</span>
+                                                <span>{t('settings.tasksDeadlines')}</span>
                                                 <span className="font-normal leading-snug text-muted-foreground">
-                                                    Lembretes sobre prazos de tarefas e relatórios.
+                                                    {t('settings.tasksDeadlinesDesc')}
                                                 </span>
                                             </Label>
                                             <Switch id="email-tasks" defaultChecked />
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <Label htmlFor="email-newsletter" className="flex flex-col space-y-1">
-                                                <span>Newsletter Semanal</span>
+                                                <span>{t('settings.newsletter')}</span>
                                                 <span className="font-normal leading-snug text-muted-foreground">
-                                                    Resumo de atividades, novos cursos e eventos.
+                                                    {t('settings.newsletterDesc')}
                                                 </span>
                                             </Label>
                                             <Switch id="email-newsletter" />
@@ -329,13 +332,13 @@ export default function SettingsPage() {
                                 </div>
                                 <Separator />
                                 <div>
-                                    <h3 className="font-medium mb-4">Notificações Push (App)</h3>
+                                    <h3 className="font-medium mb-4">{t('settings.pushNotifications')}</h3>
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between">
                                             <Label htmlFor="push-all" className="flex flex-col space-y-1">
-                                                <span>Todas as notificações</span>
+                                                <span>{t('settings.allNotifications')}</span>
                                                 <span className="font-normal leading-snug text-muted-foreground">
-                                                    Habilitar ou desabilitar todas as notificações push.
+                                                    {t('settings.allNotificationsDesc')}
                                                 </span>
                                             </Label>
                                             <Switch id="push-all" defaultChecked />
@@ -344,7 +347,7 @@ export default function SettingsPage() {
                                 </div>
                             </CardContent>
                             <CardFooter>
-                                <Button>Salvar Preferências</Button>
+                                <Button>{t('settings.savePreferences')}</Button>
                             </CardFooter>
                         </Card>
                     </TabsContent>
@@ -352,9 +355,9 @@ export default function SettingsPage() {
                     <TabsContent value="logs" className="mt-0">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Logs de Atividade</CardTitle>
+                                <CardTitle>{t('settings.activityLogs')}</CardTitle>
                                 <CardDescription>
-                                    Histórico de atividades recentes na sua conta.
+                                    {t('settings.activityLogsDesc')}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -362,9 +365,9 @@ export default function SettingsPage() {
                                     <Table>
                                         <TableHeader>
                                             <TableRow>
-                                                <TableHead>Ação</TableHead>
-                                                <TableHead>Endereço IP</TableHead>
-                                                <TableHead className="text-right">Data</TableHead>
+                                                <TableHead>{t('settings.actionColumn')}</TableHead>
+                                                <TableHead>{t('settings.ipColumn')}</TableHead>
+                                                <TableHead className="text-right">{t('settings.dateColumn')}</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -385,18 +388,18 @@ export default function SettingsPage() {
                     <TabsContent value="export" className="mt-0">
                         <Card>
                             <CardHeader>
-                                <CardTitle>Exportar Todos os Registros</CardTitle>
+                                <CardTitle>{t('settings.exportAll')}</CardTitle>
                                 <CardDescription>
-                                    Faça o download de todos os dados da plataforma em um único arquivo para alimentar sistemas externos ou IAs.
+                                    {t('settings.exportAllDesc')}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-muted-foreground mb-4">
-                                    Ao clicar no botão abaixo, um arquivo chamado <strong>registros.json</strong> será gerado e baixado. Este arquivo conterá todos os dados de usuários, diários, cursos, ideias, e outras informações da plataforma em formato JSON.
+                                    {t('settings.exportExplanation')}
                                 </p>
                                 <Button onClick={handleExport}>
                                     <Download className="mr-2 h-4 w-4" />
-                                    Gerar e Baixar Arquivo de Log (.json)
+                                    {t('settings.exportButton')}
                                 </Button>
                             </CardContent>
                         </Card>

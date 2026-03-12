@@ -1,18 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Logo } from "@/components/logo";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function LoginPage() {
-  const loginArt = PlaceHolderImages.find(p => p.id === 'login-art');
-
+  const { t } = useLanguage();
   return (
     <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2">
       <div className="min-h-screen flex items-center justify-center dashboard-bg p-4">
@@ -32,20 +30,20 @@ export default function LoginPage() {
             </h1>
             <div className="gold-gradient h-1 rounded-full w-16 mx-auto mt-3 mb-2" />
             <p className="text-balance text-muted-foreground">
-              Enter your email below to login to your account
+              {t("loginPage.subtitle")}
             </p>
           </div>
           <Card className="gold-border">
             <CardHeader>
-                <CardTitle className="text-2xl">Login</CardTitle>
+                <CardTitle className="text-2xl">{t("loginPage.title")}</CardTitle>
                 <CardDescription>
-                    This is a demo. Click login to continue.
+                    {t("loginPage.demoText")}
                 </CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="grid gap-4">
                     <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{t("loginPage.email")}</Label>
                     <Input
                         id="email"
                         type="email"
@@ -56,41 +54,41 @@ export default function LoginPage() {
                     </div>
                     <div className="grid gap-2">
                     <div className="flex items-center">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">{t("loginPage.password")}</Label>
                         <Link
                         href="#"
                         className="ml-auto inline-block text-sm underline"
                         >
-                        Forgot your password?
+                        {t("loginPage.forgotPassword")}
                         </Link>
                     </div>
                     <Input id="password" type="password" required defaultValue="password" />
                     </div>
                     <Button variant="gold" className="w-full rounded-xl h-11" asChild>
-                        <Link href="/dashboard">Login</Link>
+                        <Link href="/dashboard">{t("loginPage.loginButton")}</Link>
                     </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">
-                    Don&apos;t have an account?{" "}
+                    {t("loginPage.noAccount")}{" "}
                     <Link href="/enrollment" className="underline">
-                    Enroll now
+                    {t("loginPage.enrollNow")}
                     </Link>
                 </div>
             </CardContent>
           </Card>
         </motion.div>
       </div>
-      <div className="hidden bg-muted lg:block relative">
-        {loginArt && (
-            <Image
-                src={loginArt.imageUrl}
-                alt={loginArt.description}
-                data-ai-hint={loginArt.imageHint}
-                fill
-                className="object-cover"
-            />
-        )}
-        <div className="absolute inset-0 bg-primary/60" />
+      <div className="hidden bg-muted lg:block relative overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/Video intro/fx exp video bd2 .mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-primary/40" />
       </div>
     </div>
   );

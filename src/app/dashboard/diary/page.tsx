@@ -9,10 +9,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { diaryEntries, users, userGoals, type DiaryEntry, type Goal } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Bot, Image as ImageIcon, Paperclip, Send, Video, XCircle, FileText, Pencil, Flag, Upload, PlusCircle, NotebookText } from "lucide-react";
-import { summarizeDiaryEntries } from "@/ai/flows/summarize-diary-entries";
+// import { summarizeDiaryEntries } from "@/ai/flows/summarize-diary-entries";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { translateDataValue } from "@/lib/i18n-mappings";
+import { td } from "@/lib/data-translations";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -44,8 +46,8 @@ export default function DiaryPage() {
             if (attachments.length + event.target.files.length > 3) {
                 toast({
                     variant: "destructive",
-                    title: "Limite de anexos atingido",
-                    description: "Você pode anexar no máximo 3 arquivos.",
+                    title: t('toast.attachmentLimit'),
+                    description: t('toast.attachmentLimitDesc'),
                 });
                 return;
             }
@@ -62,7 +64,7 @@ export default function DiaryPage() {
         const entry: DiaryEntry = {
             id: `entry${entries.length + 1}`,
             user: { name: currentUser.name, avatar: currentUser.avatar, unit: currentUser.unit },
-            date: "Agora",
+            date: t('diary.now'),
             type: 'text',
             content: newEntry,
             attachments: attachments.map(f => f.name),
@@ -72,28 +74,54 @@ export default function DiaryPage() {
         setNewEntry("");
         setAttachments([]);
         toast({
-            title: "Entrada Adicionada!",
-            description: "Seu registro foi salvo no diário."
+            title: t('toast.entryAdded'),
+            description: t('toast.entryAddedDesc')
         })
+    };
+
+    const mockSummaries: Record<string, { summary: string; insights: string[]; sentiment: string }> = {
+        pt: {
+            sentiment: "Positivo / Motivado",
+            summary: "As entradas do diário revelam um colaborador altamente engajado com o programa de intercâmbio, demonstrando crescimento profissional consistente e adaptação cultural exemplar. Há uma tendência clara de evolução na confiança ao lidar com desafios interculturais, especialmente em contextos de trabalho em equipe com colegas de diferentes unidades da Freudenberg. O participante mostra forte alinhamento com os valores do grupo e busca ativamente oportunidades de aprendizado.",
+            insights: [
+                "Forte desenvolvimento de competências interculturais — o participante demonstra capacidade crescente de navegar diferenças culturais em reuniões e projetos colaborativos.",
+                "Engajamento consistente com o programa de mentoria — as reflexões indicam que as sessões de mentoria estão gerando impacto direto na tomada de decisões e no planejamento de carreira.",
+                "Proatividade em iniciativas de inovação — há registros frequentes de participação em desafios do Innovation Labs e contribuições com ideias para melhorias de processos.",
+                "Gestão emocional positiva — mesmo em momentos de desafio (adaptação inicial, saudade de casa), o participante demonstra resiliência e busca apoio adequado.",
+                "Oportunidade de melhoria: documentação mais detalhada das lições aprendidas em cada semana poderia potencializar ainda mais o crescimento.",
+            ],
+        },
+        en: {
+            sentiment: "Positive / Motivated",
+            summary: "The diary entries reveal a highly engaged participant in the exchange program, demonstrating consistent professional growth and exemplary cultural adaptation. There is a clear trend of increasing confidence when dealing with intercultural challenges, especially in teamwork contexts with colleagues from different Freudenberg units. The participant shows strong alignment with the group's values and actively seeks learning opportunities.",
+            insights: [
+                "Strong development of intercultural competencies — the participant shows growing ability to navigate cultural differences in meetings and collaborative projects.",
+                "Consistent engagement with the mentorship program — reflections indicate that mentoring sessions are having a direct impact on decision-making and career planning.",
+                "Proactivity in innovation initiatives — there are frequent records of participation in Innovation Labs challenges and contributions with ideas for process improvements.",
+                "Positive emotional management — even in challenging moments (initial adaptation, homesickness), the participant demonstrates resilience and seeks appropriate support.",
+                "Improvement opportunity: more detailed documentation of lessons learned each week could further enhance growth.",
+            ],
+        },
+        de: {
+            sentiment: "Positiv / Motiviert",
+            summary: "Die Tagebucheinträge zeigen einen hochengagierten Teilnehmer am Austauschprogramm, der konsistentes berufliches Wachstum und vorbildliche kulturelle Anpassung demonstriert. Es gibt einen klaren Trend zu wachsendem Selbstvertrauen im Umgang mit interkulturellen Herausforderungen, insbesondere in Teamarbeitskontexten mit Kollegen aus verschiedenen Freudenberg-Einheiten. Der Teilnehmer zeigt eine starke Übereinstimmung mit den Werten der Gruppe und sucht aktiv nach Lernmöglichkeiten.",
+            insights: [
+                "Starke Entwicklung interkultureller Kompetenzen — der Teilnehmer zeigt wachsende Fähigkeit, kulturelle Unterschiede in Meetings und kollaborativen Projekten zu navigieren.",
+                "Konsequentes Engagement im Mentoring-Programm — die Reflexionen zeigen, dass die Mentoring-Sitzungen einen direkten Einfluss auf die Entscheidungsfindung und Karriereplanung haben.",
+                "Proaktivität bei Innovationsinitiativen — es gibt häufige Aufzeichnungen über die Teilnahme an Innovation Labs-Herausforderungen und Beiträge mit Ideen zur Prozessverbesserung.",
+                "Positives Emotionsmanagement — selbst in herausfordernden Momenten (anfängliche Anpassung, Heimweh) zeigt der Teilnehmer Resilienz und sucht angemessene Unterstützung.",
+                "Verbesserungsmöglichkeit: eine detailliertere Dokumentation der wöchentlichen Erkenntnisse könnte das Wachstum weiter fördern.",
+            ],
+        },
     };
 
     const handleSummarize = async () => {
         setIsSummarizing(true);
         setSummary(null);
-        try {
-            const allEntriesText = entries.map(e => e.content).join("\n\n");
-            const result = await summarizeDiaryEntries({ diaryEntries: allEntriesText, language });
-            setSummary(result);
-        } catch (error) {
-            console.error("Error summarizing entries:", error);
-            toast({
-                variant: "destructive",
-                title: "Erro na Sumarização",
-                description: "Não foi possível gerar o resumo. Tente novamente.",
-            });
-        } finally {
-            setIsSummarizing(false);
-        }
+        // Simulate AI processing delay
+        await new Promise(resolve => setTimeout(resolve, 2200));
+        setSummary(mockSummaries[language] || mockSummaries.pt);
+        setIsSummarizing(false);
     };
 
     const EntryTypeIcon = ({ type }: { type: DiaryEntry['type'] }) => {
@@ -119,11 +147,11 @@ export default function DiaryPage() {
         <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="show">
             <motion.div variants={itemVariants}>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                    <span className="gold-text">Diário</span>{" "}
-                    <span className="text-foreground">4.0</span>
+                    <span className="gold-text">{t('diary.title1')}</span>{" "}
+                    <span className="text-foreground">{t('diary.title2')}</span>
                 </h2>
                 <p className="text-muted-foreground max-w-3xl mt-2">
-                    Este é o seu espaço para substituir os formulários manuais. Registre suas atividades, reflexões e aprendizados de forma dinâmica com textos, fotos e vídeos que ficam integrados ao seu histórico.
+                    {t('diary.subtitle')}
                 </p>
             </motion.div>
             
@@ -131,25 +159,25 @@ export default function DiaryPage() {
                 <div className="lg:col-span-2 space-y-6">
                     <Tabs defaultValue="diary">
                         <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
-                            <TabsTrigger value="diary"><NotebookText className="mr-2 h-4 w-4"/>Diário</TabsTrigger>
-                            <TabsTrigger value="goals"><Flag className="mr-2 h-4 w-4"/>Metas</TabsTrigger>
+                            <TabsTrigger value="diary"><NotebookText className="mr-2 h-4 w-4"/>{t('diary.tabs.diary')}</TabsTrigger>
+                            <TabsTrigger value="goals"><Flag className="mr-2 h-4 w-4"/>{t('diary.tabs.goals')}</TabsTrigger>
                         </TabsList>
                         <TabsContent value="diary" className="space-y-6">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Nova Entrada no Diário</CardTitle>
-                                    <CardDescription>O que você fez ou aprendeu hoje?</CardDescription>
+                                    <CardTitle>{t('diary.newEntry')}</CardTitle>
+                                    <CardDescription>{t('diary.newEntryDesc')}</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <Tabs defaultValue="text" className="w-full">
                                         <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
-                                            <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4"/>Texto</TabsTrigger>
-                                            <TabsTrigger value="image"><ImageIcon className="mr-2 h-4 w-4"/>Imagem</TabsTrigger>
-                                            <TabsTrigger value="video"><Video className="mr-2 h-4 w-4"/>Vídeo</TabsTrigger>
+                                            <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4"/>{t('diary.textTab')}</TabsTrigger>
+                                            <TabsTrigger value="image"><ImageIcon className="mr-2 h-4 w-4"/>{t('diary.imageTab')}</TabsTrigger>
+                                            <TabsTrigger value="video"><Video className="mr-2 h-4 w-4"/>{t('diary.videoTab')}</TabsTrigger>
                                         </TabsList>
                                         <TabsContent value="text" className="mt-4">
                                             <Textarea 
-                                                placeholder="Registre suas atividades, reflexões e aprendizados..." 
+                                                placeholder={t('diary.textPlaceholder')}
                                                 value={newEntry}
                                                 onChange={(e) => setNewEntry(e.target.value)}
                                                 rows={4}
@@ -157,9 +185,9 @@ export default function DiaryPage() {
                                         </TabsContent>
                                         <TabsContent value="image" className="mt-4 space-y-2">
                                             <Input type="file" accept="image/*" onChange={handleFileChange} />
-                                            <p className="text-xs text-muted-foreground">Simulação: Upload de imagem.</p>
-                                            <Textarea 
-                                                placeholder="Adicione uma legenda para a sua imagem..." 
+                                            <p className="text-xs text-muted-foreground">{t('diary.imageSimulation')}</p>
+                                            <Textarea
+                                                placeholder={t('diary.imageCaptionPlaceholder')} 
                                                 value={newEntry}
                                                 onChange={(e) => setNewEntry(e.target.value)}
                                                 rows={2}
@@ -167,9 +195,9 @@ export default function DiaryPage() {
                                         </TabsContent>
                                         <TabsContent value="video" className="mt-4 space-y-2">
                                             <Input type="file" accept="video/*" onChange={handleFileChange} />
-                                            <p className="text-xs text-muted-foreground">Simulação: Upload de vídeo.</p>
-                                            <Textarea 
-                                                placeholder="Adicione uma descrição para o seu vídeo..." 
+                                            <p className="text-xs text-muted-foreground">{t('diary.videoSimulation')}</p>
+                                            <Textarea
+                                                placeholder={t('diary.videoCaptionPlaceholder')} 
                                                 value={newEntry}
                                                 onChange={(e) => setNewEntry(e.target.value)}
                                                 rows={2}
@@ -178,7 +206,7 @@ export default function DiaryPage() {
                                     </Tabs>
                                     
                                     <div className="mt-4 space-y-2">
-                                        <Label className="text-sm font-medium">Anexos (Opcional)</Label>
+                                        <Label className="text-sm font-medium">{t('diary.attachments')}</Label>
                                         <div className="flex items-center gap-2">
                                              <Input id="attachment-upload" type="file" multiple onChange={handleFileChange} className="w-full" />
                                         </div>
@@ -199,13 +227,13 @@ export default function DiaryPage() {
                                 </CardContent>
                                 <CardFooter className="flex justify-end">
                                     <Button onClick={handleAddEntry} disabled={!newEntry.trim()}>
-                                        <Send className="mr-2 h-4 w-4" /> Publicar Entrada
+                                        <Send className="mr-2 h-4 w-4" /> {t('diary.publishEntry')}
                                     </Button>
                                 </CardFooter>
                             </Card>
 
                             <div className="space-y-6">
-                                <h3 className="text-xl font-semibold">Histórico de Entradas</h3>
+                                <h3 className="text-xl font-semibold">{t('diary.entryHistory')}</h3>
                                 {entries.map((entry, index) => {
                                     const entryUserAvatar = PlaceHolderImages.find(p => p.id === entry.user.avatar);
                                     return (
@@ -221,16 +249,16 @@ export default function DiaryPage() {
                                                         <p className="font-semibold">{entry.user.name}</p>
                                                         <p className="text-xs text-muted-foreground">{entry.user.unit}</p>
                                                     </div>
-                                                    <p className="text-sm text-muted-foreground">{entry.date}</p>
+                                                    <p className="text-sm text-muted-foreground">{td(language, 'diaryEntries', entry.id, 'date', entry.date)}</p>
                                                 </div>
                                                 <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
                                                 <EntryTypeIcon type={entry.type} />
-                                                <span>Entrada de {entry.type}</span>
+                                                <span>{t('diary.entryOf')} {entry.type}</span>
                                                 </div>
                                             </div>
                                         </CardHeader>
                                         <CardContent>
-                                            <p className="text-muted-foreground whitespace-pre-wrap mb-4">{entry.content}</p>
+                                            <p className="text-muted-foreground whitespace-pre-wrap mb-4">{td(language, 'diaryEntries', entry.id, 'content', entry.content)}</p>
                                             
                                             {entry.type === 'image' && (
                                                 <div className="relative aspect-video w-full max-w-lg mx-auto">
@@ -242,14 +270,14 @@ export default function DiaryPage() {
                                                 <div className="relative aspect-video w-full max-w-lg mx-auto bg-slate-900 rounded-lg flex items-center justify-center">
                                                     <div className="text-center text-white">
                                                         <Video className="h-12 w-12 mx-auto" />
-                                                        <p>Simulação de Vídeo</p>
+                                                        <p>{t('diary.videoSimLabel')}</p>
                                                     </div>
                                                 </div>
                                             )}
 
                                             {entry.attachments && entry.attachments.length > 0 && (
                                                 <div className="mt-4 space-y-2">
-                                                    <p className="text-sm font-semibold">Anexos:</p>
+                                                    <p className="text-sm font-semibold">{t('diary.attachmentsLabel')}</p>
                                                     <div className="flex flex-wrap gap-2">
                                                         {entry.attachments.map((file, index) => (
                                                             <Badge key={index} variant="outline">
@@ -279,7 +307,7 @@ export default function DiaryPage() {
                                                                     </div>
                                                                     <p className="text-xs text-muted-foreground ml-auto">{comment.date}</p>
                                                                 </div>
-                                                                <p className="text-sm text-muted-foreground mt-1">{comment.text}</p>
+                                                                <p className="text-sm text-muted-foreground mt-1">{td(language, 'diaryEntries', entry.id, 'commentText', comment.text)}</p>
                                                             </div>
                                                         </div>
                                                     )
@@ -294,13 +322,13 @@ export default function DiaryPage() {
                              {goals.map((goal) => (
                                 <Card key={goal.id}>
                                     <CardHeader>
-                                        <CardTitle>{goal.title}</CardTitle>
-                                        <CardDescription>{goal.description}</CardDescription>
+                                        <CardTitle>{td(language, 'goals', goal.id, 'title', goal.title)}</CardTitle>
+                                        <CardDescription>{td(language, 'goals', goal.id, 'description', goal.description)}</CardDescription>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <div>
                                             <Label htmlFor={`progress-${goal.id}`} className="mb-2 flex justify-between">
-                                                <span>Progresso</span>
+                                                <span>{t('diary.progress')}</span>
                                                 <span className="text-primary font-semibold">{goal.progress}%</span>
                                             </Label>
                                             <Progress value={goal.progress} id={`progress-${goal.id}`} />
@@ -313,23 +341,23 @@ export default function DiaryPage() {
                                             />
                                         </div>
                                          <div className="space-y-2">
-                                            <Label>Evidências</Label>
-                                            <Textarea placeholder="Adicione notas ou links para as evidências aqui..." />
+                                            <Label>{t('diary.evidence')}</Label>
+                                            <Textarea placeholder={t('diary.evidencePlaceholder')} />
                                             <Button variant="outline" size="sm">
-                                                <Upload className="mr-2 h-4 w-4" /> Anexar Arquivo
+                                                <Upload className="mr-2 h-4 w-4" /> {t('diary.attachFile')}
                                             </Button>
                                         </div>
                                     </CardContent>
                                     <CardFooter>
-                                        <Button>Salvar Progresso da Meta</Button>
+                                        <Button>{t('diary.saveGoalProgress')}</Button>
                                     </CardFooter>
                                 </Card>
                             ))}
                             <Card className="border-dashed">
                                 <CardHeader className="text-center">
                                     <PlusCircle className="mx-auto h-8 w-8 text-muted-foreground"/>
-                                    <CardTitle className="mt-2">Adicionar Nova Meta</CardTitle>
-                                    <CardDescription>Esta funcionalidade será habilitada pelo seu gestor.</CardDescription>
+                                    <CardTitle className="mt-2">{t('diary.addNewGoal')}</CardTitle>
+                                    <CardDescription>{t('diary.addNewGoalDesc')}</CardDescription>
                                 </CardHeader>
                             </Card>
                         </TabsContent>
@@ -341,15 +369,15 @@ export default function DiaryPage() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Bot />
-                                Resumo com IA
+                                {t('diary.aiSummary')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <p className="text-muted-foreground mb-4 text-sm">
-                                Use a IA para extrair insights e analisar o sentimento das suas entradas no diário.
+                                {t('diary.aiSummaryDesc')}
                             </p>
                             <Button variant="gold" onClick={handleSummarize} className="w-full" disabled={isSummarizing}>
-                                {isSummarizing ? "Gerando..." : "Gerar Resumo"}
+                                {isSummarizing ? t('diary.generating') : t('diary.generateSummary')}
                             </Button>
 
                             {isSummarizing && (
@@ -364,14 +392,14 @@ export default function DiaryPage() {
                             {summary && (
                                 <div className="mt-6 space-y-4">
                                     <div>
-                                        <h4 className="font-semibold">Sentimento Geral: <span className="text-primary">{summary.sentiment}</span></h4>
+                                        <h4 className="font-semibold">{t('diary.overallSentiment')} <span className="text-primary">{summary.sentiment}</span></h4>
                                     </div>
                                     <div>
-                                        <h4 className="font-semibold">Resumo</h4>
+                                        <h4 className="font-semibold">{t('diary.summary')}</h4>
                                         <p className="text-sm text-muted-foreground">{summary.summary}</p>
                                     </div>
                                     <div>
-                                        <h4 className="font-semibold">Insights Chave</h4>
+                                        <h4 className="font-semibold">{t('diary.keyInsights')}</h4>
                                         <ul className="list-disc pl-5 mt-2 space-y-1 text-sm text-muted-foreground">
                                             {summary.insights.map((insight, index) => <li key={index}>{insight}</li>)}
                                         </ul>

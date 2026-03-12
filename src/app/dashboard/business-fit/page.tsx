@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { evaluateStrategicAlignment, type EvaluateStrategicAlignmentOutput } from '@/ai/flows/evaluate-strategic-alignment';
 import { Bot, Loader2, Target } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const formSchema = z.object({
     projectIdea: z.string().min(50, 'A ideia do projeto deve ter pelo menos 50 caracteres.'),
@@ -21,14 +22,15 @@ const formSchema = z.object({
 
 export default function BusinessFitPage() {
     const { toast } = useToast();
+    const { t } = useLanguage();
     const [evaluationResult, setEvaluationResult] = useState<EvaluateStrategicAlignmentOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            projectIdea: "Desenvolver um aplicativo móvel para gamificar o treinamento de novos funcionários, com quizzes, rankings e recompensas virtuais para aumentar o engajamento e a retenção de conhecimento.",
-            companyObjectives: "1. Reduzir o tempo de ramp-up de novos contratados em 20%.\n2. Aumentar a taxa de engajamento dos funcionários em 15% no primeiro trimestre.\n3. Digitalizar e modernizar os processos de RH.",
+            projectIdea: "",
+            companyObjectives: "",
         },
     });
 
@@ -39,15 +41,15 @@ export default function BusinessFitPage() {
             const result = await evaluateStrategicAlignment(values);
             setEvaluationResult(result);
             toast({
-                title: 'Avaliação Concluída!',
-                description: 'A IA analisou o alinhamento estratégico da sua ideia.',
+                title: t('toast.evaluationComplete'),
+                description: t('toast.evaluationCompleteDesc'),
             });
         } catch (error) {
             console.error('Error evaluating strategic alignment:', error);
             toast({
                 variant: 'destructive',
-                title: 'Erro na Avaliação',
-                description: 'Não foi possível se comunicar com a IA. Tente novamente mais tarde.',
+                title: t('toast.evaluationError'),
+                description: t('toast.evaluationErrorDesc'),
             });
         } finally {
             setIsLoading(false);
@@ -56,16 +58,16 @@ export default function BusinessFitPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">Auxiliar de Aderência (IA Business Fit)</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">{t('businessFit.title')}</h2>
              <p className="text-slate-200 [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
-                Avalie o alinhamento estratégico de suas ideias e projetos com os objetivos da empresa usando IA.
+                {t('businessFit.subtitle')}
             </p>
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Analisador de Alinhamento Estratégico</CardTitle>
+                        <CardTitle>{t('businessFit.analyzerTitle')}</CardTitle>
                         <CardDescription>
-                            Descreva sua ideia e os objetivos da empresa para que a IA possa fazer a análise.
+                            {t('businessFit.analyzerDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -76,10 +78,10 @@ export default function BusinessFitPage() {
                                     name="projectIdea"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Ideia do Projeto</FormLabel>
+                                            <FormLabel>{t('businessFit.projectIdea')}</FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    placeholder="Descreva sua ideia de projeto, incluindo o problema que resolve e a solução proposta..."
+                                                    placeholder={t('businessFit.projectIdeaPlaceholder')}
                                                     className="min-h-[150px]"
                                                     {...field}
                                                 />
@@ -93,10 +95,10 @@ export default function BusinessFitPage() {
                                     name="companyObjectives"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Objetivos Estratégicos da Empresa</FormLabel>
+                                            <FormLabel>{t('businessFit.companyObjectives')}</FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    placeholder="Liste os objetivos estratégicos atuais da companhia..."
+                                                    placeholder={t('businessFit.companyObjectivesPlaceholder')}
                                                     className="min-h-[150px]"
                                                     {...field}
                                                 />
@@ -111,7 +113,7 @@ export default function BusinessFitPage() {
                                     ) : (
                                         <Bot className="mr-2 h-4 w-4" />
                                     )}
-                                    {isLoading ? 'Avaliando...' : 'Avaliar Alinhamento com IA'}
+                                    {isLoading ? t('businessFit.evaluating') : t('businessFit.evaluateButton')}
                                 </Button>
                             </form>
                         </Form>
@@ -120,9 +122,9 @@ export default function BusinessFitPage() {
 
                 <Card className="flex flex-col">
                     <CardHeader>
-                        <CardTitle>Resultado da Avaliação</CardTitle>
+                        <CardTitle>{t('businessFit.resultTitle')}</CardTitle>
                         <CardDescription>
-                            A análise da IA sobre o alinhamento estratégico da sua ideia.
+                            {t('businessFit.resultDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="flex-1 flex flex-col">
@@ -135,27 +137,27 @@ export default function BusinessFitPage() {
                              <div className="space-y-6">
                                 <div>
                                     <div className="flex justify-between items-center mb-2">
-                                        <h4 className="font-semibold text-lg flex items-center gap-2"><Target className="h-5 w-5 text-primary"/> Pontuação de Alinhamento</h4>
+                                        <h4 className="font-semibold text-lg flex items-center gap-2"><Target className="h-5 w-5 text-primary"/> {t('businessFit.alignmentScore')}</h4>
                                         <span className="text-2xl font-bold text-primary">{evaluationResult.alignmentScore}%</span>
                                     </div>
                                     <Progress value={evaluationResult.alignmentScore} className="h-3" />
                                     <p className="text-xs text-muted-foreground mt-1 text-right">
-                                        {evaluationResult.alignmentScore > 80 ? 'Excelente Alinhamento' : evaluationResult.alignmentScore > 60 ? 'Bom Alinhamento' : 'Alinhamento Moderado'}
+                                        {evaluationResult.alignmentScore > 80 ? t('businessFit.excellentAlignment') : evaluationResult.alignmentScore > 60 ? t('businessFit.goodAlignment') : t('businessFit.moderateAlignment')}
                                     </p>
                                 </div>
                                 <div className="space-y-2">
-                                    <h4 className="font-semibold">Justificativa da Pontuação</h4>
+                                    <h4 className="font-semibold">{t('businessFit.scoreRationale')}</h4>
                                     <p className="text-sm text-muted-foreground whitespace-pre-wrap">{evaluationResult.alignmentRationale}</p>
                                 </div>
                                  <div className="space-y-2">
-                                    <h4 className="font-semibold">Recomendação de Priorização</h4>
+                                    <h4 className="font-semibold">{t('businessFit.prioritizationRec')}</h4>
                                     <p className="text-sm text-muted-foreground font-medium p-3 bg-muted/50 rounded-md">{evaluationResult.prioritizationRecommendation}</p>
                                 </div>
                             </div>
                         )}
                         {!isLoading && !evaluationResult && (
                             <div className="flex h-full items-center justify-center rounded-md border border-dashed">
-                                <p className="text-sm text-muted-foreground">O resultado da avaliação aparecerá aqui.</p>
+                                <p className="text-sm text-muted-foreground">{t('businessFit.resultPlaceholder')}</p>
                             </div>
                         )}
                     </CardContent>

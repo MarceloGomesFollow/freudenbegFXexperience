@@ -30,20 +30,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChevronLeft, Lightbulb, Loader2, Sparkles } from "lucide-react";
 import { challenges } from "@/lib/data";
 import { assistInnovationIdea } from "@/ai/flows/assist-innovation-idea";
-
-const formSchema = z.object({
-  challengeId: z.string().optional(),
-  title: z.string().min(10, "O título deve ter pelo menos 10 caracteres."),
-  problem: z.string().min(20, "A descrição do problema deve ter pelo menos 20 caracteres."),
-  proposal: z.string().min(20, "A descrição da proposta deve ter pelo menos 20 caracteres."),
-  impact: z.string().min(10, "Descreva o impacto esperado."),
-  effort: z.string().min(5, "Descreva o esforço estimado."),
-  attachments: z.any().optional(),
-});
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function SubmitIdeaPage() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const formSchema = z.object({
+    challengeId: z.string().optional(),
+    title: z.string().min(10, t("innovationLabs.submitIdea.titleMin")),
+    problem: z.string().min(20, t("innovationLabs.submitIdea.problemMin")),
+    proposal: z.string().min(20, t("innovationLabs.submitIdea.proposalMin")),
+    impact: z.string().min(10, t("innovationLabs.submitIdea.impactMin")),
+    effort: z.string().min(5, t("innovationLabs.submitIdea.effortMin")),
+    attachments: z.any().optional(),
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,8 +66,8 @@ export default function SubmitIdeaPage() {
     if (!watchProblem?.trim()) {
       toast({
         variant: "destructive",
-        title: "Campo Obrigatório",
-        description: "Por favor, descreva o problema antes de usar a assistência da IA.",
+        title: t("toast.fieldRequired"),
+        description: t("toast.fieldRequiredDesc"),
       });
       return;
     }
@@ -84,15 +86,15 @@ export default function SubmitIdeaPage() {
       form.setValue("effort", result.effort, { shouldValidate: true, shouldDirty: true });
 
       toast({
-        title: "IA Assistente!",
-        description: "Título, proposta, impacto e esforço foram sugeridos pela IA.",
+        title: t("toast.aiAssistant"),
+        description: t("toast.aiAssistantDesc"),
       });
     } catch (error) {
       console.error("Error generating idea suggestions:", error);
       toast({
         variant: "destructive",
-        title: "Erro na Assistência IA",
-        description: "Não foi possível gerar sugestões agora. Tente novamente em instantes.",
+        title: t("toast.aiAssistantError"),
+        description: t("toast.aiAssistantErrorDesc"),
       });
     } finally {
       setIsAiLoading(false);
@@ -102,8 +104,8 @@ export default function SubmitIdeaPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     toast({
-      title: "Ideia Submetida!",
-      description: "Sua ideia foi enviada para o desafio e está aguardando avaliação.",
+      title: t("innovationLabs.submitIdea.toastTitle"),
+      description: t("innovationLabs.submitIdea.toastDesc"),
     });
   }
 
@@ -112,32 +114,32 @@ export default function SubmitIdeaPage() {
       <Button variant="outline" asChild>
         <Link href="/dashboard/innovation-labs">
             <ChevronLeft className="mr-2 h-4 w-4" />
-            Voltar para os Desafios
+            {t("innovationLabs.submitIdea.backToChallenges")}
         </Link>
       </Button>
 
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle>Submeter Nova Ideia</CardTitle>
+          <CardTitle>{t("innovationLabs.submitIdea.formTitle")}</CardTitle>
           <CardDescription>
-            Descreva sua ideia para resolver um dos desafios abertos ou proponha uma inovação espontânea.
+            {t("innovationLabs.submitIdea.formDesc")}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="space-y-2">
-                    <h3 className="text-lg font-medium border-b pb-2">Contexto</h3>
+                    <h3 className="text-lg font-medium border-b pb-2">{t("innovationLabs.submitIdea.context")}</h3>
                     <FormField
                         control={form.control}
                         name="challengeId"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Desafio Vinculado (Opcional)</FormLabel>
+                            <FormLabel>{t("innovationLabs.submitIdea.linkedChallenge")}</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                                 <SelectTrigger>
-                                <SelectValue placeholder="Selecione um desafio..." />
+                                <SelectValue placeholder={t("innovationLabs.submitIdea.selectChallenge")} />
                                 </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -146,23 +148,23 @@ export default function SubmitIdeaPage() {
                                 ))}
                             </SelectContent>
                             </Select>
-                            <FormDescription>Associe sua ideia a um desafio existente ou deixe em branco para uma submissão espontânea.</FormDescription>
+                            <FormDescription>{t("innovationLabs.submitIdea.linkedChallengeDesc")}</FormDescription>
                             <FormMessage />
                         </FormItem>
                         )}
                     />
                 </div>
-                
+
                 <div className="space-y-4">
                     <div className="flex justify-between items-center border-b pb-2">
-                        <h3 className="text-lg font-medium">Detalhes da Ideia</h3>
+                        <h3 className="text-lg font-medium">{t("innovationLabs.submitIdea.ideaDetails")}</h3>
                         <Button type="button" variant="outline" size="sm" onClick={handleAiAssist} disabled={isAiLoading}>
                             {isAiLoading ? (
                               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             ) : (
                               <Sparkles className="mr-2 h-4 w-4" />
                             )}
-                            {isAiLoading ? "Gerando..." : "Assistente IA"}
+                            {isAiLoading ? t("innovationLabs.submitIdea.generating") : t("innovationLabs.submitIdea.aiAssistant")}
                         </Button>
                     </div>
 
@@ -171,10 +173,10 @@ export default function SubmitIdeaPage() {
                         name="problem"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>O Problema ou a Dor</FormLabel>
+                            <FormLabel>{t("innovationLabs.submitIdea.problemLabel")}</FormLabel>
                             <FormControl>
                             <Textarea
-                                placeholder="Descreva claramente qual problema, gargalo ou oportunidade você identificou."
+                                placeholder={t("innovationLabs.submitIdea.problemPlaceholder")}
                                 {...field}
                                 rows={3}
                             />
@@ -183,15 +185,15 @@ export default function SubmitIdeaPage() {
                         </FormItem>
                         )}
                     />
-                    
+
                     <FormField
                         control={form.control}
                         name="title"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Título da Ideia</FormLabel>
+                            <FormLabel>{t("innovationLabs.submitIdea.ideaTitleLabel")}</FormLabel>
                             <FormControl>
-                            <Input placeholder="Dê um nome claro e conciso para sua ideia" {...field} />
+                            <Input placeholder={t("innovationLabs.submitIdea.ideaTitlePlaceholder")} {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -203,10 +205,10 @@ export default function SubmitIdeaPage() {
                         name="proposal"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Proposta de Solução / Hipótese</FormLabel>
+                            <FormLabel>{t("innovationLabs.submitIdea.proposalLabel")}</FormLabel>
                             <FormControl>
                             <Textarea
-                                placeholder="Como você propõe resolver o problema? Qual a sua hipótese de melhoria?"
+                                placeholder={t("innovationLabs.submitIdea.proposalPlaceholder")}
                                 {...field}
                                 rows={5}
                             />
@@ -222,9 +224,9 @@ export default function SubmitIdeaPage() {
                             name="impact"
                             render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Impacto Esperado</FormLabel>
+                                <FormLabel>{t("innovationLabs.submitIdea.impactLabel")}</FormLabel>
                                 <FormControl>
-                                <Input placeholder="Qualitativo ou quantitativo (tempo, custo, qualidade)" {...field} />
+                                <Input placeholder={t("innovationLabs.submitIdea.impactPlaceholder")} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -235,9 +237,9 @@ export default function SubmitIdeaPage() {
                             name="effort"
                             render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Esforço Estimado</FormLabel>
+                                <FormLabel>{t("innovationLabs.submitIdea.effortLabel")}</FormLabel>
                                 <FormControl>
-                                <Input placeholder="Ex: 2 pessoas, 3 semanas" {...field} />
+                                <Input placeholder={t("innovationLabs.submitIdea.effortPlaceholder")} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -249,12 +251,12 @@ export default function SubmitIdeaPage() {
                         name="attachments"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Anexos (Opcional)</FormLabel>
+                            <FormLabel>{t("innovationLabs.submitIdea.attachments")}</FormLabel>
                             <FormControl>
                                 <Input type="file" disabled />
                             </FormControl>
                             <FormDescription>
-                                Você pode anexar fotos, fluxogramas ou PDFs para ilustrar sua ideia. (Simulação)
+                                {t("innovationLabs.submitIdea.attachmentsDesc")}
                             </FormDescription>
                             <FormMessage />
                             </FormItem>
@@ -265,7 +267,7 @@ export default function SubmitIdeaPage() {
                 <div className="pt-6 flex justify-end">
                     <Button type="submit" size="lg">
                         <Lightbulb className="mr-2 h-4 w-4" />
-                        Enviar Ideia para Análise
+                        {t("innovationLabs.submitIdea.submitButton")}
                     </Button>
                 </div>
             </form>

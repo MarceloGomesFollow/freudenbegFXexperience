@@ -95,13 +95,13 @@ export function RoleSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-48 justify-between text-foreground border-foreground/20 bg-foreground/5 hover:bg-foreground/10 hover:text-foreground">
+        <Button variant="outline" className="h-8 w-48 justify-between text-foreground border-foreground/20 bg-foreground/5 hover:bg-foreground/10 hover:text-foreground text-sm">
             <div className="flex items-center gap-2">
                 <SelectedIcon className="h-4 w-4 text-foreground/80" />
                 <span className="font-medium">{selectedRole.name}</span>
             </div>
           <ChevronsUpDown className="h-4 w-4 opacity-50" />
-          <span className="sr-only">Trocar de visão</span>
+          <span className="sr-only">{t('sidebar.role_switcher_label')}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-48">

@@ -46,9 +46,9 @@ export default function DashboardLayout({
   return (
     <RoleProvider>
       <SidebarProvider className="w-full" defaultMode={defaultMode}>
-          <div className="flex min-h-dvh w-full min-w-0 bg-background">
+          <div className="flex h-dvh w-full min-w-0 bg-background overflow-hidden">
               <Sidebar className="border-r">
-                  <SidebarHeader>
+                  <SidebarHeader className="p-2 pb-1">
                       <div className="flex items-center justify-between">
                           <Logo />
                       </div>
@@ -57,11 +57,18 @@ export default function DashboardLayout({
                       <SidebarNav />
                   </SidebarContent>
                   <SidebarFooter className="relative z-10">
+                      <div className="mx-3 h-px bg-gradient-to-r from-transparent via-[hsl(var(--gold)/0.2)] to-transparent" />
                       <SidebarModeSelector />
+                      <div className="mx-2 mb-2 mt-1 rounded-lg px-3 py-2 text-center" style={{ background: 'linear-gradient(135deg, hsl(var(--gold) / 0.06), transparent)' }}>
+                        <span className="text-lg font-bold tracking-tight">
+                          <span className="gold-text">FX</span>
+                          <span className="text-sidebar-foreground"> Experience</span>
+                        </span>
+                      </div>
                   </SidebarFooter>
               </Sidebar>
-              <div className="flex min-w-0 flex-1 flex-col overflow-y-auto overflow-x-auto">
-                  <header className="sticky top-0 z-30 flex h-16 items-center justify-between px-4 sm:px-6 glass border-b border-black/5 dark:border-white/5 text-foreground">
+              <div className="flex min-w-0 flex-1 flex-col">
+                  <header className="shrink-0 z-30 flex h-16 items-center justify-between px-4 sm:px-6 glass border-b border-black/5 dark:border-white/5 text-foreground">
                       <div className="flex items-center gap-2 sm:gap-4">
                           <SidebarTrigger className="touch-target" />
                           <div className="hidden sm:block">
@@ -73,7 +80,7 @@ export default function DashboardLayout({
                           <DateTime />
                           <Dialog>
                             <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="hidden sm:inline-flex glass-subtle border-0 text-foreground hover:bg-white/20 dark:hover:bg-white/10">
+                                <Button variant="outline" size="sm" className="hidden sm:inline-flex h-8 glass-subtle border-0 text-foreground hover:bg-white/20 dark:hover:bg-white/10">
                                     <LifeBuoy className="mr-2 h-4 w-4" />
                                     {t('rhSupport.button')}
                                 </Button>
@@ -124,7 +131,7 @@ export default function DashboardLayout({
                                 </div>
                             </DialogContent>
                           </Dialog>
-                          <div className="hidden sm:flex items-center gap-1">
+                          <div className="hidden sm:flex items-center gap-1 h-8">
                             <span className="text-sm font-medium text-foreground/80">{t('language')}:</span>
                             <LanguageToggle />
                           </div>
@@ -132,13 +139,13 @@ export default function DashboardLayout({
                           <UserNav />
                       </div>
                   </header>
-                  <main className={cn("flex-1 min-w-0 p-4 sm:p-6 lg:p-8 dashboard-bg")}>
+                  <main className={cn("flex-1 min-w-0 overflow-y-auto overflow-x-auto p-4 sm:p-6 lg:p-8 dashboard-bg")}>
                       {children}
                   </main>
-                  <Chatbot />
               </div>
           </div>
       </SidebarProvider>
+      <Chatbot />
     </RoleProvider>
   );
 }

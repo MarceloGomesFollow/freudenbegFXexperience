@@ -9,16 +9,20 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { kpis, diaryAdherenceData, users, recentTasks } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Activity, ArrowUpRight, BarChart, CheckCircle, Clock, Users as UsersIcon } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translateDataValue } from "@/lib/i18n-mappings";
+import { td } from "@/lib/data-translations";
 import Link from "next/link";
 import { Bar, BarChart as RechartsBarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 export default function DashboardPage() {
+    const { language, t } = useLanguage();
 
     const activeParticipants = users.filter(u => u.status === 'Ativo' && u.role === 'Participante');
 
     const chartConfig = {
         adherence: {
-            label: "Adesão",
+            label: t('executiveDashboard.adherenceLabel'),
             color: "hsl(var(--chart-2))",
         },
     };
@@ -26,47 +30,47 @@ export default function DashboardPage() {
     return (
         <div className="space-y-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Painel Executivo</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('executiveDashboard.title')}</h2>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Participantes Ativos</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('executiveDashboard.activeParticipants')}</CardTitle>
                         <UsersIcon className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{kpis.activeParticipants}</div>
-                        <p className="text-xs text-muted-foreground">+2% em relação ao mês passado</p>
+                        <p className="text-xs text-muted-foreground">{t('executiveDashboard.activeParticipantsChange')}</p>
                     </CardContent>
                 </Card>
                  <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">% Atividades Concluídas</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('executiveDashboard.completedActivities')}</CardTitle>
                         <CheckCircle className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{kpis.completionRate}%</div>
-                        <p className="text-xs text-muted-foreground">+5% em relação à semana passada</p>
+                        <p className="text-xs text-muted-foreground">{t('executiveDashboard.completedActivitiesChange')}</p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Adesão ao Diário 4.0</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('executiveDashboard.diaryAdherence')}</CardTitle>
                         <Activity className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{kpis.diaryAdherence}%</div>
-                        <p className="text-xs text-muted-foreground">Média de 4 posts/semana</p>
+                        <p className="text-xs text-muted-foreground">{t('executiveDashboard.diaryAdherenceDesc')}</p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">% Feedbacks Entregues</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t('executiveDashboard.feedbackDelivered')}</CardTitle>
                         <BarChart className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{kpis.feedbackDelivered}%</div>
-                        <p className="text-xs text-muted-foreground">SLA de 95% atingido</p>
+                        <p className="text-xs text-muted-foreground">{t('executiveDashboard.feedbackDeliveredDesc')}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -74,12 +78,12 @@ export default function DashboardPage() {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="lg:col-span-4">
                     <CardHeader>
-                        <CardTitle>Adesão ao Diário por Unidade</CardTitle>
-                        <CardDescription>Percentual de adesão nos últimos 30 dias.</CardDescription>
+                        <CardTitle>{t('executiveDashboard.diaryAdherenceByUnit')}</CardTitle>
+                        <CardDescription>{t('executiveDashboard.diaryAdherenceLast30')}</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <ChartContainer config={chartConfig} className="h-[300px] w-full">
-                            <RechartsBarChart accessibilityLayer data={diaryAdherenceData}>
+                            <RechartsBarChart accessibilityLayer data={diaryAdherenceData.map(d => ({ ...d, unit: td(language, 'analytics', 'diaryAdherenceUnits', d.unit, d.unit) }))}>
                                 <CartesianGrid vertical={false} />
                                 <XAxis
                                     dataKey="unit"
@@ -101,9 +105,9 @@ export default function DashboardPage() {
 
                 <Card className="lg:col-span-3">
                     <CardHeader>
-                        <CardTitle>Participantes Ativos</CardTitle>
+                        <CardTitle>{t('executiveDashboard.activeParticipantsList')}</CardTitle>
                         <CardDescription>
-                            Lista de participantes com status ativo no programa.
+                            {t('executiveDashboard.activeParticipantsListDesc')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -111,9 +115,9 @@ export default function DashboardPage() {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Participante</TableHead>
-                                        <TableHead className="hidden sm:table-cell">Unidade</TableHead>
-                                        <TableHead>Status</TableHead>
+                                        <TableHead>{t('executiveDashboard.tableParticipant')}</TableHead>
+                                        <TableHead className="hidden sm:table-cell">{t('executiveDashboard.tableUnit')}</TableHead>
+                                        <TableHead>{t('executiveDashboard.tableStatus')}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -133,7 +137,7 @@ export default function DashboardPage() {
                                         <TableCell className="hidden sm:table-cell">{user.unit}</TableCell>
                                         <TableCell>
                                             <Badge variant={user.status === 'Ativo' ? 'default' : 'secondary'} className={user.status === 'Ativo' ? 'bg-green-500/20 text-green-700 dark:bg-green-500/20 dark:text-green-400' : ''}>
-                                                {user.status}
+                                                {translateDataValue(user.status, t)}
                                             </Badge>
                                         </TableCell>
                                     </TableRow>
@@ -148,14 +152,14 @@ export default function DashboardPage() {
              <Card>
                 <CardHeader className="flex flex-row items-center">
                     <div className="grid gap-2">
-                        <CardTitle>Tarefas Recentes</CardTitle>
+                        <CardTitle>{t('executiveDashboard.recentTasks')}</CardTitle>
                         <CardDescription>
-                            Atividades e prazos importantes do programa.
+                            {t('executiveDashboard.recentTasksDesc')}
                         </CardDescription>
                     </div>
                     <Button asChild size="sm" className="ml-auto gap-1">
                         <Link href="#">
-                            Ver Todas
+                            {t('executiveDashboard.viewAll')}
                             <ArrowUpRight className="h-4 w-4" />
                         </Link>
                     </Button>
@@ -167,11 +171,11 @@ export default function DashboardPage() {
                                 <div className="flex items-center gap-3">
                                     {task.status === 'Concluído' ? <CheckCircle className="h-5 w-5 text-green-500"/> : <Clock className="h-5 w-5 text-yellow-500"/>}
                                     <div>
-                                        <p className="font-medium">{task.title}</p>
-                                        <p className="text-sm text-muted-foreground">{task.status}</p>
+                                        <p className="font-medium">{td(language, 'recentTasks', task.id, 'title', task.title)}</p>
+                                        <p className="text-sm text-muted-foreground">{translateDataValue(task.status, t)}</p>
                                     </div>
                                 </div>
-                                <div className="text-sm text-muted-foreground">{task.dueDate}</div>
+                                <div className="text-sm text-muted-foreground">{td(language, 'recentTasks', task.id, 'dueDate', task.dueDate)}</div>
                             </div>
                         ))}
                     </div>

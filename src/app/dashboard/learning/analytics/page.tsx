@@ -11,17 +11,23 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowUpRight, BookOpen, CheckCircle, GraduationCap, Percent, ThumbsUp, MessageSquare, Clock } from "lucide-react";
 import Link from "next/link";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { td } from "@/lib/data-translations";
 
 
 export default function LearningAnalyticsPage() {
-    const chartData = courseEngagement.sort((a, b) => b.likes - a.likes);
+    const { language, t } = useLanguage();
+    const chartData = courseEngagement.sort((a, b) => b.likes - a.likes).map(item => ({
+        ...item,
+        courseTitle: td(language, 'courseEngagement', item.courseId, 'courseTitle', item.courseTitle),
+    }));
     const chartConfig: ChartConfig = {
         likes: {
           label: "Likes",
           color: "hsl(var(--chart-1))",
         },
         comments: {
-          label: "Comentários",
+          label: t("learning.analytics.comments"),
           color: "hsl(var(--chart-2))",
         },
     };
@@ -31,48 +37,48 @@ export default function LearningAnalyticsPage() {
              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Learning Analytics</h2>
                  <p className="text-muted-foreground text-left sm:text-right">
-                    Insights sobre o engajamento e progresso no Learning Hub.
+                    {t("learning.analytics.subtitle")}
                 </p>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total de Inscrições</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t("learning.analytics.totalEnrollments")}</CardTitle>
                         <GraduationCap className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{learningAnalyticsKpis.totalEnrollments}</div>
-                        <p className="text-xs text-muted-foreground">+20 desde o último mês</p>
+                        <p className="text-xs text-muted-foreground">{t("learning.analytics.sinceLastMonth")}</p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Taxa de Conclusão</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t("learning.analytics.completionRate")}</CardTitle>
                         <CheckCircle className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{learningAnalyticsKpis.completionRate}%</div>
-                        <p className="text-xs text-muted-foreground">+5% em relação ao trimestre passado</p>
+                        <p className="text-xs text-muted-foreground">{t("learning.analytics.vsLastQuarter")}</p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Pontuação Média</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t("learning.analytics.averageScore")}</CardTitle>
                         <Percent className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{learningAnalyticsKpis.averageScore}%</div>
-                        <p className="text-xs text-muted-foreground">Média de todos os quizzes</p>
+                        <p className="text-xs text-muted-foreground">{t("learning.analytics.allQuizAvg")}</p>
                     </CardContent>
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Horas de Aprendizado</CardTitle>
+                        <CardTitle className="text-sm font-medium">{t("learning.analytics.learningHours")}</CardTitle>
                         <Clock className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold">{learningAnalyticsKpis.hoursLearned}</div>
-                        <p className="text-xs text-muted-foreground">Total de horas consumidas</p>
+                        <p className="text-xs text-muted-foreground">{t("learning.analytics.totalHoursConsumed")}</p>
                     </CardContent>
                 </Card>
             </div>
@@ -80,9 +86,9 @@ export default function LearningAnalyticsPage() {
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="lg:col-span-4">
                      <CardHeader>
-                        <CardTitle>Engajamento dos Cursos</CardTitle>
+                        <CardTitle>{t("learning.analytics.courseEngagement")}</CardTitle>
                         <CardDescription>
-                            Visualização de likes e comentários por curso.
+                            {t("learning.analytics.courseEngagementDesc")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -100,7 +106,7 @@ export default function LearningAnalyticsPage() {
                                     <YAxis />
                                     <Tooltip content={<ChartTooltipContent />} />
                                     <Bar dataKey="likes" fill="var(--color-likes)" radius={4} name="Likes" />
-                                    <Bar dataKey="comments" fill="var(--color-comments)" radius={4} name="Comentários" />
+                                    <Bar dataKey="comments" fill="var(--color-comments)" radius={4} name={t("learning.analytics.comments")} />
                                 </BarChart>
                             </ResponsiveContainer>
                        </ChartContainer>
@@ -109,9 +115,9 @@ export default function LearningAnalyticsPage() {
 
                 <Card className="lg:col-span-3">
                     <CardHeader>
-                        <CardTitle>Progresso dos Usuários</CardTitle>
+                        <CardTitle>{t("learning.analytics.userProgress")}</CardTitle>
                         <CardDescription>
-                            Acompanhe o desenvolvimento dos participantes.
+                            {t("learning.analytics.userProgressDesc")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -119,9 +125,9 @@ export default function LearningAnalyticsPage() {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Usuário</TableHead>
-                                        <TableHead>Concluídos</TableHead>
-                                        <TableHead>Em Progresso</TableHead>
+                                        <TableHead>{t("learning.analytics.user")}</TableHead>
+                                        <TableHead>{t("learning.analytics.completed")}</TableHead>
+                                        <TableHead>{t("learning.analytics.inProgress")}</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -152,16 +158,16 @@ export default function LearningAnalyticsPage() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Conteúdo em Alta</CardTitle>
+                    <CardTitle>{t("learning.analytics.trendingContent")}</CardTitle>
                     <CardDescription>
-                        Cursos e trilhas mais populares no momento.
+                        {t("learning.analytics.trendingContentDesc")}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {courseEngagement.sort((a,b) => b.likes - a.likes).slice(0, 3).map((course, index) => (
                         <Card key={course.courseId}>
                             <CardHeader>
-                                <CardTitle className="text-lg">{course.courseTitle}</CardTitle>
+                                <CardTitle className="text-lg">{td(language, 'courseEngagement', course.courseId, 'courseTitle', course.courseTitle)}</CardTitle>
                             </CardHeader>
                              <CardContent className="flex items-center justify-between text-sm text-muted-foreground">
                                 <div className="flex items-center gap-2">
@@ -170,7 +176,7 @@ export default function LearningAnalyticsPage() {
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <MessageSquare className="h-4 w-4" />
-                                    <span>{course.comments} Comentários</span>
+                                    <span>{course.comments} {t("learning.analytics.comments")}</span>
                                 </div>
                             </CardContent>
                         </Card>

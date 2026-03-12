@@ -10,8 +10,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { BookOpen, ChevronLeft, Film, HelpCircle, ChevronsRight, Youtube } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Quiz } from '@/components/quiz';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { td, translateCourse } from '@/lib/data-translations';
 
-function CourseContent({ course }: { course: Course }) {
+function CourseContent({ course: rawCourse }: { course: Course }) {
+    const { language, t } = useLanguage();
+    const course = translateCourse(language, rawCourse);
 
     const getYouTubeEmbedUrl = (url: string) => {
         if (!url) return null;
@@ -46,7 +50,7 @@ function CourseContent({ course }: { course: Course }) {
                     <Tabs defaultValue="modules">
                         <TabsList className="w-full justify-start rounded-none border-b bg-transparent p-0">
                             <TabsTrigger value="modules" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
-                                <BookOpen className="mr-2 h-4 w-4" /> Módulos
+                                <BookOpen className="mr-2 h-4 w-4" /> {t("learning.modules")}
                             </TabsTrigger>
                              <TabsTrigger value="quiz" className="relative h-10 rounded-none border-b-2 border-transparent bg-transparent px-4 pb-3 pt-2 font-semibold text-muted-foreground shadow-none transition-none focus-visible:ring-0 data-[state=active]:border-primary data-[state=active]:text-foreground data-[state=active]:shadow-none">
                                 <HelpCircle className="mr-2 h-4 w-4" /> Quiz
@@ -81,7 +85,7 @@ function CourseContent({ course }: { course: Course }) {
                                                 )}
                                                 {module.videoLink && !embedUrl && (
                                                     <a href={module.videoLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-primary hover:underline">
-                                                        <Youtube className="h-4 w-4"/> Assistir vídeo
+                                                        <Youtube className="h-4 w-4"/> {t("learning.courseDetail.watchVideo")}
                                                     </a>
                                                 )}
                                             </AccordionContent>
@@ -99,7 +103,7 @@ function CourseContent({ course }: { course: Course }) {
 
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Film /> Ideias de Vídeos</CardTitle>
+                    <CardTitle className="flex items-center gap-2"><Film /> {t("learning.courseDetail.videoIdeas")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
@@ -112,7 +116,7 @@ function CourseContent({ course }: { course: Course }) {
 
              <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
                 <CardHeader>
-                    <CardTitle>Conclusão do Curso</CardTitle>
+                    <CardTitle>{t("learning.courseDetail.courseConclusion")}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <p className="text-primary/90">{course.conclusion}</p>
@@ -124,28 +128,31 @@ function CourseContent({ course }: { course: Course }) {
 
 function LearningPathContent({ path }: { path: any }) {
     const router = useRouter();
+    const { language, t } = useLanguage();
     const pathCourses = coursesDb.filter(c => path.courses.includes(c.id));
+    const pathTitle = td(language, 'learningPaths', path.id, 'title', path.title);
+    const pathDescription = td(language, 'learningPaths', path.id, 'description', path.description);
     return (
         <>
             <div className="relative w-full h-64 rounded-lg overflow-hidden">
                 <Image
                     src={path.imageUrl}
-                    alt={path.title}
+                    alt={pathTitle}
                     fill
                     className="object-cover"
                     data-ai-hint={path.imageHint}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6">
-                    <h1 className="text-4xl font-bold text-primary-foreground">{path.title}</h1>
-                    <p className="text-lg text-primary-foreground/90 mt-2">{path.description}</p>
+                    <h1 className="text-4xl font-bold text-primary-foreground">{pathTitle}</h1>
+                    <p className="text-lg text-primary-foreground/90 mt-2">{pathDescription}</p>
                 </div>
             </div>
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Cursos na Trilha</CardTitle>
-                    <CardDescription>Cursos que compõem esta trilha de aprendizado.</CardDescription>
+                    <CardTitle>{t("learning.courseDetail.coursesInPath")}</CardTitle>
+                    <CardDescription>{t("learning.courseDetail.coursesInPathDesc")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     {pathCourses.map(course => (
@@ -157,8 +164,8 @@ function LearningPathContent({ path }: { path: any }) {
                             <div className="flex items-center gap-4">
                                 <BookOpen className="h-6 w-6 text-primary" />
                                 <div>
-                                    <h3 className="font-semibold">{course.courseTitle}</h3>
-                                    <p className="text-sm text-muted-foreground">{course.modules.length} módulos</p>
+                                    <h3 className="font-semibold">{td(language, 'courses', course.id, 'courseTitle', course.courseTitle)}</h3>
+                                    <p className="text-sm text-muted-foreground">{course.modules.length} {t("learning.courseDetail.modulesCount")}</p>
                                 </div>
                             </div>
                             <ChevronsRight className="h-5 w-5 text-muted-foreground" />
@@ -173,6 +180,7 @@ function LearningPathContent({ path }: { path: any }) {
 export default function LearningItemClient({ courseId }: { courseId: string }) {
     const course = coursesDb.find(c => c.id === courseId);
     const path = learningPathsDb.find(p => p.id === courseId);
+    const { t } = useLanguage();
 
     if (!course && !path) {
         notFound();
@@ -183,7 +191,7 @@ export default function LearningItemClient({ courseId }: { courseId: string }) {
              <Button variant="outline" asChild>
                 <Link href="/dashboard/learning">
                     <ChevronLeft className="mr-2 h-4 w-4" />
-                    Voltar para o Learning Hub
+                    {t("learning.courseDetail.backToLearningHub")}
                 </Link>
             </Button>
 

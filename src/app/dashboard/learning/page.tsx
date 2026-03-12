@@ -8,6 +8,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getLearningItems, type LearningItem } from "@/lib/data";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { td } from "@/lib/data-translations";
 
 const container = {
   hidden: { opacity: 0 },
@@ -19,13 +21,17 @@ const item_anim = {
 };
 
 export default function LearningPage() {
+    const { language, t } = useLanguage();
     const learningItems = getLearningItems();
 
     const renderItem = (item: LearningItem) => {
         const isCourse = item.type === 'course';
-        const title = isCourse ? item.courseTitle : item.title;
+        const entity = isCourse ? 'courses' : 'learningPaths';
+        const titleField = isCourse ? 'courseTitle' : 'title';
+        const rawTitle = isCourse ? item.courseTitle : item.title;
+        const title = td(language, entity, item.id, titleField, rawTitle);
         const id = item.id;
-        const description = item.description;
+        const description = td(language, entity, item.id, 'description', item.description);
         const imageUrl = item.imageUrl;
         const imageHint = item.imageHint;
         const category = item.category;
@@ -55,23 +61,23 @@ export default function LearningPage() {
                                  <>
                                     <div className="flex items-center gap-2">
                                         <BookOpen className="h-4 w-4" />
-                                        <span>{item.modules.length} Módulos</span>
+                                        <span>{item.modules.length} {t('learning.modules')}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Video className="h-4 w-4" />
-                                        <span>{item.videoIdeas.length} Vídeos</span>
+                                        <span>{item.videoIdeas.length} {t('learning.videos')}</span>
                                     </div>
                                 </>
                             ) : (
                                  <div className="flex items-center gap-2">
                                     <Network className="h-4 w-4" />
-                                    <span>{item.courses.length} Cursos</span>
+                                    <span>{item.courses.length} {t('learning.courses')}</span>
                                 </div>
                             )}
                         </div>
                        <Button className="w-full" asChild>
                             <Link href={`/dashboard/learning/${id}`}>
-                                {isCourse ? 'Começar a aprender' : 'Ver Trilha'} <ArrowRight className="ml-2 h-4 w-4" />
+                                {isCourse ? t('learning.startLearning') : t('learning.viewPath')} <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
                        </Button>
                     </CardContent>
@@ -85,17 +91,17 @@ export default function LearningPage() {
             <motion.div variants={item_anim} className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start">
                 <div>
                     <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                        <span className="gold-text">Learning</span>{" "}
-                        <span className="text-foreground">Hub</span>
+                        <span className="gold-text">{t('learning.title1')}</span>{" "}
+                        <span className="text-foreground">{t('learning.title2')}</span>
                     </h2>
                     <p className="mt-2 text-muted-foreground">
-                        Explore, aprenda e crie. Seu portal para o desenvolvimento contínuo.
+                        {t('learning.subtitle')}
                     </p>
                 </div>
                 <Button variant="gold" asChild>
                     <Link href="/dashboard/content">
                         <Zap className="mr-2 h-4 w-4" />
-                        Criar com IA
+                        {t('learning.createWithAI')}
                     </Link>
                 </Button>
             </motion.div>
@@ -105,9 +111,9 @@ export default function LearningPage() {
                  <motion.div variants={item_anim}>
                      <Card className="border-dashed flex items-center justify-center h-full">
                          <CardHeader className="text-center">
-                            <CardTitle className="text-muted-foreground">Em Breve</CardTitle>
+                            <CardTitle className="text-muted-foreground">{t('learning.comingSoon')}</CardTitle>
                             <CardDescription>
-                                Novos cursos e conteúdos gerados pela comunidade.
+                                {t('learning.comingSoonDesc')}
                             </CardDescription>
                         </CardHeader>
                     </Card>

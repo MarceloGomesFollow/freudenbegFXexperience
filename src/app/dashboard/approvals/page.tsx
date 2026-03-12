@@ -12,10 +12,13 @@ import { candidateApprovals, type CandidateApproval, type ApprovalStatus } from 
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translateDataValue } from "@/lib/i18n-mappings";
 
 export default function ApprovalsPage() {
     const [approvals, setApprovals] = useState<CandidateApproval[]>(candidateApprovals);
     const { toast } = useToast();
+    const { t } = useLanguage();
 
     const handleStatusChange = (userId: string, itemId: string, newStatus: ApprovalStatus) => {
         setApprovals(prev => prev.map(approval => {
@@ -35,8 +38,8 @@ export default function ApprovalsPage() {
         ));
         const user = approvals.find(a => a.userId === userId);
         toast({
-            title: "Candidato Aprovado!",
-            description: `${user?.userName} foi aprovado para o programa de intercâmbio.`,
+            title: t('toast.candidateApproved'),
+            description: t('toast.candidateApprovedDesc').replace('{name}', user?.userName || ''),
         });
     };
 
@@ -63,9 +66,9 @@ export default function ApprovalsPage() {
         }[status] || '';
 
         const text = {
-            'approved': 'Aprovado',
-            'rejected': 'Rejeitado',
-            'pending': 'Pendente',
+            'approved': translateDataValue('approved', t),
+            'rejected': translateDataValue('rejected', t),
+            'pending': translateDataValue('pending', t),
         }[status]
 
         // @ts-ignore
@@ -75,16 +78,16 @@ export default function ApprovalsPage() {
     return (
         <div className="space-y-8">
             <div>
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Checklist e Aprovação de Candidatos</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('approvals.title')}</h2>
                 <p className="text-muted-foreground mt-2">
-                    Acompanhe a logística e aprove os participantes para o programa de intercâmbio.
+                    {t('approvals.subtitle')}
                 </p>
             </div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Candidatos Pendentes de Aprovação</CardTitle>
+                    <CardTitle>{t('approvals.pendingTitle')}</CardTitle>
                     <CardDescription>
-                        Revise o checklist de logística e aprove a participação.
+                        {t('approvals.pendingDesc')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -92,11 +95,11 @@ export default function ApprovalsPage() {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Candidato</TableHead>
-                                    <TableHead>Status Geral</TableHead>
-                                    <TableHead className="hidden md:table-cell">Responsável</TableHead>
-                                    <TableHead className="text-center">Checklist</TableHead>
-                                    <TableHead className="text-right">Ações</TableHead>
+                                    <TableHead>{t('approvals.tableCandidate')}</TableHead>
+                                    <TableHead>{t('approvals.tableOverallStatus')}</TableHead>
+                                    <TableHead className="hidden md:table-cell">{t('approvals.tableResponsible')}</TableHead>
+                                    <TableHead className="text-center">{t('approvals.tableChecklist')}</TableHead>
+                                    <TableHead className="text-right">{t('approvals.tableActions')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -121,20 +124,20 @@ export default function ApprovalsPage() {
                                             <OverallStatusBadge status={approval.overallStatus} />
                                         </TableCell>
                                         <TableCell className="hidden md:table-cell">
-                                            <p className="font-medium">Gestor da Unidade</p>
-                                            <p className="text-xs text-muted-foreground">RH</p>
+                                            <p className="font-medium">{t('approvals.unitManager')}</p>
+                                            <p className="text-xs text-muted-foreground">{translateDataValue('RH', t)}</p>
                                         </TableCell>
                                         <TableCell className="text-center">
                                             <div className="flex items-center justify-center gap-2">
                                                 {pendingItems > 0 ? (
                                                     <>
                                                         <AlertCircle className="h-4 w-4 text-yellow-500" />
-                                                        <span className="text-sm text-muted-foreground">{pendingItems} pendente(s)</span>
+                                                        <span className="text-sm text-muted-foreground">{t('approvals.pendingCount').replace('{count}', String(pendingItems))}</span>
                                                     </>
                                                 ) : (
                                                     <>
                                                         <CheckCircle className="h-4 w-4 text-green-500" />
-                                                        <span className="text-sm text-muted-foreground">Completo</span>
+                                                        <span className="text-sm text-muted-foreground">{t('approvals.complete')}</span>
                                                     </>
                                                 )}
                                             </div>
@@ -148,10 +151,10 @@ export default function ApprovalsPage() {
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
                                                     <DropdownMenuItem disabled>
-                                                        <Eye className="mr-2 h-4 w-4" /> Ver Detalhes
+                                                        <Eye className="mr-2 h-4 w-4" /> {t('approvals.viewDetails')}
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem onClick={() => handleApproveCandidate(approval.userId)} disabled={pendingItems > 0 || approval.overallStatus === 'approved'}>
-                                                        <CheckCircle className="mr-2 h-4 w-4" /> Aprovar Candidato
+                                                        <CheckCircle className="mr-2 h-4 w-4" /> {t('approvals.approveCandidate')}
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>

@@ -33,13 +33,13 @@ export function ThemeSelector() {
           onClick={() => setTheme(id)}
           title={label}
           className={cn(
-            "h-6 w-6 rounded-full flex items-center justify-center transition-all duration-200",
+            "h-8 w-8 rounded-full flex items-center justify-center transition-all duration-200",
             activeColor === id
               ? "ring-2 ring-gold bg-gold/20 text-gold scale-110"
               : "text-foreground/50 hover:text-foreground hover:bg-white/10"
           )}
         >
-          <Icon className="h-3.5 w-3.5" />
+          <Icon className="h-4 w-4" />
         </button>
       ))}
     </div>

@@ -28,28 +28,30 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft } from "lucide-react";
-
-const formSchema = z.object({
-  requestType: z.enum(["voluntary", "manager_indication"], {
-    required_error: "Você precisa selecionar o tipo de solicitação.",
-  }),
-  fullName: z.string().min(2, "O nome completo é obrigatório."),
-  registration: z.string().min(1, "A matrícula é obrigatória."),
-  originUnit: z.string().min(2, "A unidade de origem é obrigatória."),
-  currentRole: z.string().min(2, "O cargo/função é obrigatório."),
-  companyTimeYears: z.coerce.number().min(0).optional(),
-  companyTimeMonths: z.coerce.number().min(0).max(11).optional(),
-  languages: z.string().optional(),
-  objectives: z.string().min(10, "Os objetivos devem ter pelo menos 10 caracteres."),
-  interestAreas: z.string().min(5, "A área de interesse é obrigatória."),
-  interestUnits: z.string().min(5, "A unidade de interesse é obrigatória."),
-  availability: z.string().min(5, "A disponibilidade é obrigatória."),
-  managerName: z.string().optional(),
-  indicationJustification: z.string().optional(),
-});
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function ExchangeApplicationPage() {
   const { toast } = useToast();
+  const { t } = useLanguage();
+
+  const formSchema = z.object({
+    requestType: z.enum(["voluntary", "manager_indication"], {
+      required_error: t("exchangeCenter.apply.requestTypeRequired"),
+    }),
+    fullName: z.string().min(2, t("exchangeCenter.apply.fullNameRequired")),
+    registration: z.string().min(1, t("exchangeCenter.apply.registrationRequired")),
+    originUnit: z.string().min(2, t("exchangeCenter.apply.originUnitRequired")),
+    currentRole: z.string().min(2, t("exchangeCenter.apply.currentRoleRequired")),
+    companyTimeYears: z.coerce.number().min(0).optional(),
+    companyTimeMonths: z.coerce.number().min(0).max(11).optional(),
+    languages: z.string().optional(),
+    objectives: z.string().min(10, t("exchangeCenter.apply.objectivesMin")),
+    interestAreas: z.string().min(5, t("exchangeCenter.apply.interestAreasRequired")),
+    interestUnits: z.string().min(5, t("exchangeCenter.apply.interestUnitsRequired")),
+    availability: z.string().min(5, t("exchangeCenter.apply.availabilityRequired")),
+    managerName: z.string().optional(),
+    indicationJustification: z.string().optional(),
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,8 +68,8 @@ export default function ExchangeApplicationPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     toast({
-      title: "Inscrição Enviada!",
-      description: "Sua inscrição para o intercâmbio foi enviada para aprovação.",
+      title: t("exchangeCenter.apply.toastTitle"),
+      description: t("exchangeCenter.apply.toastDesc"),
     });
   }
 
@@ -76,15 +78,15 @@ export default function ExchangeApplicationPage() {
       <Button variant="outline" asChild>
         <Link href="/dashboard/exchange-center">
             <ChevronLeft className="mr-2 h-4 w-4" />
-            Voltar para Oportunidades
+            {t("exchangeCenter.apply.backToOpportunities")}
         </Link>
       </Button>
 
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle>Formulário de Inscrição/Indicação</CardTitle>
+          <CardTitle>{t("exchangeCenter.apply.formTitle")}</CardTitle>
           <CardDescription>
-            Preencha os dados abaixo para participar do Programa de Intercâmbio Profissional.
+            {t("exchangeCenter.apply.formDesc")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -95,7 +97,7 @@ export default function ExchangeApplicationPage() {
                 name="requestType"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Tipo de Solicitação *</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.requestType")} *</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -107,7 +109,7 @@ export default function ExchangeApplicationPage() {
                             <RadioGroupItem value="voluntary" />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            Inscrição voluntária
+                            {t("exchangeCenter.apply.voluntary")}
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
@@ -115,7 +117,7 @@ export default function ExchangeApplicationPage() {
                             <RadioGroupItem value="manager_indication" />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            Indicação do Gestor
+                            {t("exchangeCenter.apply.managerIndication")}
                           </FormLabel>
                         </FormItem>
                       </RadioGroup>
@@ -125,15 +127,15 @@ export default function ExchangeApplicationPage() {
                 )}
               />
 
-              <h3 className="text-lg font-medium border-b pb-2">Dados do Colaborador</h3>
-              
+              <h3 className="text-lg font-medium border-b pb-2">{t("exchangeCenter.apply.employeeData")}</h3>
+
               <div className="grid md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="fullName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nome Completo</FormLabel>
+                      <FormLabel>{t("exchangeCenter.apply.fullName")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -146,7 +148,7 @@ export default function ExchangeApplicationPage() {
                   name="registration"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Matrícula</FormLabel>
+                      <FormLabel>{t("exchangeCenter.apply.registration")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -159,7 +161,7 @@ export default function ExchangeApplicationPage() {
                   name="originUnit"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Unidade de Origem</FormLabel>
+                      <FormLabel>{t("exchangeCenter.apply.originUnit")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -172,7 +174,7 @@ export default function ExchangeApplicationPage() {
                   name="currentRole"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Cargo/Função</FormLabel>
+                      <FormLabel>{t("exchangeCenter.apply.currentRole")}</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
@@ -184,7 +186,7 @@ export default function ExchangeApplicationPage() {
 
                <div className="grid md:grid-cols-3 gap-6 items-end">
                  <FormItem>
-                    <FormLabel>Tempo de Empresa</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.companyTime")}</FormLabel>
                     <div className="flex gap-2">
                         <FormField
                         control={form.control}
@@ -192,7 +194,7 @@ export default function ExchangeApplicationPage() {
                         render={({ field }) => (
                             <FormItem className="flex-1">
                                 <FormControl>
-                                    <Input type="number" placeholder="Anos" {...field} value={field.value ?? ''} />
+                                    <Input type="number" placeholder={t("exchangeCenter.apply.years")} {...field} value={field.value ?? ''} />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -203,7 +205,7 @@ export default function ExchangeApplicationPage() {
                         render={({ field }) => (
                             <FormItem className="flex-1">
                                 <FormControl>
-                                <Input type="number" placeholder="Meses" {...field} value={field.value ?? ''} />
+                                <Input type="number" placeholder={t("exchangeCenter.apply.months")} {...field} value={field.value ?? ''} />
                                 </FormControl>
                             </FormItem>
                         )}
@@ -216,9 +218,9 @@ export default function ExchangeApplicationPage() {
                     name="languages"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Idiomas e nível de proficiência</FormLabel>
+                        <FormLabel>{t("exchangeCenter.apply.languages")}</FormLabel>
                         <FormControl>
-                            <Input placeholder="Ex: Inglês - Avançado, Espanhol - Intermediário" {...field} />
+                            <Input placeholder={t("exchangeCenter.apply.languagesPlaceholder")} {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -232,10 +234,10 @@ export default function ExchangeApplicationPage() {
                 name="objectives"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Objetivos do Colaborador com o Programa</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.objectives")}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Descreva o que você espera aprender e como pretende aplicar o conhecimento adquirido."
+                        placeholder={t("exchangeCenter.apply.objectivesPlaceholder")}
                         {...field}
                       />
                     </FormControl>
@@ -244,15 +246,15 @@ export default function ExchangeApplicationPage() {
                 )}
               />
 
-              <h3 className="text-lg font-medium border-b pb-2">Detalhes da Vivência</h3>
+              <h3 className="text-lg font-medium border-b pb-2">{t("exchangeCenter.apply.experienceDetails")}</h3>
               <FormField
                 control={form.control}
                 name="interestAreas"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Área(s) de Interesse para Vivência</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.interestAreas")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: Inovação, Gestão de Produtos, Análise de Dados" {...field} />
+                      <Input placeholder={t("exchangeCenter.apply.interestAreasPlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -263,9 +265,9 @@ export default function ExchangeApplicationPage() {
                 name="interestUnits"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Empresa(s) / Unidade(s) de Interesse para Vivência</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.interestUnits")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: Unidade de Marketing, P&D, Unidade de Vendas B2B" {...field} />
+                      <Input placeholder={t("exchangeCenter.apply.interestUnitsPlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -276,22 +278,22 @@ export default function ExchangeApplicationPage() {
                 name="availability"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Disponibilidade de Período (2 a 4 semanas)</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.availability")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Ex: De 01/10/2024 a 30/10/2024" {...field} />
+                      <Input placeholder={t("exchangeCenter.apply.availabilityPlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <h3 className="text-lg font-medium border-b pb-2">Indicação (se aplicável)</h3>
+              <h3 className="text-lg font-medium border-b pb-2">{t("exchangeCenter.apply.indicationSection")}</h3>
                 <FormField
                 control={form.control}
                 name="managerName"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Nome do Gestor</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.managerName")}</FormLabel>
                     <FormControl>
                         <Input {...field} />
                     </FormControl>
@@ -304,9 +306,9 @@ export default function ExchangeApplicationPage() {
                 name="indicationJustification"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Justificativa da Indicação</FormLabel>
+                    <FormLabel>{t("exchangeCenter.apply.indicationJustification")}</FormLabel>
                     <FormControl>
-                        <Textarea placeholder="Descreva por que este colaborador está sendo indicado e como o intercâmbio pode beneficiar seu desenvolvimento." {...field} />
+                        <Textarea placeholder={t("exchangeCenter.apply.indicationJustificationPlaceholder")} {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -314,7 +316,7 @@ export default function ExchangeApplicationPage() {
                 />
 
                 <div className="pt-6 flex justify-end">
-                    <Button type="submit" size="lg">Enviar para Aprovação</Button>
+                    <Button type="submit" size="lg">{t("exchangeCenter.apply.submitForApproval")}</Button>
                 </div>
             </form>
           </Form>
@@ -323,5 +325,3 @@ export default function ExchangeApplicationPage() {
     </div>
   );
 }
-
-    

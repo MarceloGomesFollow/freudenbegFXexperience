@@ -14,16 +14,16 @@ import { Bot } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-const formSchema = z.object({
-    diaryEntries: z.string().min(50, 'É necessário pelo menos 50 caracteres de entradas do diário.'),
-    feedback: z.string().min(50, 'É necessário pelo menos 50 caracteres de feedback.'),
-});
-
 export default function A3ReportPage() {
     const { toast } = useToast();
     const [generatedReport, setGeneratedReport] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { language } = useLanguage();
+    const { language, t } = useLanguage();
+
+    const formSchema = z.object({
+        diaryEntries: z.string().min(50, t("reports.a3.diaryEntriesMin")),
+        feedback: z.string().min(50, t("reports.a3.feedbackMin")),
+    });
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -40,15 +40,15 @@ export default function A3ReportPage() {
             const result = await generateA3Report({...values, language});
             setGeneratedReport(result.report);
             toast({
-                title: 'Relatório A3 Gerado!',
-                description: 'O rascunho do seu relatório foi gerado com sucesso.',
+                title: t("reports.a3.toastTitle"),
+                description: t("reports.a3.toastDesc"),
             });
         } catch (error) {
             console.error('Error generating A3 report:', error);
             toast({
                 variant: 'destructive',
-                title: 'Erro ao Gerar Relatório',
-                description: 'Não foi possível se comunicar com a IA. Tente novamente mais tarde.',
+                title: t("toast.reportError"),
+                description: t("toast.reportErrorDesc"),
             });
         } finally {
             setIsLoading(false);
@@ -57,13 +57,13 @@ export default function A3ReportPage() {
 
     return (
         <div className="space-y-8">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Gerador de Relatório A3</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("reports.a3Generator")}</h2>
             <div className="grid gap-8 md:grid-cols-2">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Dados de Entrada</CardTitle>
+                        <CardTitle>{t("reports.a3.inputData")}</CardTitle>
                         <CardDescription>
-                            Forneça o conteúdo do diário e os feedbacks para a IA gerar o relatório.
+                            {t("reports.a3.inputDataDesc")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -74,10 +74,10 @@ export default function A3ReportPage() {
                                     name="diaryEntries"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Entradas do Diário (Resumo)</FormLabel>
+                                            <FormLabel>{t("reports.a3.diaryEntriesLabel")}</FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    placeholder="Cole aqui um resumo das suas entradas do diário..."
+                                                    placeholder={t("reports.a3.diaryEntriesPlaceholder")}
                                                     className="min-h-[150px] resize-none"
                                                     {...field}
                                                 />
@@ -91,10 +91,10 @@ export default function A3ReportPage() {
                                     name="feedback"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Feedbacks Recebidos (Resumo)</FormLabel>
+                                            <FormLabel>{t("reports.a3.feedbackLabel")}</FormLabel>
                                             <FormControl>
                                                 <Textarea
-                                                    placeholder="Cole aqui um resumo dos feedbacks recebidos..."
+                                                    placeholder={t("reports.a3.feedbackPlaceholder")}
                                                     className="min-h-[150px] resize-none"
                                                     {...field}
                                                 />
@@ -105,7 +105,7 @@ export default function A3ReportPage() {
                                 />
                                 <Button type="submit" className="w-full" disabled={isLoading}>
                                     <Bot className="mr-2 h-4 w-4" />
-                                    {isLoading ? 'Gerando...' : 'Gerar Rascunho com IA'}
+                                    {isLoading ? t("reports.a3.generating") : t("reports.a3.generateDraft")}
                                 </Button>
                             </form>
                         </Form>
@@ -114,9 +114,9 @@ export default function A3ReportPage() {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Rascunho do Relatório A3</CardTitle>
+                        <CardTitle>{t("reports.a3.draftTitle")}</CardTitle>
                         <CardDescription>
-                            O resultado gerado pela IA aparecerá aqui. Revise e edite conforme necessário.
+                            {t("reports.a3.draftDesc")}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -137,7 +137,7 @@ export default function A3ReportPage() {
                         )}
                         {!isLoading && !generatedReport && (
                             <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed">
-                                <p className="text-sm text-muted-foreground">O relatório aparecerá aqui.</p>
+                                <p className="text-sm text-muted-foreground">{t("reports.a3.reportPlaceholder")}</p>
                             </div>
                         )}
                     </CardContent>

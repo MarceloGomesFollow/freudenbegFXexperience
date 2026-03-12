@@ -282,6 +282,83 @@ export const diaryEntries: DiaryEntry[] = [
     content: 'Participei de um workshop sobre growth hacking. O whiteboard ficou cheio de ideias. Segue a foto para registrar o momento de brainstorming intenso!',
     comments: [],
   },
+  {
+    id: 'entry3',
+    user: { name: 'Eduarda Lima', avatar: 'user-avatar-5', unit: 'SurTec Brasil' },
+    date: '1 semana atrás',
+    type: 'text',
+    content: 'Finalizei minha primeira semana na unidade receptora. A equipe de P&D me recebeu muito bem e já participei de duas reuniões técnicas sobre formulação de novos produtos. Estou impressionada com o nível de inovação aqui.',
+    comments: [
+      {
+        user: { name: 'Gabriela Ramos', avatar: 'user-avatar-7', unit: 'FRCC SA (RH)' },
+        text: 'Que bom saber que a adaptação está sendo positiva! Continue registrando suas impressões.',
+        date: '6 dias atrás',
+      },
+    ],
+  },
+  {
+    id: 'entry4',
+    user: { name: 'Ana Silva', avatar: 'user-avatar-1', unit: 'Freudenberg-NOK' },
+    date: '1 semana atrás',
+    type: 'video',
+    content: 'Gravei um vídeo resumindo as principais lições aprendidas no workshop de Lean Manufacturing que participei esta semana. A metodologia 5S realmente pode ser aplicada no nosso projeto de onboarding digital!',
+    comments: [
+      {
+        user: { name: 'Fábio Pereira', avatar: 'user-avatar-6', unit: 'Klüber Lubrication (Mentor)' },
+        text: 'Excelente conexão entre Lean e o projeto digital. Vamos explorar isso na próxima sessão de mentoria.',
+        date: '6 dias atrás',
+      },
+      {
+        user: { name: 'Bruno Costa', avatar: 'user-avatar-2', unit: 'EagleBurgmann Brasil' },
+        text: 'Muito legal o vídeo! Tive insights parecidos quando visitei a linha de produção aqui.',
+        date: '5 dias atrás',
+      },
+    ],
+  },
+  {
+    id: 'entry5',
+    user: { name: 'Bruno Costa', avatar: 'user-avatar-2', unit: 'EagleBurgmann Brasil' },
+    date: '2 semanas atrás',
+    type: 'text',
+    content: 'Hoje tive uma reunião com o time de vendas da unidade receptora e percebi como a abordagem consultiva deles é diferente do que praticamos na minha unidade de origem. Eles usam um framework de discovery muito estruturado que quero levar de volta para implementar na nossa equipe.',
+    comments: [],
+  },
+  {
+    id: 'entry6',
+    user: { name: 'Carla Dias', avatar: 'user-avatar-3', unit: 'Chem-Trend Brasil' },
+    date: '2 semanas atrás',
+    type: 'image',
+    content: 'Participei do evento FreudTalks sobre sustentabilidade e ESG no grupo Freudenberg. Foto do painel de discussão com representantes de 4 empresas do grupo. Muito inspirador ver o compromisso com práticas sustentáveis em toda a cadeia.',
+    comments: [
+      {
+        user: { name: 'Heitor Oliveira', avatar: 'user-avatar-8', unit: 'Freudenberg Filtration' },
+        text: 'Pena que não pude participar! Poderia compartilhar os slides se tiver acesso?',
+        date: '12 dias atrás',
+      },
+    ],
+  },
+  {
+    id: 'entry7',
+    user: { name: 'Heitor Oliveira', avatar: 'user-avatar-8', unit: 'Freudenberg Filtration Technologies Brasil' },
+    date: '3 semanas atrás',
+    type: 'text',
+    content: 'Comecei a mapear os processos de compras na Klüber e identifiquei 3 oportunidades de redução de custos que somam aproximadamente R$ 45.000/ano. Vou preparar uma proposta formal para apresentar na próxima reunião com meu mentor.',
+    comments: [
+      {
+        user: { name: 'Fábio Pereira', avatar: 'user-avatar-6', unit: 'Klüber Lubrication (Mentor)' },
+        text: 'Números impressionantes, Heitor! Vamos trabalhar juntos na proposta para garantir que os dados estejam sólidos.',
+        date: '20 dias atrás',
+      },
+    ],
+  },
+  {
+    id: 'entry8',
+    user: { name: 'Daniel Alves', avatar: 'user-avatar-4', unit: 'Trelleborg Vibracoustic Brasil' },
+    date: '3 semanas atrás',
+    type: 'text',
+    content: 'Reflexão sobre o primeiro mês no programa: a maior lição até agora foi entender que cada empresa do grupo tem sua própria cultura, mesmo compartilhando os valores Freudenberg. Aprender a navegar essas diferenças está sendo um desafio enriquecedor.',
+    comments: [],
+  },
 ];
 
 export const userGoals: Goal[] = [
@@ -300,6 +377,50 @@ export const userGoals: Goal[] = [
         id: 'goal-2',
         title: 'Apresentar Projeto para Diretoria',
         description: 'Preparar e realizar a apresentação do projeto de onboarding para a diretoria, buscando aprovação para o piloto.',
+        status: 'Não Iniciado',
+        progress: 0,
+        evidence: {
+            notes: '',
+            files: [],
+        },
+    },
+    {
+        id: 'goal-3',
+        title: 'Completar Trilha de Liderança Situacional',
+        description: 'Finalizar todos os módulos da trilha de Liderança Situacional no Learning Hub e obter nota mínima de 85% no quiz final.',
+        status: 'Em Andamento',
+        progress: 65,
+        evidence: {
+            notes: 'Módulos 1 a 4 concluídos. Falta o módulo 5 e 6 + quiz.',
+            files: ['certificado_modulo4.pdf'],
+        },
+    },
+    {
+        id: 'goal-4',
+        title: 'Implementar Melhoria de Processo',
+        description: 'Identificar e implementar pelo menos uma melhoria de processo na unidade receptora, documentando resultados mensuráveis.',
+        status: 'Em Andamento',
+        progress: 30,
+        evidence: {
+            notes: 'Mapeamento de processos concluído. Proposta em elaboração.',
+            files: ['mapeamento_processos.xlsx'],
+        },
+    },
+    {
+        id: 'goal-5',
+        title: 'Participar de 3 Eventos FreudTalks',
+        description: 'Participar ativamente de pelo menos 3 eventos FreudTalks durante o período do programa como forma de networking e aprendizado.',
+        status: 'Concluído',
+        progress: 100,
+        evidence: {
+            notes: 'Participou dos eventos de Inovação (Jan), ESG (Fev) e Liderança (Mar).',
+            files: ['certificado_freudtalks_1.pdf', 'certificado_freudtalks_2.pdf', 'certificado_freudtalks_3.pdf'],
+        },
+    },
+    {
+        id: 'goal-6',
+        title: 'Criar Playbook de Boas Práticas',
+        description: 'Documentar as melhores práticas aprendidas durante o intercâmbio em um playbook que possa ser utilizado por futuros participantes.',
         status: 'Não Iniciado',
         progress: 0,
         evidence: {
@@ -363,6 +484,46 @@ export const exchangeOpportunities: ExchangeOpportunity[] = [
         duration: '4 semanas',
         location: 'Remoto/Híbrido'
     },
+    {
+        id: 'quality-audit',
+        title: 'Auditor de Qualidade Interno',
+        company: 'Freudenberg-NOK',
+        department: 'Qualidade',
+        description: 'Participe de auditorias internas de qualidade ISO 9001 e IATF 16949, aprendendo metodologias de auditoria e contribuindo para a melhoria contínua dos processos.',
+        skills: ['ISO 9001', 'IATF 16949', 'Auditoria Interna', 'Análise de Não-Conformidades'],
+        duration: '3 semanas',
+        location: 'Diadema – SP'
+    },
+    {
+        id: 'esg-sustainability',
+        title: 'Analista de Sustentabilidade e ESG',
+        company: 'FRCC SA (escritório regional Freudenberg)',
+        department: 'Sustentabilidade',
+        description: 'Contribua para os projetos de ESG do grupo, incluindo relatórios de sustentabilidade, métricas de pegada de carbono e iniciativas de economia circular.',
+        skills: ['ESG', 'Relatórios GRI', 'Pegada de Carbono', 'Economia Circular'],
+        duration: '4 semanas',
+        location: 'Alphaville (Barueri) – SP'
+    },
+    {
+        id: 'maintenance-reliability',
+        title: 'Engenheiro de Confiabilidade',
+        company: 'EagleBurgmann Brasil',
+        department: 'Manutenção',
+        description: 'Atue no time de manutenção preditiva e confiabilidade, utilizando análise de dados e IoT para otimizar a disponibilidade de equipamentos industriais.',
+        skills: ['Manutenção Preditiva', 'IoT Industrial', 'Análise de Vibração', 'FMEA'],
+        duration: '4 semanas',
+        location: 'Campinas – SP'
+    },
+    {
+        id: 'hr-talent-dev',
+        title: 'Especialista em Desenvolvimento de Talentos',
+        company: 'Klüber Lubrication Brasil',
+        department: 'Recursos Humanos',
+        description: 'Apoie a implementação de programas de desenvolvimento de talentos, incluindo avaliação de competências, planos de desenvolvimento individual e programas de sucessão.',
+        skills: ['Gestão de Talentos', 'Assessment', 'PDI', 'Programas de Sucessão'],
+        duration: '3 semanas',
+        location: 'São Paulo (SP)'
+    },
 ];
 
 export const adminKpis = {
@@ -384,6 +545,15 @@ export const transfers: Transfer[] = [
     { id: 't1', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Empresa A', fromDepartment: 'Tecnologia', toCompany: 'Empresa B', toDepartment: 'Inovação', startDate: '2025-01-20', endDate: '2025-06-30', status: 'Em Andamento' },
     { id: 't2', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'Empresa A', fromDepartment: 'Marketing', toCompany: 'Empresa A', toDepartment: 'Vendas', startDate: '2025-03-15', endDate: '2025-04-15', status: 'Concluído' },
     { id: 't3', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'Empresa B', fromDepartment: 'Tecnologia', toCompany: 'Empresa A', toDepartment: 'P&D', startDate: '2025-07-01', endDate: '2025-07-31', status: 'Agendado' },
+    { id: 't4', userName: 'Carla Dias', userAvatar: 'user-avatar-3', fromCompany: 'Chem-Trend Brasil', fromDepartment: 'Qualidade', toCompany: 'Freudenberg-NOK', toDepartment: 'Engenharia de Processos', startDate: '2025-02-01', endDate: '2025-03-01', status: 'Concluído' },
+    { id: 't5', userName: 'Daniel Alves', userAvatar: 'user-avatar-4', fromCompany: 'Trelleborg Vibracoustic Brasil', fromDepartment: 'Produção', toCompany: 'EagleBurgmann Brasil', toDepartment: 'Manutenção Industrial', startDate: '2025-04-01', endDate: '2025-05-15', status: 'Concluído' },
+    { id: 't6', userName: 'Heitor Oliveira', userAvatar: 'user-avatar-8', fromCompany: 'Freudenberg Filtration Technologies Brasil', fromDepartment: 'Compras', toCompany: 'Klüber Lubrication Brasil', toDepartment: 'Logística', startDate: '2025-05-10', endDate: '2025-06-10', status: 'Em Andamento' },
+    { id: 't7', userName: 'Gabriela Ramos', userAvatar: 'user-avatar-7', fromCompany: 'FRCC SA (escritório regional Freudenberg)', fromDepartment: 'RH', toCompany: 'SurTec Brasil', toDepartment: 'RH', startDate: '2025-03-01', endDate: '2025-03-28', status: 'Concluído' },
+    { id: 't8', userName: 'Fábio Pereira', userAvatar: 'user-avatar-6', fromCompany: 'Klüber Lubrication Brasil', fromDepartment: 'P&D', toCompany: 'Chem-Trend Brasil', toDepartment: 'Laboratório', startDate: '2025-06-01', endDate: '2025-07-15', status: 'Em Andamento' },
+    { id: 't9', userName: 'Ana Silva', userAvatar: 'user-avatar-1', fromCompany: 'Freudenberg-NOK', fromDepartment: 'Tecnologia', toCompany: 'Freudenberg Performance Materials Brasil', toDepartment: 'Inovação Digital', startDate: '2025-08-01', endDate: '2025-09-30', status: 'Agendado' },
+    { id: 't10', userName: 'Bruno Costa', userAvatar: 'user-avatar-2', fromCompany: 'EagleBurgmann Brasil', fromDepartment: 'Marketing', toCompany: 'FRCC SA (escritório regional Freudenberg)', toDepartment: 'Comunicação Corporativa', startDate: '2025-09-01', endDate: '2025-10-01', status: 'Agendado' },
+    { id: 't11', userName: 'Eduarda Lima', userAvatar: 'user-avatar-5', fromCompany: 'SurTec Brasil', fromDepartment: 'Pesquisa', toCompany: 'Freudenberg Filtration Technologies Brasil', toDepartment: 'Desenvolvimento de Produto', startDate: '2025-04-15', endDate: '2025-05-30', status: 'Concluído' },
+    { id: 't12', userName: 'Carla Dias', userAvatar: 'user-avatar-3', fromCompany: 'Freudenberg-NOK', fromDepartment: 'Engenharia', toCompany: 'Trelleborg Vibracoustic Brasil', toDepartment: 'Qualidade', startDate: '2025-10-01', endDate: '2025-11-15', status: 'Agendado' },
 ];
 
 
@@ -440,6 +610,62 @@ export const candidateApprovals: CandidateApproval[] = [
             { ...checklistTemplate[8], status: 'pending' },
             { ...checklistTemplate[9], status: 'pending' },
             { ...checklistTemplate[10], status: 'pending' },
+        ],
+    },
+    {
+        userId: 'u1',
+        userName: 'Ana Silva',
+        userAvatar: 'user-avatar-1',
+        unit: 'Freudenberg-NOK',
+        overallStatus: 'approved',
+        checklist: checklistTemplate.map(item => ({ ...item, status: 'approved' as ApprovalStatus })),
+    },
+    {
+        userId: 'u2',
+        userName: 'Bruno Costa',
+        userAvatar: 'user-avatar-2',
+        unit: 'EagleBurgmann Brasil',
+        overallStatus: 'pending',
+        checklist: [
+            { ...checklistTemplate[0], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[1], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[2], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[3], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[4], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[5], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[6], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[7], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[8], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[9], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[10], status: 'pending' as ApprovalStatus },
+        ],
+    },
+    {
+        userId: 'u5',
+        userName: 'Eduarda Lima',
+        userAvatar: 'user-avatar-5',
+        unit: 'SurTec Brasil',
+        overallStatus: 'approved',
+        checklist: checklistTemplate.map(item => ({ ...item, status: 'approved' as ApprovalStatus })),
+    },
+    {
+        userId: 'u4',
+        userName: 'Daniel Alves',
+        userAvatar: 'user-avatar-4',
+        unit: 'Trelleborg Vibracoustic Brasil',
+        overallStatus: 'rejected',
+        checklist: [
+            { ...checklistTemplate[0], status: 'approved' as ApprovalStatus },
+            { ...checklistTemplate[1], status: 'rejected' as ApprovalStatus },
+            { ...checklistTemplate[2], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[3], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[4], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[5], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[6], status: 'rejected' as ApprovalStatus },
+            { ...checklistTemplate[7], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[8], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[9], status: 'pending' as ApprovalStatus },
+            { ...checklistTemplate[10], status: 'pending' as ApprovalStatus },
         ],
     },
 ];
@@ -695,7 +921,43 @@ export const challenges: Challenge[] = [
         imageUrl: 'https://picsum.photos/seed/factory-line/600/400',
         imageHint: 'factory production line',
         ideaCount: 5,
-    }
+    },
+    {
+        id: 'challenge-03',
+        title: 'Digitalizar Relatórios de Qualidade',
+        description: 'Os relatórios de qualidade ainda são preenchidos manualmente em papel. Buscamos soluções para digitalizar este processo, reduzindo erros e aumentando a rastreabilidade.',
+        targetMetrics: 'Eliminação de 100% dos formulários em papel; Redução de 30% no tempo de preenchimento.',
+        deadline: '15/12/2024',
+        responsible: 'Qualidade',
+        status: 'Aberto',
+        imageUrl: 'https://picsum.photos/seed/quality-digital/600/400',
+        imageHint: 'digital quality report tablet',
+        ideaCount: 4,
+    },
+    {
+        id: 'challenge-04',
+        title: 'Reduzir Consumo Energético na Planta',
+        description: 'Nosso consumo energético aumentou 12% no último ano. Precisamos de ideias criativas para reduzir o consumo sem impactar a produtividade.',
+        targetMetrics: 'Redução de 15% no consumo energético; ROI positivo em 12 meses.',
+        deadline: '28/02/2025',
+        responsible: 'Engenharia',
+        status: 'Aberto',
+        imageUrl: 'https://picsum.photos/seed/energy-saving/600/400',
+        imageHint: 'solar panels factory roof',
+        ideaCount: 7,
+    },
+    {
+        id: 'challenge-05',
+        title: 'Melhorar Integração entre Unidades do Grupo',
+        description: 'Promover maior sinergia e troca de conhecimento entre as diferentes empresas do grupo Freudenberg no Brasil, criando mecanismos de colaboração eficazes.',
+        targetMetrics: 'Aumento de 25% em projetos cross-company; 80% de satisfação em pesquisa de integração.',
+        deadline: '30/06/2025',
+        responsible: 'RH Corporativo',
+        status: 'Em avaliação',
+        imageUrl: 'https://picsum.photos/seed/team-integration/600/400',
+        imageHint: 'diverse team collaboration meeting',
+        ideaCount: 3,
+    },
 ];
 
 const calculateIceScore = (i: number, c: number, e: number, sa: number) => {

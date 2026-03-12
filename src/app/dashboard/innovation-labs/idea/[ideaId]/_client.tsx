@@ -22,6 +22,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { useLanguage } from '@/contexts/LanguageContext';
+import { td, translateSprint } from '@/lib/data-translations';
 
 
 const StatusBadge = ({ status }: { status: Idea['status'] }) => {
@@ -51,11 +53,12 @@ const StatusBadge = ({ status }: { status: Idea['status'] }) => {
 }
 
 const SprintTimeline = ({ sprint }: { sprint: any }) => {
+    const { t } = useLanguage();
     const stages = [
-        { name: 'Planejamento', status: ['Planejamento', 'Execução', 'Análise', 'Encerrado'].includes(sprint.status) ? 'complete' : 'incomplete', icon: <GanttChart /> },
-        { name: 'Execução', status: ['Execução', 'Análise', 'Encerrado'].includes(sprint.status) ? 'complete' : 'incomplete', icon: <Play /> },
-        { name: 'Análise', status: ['Análise', 'Encerrado'].includes(sprint.status) ? 'complete' : 'incomplete', icon: <Goal /> },
-        { name: 'Encerramento', status: sprint.status === 'Encerrado' ? 'complete' : 'incomplete', icon: <Flag /> },
+        { name: t("innovationLabs.ideaDetail.sprintPlanning"), status: ['Planejamento', 'Execução', 'Análise', 'Encerrado'].includes(sprint.status) ? 'complete' : 'incomplete', icon: <GanttChart /> },
+        { name: t("innovationLabs.ideaDetail.sprintExecution"), status: ['Execução', 'Análise', 'Encerrado'].includes(sprint.status) ? 'complete' : 'incomplete', icon: <Play /> },
+        { name: t("innovationLabs.ideaDetail.sprintAnalysis"), status: ['Análise', 'Encerrado'].includes(sprint.status) ? 'complete' : 'incomplete', icon: <Goal /> },
+        { name: t("innovationLabs.ideaDetail.sprintClosure"), status: sprint.status === 'Encerrado' ? 'complete' : 'incomplete', icon: <Flag /> },
     ];
 
     return (
@@ -83,6 +86,7 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
     const idea = ideas.find(i => i.id === ideaId) as (Idea & { iceScore?: number }) | undefined;
     const sprint = sprints[ideaId];
     const { toast } = useToast();
+    const { language, t } = useLanguage();
 
     const { selectedRole } = useRole();
     const isCommittee = ['admin', 'manager', 'mentor'].includes(selectedRole.id);
@@ -93,11 +97,12 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
     const userAvatar = PlaceHolderImages.find(p => p.id === idea.author.avatar);
     const mentor = users.find(u => u.role === 'Mentor');
     const mentorAvatar = PlaceHolderImages.find(p => p.id === mentor?.avatar);
+    const translatedSprint = sprint ? translateSprint(language, sprint) : undefined;
 
     const handleStartSprint = () => {
         toast({
-            title: "Sprint Iniciado!",
-            description: `O sprint para a ideia "${idea.title}" foi configurado e iniciado.`,
+            title: t("innovationLabs.ideaDetail.sprintStarted"),
+            description: t("innovationLabs.ideaDetail.sprintStartedDesc").replace("{title}", idea.title),
         })
     }
 
@@ -106,7 +111,7 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
             <Button variant="outline" asChild>
                 <Link href={`/dashboard/innovation-labs/${idea.challengeId}`}>
                     <ChevronLeft className="mr-2 h-4 w-4" />
-                    Voltar para o Desafio
+                    {t("innovationLabs.ideaDetail.backToChallenge")}
                 </Link>
             </Button>
 
@@ -118,10 +123,10 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                             <div className="flex justify-between items-start">
                                 <StatusBadge status={idea.status} />
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <ThumbsUp className="h-4 w-4" /> {idea.votes} Votos
+                                    <ThumbsUp className="h-4 w-4" /> {idea.votes} {t("innovationLabs.ideaDetail.votes")}
                                 </div>
                             </div>
-                            <CardTitle className="text-3xl pt-4">{idea.title}</CardTitle>
+                            <CardTitle className="text-3xl pt-4">{td(language, 'ideas', idea.id, 'title', idea.title)}</CardTitle>
                             <CardDescription className="flex items-center gap-2 !mt-4">
                                 <Avatar className="h-8 w-8">
                                     {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={idea.author.name} />}
@@ -135,12 +140,12 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                         </CardHeader>
                         <CardContent className="space-y-6">
                             <div>
-                                <h3 className="font-semibold mb-2">Problema</h3>
-                                <p className="text-muted-foreground">{idea.problem}</p>
+                                <h3 className="font-semibold mb-2">{t("innovationLabs.ideaDetail.problem")}</h3>
+                                <p className="text-muted-foreground">{td(language, 'ideas', idea.id, 'problem', idea.problem)}</p>
                             </div>
                              <div>
-                                <h3 className="font-semibold mb-2">Proposta / Hipótese</h3>
-                                <p className="text-muted-foreground">{idea.proposal}</p>
+                                <h3 className="font-semibold mb-2">{t("innovationLabs.ideaDetail.proposalHypothesis")}</h3>
+                                <p className="text-muted-foreground">{td(language, 'ideas', idea.id, 'proposal', idea.proposal)}</p>
                             </div>
                         </CardContent>
                     </Card>
@@ -148,26 +153,26 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                     {sprint && (
                         <Card>
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2"><Milestone /> Sprint de Experimentação</CardTitle>
-                                <CardDescription>Acompanhe o progresso do sprint para validar esta ideia.</CardDescription>
+                                <CardTitle className="flex items-center gap-2"><Milestone /> {t("innovationLabs.ideaDetail.experimentSprint")}</CardTitle>
+                                <CardDescription>{t("innovationLabs.ideaDetail.experimentSprintDesc")}</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-6">
                                 <SprintTimeline sprint={sprint} />
                                 <Separator />
                                 <div className="grid md:grid-cols-2 gap-6 text-sm">
                                     <div className="space-y-1">
-                                        <h4 className="font-semibold">Hipótese</h4>
-                                        <p className="text-muted-foreground">{sprint.hypothesis}</p>
+                                        <h4 className="font-semibold">{t("innovationLabs.ideaDetail.hypothesis")}</h4>
+                                        <p className="text-muted-foreground">{translatedSprint!.hypothesis}</p>
                                     </div>
                                     <div className="space-y-1">
-                                        <h4 className="font-semibold">Critérios de Sucesso</h4>
-                                        <p className="text-muted-foreground">{sprint.successCriteria}</p>
+                                        <h4 className="font-semibold">{t("innovationLabs.ideaDetail.successCriteria")}</h4>
+                                        <p className="text-muted-foreground">{translatedSprint!.successCriteria}</p>
                                     </div>
                                 </div>
                                 <div>
                                     <h4 className="font-semibold mb-2">Check-ins</h4>
                                     <div className="space-y-4">
-                                        {sprint.checkIns.map((checkin: any, index: number) => (
+                                        {translatedSprint!.checkIns.map((checkin: any, index: number) => (
                                             <div key={index} className="flex gap-3">
                                                 <Circle className="h-4 w-4 text-primary mt-1" fill="currentColor"/>
                                                 <div>
@@ -182,11 +187,11 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                              <CardFooter>
                                 {sprint.result === 'Validado' ? (
                                     <div className="w-full flex flex-col sm:flex-row gap-2">
-                                        <Button variant="secondary" className="w-full"><BookCopy className="mr-2"/> Ver Playbook</Button>
-                                        <Button className="w-full"><Zap className="mr-2"/> Iniciar Escala</Button>
+                                        <Button variant="secondary" className="w-full"><BookCopy className="mr-2"/> {t("innovationLabs.ideaDetail.viewPlaybook")}</Button>
+                                        <Button className="w-full"><Zap className="mr-2"/> {t("innovationLabs.ideaDetail.startScaling")}</Button>
                                     </div>
                                 ) : (
-                                    <Button disabled className="w-full">Marcar Sprint como Concluído</Button>
+                                    <Button disabled className="w-full">{t("innovationLabs.ideaDetail.markSprintComplete")}</Button>
                                 )}
                             </CardFooter>
                         </Card>
@@ -195,17 +200,17 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                      {idea.status === 'Validada' && (
                         <Card className="bg-green-500/10 border-green-500/20">
                             <CardHeader>
-                                <CardTitle className="text-green-700 dark:text-green-400 flex items-center gap-2"><Trophy /> Ideia Validada!</CardTitle>
+                                <CardTitle className="text-green-700 dark:text-green-400 flex items-center gap-2"><Trophy /> {t("innovationLabs.ideaDetail.ideaValidated")}</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <p className="text-green-800 dark:text-green-300">Esta ideia foi validada com sucesso no sprint de experimentação. Agora está disponível no Catálogo de Boas Práticas.</p>
+                                <p className="text-green-800 dark:text-green-300">{t("innovationLabs.ideaDetail.ideaValidatedDesc")}</p>
                                 <div className="flex gap-2">
                                 <Button variant="secondary" asChild>
                                     <Link href="/dashboard/innovation-labs/catalog">
-                                        <BookCopy className="mr-2"/> Ver Playbook
+                                        <BookCopy className="mr-2"/> {t("innovationLabs.ideaDetail.viewPlaybook")}
                                     </Link>
                                 </Button>
-                                {isCommittee && <Button><Zap className="mr-2"/> Iniciar Processo de Escala</Button>}
+                                {isCommittee && <Button><Zap className="mr-2"/> {t("innovationLabs.ideaDetail.startScalingProcess")}</Button>}
                                 </div>
                             </CardContent>
                         </Card>
@@ -217,31 +222,31 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                 <div className="lg:col-span-1 space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><Scaling /> Pontuação da Ideia</CardTitle>
+                            <CardTitle className="flex items-center gap-2"><Scaling /> {t("innovationLabs.ideaDetail.ideaScore")}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                              <div className="flex justify-between items-center">
-                                <h4 className="font-semibold text-lg">Pontuação ICE</h4>
+                                <h4 className="font-semibold text-lg">{t("innovationLabs.ideaDetail.iceScore")}</h4>
                                 <span className="text-2xl font-bold text-primary">{idea.iceScore}</span>
                             </div>
                             <Progress value={idea.iceScore || 0} className="h-2" />
                             <div className="text-xs text-muted-foreground space-y-2 pt-2">
-                                <p><strong>Impacto:</strong> {idea.impact}/10</p>
-                                <p><strong>Confiança:</strong> {idea.confidence}/10</p>
-                                <p><strong>Esforço:</strong> {idea.effort}/10 (menor é melhor)</p>
-                                <p><strong>Alinhamento:</strong> {idea.strategicAlignment}/10</p>
+                                <p><strong>{t("innovationLabs.ideaDetail.impact")}:</strong> {idea.impact}/10</p>
+                                <p><strong>{t("innovationLabs.ideaDetail.confidence")}:</strong> {idea.confidence}/10</p>
+                                <p><strong>{t("innovationLabs.ideaDetail.effort")}:</strong> {idea.effort}/10 ({t("innovationLabs.ideaDetail.lowerIsBetter")})</p>
+                                <p><strong>{t("innovationLabs.ideaDetail.alignment")}:</strong> {idea.strategicAlignment}/10</p>
                             </div>
                         </CardContent>
                          {isCommittee && idea.status === 'Submetida' && (
                              <CardFooter className="flex gap-2">
-                                <Button variant="destructive" className="w-full">Rejeitar</Button>
-                                <Button variant="default" className="w-full">Aprovar</Button>
+                                <Button variant="destructive" className="w-full">{t("innovationLabs.ideaDetail.reject")}</Button>
+                                <Button variant="default" className="w-full">{t("innovationLabs.ideaDetail.approve")}</Button>
                             </CardFooter>
                          )}
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><MessageSquare /> Curadoria & Parecer</CardTitle>
+                            <CardTitle className="flex items-center gap-2"><MessageSquare /> {t("innovationLabs.ideaDetail.curationOpinion")}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                            {mentor && (
@@ -253,14 +258,14 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                                     <div>
                                         <p className="font-semibold text-sm">{mentor.name}</p>
                                         <p className="text-xs text-muted-foreground">{mentor.role}</p>
-                                        <p className="text-sm text-foreground mt-2">"Ideia com grande potencial de impacto. O esforço parece subestimado, mas o alinhamento com a estratégia da empresa é claro. Recomendo a aprovação para um sprint."</p>
+                                        <p className="text-sm text-foreground mt-2">{t("innovationLabs.ideaDetail.mentorQuote")}</p>
                                     </div>
                                 </div>
                            )}
                            {isCommittee && (
                                <div className="pt-4">
                                    <Button className="w-full" disabled>
-                                    <Send className="mr-2"/> Enviar Parecer
+                                    <Send className="mr-2"/> {t("innovationLabs.ideaDetail.sendOpinion")}
                                    </Button>
                                </div>
                            )}
@@ -269,18 +274,18 @@ export default function IdeaDetailClient({ ideaId }: { ideaId: string }) {
                              <CardFooter>
                                 <Dialog>
                                     <DialogTrigger asChild>
-                                         <Button className="w-full"><Play className="mr-2"/> Iniciar Sprint</Button>
+                                         <Button className="w-full"><Play className="mr-2"/> {t("innovationLabs.ideaDetail.startSprint")}</Button>
                                     </DialogTrigger>
                                     <DialogContent>
                                         <DialogHeader>
-                                        <DialogTitle>Configurar Sprint de Experimentação</DialogTitle>
+                                        <DialogTitle>{t("innovationLabs.ideaDetail.configureSprintTitle")}</DialogTitle>
                                         <DialogDescription>
-                                            Defina os parâmetros para o sprint de validação da ideia "{idea.title}".
+                                            {t("innovationLabs.ideaDetail.configureSprintDesc").replace("{title}", idea.title)}
                                         </DialogDescription>
                                         </DialogHeader>
                                         <div className="py-4 space-y-4">
-                                             <p className="text-sm text-muted-foreground">Esta é uma simulação. Ao clicar em "Confirmar", o sprint será iniciado com dados de exemplo.</p>
-                                             <Button className="w-full" onClick={handleStartSprint}>Confirmar e Iniciar Sprint</Button>
+                                             <p className="text-sm text-muted-foreground">{t("innovationLabs.ideaDetail.simulationNote")}</p>
+                                             <Button className="w-full" onClick={handleStartSprint}>{t("innovationLabs.ideaDetail.confirmStartSprint")}</Button>
                                         </div>
                                     </DialogContent>
                                 </Dialog>
