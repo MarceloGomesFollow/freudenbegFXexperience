@@ -1,4 +1,3 @@
-'use server';
 /**
  * @fileOverview A server-side chatbot flow for Freudy powered by OpenAI.
  *

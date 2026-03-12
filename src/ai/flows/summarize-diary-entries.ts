@@ -1,5 +1,3 @@
-'use server';
-
 /**
  * @fileOverview A server-side flow to summarize diary entries using OpenAI.
  *

@@ -63,7 +63,7 @@ function FreudyIaLink() {
                 </DialogHeader>
                 <iframe
                     className="w-full h-full rounded-b-lg"
-                    src="https://lab.anam.ai/frame/4lQeno3aYnB9HuXExy6jG"
+                    src="https://lab.anam.ai/frame/veWud_aUeTYXnNDZyWt54"
                     title="Anam AI"
                     frameBorder="0"
                     allow="camera;microphone"

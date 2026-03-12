@@ -1,6 +1,4 @@
 
-'use server';
-
 /**
  * @fileOverview Generates course content using OpenAI.
  *

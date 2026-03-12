@@ -1,5 +1,3 @@
-'use server';
-
 /**
  * @fileOverview A learning playlist recommendation AI agent.
  *

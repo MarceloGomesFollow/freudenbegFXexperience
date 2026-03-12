@@ -1,5 +1,3 @@
-'use server';
-
 /**
  * @fileOverview Provides personalized guidance and recommendations on a learning path based on the participant's progress, sentiment, and identified themes.
  *

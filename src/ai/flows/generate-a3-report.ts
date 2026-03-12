@@ -1,4 +1,3 @@
-'use server';
 /**
  * @fileOverview A flow to generate a draft A3 report summarizing digital diary entries and feedback.
  *

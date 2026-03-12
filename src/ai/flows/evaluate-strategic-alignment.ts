@@ -1,5 +1,3 @@
-'use server';
-
 /**
  * @fileOverview This file defines a server-side flow for evaluating strategic alignment with OpenAI.
  *

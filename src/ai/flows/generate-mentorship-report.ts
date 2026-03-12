@@ -1,4 +1,3 @@
-'use server';
 /**
  * @fileOverview A server-side flow to generate a comprehensive mentorship feedback report with OpenAI.
  *

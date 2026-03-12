@@ -1,4 +1,3 @@
-'use server';
 /**
  * @fileOverview An AI mentor that analyzes learning data and suggests connections between similar areas and topics.
  *
