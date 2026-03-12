@@ -1,0 +1,30 @@
+   ▲ Next.js 15.3.8
+   - Local:        http://localhost:9012
+   - Network:      http://192.168.0.135:9012
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.6s
+ ○ Compiling / ...
+ ✓ Compiled / in 5.7s (1783 modules)
+ GET / 200 in 6448ms
+ ✓ Compiled in 1007ms (813 modules)
+ GET / 200 in 87ms
+ GET / 200 in 94ms
+ GET / 200 in 91ms
+ GET / 200 in 95ms
+ ✓ Compiled in 7s (813 modules)
+   ▲ Next.js 15.3.8
+   - Local:        http://localhost:9012
+   - Network:      http://192.168.0.135:9012
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.9s
+ ○ Compiling /dashboard/content ...
+ ✓ Compiled /dashboard/content in 40.8s (3182 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2.4s (3172 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 5.2s (3504 modules)
+ ✓ Compiled in 2.2s (1216 modules)

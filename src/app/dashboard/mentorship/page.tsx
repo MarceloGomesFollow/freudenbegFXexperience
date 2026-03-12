@@ -108,28 +108,30 @@ const MenteesTab = () => {
                                     )}
 
                                     {pendingTasks.length > 0 ? (
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead className="w-[60%]">Tarefa</TableHead>
-                                                <TableHead>Prazo</TableHead>
-                                                <TableHead>Prioridade</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {pendingTasks.map(task => (
-                                                <TableRow key={task.id}>
-                                                    <TableCell className="font-medium flex items-center gap-2">
-                                                        <TaskStatusIcon status={task.status} /> {task.title}
-                                                    </TableCell>
-                                                    <TableCell>{task.dueDate}</TableCell>
-                                                    <TableCell>
-                                                        <PriorityBadge priority={task.priority} />
-                                                    </TableCell>
+                                    <div className="overflow-x-auto">
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead className="w-[60%]">Tarefa</TableHead>
+                                                    <TableHead>Prazo</TableHead>
+                                                    <TableHead>Prioridade</TableHead>
                                                 </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {pendingTasks.map(task => (
+                                                    <TableRow key={task.id}>
+                                                        <TableCell className="font-medium flex items-center gap-2">
+                                                            <TaskStatusIcon status={task.status} /> {task.title}
+                                                        </TableCell>
+                                                        <TableCell>{task.dueDate}</TableCell>
+                                                        <TableCell>
+                                                            <PriorityBadge priority={task.priority} />
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
                                     ) : (
                                     <p className="text-sm text-muted-foreground text-center py-4">Nenhuma tarefa pendente.</p>
                                     )}
@@ -380,7 +382,7 @@ export default function MentorshipPage() {
             </div>
             
             <Tabs defaultValue="mentees" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
                     <TabsTrigger value="mentees"><UsersIcon className="mr-2 h-4 w-4"/>Mentees</TabsTrigger>
                     <TabsTrigger value="meetings"><Calendar className="mr-2 h-4 w-4"/>Reuniões</TabsTrigger>
                     <TabsTrigger value="report"><Bot className="mr-2 h-4 w-4"/>Relatório IA</TabsTrigger>

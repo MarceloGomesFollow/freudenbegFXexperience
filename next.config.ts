@@ -43,6 +43,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config, { dev }) => {
+    // Avoid intermittent Windows filesystem-cache corruption in dev
+    // (e.g. missing vendor chunks like @opentelemetry after failed pack rename).
+    if (dev && process.platform === 'win32') {
+      config.cache = { type: 'memory' };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

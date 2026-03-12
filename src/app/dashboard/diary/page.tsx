@@ -115,7 +115,7 @@ export default function DiaryPage() {
             <div className="grid gap-8 lg:grid-cols-3">
                 <div className="lg:col-span-2 space-y-6">
                     <Tabs defaultValue="diary">
-                        <TabsList className="grid w-full grid-cols-2">
+                        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
                             <TabsTrigger value="diary"><NotebookText className="mr-2 h-4 w-4"/>Diário</TabsTrigger>
                             <TabsTrigger value="goals"><Flag className="mr-2 h-4 w-4"/>Metas</TabsTrigger>
                         </TabsList>
@@ -127,7 +127,7 @@ export default function DiaryPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <Tabs defaultValue="text" className="w-full">
-                                        <TabsList className="grid w-full grid-cols-3">
+                                        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
                                             <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4"/>Texto</TabsTrigger>
                                             <TabsTrigger value="image"><ImageIcon className="mr-2 h-4 w-4"/>Imagem</TabsTrigger>
                                             <TabsTrigger value="video"><Video className="mr-2 h-4 w-4"/>Vídeo</TabsTrigger>

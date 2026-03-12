@@ -79,7 +79,22 @@ export function SidebarNav() {
   const { selectedRole } = useRole();
   const { t } = useLanguage();
 
-  const links = [
+  type NavIcon = React.ElementType;
+  type NavSubLink = {
+    href: string;
+    label: string;
+    roles?: string[];
+    icon?: NavIcon;
+  };
+  type NavLink = {
+    href?: string;
+    label: string;
+    icon: NavIcon;
+    roles?: string[];
+    subLinks?: NavSubLink[];
+  };
+
+  const links: NavLink[] = [
     {
       href: "/dashboard/home",
       label: t('sidebar.home'),
@@ -208,7 +223,7 @@ export function SidebarNav() {
     },
   ];
 
-  const isSubLinkActive = (subLinks: any[] | undefined) => {
+  const isSubLinkActive = (subLinks: NavSubLink[] | undefined) => {
     return subLinks?.some(subLink => pathname.startsWith(subLink.href));
   }
 
@@ -253,14 +268,14 @@ export function SidebarNav() {
               </SidebarMenuSub>
             </CollapsibleContent>
           </Collapsible>
-        ) : (
+        ) : link.href ? (
             <SidebarMenuButton asChild isActive={pathname === link.href}>
                 <Link href={link.href!}>
                 <link.icon />
                 <span>{link.label}</span>
                 </Link>
             </SidebarMenuButton>
-        );
+        ) : null;
 
         return (
             <SidebarMenuItem key={link.label}>

@@ -22,25 +22,28 @@ const IdeaCard = ({ idea }: { idea: Idea & { iceScore?: number } }) => {
     const iceScore = idea.iceScore || 0;
 
     const StatusBadge = ({ status }: { status: Idea['status'] }) => {
-        const variant = {
-            'Aprovada': 'default',
-            'Validada': 'default',
-            'Em Sprint': 'default',
-            'Escalada': 'default',
-            'Rejeitada': 'destructive',
-            'Em Análise': 'secondary',
-            'Submetida': 'outline',
-        }[status] || 'secondary';
+        const variant =
+            status === 'Rejeitada'
+                ? 'destructive'
+                : status === 'Submetida'
+                    ? 'outline'
+                    : status === 'Em Análise'
+                        ? 'secondary'
+                        : 'default';
 
-        const colorClass = {
-            'Aprovada': 'bg-blue-500/20 text-blue-700 dark:text-blue-400',
-            'Validada': 'bg-green-500/20 text-green-700 dark:text-green-400',
-            'Em Sprint': 'bg-purple-500/20 text-purple-700 dark:text-purple-400',
-            'Escalada': 'bg-teal-500/20 text-teal-700 dark:text-teal-400',
-            'Rejeitada': 'bg-red-500/20 text-red-700 dark:text-red-400',
-        }[status] || '';
+        const colorClass =
+            status === 'Aprovada'
+                ? 'bg-blue-500/20 text-blue-700 dark:text-blue-400'
+                : status === 'Validada'
+                    ? 'bg-green-500/20 text-green-700 dark:text-green-400'
+                    : status === 'Em Sprint'
+                        ? 'bg-purple-500/20 text-purple-700 dark:text-purple-400'
+                        : status === 'Escalada'
+                            ? 'bg-teal-500/20 text-teal-700 dark:text-teal-400'
+                            : status === 'Rejeitada'
+                                ? 'bg-red-500/20 text-red-700 dark:text-red-400'
+                                : '';
 
-        // @ts-ignore
         return <Badge variant={variant} className={colorClass}>{status}</Badge>;
     }
 

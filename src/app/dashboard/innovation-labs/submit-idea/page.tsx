@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -26,8 +27,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronLeft, Lightbulb, Sparkles, Upload } from "lucide-react";
+import { ChevronLeft, Lightbulb, Loader2, Sparkles } from "lucide-react";
 import { challenges } from "@/lib/data";
+import { assistInnovationIdea } from "@/ai/flows/assist-innovation-idea";
 
 const formSchema = z.object({
   challengeId: z.string().optional(),
@@ -41,6 +43,7 @@ const formSchema = z.object({
 
 export default function SubmitIdeaPage() {
   const { toast } = useToast();
+  const [isAiLoading, setIsAiLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,23 +58,46 @@ export default function SubmitIdeaPage() {
   });
 
   const watchProblem = form.watch("problem");
+  const watchChallengeId = form.watch("challengeId");
 
-  const handleAiAssist = () => {
-    if (!watchProblem) {
-        toast({
-            variant: "destructive",
-            title: "Campo Obrigatório",
-            description: "Por favor, descreva o problema antes de usar a assistência da IA.",
-        });
-        return;
+  const handleAiAssist = async () => {
+    if (!watchProblem?.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Campo Obrigatório",
+        description: "Por favor, descreva o problema antes de usar a assistência da IA.",
+      });
+      return;
     }
-    form.setValue("title", "Sugestão de Título com IA para: " + watchProblem.substring(0, 20) + "...");
-    form.setValue("impact", "Impacto sugerido pela IA: Redução de X%, melhoria de Y.");
-    toast({
+
+    setIsAiLoading(true);
+    try {
+      const selectedChallenge = challenges.find((challenge) => challenge.id === watchChallengeId);
+      const result = await assistInnovationIdea({
+        problem: watchProblem.trim(),
+        challengeTitle: selectedChallenge?.title,
+      });
+
+      form.setValue("title", result.title, { shouldValidate: true, shouldDirty: true });
+      form.setValue("proposal", result.proposal, { shouldValidate: true, shouldDirty: true });
+      form.setValue("impact", result.impact, { shouldValidate: true, shouldDirty: true });
+      form.setValue("effort", result.effort, { shouldValidate: true, shouldDirty: true });
+
+      toast({
         title: "IA Assistente!",
-        description: "Título e impacto foram sugeridos pela IA com base no problema descrito.",
-    })
-  }
+        description: "Título, proposta, impacto e esforço foram sugeridos pela IA.",
+      });
+    } catch (error) {
+      console.error("Error generating idea suggestions:", error);
+      toast({
+        variant: "destructive",
+        title: "Erro na Assistência IA",
+        description: "Não foi possível gerar sugestões agora. Tente novamente em instantes.",
+      });
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -130,9 +156,13 @@ export default function SubmitIdeaPage() {
                 <div className="space-y-4">
                     <div className="flex justify-between items-center border-b pb-2">
                         <h3 className="text-lg font-medium">Detalhes da Ideia</h3>
-                        <Button type="button" variant="outline" size="sm" onClick={handleAiAssist}>
-                            <Sparkles className="mr-2 h-4 w-4" />
-                            Assistente IA
+                        <Button type="button" variant="outline" size="sm" onClick={handleAiAssist} disabled={isAiLoading}>
+                            {isAiLoading ? (
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            ) : (
+                              <Sparkles className="mr-2 h-4 w-4" />
+                            )}
+                            {isAiLoading ? "Gerando..." : "Assistente IA"}
                         </Button>
                     </div>
 

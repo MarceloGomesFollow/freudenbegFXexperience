@@ -2,39 +2,22 @@
 'use server';
 
 /**
- * @fileOverview An AI agent that generates course content based on participant knowledge and best practices.
+ * @fileOverview Generates course content using OpenAI.
  *
- * - generateCourseContent - A function that handles the course content generation process.
- * - GenerateCourseContentInput - The input type for the generateCourseContent function.
- * - GenerateCourseContentOutput - The return type for the generateCoursecontent function.
+ * - generateCourseContent - Generates structured course content.
+ * - GenerateCourseContentInput - Input type.
+ * - GenerateCourseContentOutput - Output type.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { z } from 'zod';
 
 const GenerateCourseContentInputSchema = z.object({
-  topic: z.string().describe('The topic of the course content.'),
-  knowledgeSource: z
-    .string()
-    .optional()
-    .describe(
-      'The origin of the knowledge (e.g., company, visit, department).'
-    ),
-  details: z
-    .string()
-    .optional()
-    .describe('Additional details about the course content to be generated.'),
-  documentContent: z
-    .string()
-    .optional()
-    .describe('The content of the document provided by the user (optional).'),
-  numberOfModules: z
-    .number()
-    .optional()
-    .describe('The desired number of modules for the course (optional).'),
-  language: z
-    .string()
-    .describe('The language for the response (e.g., "en" or "pt").'),
+  topic: z.string().min(1),
+  knowledgeSource: z.string().optional(),
+  details: z.string().optional(),
+  documentContent: z.string().optional(),
+  numberOfModules: z.number().int().min(1).max(10).optional(),
+  language: z.string().min(2),
 });
 
 export type GenerateCourseContentInput = z.infer<
@@ -42,31 +25,25 @@ export type GenerateCourseContentInput = z.infer<
 >;
 
 const QuizQuestionSchema = z.object({
-  question: z.string().describe('The quiz question.'),
-  options: z.array(z.string()).describe('A list of possible answers.'),
-  correctAnswer: z.string().describe('The correct answer from the options.'),
-  explanation: z
-    .string()
-    .describe('A brief explanation for the correct answer.'),
+  question: z.string().min(1),
+  options: z.array(z.string().min(1)).min(2),
+  correctAnswer: z.string().min(1),
+  explanation: z.string().min(1),
 });
 
 const CourseModuleSchema = z.object({
-  title: z.string().describe('The title of the module.'),
-  content: z.string().describe('The detailed content of the module.'),
-  videoLink: z.string().optional().describe('An optional link for a video.'),
-  pdfLink: z.string().optional().describe('An optional link for a PDF file.'),
+  title: z.string().min(1),
+  content: z.string().min(1),
+  videoLink: z.preprocess(value => (value == null ? undefined : value), z.string().optional()),
+  pdfLink: z.preprocess(value => (value == null ? undefined : value), z.string().optional()),
 });
 
 const GenerateCourseContentOutputSchema = z.object({
-  courseTitle: z.string().describe('The main title of the course.'),
-  modules: z
-    .array(CourseModuleSchema)
-    .describe('An array of course modules.'),
-  quiz: z.array(QuizQuestionSchema).describe('An array of quiz questions.'),
-  videoIdeas: z
-    .array(z.string())
-    .describe('Ideas for videos to include in the course.'),
-  conclusion: z.string().describe('A concluding message for the course.'),
+  courseTitle: z.string().min(1),
+  modules: z.array(CourseModuleSchema).min(1),
+  quiz: z.array(QuizQuestionSchema).min(1),
+  videoIdeas: z.array(z.string().min(1)).min(1),
+  conclusion: z.string().min(1),
 });
 
 export type GenerateCourseContentOutput = z.infer<
@@ -77,62 +54,124 @@ export type CourseQuizQuestion = z.infer<typeof QuizQuestionSchema>;
 export async function generateCourseContent(
   input: GenerateCourseContentInput
 ): Promise<GenerateCourseContentOutput> {
-  return generateCourseContentFlow(input);
+  const parsedInput = GenerateCourseContentInputSchema.parse(input);
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY is not configured on the server.');
+  }
+
+  const model =
+    process.env.OPENAI_MODEL_COURSE_CONTENT ??
+    process.env.OPENAI_MODEL ??
+    'gpt-4o-mini';
+
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      temperature: 0.4,
+      max_tokens: 2400,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content: [
+            'You are an expert instructional designer.',
+            'Return ONLY a valid JSON object (no markdown, no code fences).',
+            'The JSON schema is:',
+            '{',
+            '  "courseTitle": string,',
+            '  "modules": [{ "title": string, "content": string, "videoLink"?: string, "pdfLink"?: string }],',
+            '  "quiz": [{ "question": string, "options": string[], "correctAnswer": string, "explanation": string }],',
+            '  "videoIdeas": string[],',
+            '  "conclusion": string',
+            '}',
+            'Ensure quiz.correctAnswer exactly matches one option.',
+            'Use natural language matching the requested language code.',
+          ].join('\n'),
+        },
+        {
+          role: 'user',
+          content: buildPrompt(parsedInput),
+        },
+      ],
+    }),
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenAI API error (${response.status}): ${errorText}`);
+  }
+
+  const result = (await response.json()) as {
+    choices?: Array<{ message?: { content?: string | null } }>;
+  };
+
+  const rawContent = result.choices?.[0]?.message?.content?.trim();
+  if (!rawContent) {
+    throw new Error('OpenAI returned an empty response.');
+  }
+
+  const payload = extractJsonObject(rawContent);
+  const parsedOutput = GenerateCourseContentOutputSchema.parse(JSON.parse(payload));
+
+  if (parsedInput.numberOfModules && parsedOutput.modules.length !== parsedInput.numberOfModules) {
+    parsedOutput.modules = parsedOutput.modules.slice(0, parsedInput.numberOfModules);
+  }
+
+  return parsedOutput;
 }
 
-const prompt = ai.definePrompt({
-  name: 'generateCourseContentPrompt',
-  input: {schema: GenerateCourseContentInputSchema},
-  output: {schema: GenerateCourseContentOutputSchema},
-  prompt: `You are an expert instructional designer. Your goal is to transform the provided information into a well-structured and engaging online course.
+function buildPrompt(input: GenerateCourseContentInput): string {
+  const lines: string[] = [
+    `Language code: ${input.language}`,
+    `Course topic: ${input.topic}`,
+  ];
 
-  Respond in the following language: {{{language}}}.
-
-  The main topic of the course is: {{{topic}}}
-
-  {{#if knowledgeSource}}
-  The knowledge for this course comes from: {{{knowledgeSource}}}
-  {{/if}}
-
-  {{#if details}}
-  Here are more details about the desired content:
-  ---
-  {{{details}}}
-  ---
-  {{/if}}
-
-  {{#if documentContent}}
-  The source content from the document is:
-  ---
-  {{{documentContent}}}
-  ---
-  {{/if}}
-
-  Based on the provided information, please generate the following:
-  1.  A main 'courseTitle' for the entire course.
-  2.  A series of 'modules'. 
-      {{#if numberOfModules}}
-      Generate exactly {{{numberOfModules}}} modules.
-      {{else}}
-      Generate a relevant number of modules based on the topic.
-      {{/if}}
-      Each module should have a 'title' and detailed 'content'. If relevant, suggest placeholders for a 'videoLink' or 'pdfLink'.
-  3.  A friendly 'quiz' with a few multiple-choice questions to test understanding. Each question must have 'options', a 'correctAnswer', and a brief 'explanation'.
-  4.  A list of creative 'videoIdeas' that could complement the course material.
-  5.  A warm and encouraging 'conclusion' message to finalize the course.
-
-  Structure your entire output as a single JSON object matching the defined schema.
-  `,
-});
-
-const generateCourseContentFlow = ai.defineFlow(
-  {
-    name: 'generateCourseContentFlow',
-    inputSchema: GenerateCourseContentInputSchema,
-    outputSchema: GenerateCourseContentOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  if (input.knowledgeSource) {
+    lines.push(`Knowledge source: ${input.knowledgeSource}`);
   }
-);
+
+  if (input.details) {
+    lines.push('Extra details:');
+    lines.push(input.details);
+  }
+
+  if (input.documentContent) {
+    lines.push('Document source content:');
+    lines.push(input.documentContent);
+  }
+
+  if (input.numberOfModules) {
+    lines.push(`Generate exactly ${input.numberOfModules} modules.`);
+  } else {
+    lines.push('Generate a relevant number of modules for this topic.');
+  }
+
+  lines.push(
+    'Generate practical modules, a friendly quiz, useful video ideas, and an encouraging conclusion.'
+  );
+
+  return lines.join('\n\n');
+}
+
+function extractJsonObject(rawText: string): string {
+  const sanitized = rawText
+    .replace(/^```json\s*/i, '')
+    .replace(/```$/i, '')
+    .trim();
+  const start = sanitized.indexOf('{');
+  const end = sanitized.lastIndexOf('}');
+
+  if (start === -1 || end === -1 || end < start) {
+    throw new Error('Unable to parse JSON output from OpenAI response.');
+  }
+
+  return sanitized.slice(start, end + 1);
+}

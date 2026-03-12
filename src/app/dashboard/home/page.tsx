@@ -1,14 +1,22 @@
 
 "use client";
 
+import dynamic from "next/dynamic";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { WorldTalentMap } from "@/components/world-talent-map";
 import { kpis, exchangeOpportunities, challenges, activityFeed, type ActivityFeedItem } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, Beaker, Briefcase, Lightbulb, Users, Rss, BookOpen, NotebookText, Star } from "lucide-react";
 import Link from "next/link";
+
+const WorldTalentMap = dynamic(
+  () => import("@/components/world-talent-map").then((mod) => mod.WorldTalentMap),
+  {
+    ssr: false,
+    loading: () => <div className="aspect-video w-full animate-pulse rounded-lg bg-muted" />,
+  }
+);
 
 const ActivityIcon = ({ type }: { type: ActivityFeedItem['type'] }) => {
     switch (type) {

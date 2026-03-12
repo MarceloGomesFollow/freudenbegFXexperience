@@ -185,6 +185,7 @@ export type Idea = {
   status: IdeaStatus;
   votes: number;
   submittedDate: string;
+  iceScore?: number;
 };
 
 export type Sprint = {
@@ -703,7 +704,7 @@ const calculateIceScore = (i: number, c: number, e: number, sa: number) => {
 };
 
 
-export const ideas: Idea[] = [
+const baseIdeas: Idea[] = [
     {
         id: 'idea-01',
         challengeId: 'challenge-01',
@@ -752,7 +753,9 @@ export const ideas: Idea[] = [
         votes: 8,
         submittedDate: '15/08/2024'
     }
-].map(idea => ({
+];
+
+export const ideas: Idea[] = baseIdeas.map(idea => ({
     ...idea,
     iceScore: calculateIceScore(idea.impact, idea.confidence, idea.effort, idea.strategicAlignment)
 }));

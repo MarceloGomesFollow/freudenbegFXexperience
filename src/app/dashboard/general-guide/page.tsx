@@ -8,6 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function GeneralGuidePage() {
     
+    const accordionSurfaceClass = "rounded-lg border border-border/70 bg-card/95 shadow-sm backdrop-blur-sm supports-[backdrop-filter]:bg-card/90";
+
     const responsibilities = [
         "Ser protagonista do próprio desenvolvimento.",
         "Buscar ativamente aprendizados e experiências.",
@@ -41,7 +43,7 @@ export default function GeneralGuidePage() {
                 </p>
             </div>
              <Tabs defaultValue="participant" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
                     <TabsTrigger value="participant">Guia do Participante</TabsTrigger>
                     <TabsTrigger value="manager">Guia do Gestor</TabsTrigger>
                     <TabsTrigger value="tutorial"><BookCopy className="mr-2 h-4 w-4"/>Tutorial da Plataforma</TabsTrigger>
@@ -81,7 +83,8 @@ export default function GeneralGuidePage() {
                             </CardContent>
                         </Card>
 
-                        <Accordion type="single" collapsible defaultValue="item-2" className="w-full">
+                        <div className={accordionSurfaceClass}>
+                        <Accordion type="single" collapsible defaultValue="item-2" className="w-full px-4 sm:px-6">
                             <AccordionItem value="item-1">
                                 <AccordionTrigger>
                                     <h3 className="text-lg font-semibold flex items-center gap-2"><PlaneTakeoff className="h-5 w-5"/> Antes do Intercâmbio</h3>
@@ -125,6 +128,7 @@ export default function GeneralGuidePage() {
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
+                        </div>
                         
                         <div className="grid md:grid-cols-2 gap-6">
                             <Card>
@@ -180,7 +184,8 @@ export default function GeneralGuidePage() {
                             </CardContent>
                         </Card>
 
-                        <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
+                        <div className={accordionSurfaceClass}>
+                        <Accordion type="single" collapsible defaultValue="item-1" className="w-full px-4 sm:px-6">
                             <AccordionItem value="item-1">
                                 <AccordionTrigger>
                                     <h3 className="text-lg font-semibold flex items-center gap-2"><PlaneTakeoff className="h-5 w-5"/> Antes da Cessão</h3>
@@ -249,6 +254,7 @@ export default function GeneralGuidePage() {
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
+                        </div>
                         <Card className="bg-primary/5 dark:bg-primary/10 border-primary/20">
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2 text-primary">
@@ -277,7 +283,8 @@ export default function GeneralGuidePage() {
                             </CardContent>
                         </Card>
 
-                        <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+                        <div className={accordionSurfaceClass}>
+                        <Accordion type="single" collapsible className="w-full px-4 sm:px-6" defaultValue="item-1">
                             <AccordionItem value="item-1">
                                 <AccordionTrigger>
                                     <h3 className="text-lg font-semibold flex items-center gap-2"><LayoutDashboard className="h-5 w-5"/> Dashboards e Visão Geral</h3>
@@ -339,6 +346,7 @@ export default function GeneralGuidePage() {
                                 </AccordionContent>
                             </AccordionItem>
                         </Accordion>
+                        </div>
                     </div>
                  </TabsContent>
             </Tabs>

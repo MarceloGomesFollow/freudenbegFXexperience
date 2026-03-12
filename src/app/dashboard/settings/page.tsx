@@ -184,22 +184,24 @@ export default function SettingsPage() {
                                         </CardContent>
                                     </Card>
 
-                                    <Table>
-                                        <TableHeader>
-                                            <TableRow>
-                                                <TableHead>Nome da Empresa</TableHead>
-                                                <TableHead>Localização</TableHead>
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {companies.map((company) => (
-                                                <TableRow key={company.id}>
-                                                    <TableCell className="font-medium">{company.name}</TableCell>
-                                                    <TableCell>{company.location}</TableCell>
+                                    <div className="overflow-x-auto">
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead>Nome da Empresa</TableHead>
+                                                    <TableHead>Localização</TableHead>
                                                 </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {companies.map((company) => (
+                                                    <TableRow key={company.id}>
+                                                        <TableCell className="font-medium">{company.name}</TableCell>
+                                                        <TableCell>{company.location}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
                                 </CardContent>
                             </Card>
                         </TabsContent>

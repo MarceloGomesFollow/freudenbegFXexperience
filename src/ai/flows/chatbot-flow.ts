@@ -1,14 +1,13 @@
 'use server';
 /**
- * @fileOverview A chatbot flow that answers questions about the platform using mock data as context.
+ * @fileOverview A server-side chatbot flow for Freudy powered by OpenAI.
  *
  * - chatWithFreudy - A function that handles the chat interaction.
  * - ChatWithFreudyInput - The input type for the chatWithFreudy function.
  * - ChatWithFreudyOutput - The return type for the chatWithFreudy function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { z } from 'zod';
 import * as data from '@/lib/data';
 
 const ChatWithFreudyInputSchema = z.object({
@@ -26,47 +25,82 @@ const ChatWithFreudyOutputSchema = z.object({
 export type ChatWithFreudyOutput = z.infer<typeof ChatWithFreudyOutputSchema>;
 
 export async function chatWithFreudy(input: ChatWithFreudyInput): Promise<ChatWithFreudyOutput> {
-  return chatWithFreudyFlow(input);
+  const parsedInput = ChatWithFreudyInputSchema.parse(input);
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY is not configured on the server.');
+  }
+
+  const model = process.env.OPENAI_MODEL ?? 'gpt-4o-mini';
+  const platformContext = buildPlatformContext();
+  const history = parsedInput.chatHistory.slice(-12);
+
+  const messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }> = [
+    {
+      role: 'system',
+      content: [
+        'You are Freudy, an AI assistant for the DPX Digital platform.',
+        'Answer with practical and concise guidance.',
+        'If the user asks for unknown details, be transparent and ask for clarification.',
+        'Prefer Portuguese when user writes in Portuguese.',
+        '',
+        'Platform context data:',
+        platformContext,
+      ].join('\n'),
+    },
+    ...history.map(message => ({
+      role: (message.from === 'ai' ? 'assistant' : 'user') as 'assistant' | 'user',
+      content: message.text,
+    })),
+  ];
+
+  if (history.length === 0 || history[history.length - 1]?.from !== 'user') {
+    messages.push({ role: 'user', content: parsedInput.question });
+  }
+
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature: 0.4,
+      max_tokens: 500,
+    }),
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`OpenAI API error (${response.status}): ${errorText}`);
+  }
+
+  const result = (await response.json()) as {
+    choices?: Array<{ message?: { content?: string | null } }>;
+  };
+
+  const answer = result.choices?.[0]?.message?.content?.trim();
+  if (!answer) {
+    throw new Error('OpenAI returned an empty response.');
+  }
+
+  return { answer };
 }
 
-const mockDataString = `
-  Users: ${JSON.stringify(data.users, null, 2)}
-  Diary Entries: ${JSON.stringify(data.diaryEntries, null, 2)}
-  KPIs: ${JSON.stringify(data.kpis, null, 2)}
-  Recent Tasks: ${JSON.stringify(data.recentTasks, null, 2)}
-  Exchange Opportunities: ${JSON.stringify(data.exchangeOpportunities, null, 2)}
-  Transfers: ${JSON.stringify(data.transfers, null, 2)}
-  Candidate Approvals: ${JSON.stringify(data.candidateApprovals, null, 2)}
-`;
+function buildPlatformContext(): string {
+  const contextSnapshot = {
+    users: data.users.slice(0, 30),
+    diaryEntries: data.diaryEntries.slice(-20),
+    kpis: data.kpis,
+    recentTasks: data.recentTasks.slice(0, 20),
+    exchangeOpportunities: data.exchangeOpportunities.slice(0, 10),
+    transfers: data.transfers.slice(0, 10),
+    candidateApprovals: data.candidateApprovals.slice(0, 10),
+  };
 
-const prompt = ai.definePrompt({
-  name: 'chatWithFreudyPrompt',
-  input: {schema: ChatWithFreudyInputSchema},
-  output: {schema: ChatWithFreudyOutputSchema},
-  prompt: `You are Freudy, an AI assistant for the DPX Digital platform. Your goal is to help users by answering their questions based on the provided context data. Be friendly and concise.
-
-  Here is the entire dataset for the platform:
-  ${mockDataString}
-
-  Here is the conversation history:
-  {{#each chatHistory}}
-  {{from}}: {{text}}
-  {{/each}}
-
-  Based on all this information, answer the user's latest question.
-
-  User question: {{{question}}}
-  `,
-});
-
-const chatWithFreudyFlow = ai.defineFlow(
-  {
-    name: 'chatWithFreudyFlow',
-    inputSchema: ChatWithFreudyInputSchema,
-    outputSchema: ChatWithFreudyOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
-);
+  return JSON.stringify(contextSnapshot);
+}

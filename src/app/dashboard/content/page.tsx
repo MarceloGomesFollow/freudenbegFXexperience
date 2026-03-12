@@ -66,7 +66,8 @@ type EditableContentSchema = z.infer<typeof editableContentSchema>;
 function QuizQuestionEditor({ control, index, removeQuiz }: { control: Control<EditableContentSchema>, index: number, removeQuiz: (index: number) => void }) {
     const { fields: optionFields, append: appendOption, remove: removeOption } = useFieldArray({
         control,
-        name: `quiz.${index}.options`
+        // react-hook-form's generic typing does not infer nested string arrays here.
+        name: `quiz.${index}.options` as never
     });
 
     return (
@@ -305,7 +306,7 @@ export default function ContentPage() {
             </p>
 
             <Tabs defaultValue="course">
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
                     <TabsTrigger value="course"><BookOpen className="mr-2 h-4 w-4"/>Criar Curso</TabsTrigger>
                     <TabsTrigger value="path"><Network className="mr-2 h-4 w-4"/>Criar Trilha</TabsTrigger>
                 </TabsList>
@@ -368,7 +369,7 @@ export default function ContentPage() {
                                             )}
                                         />
 
-                                        <div className="grid grid-cols-2 gap-4">
+                                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                             <FormField
                                             control={generationForm.control}
                                             name="textFile"
@@ -460,7 +461,7 @@ export default function ContentPage() {
                                     <Form {...editableForm}>
                                         <form onSubmit={editableForm.handleSubmit(onSaveCourse)} className="h-full flex flex-col">
                                             <Tabs defaultValue="modules" className="h-full flex flex-col flex-1">
-                                                <TabsList className="grid w-full grid-cols-3">
+                                                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
                                                     <TabsTrigger value="modules"><BookOpen className="mr-2 h-4 w-4"/>Módulos</TabsTrigger>
                                                     <TabsTrigger value="quiz"><HelpCircle className="mr-2 h-4 w-4"/>Quiz</TabsTrigger>
                                                     <TabsTrigger value="general"><Award className="mr-2 h-4 w-4"/>Geral</TabsTrigger>
@@ -609,7 +610,7 @@ export default function ContentPage() {
                                             </FormItem>
                                         )}
                                     />
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                         <FormField
                                             control={learningPathForm.control}
                                             name="category"

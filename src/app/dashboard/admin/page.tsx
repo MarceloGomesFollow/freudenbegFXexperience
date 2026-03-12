@@ -1,6 +1,7 @@
 
 "use client";
 import React from 'react';
+import dynamic from "next/dynamic";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,8 +11,15 @@ import { adminKpis, transfers, transferFlowData } from "@/lib/data";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { ArrowRight, BarChart, Clock, TrendingUp, Users as UsersIcon, ArrowLeftRight } from "lucide-react";
 import { Bar, BarChart as RechartsBarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { WorldTalentMap } from '@/components/world-talent-map';
 import { Progress } from '@/components/ui/progress';
+
+const WorldTalentMap = dynamic(
+  () => import("@/components/world-talent-map").then((mod) => mod.WorldTalentMap),
+  {
+    ssr: false,
+    loading: () => <div className="aspect-video w-full animate-pulse rounded-lg bg-muted" />,
+  }
+);
 
 export default function AdminDashboardPage() {
 

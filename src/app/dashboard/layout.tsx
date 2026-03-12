@@ -1,7 +1,7 @@
 
 "use client";
 
-import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Logo } from "@/components/logo";
 import { SidebarNav } from "@/components/sidebar-nav";
@@ -9,16 +9,19 @@ import { UserNav } from "@/components/user-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
 import { RoleProvider, RoleSwitcher } from "@/components/role-switcher";
-import { Chatbot } from "@/components/chatbot";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { LifeBuoy, Mail, Phone, MessageSquare } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { users } from "@/lib/data";
 import { DateTime } from "@/components/date-time";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
+
+const Chatbot = dynamic(
+  () => import("@/components/chatbot").then((mod) => mod.Chatbot),
+  { ssr: false }
+);
 
 export default function DashboardLayout({
   children,
@@ -26,13 +29,17 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
     const { t } = useLanguage();
-    const rhAdmin = users.find(u => u.role === 'RH');
-    const rhAdminAvatar = PlaceHolderImages.find(p => p.id === rhAdmin?.avatar);
+    const rhAdmin = {
+      name: "Gabriela Ramos",
+      email: "gabriela.ramos@example.com",
+      avatar: "user-avatar-7",
+    };
+    const rhAdminAvatar = PlaceHolderImages.find(p => p.id === rhAdmin.avatar);
 
   return (
     <RoleProvider>
-      <SidebarProvider>
-          <div className="flex h-screen overflow-hidden bg-background">
+      <SidebarProvider className="w-full">
+          <div className="flex min-h-dvh w-full min-w-0 bg-background">
               <Sidebar className="border-r">
                   <SidebarHeader>
                       <Logo />
@@ -43,7 +50,7 @@ export default function DashboardLayout({
                   <SidebarFooter className="relative z-10">
                   </SidebarFooter>
               </Sidebar>
-              <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+              <div className="flex min-w-0 flex-1 flex-col overflow-y-auto overflow-x-auto">
                   <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-muted/30 px-4 backdrop-blur-lg sm:px-6 border-muted/20">
                       <div className="flex items-center gap-4">
                           <SidebarTrigger />
@@ -114,7 +121,7 @@ export default function DashboardLayout({
                           <UserNav />
                       </div>
                   </header>
-                  <main className={cn("flex-1 p-4 sm:p-6 lg:p-8 bg-muted/40 dashboard-bg")}>
+                  <main className={cn("flex-1 min-w-0 p-4 sm:p-6 lg:p-8 bg-muted/40 dashboard-bg")}>
                       {children}
                   </main>
                   <Chatbot />

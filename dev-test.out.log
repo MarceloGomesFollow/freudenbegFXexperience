@@ -1,0 +1,25 @@
+   ▲ Next.js 15.3.8
+   - Local:        http://localhost:9011
+   - Network:      http://192.168.0.135:9011
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 4.9s
+ ○ Compiling / ...
+ ✓ Compiled / in 12.1s (1783 modules)
+ GET / 200 in 13753ms
+ ✓ Compiled in 1767ms (813 modules)
+ GET / 200 in 163ms
+ GET / 200 in 79ms
+ GET / 200 in 81ms
+ GET / 200 in 117ms
+ GET / 200 in 72ms
+ ✓ Compiled in 554ms (799 modules)
+ ✓ Compiled in 14.2s (813 modules)
+   ▲ Next.js 15.3.8
+   - Local:        http://localhost:9011
+   - Network:      http://192.168.0.135:9011
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 4.2s
