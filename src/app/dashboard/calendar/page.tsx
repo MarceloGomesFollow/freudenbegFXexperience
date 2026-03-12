@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -21,6 +21,14 @@ import {
 } from "@/lib/calendar-events";
 
 export default function CalendarPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Carregando...</div>}>
+      <CalendarPageContent />
+    </Suspense>
+  );
+}
+
+function CalendarPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();

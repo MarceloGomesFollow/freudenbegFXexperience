@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft, PlusCircle } from "lucide-react";
@@ -34,6 +34,14 @@ const eventTypeLabels: Record<CalendarEventType, string> = {
 };
 
 export default function NewCalendarEventPage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Carregando...</div>}>
+      <NewCalendarEventContent />
+    </Suspense>
+  );
+}
+
+function NewCalendarEventContent() {
   const router = useRouter();
   const params = useSearchParams();
   const { toast } = useToast();
