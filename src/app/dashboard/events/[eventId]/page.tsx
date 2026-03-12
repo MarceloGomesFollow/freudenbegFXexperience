@@ -1,7 +1,5 @@
 
-"use client";
-
-import { useParams, notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -28,9 +26,12 @@ const events = [
     },
 ];
 
-export default function EventDetailPage() {
-    const params = useParams();
-    const eventId = params.eventId as string;
+export function generateStaticParams() {
+    return events.map((e) => ({ eventId: e.id }));
+}
+
+export default async function EventDetailPage({ params }: { params: Promise<{ eventId: string }> }) {
+    const { eventId } = await params;
     const event = events.find(e => e.id === eventId);
 
     if (!event) {
