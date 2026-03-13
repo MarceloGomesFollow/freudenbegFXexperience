@@ -144,7 +144,7 @@ export default function DiaryPage() {
     };
 
     return (
-        <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="show">
+        <motion.div className="space-y-4 sm:space-y-8" variants={containerVariants} initial="hidden" animate="show">
             <motion.div variants={itemVariants}>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
                     <span className="gold-text">{t('diary.title1')}</span>{" "}
@@ -155,14 +155,14 @@ export default function DiaryPage() {
                 </p>
             </motion.div>
             
-            <motion.div variants={itemVariants} className="grid gap-8 lg:grid-cols-3">
-                <div className="lg:col-span-2 space-y-6">
+            <motion.div variants={itemVariants} className="grid gap-4 sm:gap-8 lg:grid-cols-3">
+                <div className="lg:col-span-2 space-y-3 sm:space-y-6">
                     <Tabs defaultValue="diary">
                         <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
                             <TabsTrigger value="diary"><NotebookText className="mr-2 h-4 w-4"/>{t('diary.tabs.diary')}</TabsTrigger>
                             <TabsTrigger value="goals"><Flag className="mr-2 h-4 w-4"/>{t('diary.tabs.goals')}</TabsTrigger>
                         </TabsList>
-                        <TabsContent value="diary" className="space-y-6">
+                        <TabsContent value="diary" className="space-y-3 sm:space-y-6">
                             <Card>
                                 <CardHeader>
                                     <CardTitle>{t('diary.newEntry')}</CardTitle>
@@ -170,10 +170,10 @@ export default function DiaryPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <Tabs defaultValue="text" className="w-full">
-                                        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
-                                            <TabsTrigger value="text"><FileText className="mr-2 h-4 w-4"/>{t('diary.textTab')}</TabsTrigger>
-                                            <TabsTrigger value="image"><ImageIcon className="mr-2 h-4 w-4"/>{t('diary.imageTab')}</TabsTrigger>
-                                            <TabsTrigger value="video"><Video className="mr-2 h-4 w-4"/>{t('diary.videoTab')}</TabsTrigger>
+                                        <TabsList className="grid w-full grid-cols-3">
+                                            <TabsTrigger value="text" className="text-xs sm:text-sm"><FileText className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4"/><span className="truncate">{t('diary.textTab')}</span></TabsTrigger>
+                                            <TabsTrigger value="image" className="text-xs sm:text-sm"><ImageIcon className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4"/><span className="truncate">{t('diary.imageTab')}</span></TabsTrigger>
+                                            <TabsTrigger value="video" className="text-xs sm:text-sm"><Video className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4"/><span className="truncate">{t('diary.videoTab')}</span></TabsTrigger>
                                         </TabsList>
                                         <TabsContent value="text" className="mt-4">
                                             <Textarea 
@@ -232,7 +232,7 @@ export default function DiaryPage() {
                                 </CardFooter>
                             </Card>
 
-                            <div className="space-y-6">
+                            <div className="space-y-3 sm:space-y-6">
                                 <h3 className="text-xl font-semibold">{t('diary.entryHistory')}</h3>
                                 {entries.map((entry, index) => {
                                     const entryUserAvatar = PlaceHolderImages.find(p => p.id === entry.user.avatar);
@@ -318,7 +318,7 @@ export default function DiaryPage() {
                                 )})}
                             </div>
                         </TabsContent>
-                        <TabsContent value="goals" className="space-y-6">
+                        <TabsContent value="goals" className="space-y-3 sm:space-y-6">
                              {goals.map((goal) => (
                                 <Card key={goal.id}>
                                     <CardHeader>
@@ -364,7 +364,7 @@ export default function DiaryPage() {
                     </Tabs>
                 </div>
 
-                <div className="lg:col-span-1 space-y-6">
+                <div className="lg:col-span-1 space-y-3 sm:space-y-6">
                     <Card className="sticky top-24">
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">

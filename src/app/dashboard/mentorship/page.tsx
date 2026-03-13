@@ -61,7 +61,7 @@ const MenteesTab = () => {
     }
 
     return (
-        <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2 mt-6">
+        <div className="grid gap-4 sm:gap-8 md:grid-cols-1 lg:grid-cols-2 mt-6">
             {myMentees.map(mentee => {
                 const menteeAvatar = PlaceHolderImages.find(p => p.id === mentee.avatar);
                 const menteeTasks = tasks[mentee.email] || [];
@@ -89,7 +89,7 @@ const MenteesTab = () => {
                                 </Button>
                             </div>
                         </CardHeader>
-                        <CardContent className="flex-grow space-y-6">
+                        <CardContent className="flex-grow space-y-3 sm:space-y-6">
                             <div>
                                 <div className="flex justify-between items-center mb-1">
                                     <h4 className="text-sm font-medium">{t('mentorship.programProgress')}</h4>
@@ -170,7 +170,7 @@ const MeetingsTab = () => {
     ];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 mt-6">
             <div className="md:col-span-2">
                 <Card>
                     <CardHeader>
@@ -214,7 +214,7 @@ const MeetingsTab = () => {
                         <CardTitle>{t('mentorship.scheduleNewMeeting')}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
                             <div className="space-y-2">
                                 <Label htmlFor="meeting-type">{t('mentorship.meetingType')}</Label>
                                 <Select onValueChange={setMeetingType}>
@@ -390,7 +390,7 @@ const itemVariants = {
 export default function MentorshipPage() {
     const { t } = useLanguage();
     return (
-        <motion.div className="space-y-8" variants={containerVariants} initial="hidden" animate="show">
+        <motion.div className="space-y-4 sm:space-y-8" variants={containerVariants} initial="hidden" animate="show">
             <motion.div variants={itemVariants}>
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
                     <span className="gold-text">{t('mentorship.title1')}</span>{" "}
@@ -403,10 +403,10 @@ export default function MentorshipPage() {
 
             <motion.div variants={itemVariants}>
             <Tabs defaultValue="mentees" className="w-full">
-                <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3">
-                    <TabsTrigger value="mentees"><UsersIcon className="mr-2 h-4 w-4"/>{t('mentorship.tabs.mentees')}</TabsTrigger>
-                    <TabsTrigger value="meetings"><Calendar className="mr-2 h-4 w-4"/>{t('mentorship.tabs.meetings')}</TabsTrigger>
-                    <TabsTrigger value="report"><Bot className="mr-2 h-4 w-4"/>{t('mentorship.tabs.report')}</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="mentees" className="text-xs sm:text-sm"><UsersIcon className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4"/><span className="truncate">{t('mentorship.tabs.mentees')}</span></TabsTrigger>
+                    <TabsTrigger value="meetings" className="text-xs sm:text-sm"><Calendar className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4"/><span className="truncate">{t('mentorship.tabs.meetings')}</span></TabsTrigger>
+                    <TabsTrigger value="report" className="text-xs sm:text-sm"><Bot className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4"/><span className="truncate">{t('mentorship.tabs.report')}</span></TabsTrigger>
                 </TabsList>
                 <TabsContent value="mentees">
                     <MenteesTab />

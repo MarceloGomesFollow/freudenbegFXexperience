@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Logo } from "@/components/logo";
+import { LanguageToggle } from "@/components/language-toggle";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -76,6 +77,10 @@ export default function LoginPage() {
                 </div>
             </CardContent>
           </Card>
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-xs text-muted-foreground">{t('language')}:</span>
+            <LanguageToggle />
+          </div>
         </motion.div>
       </div>
       <div className="hidden bg-muted lg:block relative overflow-hidden">

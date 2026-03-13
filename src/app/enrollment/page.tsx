@@ -30,6 +30,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Logo } from "@/components/logo";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { LanguageToggle } from "@/components/language-toggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const formSchema = z.object({
@@ -81,15 +82,16 @@ export default function EnrollmentPage() {
             <Link href="/" className="flex items-center justify-center">
             <Logo />
             </Link>
-            <nav className="ml-auto flex gap-4 sm:gap-6">
+            <nav className="ml-auto flex items-center gap-2 sm:gap-4">
+                <LanguageToggle />
                 <Button variant="ghost" asChild>
                     <Link href="/login">{t("enrollment.backToLogin")}</Link>
                 </Button>
             </nav>
         </header>
         <main className="flex-1 w-full">
-            <div className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-12 md:py-16 lg:py-20">
+                <div className="grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
                     <div className="hidden lg:block">
                         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-primary mb-4">
                             {t("enrollment.title")}
@@ -108,13 +110,13 @@ export default function EnrollmentPage() {
                             />
                         )}
                     </div>
-                    <Card className="w-full max-w-lg mx-auto">
+                    <Card className="w-full max-w-sm sm:max-w-lg mx-auto">
                         <CardHeader>
-                            <CardTitle className="text-3xl font-bold">{t("enrollment.title")}</CardTitle>
+                            <CardTitle className="text-2xl sm:text-3xl font-bold">{t("enrollment.title")}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 sm:space-y-6">
                                 <FormField
                                 control={form.control}
                                 name="name"
@@ -141,7 +143,7 @@ export default function EnrollmentPage() {
                                     </FormItem>
                                 )}
                                 />
-                                <div className="grid md:grid-cols-2 gap-6">
+                                <div className="grid md:grid-cols-2 gap-3 sm:gap-6">
                                 <FormField
                                     control={form.control}
                                     name="unit"

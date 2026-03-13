@@ -74,7 +74,7 @@ export default function HomePage() {
 
   return (
     <motion.div
-      className="space-y-8"
+      className="space-y-4 sm:space-y-8"
       variants={container}
       initial="hidden"
       animate="show"
@@ -125,7 +125,7 @@ export default function HomePage() {
       </motion.div>
 
       {/* Main Content Grid */}
-      <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
+      <div className="grid gap-3 sm:gap-6 grid-cols-1 lg:grid-cols-3">
         {/* Activity Feed */}
         <motion.div variants={item} className="lg:col-span-2">
           <Card>
@@ -172,7 +172,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* Right Column */}
-        <div className="space-y-6">
+        <div className="space-y-3 sm:space-y-6">
           {/* CTA Card */}
           <motion.div variants={item}>
             <Card className="gold-border overflow-hidden">

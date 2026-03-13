@@ -30,7 +30,7 @@ export default function InnovationLabsPage() {
     const { language, t } = useLanguage();
 
   return (
-    <motion.div className="space-y-8" variants={container} initial="hidden" animate="show">
+    <motion.div className="space-y-4 sm:space-y-8" variants={container} initial="hidden" animate="show">
       <motion.div variants={item} className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start">
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
@@ -59,7 +59,7 @@ export default function InnovationLabsPage() {
         </div>
       </motion.div>
 
-       <motion.div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" variants={container} initial="hidden" animate="show">
+       <motion.div className="grid gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-3" variants={container} initial="hidden" animate="show">
             {challenges.map((challenge) => {
                 const ideasCount = challenge.ideaCount || 0;
                 const progress = (ideasCount / 5) * 100; // Simulating a target of 5 ideas
@@ -67,7 +67,7 @@ export default function InnovationLabsPage() {
                 return (
                 <motion.div key={challenge.id} variants={item}>
                     <Card className="flex flex-col overflow-hidden card-hover h-full">
-                        <div className="relative h-36 sm:h-48 w-full">
+                        <div className="relative h-28 sm:h-48 w-full">
                             <Image
                                 src={challenge.imageUrl}
                                 alt={challenge.title}
@@ -83,7 +83,7 @@ export default function InnovationLabsPage() {
                             </Badge>
                         </div>
                         <CardHeader>
-                            <CardTitle>{td(language, 'challenges', challenge.id, 'title', challenge.title)}</CardTitle>
+                            <CardTitle className="text-base sm:text-xl">{td(language, 'challenges', challenge.id, 'title', challenge.title)}</CardTitle>
                             <CardDescription className="line-clamp-2 h-[40px]">{td(language, 'challenges', challenge.id, 'description', challenge.description)}</CardDescription>
                         </CardHeader>
                         <CardContent className="flex-grow space-y-4">

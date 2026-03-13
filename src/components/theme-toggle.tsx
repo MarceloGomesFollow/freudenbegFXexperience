@@ -53,7 +53,7 @@ export function ThemeToggle() {
 
   React.useEffect(() => setMounted(true), [])
 
-  if (!mounted) return <div className="h-8 w-8" />
+  if (!mounted) return <div className="h-10 w-10 sm:h-8 sm:w-8" />
 
   const isDark = resolvedTheme === "dark" || theme === "dark"
 
@@ -62,9 +62,9 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       title={isDark ? "Light mode" : "Dark mode"}
-      className="h-8 w-8 rounded-full flex items-center justify-center glass-subtle border border-gold/40 text-gold hover:bg-gold/10 transition-all duration-200"
+      className="h-10 w-10 sm:h-8 sm:w-8 rounded-full flex items-center justify-center glass-subtle border border-gold/40 text-gold hover:bg-gold/10 transition-all duration-200"
     >
-      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      {isDark ? <Sun className="h-5 w-5 sm:h-4 sm:w-4" /> : <Moon className="h-5 w-5 sm:h-4 sm:w-4" />}
     </button>
   )
 }

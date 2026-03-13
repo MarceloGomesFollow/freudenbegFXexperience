@@ -65,7 +65,7 @@ export default function AdminDashboardPage() {
     }
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2">
                 <div>
                     <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t('admin.title')}</h2>
@@ -127,7 +127,7 @@ export default function AdminDashboardPage() {
                 </Card>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-7">
+            <div className="grid gap-4 sm:gap-8 md:grid-cols-2 lg:grid-cols-7">
                 <Card className="lg:col-span-4">
                     <CardHeader>
                         <CardTitle>{t('admin.transferFlow')}</CardTitle>

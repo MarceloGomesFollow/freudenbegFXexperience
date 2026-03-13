@@ -68,15 +68,17 @@ export default function DashboardLayout({
                   </SidebarFooter>
               </Sidebar>
               <div className="flex min-w-0 flex-1 flex-col">
-                  <header className="shrink-0 z-30 flex h-16 items-center justify-between px-4 sm:px-6 glass border-b border-black/5 dark:border-white/5 text-foreground">
-                      <div className="flex items-center gap-2 sm:gap-4">
+                  <header className="shrink-0 z-30 flex h-14 sm:h-16 items-center justify-between px-2 sm:px-4 md:px-6 glass border-b border-black/5 dark:border-white/5 text-foreground">
+                      <div className="flex items-center gap-1 sm:gap-2 md:gap-4">
                           <SidebarTrigger className="touch-target" />
                           <div className="hidden sm:block">
                             <RoleSwitcher />
                           </div>
-                          <ThemeSelector />
+                          <div className="hidden md:block">
+                            <ThemeSelector />
+                          </div>
                       </div>
-                      <div className="flex items-center gap-1 sm:gap-2">
+                      <div className="flex items-center gap-0.5 sm:gap-1 md:gap-2">
                           <DateTime />
                           <Dialog>
                             <DialogTrigger asChild>
@@ -131,15 +133,15 @@ export default function DashboardLayout({
                                 </div>
                             </DialogContent>
                           </Dialog>
-                          <div className="hidden sm:flex items-center gap-1 h-8">
-                            <span className="text-sm font-medium text-foreground/80">{t('language')}:</span>
-                            <LanguageToggle />
+                          <LanguageToggle />
+                          <div className="hidden sm:flex items-center">
+                            <span className="text-xs font-medium text-foreground/60">{t('language')}</span>
                           </div>
                           <ThemeToggle />
                           <UserNav />
                       </div>
                   </header>
-                  <main className={cn("flex-1 min-w-0 overflow-y-auto overflow-x-auto p-4 sm:p-6 lg:p-8 dashboard-bg")}>
+                  <main className={cn("flex-1 min-w-0 overflow-y-auto overflow-x-hidden p-3 sm:p-6 lg:p-8 dashboard-bg")}>
                       {children}
                   </main>
               </div>

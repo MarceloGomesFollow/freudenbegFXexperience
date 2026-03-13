@@ -25,7 +25,7 @@ export default function ExchangeCenterPage() {
     const { language, t } = useLanguage();
 
     return (
-        <motion.div className="space-y-8" variants={container} initial="hidden" animate="show">
+        <motion.div className="space-y-4 sm:space-y-8" variants={container} initial="hidden" animate="show">
             <motion.div variants={item} className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                     <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
@@ -56,14 +56,14 @@ export default function ExchangeCenterPage() {
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <motion.div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" variants={container} initial="hidden" animate="show">
+                        <motion.div className="grid gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-3" variants={container} initial="hidden" animate="show">
                             {exchangeOpportunities.map((opportunity) => (
                                 <motion.div key={opportunity.id} variants={item}>
                                     <Card className="flex flex-col card-hover h-full">
                                         <CardHeader>
                                             <div className="flex items-start justify-between">
                                                 <div className="space-y-1">
-                                                    <CardTitle>{td(language, 'exchangeOpportunities', opportunity.id, 'title', opportunity.title)}</CardTitle>
+                                                    <CardTitle className="text-base sm:text-xl">{td(language, 'exchangeOpportunities', opportunity.id, 'title', opportunity.title)}</CardTitle>
                                                     <CardDescription className="flex items-center gap-4 pt-1">
                                                         <span className="flex items-center gap-1.5 text-xs"><Building className="h-3 w-3" /> {opportunity.company}</span>
                                                     </CardDescription>

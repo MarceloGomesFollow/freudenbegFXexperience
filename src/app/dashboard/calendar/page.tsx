@@ -114,7 +114,7 @@ function CalendarPageContent() {
   }, [router, searchParams, toast]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 sm:space-y-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start">
         <div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white [text-shadow:1px_1px_4px_rgba(0,0,0,0.7)]">
@@ -150,7 +150,7 @@ function CalendarPageContent() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="calendar">
-          <div className="grid md:grid-cols-3 gap-8 mt-4">
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-8 mt-4">
             <Card className="md:col-span-2 glass">
               <CardContent className="p-0">
                 <Calendar
@@ -163,13 +163,13 @@ function CalendarPageContent() {
                     months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 p-4",
                     month: "space-y-4 w-full",
                     caption_label: "text-sm font-semibold text-foreground",
-                    nav_button: "h-7 w-7 bg-muted/50 hover:bg-gold/20 hover:text-gold border border-border/50 rounded-md p-0 inline-flex items-center justify-center transition-colors",
+                    nav_button: "h-9 w-9 sm:h-7 sm:w-7 bg-muted/50 hover:bg-gold/20 hover:text-gold border border-border/50 rounded-md p-0 inline-flex items-center justify-center transition-colors",
                     head_cell: "text-gold/80 font-semibold text-[0.8rem] w-full",
                     table: "w-full border-collapse",
                     head_row: "flex justify-around",
                     row: "flex w-full mt-2 justify-around",
                     cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-gold/20 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-                    day: "h-9 w-9 p-0 font-normal rounded-md hover:bg-muted/60 hover:text-foreground transition-colors aria-selected:opacity-100 inline-flex items-center justify-center",
+                    day: "h-10 w-10 sm:h-9 sm:w-9 p-0 font-normal rounded-md hover:bg-muted/60 hover:text-foreground transition-colors aria-selected:opacity-100 inline-flex items-center justify-center",
                     day_selected: "bg-gold text-white hover:bg-gold-dark hover:text-white focus:bg-gold focus:text-white font-semibold",
                     day_today: "bg-gold/15 text-gold font-bold ring-1 ring-gold/30",
                     day_outside: "text-muted-foreground/40",
@@ -179,7 +179,7 @@ function CalendarPageContent() {
                       const dayISO = formatDateISO(dayDate);
                       const hasEvent = events.some((event) => event.dateISO === dayISO);
                       return (
-                        <div className="relative h-9 w-9">
+                        <div className="relative h-10 w-10 sm:h-9 sm:w-9">
                           <p>{dayDate.getDate()}</p>
                           {hasEvent && (
                             <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_4px_hsl(var(--gold)/0.6)]"></span>

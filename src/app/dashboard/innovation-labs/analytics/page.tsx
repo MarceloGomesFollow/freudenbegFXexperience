@@ -42,7 +42,7 @@ export default function LabsAnalyticsPage() {
 
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
             <div className="flex items-center justify-between space-y-2">
                 <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">{t("innovationLabs.analytics.title")}</h2>
                 <p className="text-muted-foreground">
@@ -93,14 +93,14 @@ export default function LabsAnalyticsPage() {
                 </Card>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8">
                 <Card>
                     <CardHeader>
                         <CardTitle>{t("innovationLabs.analytics.innovationFunnel")}</CardTitle>
                         <CardDescription>{t("innovationLabs.analytics.funnelDesc")}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <ResponsiveContainer width="100%" height={350}>
+                        <ResponsiveContainer width="100%" height={250} className="sm:!h-[350px]">
                             <FunnelChart>
                                 <Tooltip
                                     contentStyle={{
@@ -126,7 +126,7 @@ export default function LabsAnalyticsPage() {
                         <CardDescription>{t("innovationLabs.analytics.themeRankingDesc")}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="space-y-5">
+                        <div className="space-y-4 sm:space-y-5">
                             {['Processos', 'Custo', 'ESG', 'Produto'].map(theme => {
                                 const themeValues = ['Tec', 'RH', 'Comp', 'Fin', 'Mkt'].map(unit => {
                                     const item = heatmapData.find(d => d.theme === theme && d.unit.startsWith(unit));
@@ -136,7 +136,7 @@ export default function LabsAnalyticsPage() {
                                 return (
                                     <div key={theme}>
                                         <h4 className="text-sm font-semibold mb-2 gold-text">{td(language, 'analytics', 'heatmapThemes', theme, theme)}</h4>
-                                        <div className="grid grid-cols-5 gap-2 text-xs text-center">
+                                        <div className="overflow-x-auto -mx-2 px-2 sm:mx-0 sm:px-0"><div className="grid grid-cols-5 gap-1.5 sm:gap-2 text-xs text-center min-w-[280px]">
                                             {themeValues.map(({ unit, item, value }) => {
                                                 const intensity = value > 0 ? value / maxValue : 0;
                                                 // Gold for high values, muted border for zero
@@ -164,7 +164,7 @@ export default function LabsAnalyticsPage() {
                                                     </div>
                                                 )
                                             })}
-                                        </div>
+                                        </div></div>
                                     </div>
                                 );
                             })}
@@ -185,13 +185,13 @@ export default function LabsAnalyticsPage() {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>{t("innovationLabs.analytics.colIdea")}</TableHead>
-                                    <TableHead>{t("innovationLabs.analytics.colChallenge")}</TableHead>
-                                    <TableHead>{t("innovationLabs.analytics.colAuthor")}</TableHead>
-                                    <TableHead>{t("innovationLabs.analytics.colUnit")}</TableHead>
+                                    <TableHead className="hidden sm:table-cell">{t("innovationLabs.analytics.colChallenge")}</TableHead>
+                                    <TableHead className="hidden md:table-cell">{t("innovationLabs.analytics.colAuthor")}</TableHead>
+                                    <TableHead className="hidden lg:table-cell">{t("innovationLabs.analytics.colUnit")}</TableHead>
                                     <TableHead className="text-center">{t("innovationLabs.analytics.colICE")}</TableHead>
-                                    <TableHead className="text-center">{t("innovationLabs.analytics.colVotes")}</TableHead>
+                                    <TableHead className="text-center hidden sm:table-cell">{t("innovationLabs.analytics.colVotes")}</TableHead>
                                     <TableHead>{t("innovationLabs.analytics.colStatus")}</TableHead>
-                                    <TableHead>{t("innovationLabs.analytics.colDate")}</TableHead>
+                                    <TableHead className="hidden md:table-cell">{t("innovationLabs.analytics.colDate")}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -206,22 +206,22 @@ export default function LabsAnalyticsPage() {
                                             <TableCell className="font-medium max-w-[200px]">
                                                 {td(language, 'ideas', idea.id, 'title', idea.title)}
                                             </TableCell>
-                                            <TableCell className="max-w-[180px] text-muted-foreground">
+                                            <TableCell className="hidden sm:table-cell max-w-[180px] text-muted-foreground">
                                                 {challenge ? td(language, 'challenges', challenge.id, 'title', challenge.title) : '-'}
                                             </TableCell>
-                                            <TableCell>{idea.author.name}</TableCell>
-                                            <TableCell>{idea.author.unit}</TableCell>
+                                            <TableCell className="hidden md:table-cell">{idea.author.name}</TableCell>
+                                            <TableCell className="hidden lg:table-cell">{idea.author.unit}</TableCell>
                                             <TableCell className="text-center">
                                                 <span className="font-bold text-gold">{idea.iceScore}</span>
                                             </TableCell>
-                                            <TableCell className="text-center">{idea.votes}</TableCell>
+                                            <TableCell className="text-center hidden sm:table-cell">{idea.votes}</TableCell>
                                             <TableCell>
                                                 {/* @ts-ignore */}
                                                 <Badge variant={statusVariant}>
                                                     {translateDataValue(idea.status, t)}
                                                 </Badge>
                                             </TableCell>
-                                            <TableCell className="text-muted-foreground">{idea.submittedDate}</TableCell>
+                                            <TableCell className="hidden md:table-cell text-muted-foreground">{idea.submittedDate}</TableCell>
                                         </TableRow>
                                     );
                                 })}
@@ -244,10 +244,10 @@ export default function LabsAnalyticsPage() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>{t("innovationLabs.analytics.colIdea")}</TableHead>
-                                        <TableHead>{t("innovationLabs.analytics.colHypothesis")}</TableHead>
+                                        <TableHead className="hidden sm:table-cell">{t("innovationLabs.analytics.colHypothesis")}</TableHead>
                                         <TableHead>{t("innovationLabs.analytics.colSprintStatus")}</TableHead>
-                                        <TableHead>{t("innovationLabs.analytics.colStart")}</TableHead>
-                                        <TableHead>{t("innovationLabs.analytics.colEnd")}</TableHead>
+                                        <TableHead className="hidden md:table-cell">{t("innovationLabs.analytics.colStart")}</TableHead>
+                                        <TableHead className="hidden md:table-cell">{t("innovationLabs.analytics.colEnd")}</TableHead>
                                         <TableHead>{t("innovationLabs.analytics.colResult")}</TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -267,7 +267,7 @@ export default function LabsAnalyticsPage() {
                                                 <TableCell className="font-medium max-w-[180px]">
                                                     {idea ? td(language, 'ideas', idea.id, 'title', idea.title) : ideaId}
                                                 </TableCell>
-                                                <TableCell className="max-w-[280px] text-sm text-muted-foreground">
+                                                <TableCell className="hidden sm:table-cell max-w-[280px] text-sm text-muted-foreground">
                                                     {td(language, 'sprints', ideaId, 'hypothesis', sprint.hypothesis)}
                                                 </TableCell>
                                                 <TableCell>
@@ -276,8 +276,8 @@ export default function LabsAnalyticsPage() {
                                                         {translateDataValue(sprint.status, t)}
                                                     </Badge>
                                                 </TableCell>
-                                                <TableCell>{sprint.startDate}</TableCell>
-                                                <TableCell>{sprint.endDate}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{sprint.startDate}</TableCell>
+                                                <TableCell className="hidden md:table-cell">{sprint.endDate}</TableCell>
                                                 <TableCell>
                                                     {sprint.result ? (
                                                         // @ts-ignore
